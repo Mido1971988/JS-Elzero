@@ -7632,15 +7632,653 @@ The existing class from which the derived class is created through the process o
 inheritance is known as a base class or superclass.
 */
 // extends means (Admin) is a child class of parent class (User) to inherit every thing from parent
-import User from './Module.js'
-class Admin extends User {
-  constructor(name, email,age){
-    // call parents constructor like this.name & this.email
-    super(name ,email);
-    this.age = age;
-  }
+// import User from './Module.js'
+// class Admin extends User {
+//   constructor(name, email,age){
+//     // call parents constructor like this.name & this.email
+//     super(name ,email);
+//     this.age = age;
+//   }
+// };
+// let firstAdmin = new Admin("Soliman" ,"Mohammed.soliman88@gmail.com",33);
+// // because of extends Admin inherited getInfo Method from parent User
+// firstAdmin.getInfo();
+// console.log(firstAdmin.age)
+
+// ---------------Important Knowledge----------------
+
+// [1] Call Stack
+/* 
+- Mechanisam to make interpreter Track Your Call
+- When you call a function its added to the stack
+- when function excuted its removed from the stack
+- the interpreter continue calling from the last point reached
+- Call Stack detect web api method and leave it to the browser to handle it
+*/
+
+// [2] Web API
+/* 
+- Method Availabe from environment => browser
+- when complete it will add the callback to the callback queue
+*/
+
+// [3] Event Loop
+/*
+- Wait the call stack to finish
+- Get callback from callback queue
+- add callback to callstack
+*/
+
+
+// // one three two
+// console.log("One")
+// window.setTimeout(_ => console.log("Two"), 0)
+// console.log("Three")
+
+// // one three last two 
+// window.setTimeout(_ => console.log("last"), 1000)
+// console.log("One")
+// window.setTimeout(_ => console.log("Two"), 1000)
+// console.log("Three")
+
+// // one three two last 
+// here web API will add two to callback queue  before last because it will not wait two to complete
+// because two has 0 delay but last has delay 1 sec so will be added after two
+// window.setTimeout(_ => console.log("last"), 1000)
+// console.log("One")
+// window.setTimeout(_ => console.log("Two"), 0)
+// console.log("Three")
+
+
+// Error
+// console.log(myVar)
+// let myVar = 100;
+// myVar += 200;
+
+// 300
+// window.setTimeout(_ => console.log(myVar),0) 
+// let myVar = 100;
+// myVar += 200;
+
+// (4) hi outside 1 2 3 4
+// let arr = [1,2,3,4]
+// arr.forEach((el) => { 
+//   window.setTimeout(_ => console.log(el),0)
+//   console.log("hi")
+// } )
+// console.log("Outside")
+
+// ---------------Asynchronous Vs Synchronous------------
+// bad will stop console.log("Two") to excute you should press ok to alert and finish it 
+// then console.log("Two") will be excuted
+/* 
+Web APIs can include functions that are synchronous and asynchronous. 
+For example, the setTimeout will use the event loop, 
+console.log() will synchronously write to the browser's console  
+fetch will call an asynchronous function that can be awaited.
+*/
+// console.log("One")
+// window.alert("Bad")
+// console.log("Two")
+
+// we used setTimeout because will use event loop and will stop important func but window.alert will stop
+// console.log("normal Func")
+// // window.alert("Stop")
+// window.setTimeout(_ => console.log("Get Friends Lists"),0)
+// window.setTimeout(_ => console.log("Get Latest News"),0)
+// console.log("Important func , no waiting")
+
+// -----------Promises------------------
+
+/* 
+- Promise Make it Easy to support Asynchronous Programming
+- Promise is something that will happen in the future
+- Promise is a Placeholder for a future value
+- EXP : 
+  You ordered food from resturant
+  [Promise] is the order record
+  [the future value ] is the food you will receive 
+- Promise is an Object
+- Promise is the event completion or failure of async operation & its resulting value
+- Js use callbacks for asynchronous Programming 
+  [1] function called and do the task
+  [2] Action complete
+  [3] another function called (nested function)
+  [4] Action complete
+  [5] another function called (nested function)
+  in complex cases => every call add nesting call
+  http://callbackhell.com/
+- Promise Avoiding callbackhell or Pyramid of Doom
+- Promise is one of this operation
+  [1] Pending => Not fulfilled or rejected
+  [2] fulfilled => operation succeeded (using resolve parameter)
+  [3] rejected => operation failed (using reject parameter)
+*/
+
+
+// promise accept one parameter and this parameter is excuter function (which accept 2 parameters => resolve and reject they called handelers) 
+// const myPromise = new Promise((resolve, reject) => {
+//   // console.log("Welcome to my First Promise")
+//   let connect = false;
+//   if(connect) {
+//     resolve("Connection Established")
+//   }else {
+//     reject(Error("Connection Failed"))
+//   } 
+// });
+// // then to add onfulfilled function and take value from resolve inside myPromise
+// // and add onreject function and take value from reject inside myPromise
+// // will take values from resolve and reject so when connect is false 
+// // will not throw an Error will give you a string of Error
+// myPromise.then(
+//   (resolved) => console.log(resolved),
+//   (rejected) => console.log(rejected)
+// )
+
+
+// ----you can write promise.then in smaller syntax 
+// const theResolved = (resolved) => console.log(resolved)
+// const theRejected = (rejected) => console.log(rejected)
+// myPromise.then(theResolved,theRejected)
+
+// ----or add it to promise
+// const myPromise = new Promise((resolve, reject) => {
+//   // console.log("Welcome to my First Promise")
+//   let connect = true;
+//   if(connect) {
+//     resolve("Connection Established")
+//   }else {
+//     reject(Error("Connection Failed"))
+//   } 
+// }).then(
+//   (resolved) => console.log(resolved),
+//   (rejected) => console.log(rejected)
+// )
+
+/* 
+A promise is used to handle the asynchronous result of an operation. 
+JavaScript is designed to not wait for an asynchronous block of code to completely execute 
+before other synchronous parts of the code can run. With Promises, we can defer the execution 
+of a code block until an async request is completed. This way, other operations can keep 
+running without interruption.
+*/
+
+// ----------setTimeout vs Promise vs Promise.then()
+// setTimeout after the call stack is empty but promise.then() at the end of the main stack
+// let x = 0;
+// let myPromise = new Promise((resolve , reject) => {
+//   let status = true;
+//   console.log("From inside of Promise")
+//   if(status) {
+//     resolve( x = 2 )
+//     // resolve( console.log(( x += 2)))
+//   }else{
+//     reject(x = 3)
+//   }
+// });
+// myPromise.then(
+//   (resolved) => console.log(resolved),
+//   (rejected) => console.log(rejected)
+// )
+// console.log("From Outside of Promise")
+// output 
+/* 
+[1] "From inside of Promise"
+[2] "From outside of Promise"
+[3] 2 => 2 printed after "From outside of Promise" 
+
+but if console.log inside promise it self 
+[1] "From inside of Promise"
+[3] 2 => 2 printed before "From outside of Promise" 
+[2] "From outside of Promise"
+*/
+
+// window.setTimeout(_=>console.log("From setTimeout") , 0)
+// let myPromise = new Promise((resolve , reject) => {
+//   let status = true;
+//   console.log("From inside of Promise")
+//   if(status) {
+//     resolve(console.log("From Resolve"))
+//     // resolve("From Resolve")
+//   }else{
+//     reject(console.log("From reject"))
+//     // reject("From reject")
+//   }
+// });
+// myPromise.then(
+//   (resolved) => console.log(resolved),
+//   (rejected) => console.log(rejected)
+// )
+// console.log("From outside of Promise")
+
+//output 
+/* 
+[1] "From inside of Promise"
+[2] "From outside of Promise"
+[3] "From Resolve" => from Promise.then
+[4] "From setTimeout"
+*/
+
+//output if console.log() inside promise itself not promise.then()
+/* 
+[1] "From inside of Promise"
+[2] "From Resolve"
+[3] "From outside of Promise"
+[4] undefined => from Promise.then will try to console.log(console.log(resolved))
+[5] "From setTimeout"
+
+// ---------asynchronous of then--------
+using a resolved promise, the 'then' block will be triggered instantly,
+but its handlers will be triggered asynchronously as demonstrated by the console.logs
+const resolvedProm = Promise.resolve(33);
+
+let thenProm = resolvedProm.then(value => {
+    console.log("this gets called after the end of the main stack. the value received and returned is: " + value);
+    return value;
+});
+// instantly logging the value of thenProm
+console.log(thenProm);
+
+// using setTimeout we can postpone the execution of a function to the moment the stack is empty
+setTimeout(() => {
+    console.log(thenProm);
+});
+
+logs, in order:
+Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
+"this gets called after the end of the main stack. the value received and returned is: 33"
+Promise {[[PromiseStatus]]: "resolved", [[PromiseValue]]: 33}
+
+// another Exp. 
+// let x = 5;
+// let pro = new Promise((resolve , reject) => {
+//   resolve(x)
+// })
+// pro.then(
+//   (resolved) => x += 1 
+// )
+// console.log(x) // 5 because then will be excuted at the end of main Stack
+// window.setTimeout(_ => console.log(x)) // 6 because setTimeout will wait till call stack to be empty
+// let x = 5;
+// let pro = new Promise((resolve , reject) => {
+//   resolve(x += 1)
+// })
+// console.log(x) // 6 resolve inside promise itself will excute immediatly
+// window.setTimeout(_ => console.log(x)) // 6 because setTimeout will wait till call stack to be empty
+*/
+
+// -----------catch and then--------------
+// const myPromise = new Promise((resolve, reject) => {
+//   // // only one state allowed
+//   // resolve("Success")
+//   // reject("Failed") // will ignore this only one state allowed
+//   if(Math.random() * 100 < 50) {
+//     resolve("Good")
+//   }else{
+//     reject("Bad")
+//   }
+// });
+// myPromise.then(
+//   (resolved) => console.log(resolved),
+//   (rejected) => console.log(rejected)
+// )
+
+// myPromise.catch((rejected) => console.log(rejected))
+
+// will give you Error when rejected happend because then accept 2 functions or you can chain then and catch
+// myPromise.then((resolved) => console.log(resolved))
+// myPromise.catch((rejected) => console.log(rejected))
+
+// chain then and catch
+// myPromise.then((resolved) => console.log(resolved)).catch((rejected) => console.log(rejected))
+// or you can write null to skip resolved or rejected inside then
+// myPromise.then(null , (rejected) => console.log(rejected) )
+
+// you can chain more than one then and catch
+// let myPromise = new Promise((resolve , reject) => {
+//   let x = 5;
+//   let y = -1;
+//   resolve(x);
+//   reject(y);
+// })
+// myPromise.then((resolved) => {
+//   console.log(resolved)
+//   return resolved * 2
+// }).then((resolved2) => {
+//   console.log(resolved2)
+// }).catch((rejected) => console.log(rejected))
+// // output 5 , 10 will output -1 if remove resolve(x) from Promise
+
+// different syntax but same thing
+// let p1 = new Promise((resolve , reject) => {
+//   if(true){
+//     resolve("P1 resolved")
+//   }else {
+//     reject("P1 reject")
+//   }
+// })
+// let p2 = Promise.resolve("P2 Resolved")
+// p1.then((resolved) => console.log("P1:" , resolved))
+// p2.then((resolved) => console.log("P2:" , resolved))
+
+// without Promise (callback hell)
+// firstRequest(function(response){
+//   secondRsponse(response, function(nextResponse){
+//     thirdRespose(nextResponse, function(finalResponse) {
+//       console.log('Final Response: '+ finalResponse);
+//     }, failureCallback);
+//   }, failureCallback);
+// },failureCallback);
+
+// with Promise
+// firstRequest()
+//   .then((response) => secondRequest(response))
+//   .then((nextResponse) => thirdRequest(nextResponse))
+//   .then((finalResponse) => console.log("final Respose: " + finalResponse))
+//   .catch(failureCallback);
+
+// without nesting function
+// let btn = document.querySelector(".btn")
+// btn.addEventListener("click" , function(){
+//   setTimeout(_=> console.log(1),1000)
+//   setTimeout(_=> console.log(2),3000)
+//   setTimeout(_=> console.log(3),2000)
+// }) // output 1 3 2
+
+// with nesting function => callBack hell example
+// btn.addEventListener("click" , function(){
+//   setTimeout(_=>{
+//     console.log(1) 
+//     setTimeout(_=> {
+//       console.log(2)
+//       setTimeout(_=> console.log(3),2000)
+//     },3000)
+//   },1000)
+// }) // output 1 2 3
+
+/* --------------callback hell and Promise----------------------
+// callback hell EXP.
+function getUsername(callback) {
+  callback({name : "Soliman"});
 };
-let firstAdmin = new Admin("Soliman" ,"Mohammed.soliman88@gmail.com",33);
-// because of extends Admin inherited getInfo Method from parent User
-firstAdmin.getInfo();
-console.log(firstAdmin.age)
+
+function getAge(data, callback) {
+  data = {...data, age : 50};
+  callback(data);
+};
+
+function getDepartment (data, callback) {
+  data = {...data, department : "Production"};
+  callback(data);
+};
+
+function getEmployee(data, callback) {
+  callback(data);
+};
+
+function printInfo(data) {
+  console.log(data);
+};
+
+
+getUsername(function(firstResponse){
+  getAge(firstResponse , function(secondResponse){
+    getDepartment(secondResponse , function(thirdResponse){
+      getEmployee(thirdResponse , function(finalResponse){
+        printInfo(finalResponse)
+      })
+    })
+  })
+})
+
+
+with Promise
+
+function getUsername() {
+  return new Promise ((resolve , reject) => {
+    resolve({name : "Soliman"})
+  })
+};
+function getAge(data) {
+  return new Promise ((resolve , reject) => {
+    data = {...data, age : 33}
+    resolve(data)
+  })
+};
+function getDepartment (data) {
+  return new Promise ((resolve , reject) => {
+    data = {...data, department : "Production"};
+    resolve(data)
+  })
+};
+function getEmployee(data) {
+  return new Promise ((resolve , reject) => {
+    resolve(data)
+  })
+};
+function printInfo(data) {
+  console.log(data);
+};
+
+getUsername()
+  .then((firstResponse) => getAge(firstResponse))
+  .then((secondResponse) => getDepartment(secondResponse))
+  .then((thirdResponse) => getEmployee(thirdResponse))
+  .then((finalResponse) => printInfo(finalResponse))
+
+*/
+/* Another Promise exp.
+function watchTutorialCallback(callback,errorCallback){
+  let userLeft = false;
+  let userWatchingCatMeme = false 
+  if (userLeft) {
+    errorCallback({
+      name: 'User Left', 
+      message: ':('
+    })
+  } else if (userWatchingCatMeme) {
+    errorCallback({
+      name: 'User Watching Cat Meme',
+      message: 'WebDevSimplified < Cat' 
+    })
+  } else {
+    callback('Thumbs up and Subscribe')
+  }
+}
+
+function watchTutorialPromise() {
+  let userLeft = false
+  let userWatchingCatMeme = false
+  return new Promise((resolve, reject) => {
+    if (userLeft) {
+      reject({
+        name: 'User Left', 
+        message: ':('
+      })
+    } else if (userWatchingCatMeme) {
+      reject({
+        name: 'User Watching Cat Meme',
+        message: 'WebDevSimplified < Cat' 
+      })
+    } else {
+      resolve('Thumbs up and Subscribe')
+    }
+  })
+}
+
+watchTutorialCallback(message => {
+  console.log(message)
+}, error => {
+  console.log(error.name + ' ' + error.message)
+})
+
+watchTutorialPromise().then(message => {
+  console.log(message)
+}).catch(error => {
+  console.log(error.name + ' ' + error.message)
+})
+
+// const recordVideoOne = new Promise((resolve, reject) => {
+//   resolve('Video 1 Recorded')
+// })
+
+// const recordVideoTwo = new Promise((resolve, reject) => {
+//   resolve('Video 2 Recorded')
+// })
+
+// const recordVideoThree = new Promise((resolve, reject) => {
+//   resolve('Video 3 Recorded')
+// })
+
+// Promise.all([
+//   recordVideoOne,
+//   recordVideoTwo,
+//   recordVideoThree
+// ]).then(messages => {
+//   console.log(messages)
+// })
+
+// Promise.race([
+//   recordVideoOne,
+//   recordVideoTwo,
+//   recordVideoThree
+// ]).then(message => {
+//   console.log(message)
+// })
+*/
+
+/* with Promise you will wait till declaring y because then will excute at the end of main stack
+let x = 2;
+let sum;
+let p1 = new Promise((resolve , reject)=> {
+  resolve(x)
+})
+p1.then((resolved) =>{
+  sum = resolved + y
+  console.log(sum) // 7
+})
+console.log(sum) // undefined
+window.setTimeout(_=> console.log('From SetTimeout ' +  sum)) // 7
+let y = 5;
+*/
+
+/* with Promise you will wait till PromptMsg from user because then will excute at the end of main stack
+let promtMsg;
+let p1 = new Promise((resolve, reject) => {
+  resolve(promtMsg)
+})
+p1.then((resolved) => {
+  resolved = promtMsg ? promtMsg : "No Msg"
+  console.log(resolved)
+}).catch((rejected) => {
+  console.log(rejected)
+})
+
+promtMsg = prompt("Promise?", "Please write something!");
+*/
+
+
+// -----------ignoring Pyramid of doom ( callback hell)-----------
+
+// const myPromise = new Promise((resolve , reject)=> {
+//   let thePosts = ["A","B","C","D","E","F","G","H"];
+//   resolve(thePosts);
+// });
+
+// myPromise
+//   .then((result) => {
+//     console.log("Total no. of Posts is " + result.length + " Posts")
+//     return result
+//   })
+//   .then((result) => {
+//     console.log(`The first Post is ${result[0]}`)
+//     return result
+//   })
+//   .then((result) => {
+//       console.log(`The Last Post is ${result[result.length - 1]}`)
+//       return result
+//   })
+//   .then((result) => {
+//       console.log(`Application has ${result.length / 2} Pages`)
+//       return result
+//   })
+
+// -------------fetch---------------
+// fetch ("https://api.github.com/users/ElzeroWebSchool/repos")
+//   .then(
+//     (result) => {
+//       let allRepos = result.json()
+//       console.log(allRepos)
+//       return allRepos;
+//     }
+//   )
+//   .then(
+//     (result) => {
+//       console.log(`Total Number of Repos is ${result.length}`)
+//       return result
+//     }
+//   )
+//   .then(
+//     (result) => {
+//       console.log(`First Repo is ${result[0].name}`)
+//       return result
+//     }
+//   )
+//   .then(
+//     (result) => {
+//       console.log(`Last Repo is ${result[result.length - 1].name}`)
+//       return result
+//     }
+//   )
+//   .then(
+//     (result) => {
+//       result.forEach(element => {
+//         let newElement = document.createElement("div")
+//         let elementText = document.createTextNode(element.name)
+//         newElement.appendChild(elementText)
+//         document.body.appendChild(newElement)
+//       });
+//     }
+//   )
+
+// ----------------Promise All and race------------------------------
+
+// const myFirstPromise = new Promise((resolve , reject) => {
+//   let connect = true;
+//   if (connect) {
+//     resolve("First Promise Resolved")
+//   }else {
+//     reject ("First Promise Rejected")
+//   }
+// })
+// const mySecondPromise = new Promise((resolve , reject) => {
+//   let settings = false;
+//   if (settings) {
+//     resolve("Second Promise Resolved")
+//   }else {
+//     reject("Second Promise Rejected")
+//   }
+// })
+// promiseAll accept array of promises and return array if resolved of all promises if one of promises rejected will not return that array
+// Promise.all([myFirstPromise, mySecondPromise]).then(
+//   (result) => console.log(result)
+// ).catch((result) => console.log(result))
+
+// const myFirstPromise = new Promise((resolve , reject) => {
+//   window.setTimeout(() => {
+//     resolve("First Promise Resolved")
+//   },500)
+// })
+// const mySecondPromise = new Promise((resolve , reject) => {
+//   window.setTimeout(() => {
+//     resolve("Second Promise Resolved")
+//   },100)
+// })
+
+// // myFirstPromise.then((result) => console.log(result))
+// // mySecondPromise.then((result) => console.log(result))
+
+// // promiseAll accept array of promises and return the fastest Promise
+// Promise.race([myFirstPromise , mySecondPromise]).then((result) => {
+//   console.log(result)
+// })
