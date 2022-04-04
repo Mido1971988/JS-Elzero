@@ -7905,6 +7905,18 @@ Promise {[[PromiseStatus]]: "resolved", [[PromiseValue]]: 33}
 // })
 // console.log(x) // 6 resolve inside promise itself will excute immediatly
 // window.setTimeout(_ => console.log(x)) // 6 because setTimeout will wait till call stack to be empty
+
+// then will be excuted once p1 (Promise) resolved 
+// even if P1 will be resolved when call stack is empty (because of setTimeout)
+// so then will be excuted not only at the end of main stack but also once Promise resolved
+// let p1 = new Promise((resolve, reject) => {
+//   setTimeout(resolve, 2000, "P1 Resolved")
+// })
+// console.log(p1) //pending
+// setTimeout(_=> console.log(p1), 1000) // pending
+// setTimeout(_=> console.log(p1), 3000) // fulfilled
+// p1.then((result) => console.log(result)) // "P1 Resolved"
+// // output order : pending pending "P1 Resolved" fulfilled
 */
 
 // -----------catch and then--------------
@@ -7995,6 +8007,32 @@ Promise {[[PromiseStatus]]: "resolved", [[PromiseValue]]: 33}
 //     },3000)
 //   },1000)
 // }) // output 1 2 3
+
+// // then can be used also for reject or Error 
+// /* 
+// here when we can add another function to .then(resolveFun , resolveFun2) so resolveFun2 will catch reject or Error
+// */
+// function myPromise(){
+//   return new Promise((resolve , reject) => {
+//     // resolve("Resolved!")
+//     reject("Rejected!")
+//     throw Error ("Error From inside Promise")
+//   })
+// }
+
+// myPromise()
+//   .then(resolveFun , resolveFun2)
+//   .catch(rejectFun)
+
+// function resolveFun(result) {
+//   console.log(`From ResolveFun : ${result}`)
+// }
+// function resolveFun2(result) {
+//   console.log(`From ResolveFun2 : ${result}`)
+// }
+// function rejectFun(result) {
+//   console.log(`From rejectFun : ${result}`)
+// }
 
 /* --------------callback hell and Promise----------------------
 // callback hell EXP.
@@ -8204,6 +8242,11 @@ promtMsg = prompt("Promise?", "Please write something!");
 //   })
 
 // -------------fetch---------------
+/* 
+Fetch return a promise object 
+resolve => when the server reply to the request and data come in
+data.json() return a promise object also
+*/
 // fetch ("https://api.github.com/users/ElzeroWebSchool/repos")
 //   .then(
 //     (result) => {
@@ -8241,7 +8284,7 @@ promtMsg = prompt("Promise?", "Please write something!");
 //     }
 //   )
 
-// ----------------Promise All and race------------------------------
+// ----------------Promise All and race , allSettled------------------------------
 
 // const myFirstPromise = new Promise((resolve , reject) => {
 //   let connect = true;
@@ -8265,20 +8308,128 @@ promtMsg = prompt("Promise?", "Please write something!");
 // ).catch((result) => console.log(result))
 
 // const myFirstPromise = new Promise((resolve , reject) => {
-//   window.setTimeout(() => {
-//     resolve("First Promise Resolved")
-//   },500)
+//   // window.setTimeout(() => {
+//   //   resolve("First Promise Resolved")
+//   // },500)
+//   window.setTimeout(resolve , 500 , "First Promise Resolved")
 // })
 // const mySecondPromise = new Promise((resolve , reject) => {
-//   window.setTimeout(() => {
-//     resolve("Second Promise Resolved")
-//   },100)
+//   // window.setTimeout(() => {
+//   //   resolve("Second Promise Resolved")
+//   // },100)
+//   window.setTimeout(resolve , 100 , "Second Promise Resolved")
 // })
 
-// // myFirstPromise.then((result) => console.log(result))
-// // mySecondPromise.then((result) => console.log(result))
+// myFirstPromise.then((result) => console.log(result))
+// mySecondPromise.then((result) => console.log(result))
 
-// // promiseAll accept array of promises and return the fastest Promise
+// // promise race accept array of promises and return the fastest Promise
 // Promise.race([myFirstPromise , mySecondPromise]).then((result) => {
 //   console.log(result)
 // })
+
+// if all promises don't have delay by setTimeout the first one in array will be first resolve
+// let p1 = Promise.resolve("First")
+// let p3 = Promise.resolve("Third")
+// let p2 = Promise.resolve("Second")
+// Promise.race([p2,p1,p3]).then((result) => console.log(result)) // second
+
+// ----- race vs all vs allSettled 
+let p1 = new Promise((resolve, reject) => {
+  resolve(1)
+})
+let p2 = new Promise((resolve, reject) => {
+  resolve(2)
+})
+let p3 = new Promise((resolve, reject) => {
+  reject(3)
+  // throw Error("Error from Promise")
+})
+let p4 = new Promise((resolve, reject) => {
+  reject(4)
+})
+
+// all will return array if all promises resolved and you can loop on that array
+Promise.all([p1,p2,p3,p4])
+  .then((results) =>{
+    results.forEach((result) => {
+      console.log({result})
+    })
+  })
+  .catch((err) => console.log(`Rejected From all Promise no.: ${err}`))
+
+// race will return fastet resolve
+Promise.race([p1,p2,p3,p4])
+  .then((result) => {
+    console.log(`Resolved from race ${result}`)
+  })
+  .catch((err) => console.log(`Rejected From race Promise no.: ${err}`))
+
+// allSettled return array of objects {status : , value : } if resolved and {status : , reason : } if rejected
+// rejected will not trigger catch but will return {status : , reason : } from then
+// error will not trigger catch but will return {status : , reason : Error}
+Promise.allSettled([p1,p2,p3,p4])
+  .then((results) => {
+    results.forEach((result => console.log(result)))
+  })
+  .catch((err) => console.log(`Rejected From allS Promise no.: ${err}`))
+
+// regular then
+p1.then((result)=>{
+  console.log(`resolved from p1 ${result}`)
+})
+
+// ---------------async / await ------------------
+// without async and await
+// asyncAwait();
+// function asyncAwait() {
+//   let p1 = promfunc()
+//   if(p1) {
+//     console.log(p1) // Promise{Pending}
+//   }
+// }
+
+// function promfunc() {
+//   return new Promise((resolve , reject) => {
+//     resolve("Resolved!") 
+//     reject("Rejected!")
+//   }).catch(err => console.log(`From Catch: ${err}`))
+// }
+
+// with async and await
+// await will wait the promise to resolve and return the value of resolve
+// if the resolve inside setTimeout await will also wait for Promise to resolve and return the value of resolve
+// if we have resolve inside setTimeout and reject inside Promise p1 will be catch
+// asyncAwait();
+// async function asyncAwait() {
+//   let p1 = await promfunc()
+//   if(p1) {
+//     console.log(p1) // "Resolved!" even if we use setTimeout 
+//   }
+// }
+
+// function promfunc() {
+//   return new Promise((resolve , reject) => {
+//     // resolve("Resolved!")
+//     setTimeout(_ => resolve("Resolved!"),1000)
+//     reject("Rejected!")
+//   }).catch(err => console.log(`From Catch: ${err}`))
+// }
+
+// -----------finally-----------
+// finally will always run regardless resolved , rejected or Error finally will always work
+// let myPromise = new Promise((resolve , reject) => {
+//   // resolve("Resolved!")
+//   // reject("Rejected!")
+//   throw Error ("Error from inside Promise")
+// })
+// myPromise
+//   .then(console.log)
+//   .catch((err)=>{
+//     console.log(err.message)
+//   })
+//   .finally(_ => {
+//     console.log("From Finally")
+//   })
+
+
