@@ -1880,6 +1880,8 @@ console.log(typeof a) */
 // console.log(newArr1) // return new Array
 // console.log(newArr2) // undefined (forEach does not return anything)
 
+
+
 // ------------------------ Deep to JS Engine-----------------------------
 
 // to understand this read about Closures , Lexical Environment and Excecution Context (link below)
@@ -2092,7 +2094,6 @@ console.log(counter)
 
 */
 
-
 // references
 /* https://www.javascripttutorial.net/javascript-execution-context/
 
@@ -2186,6 +2187,48 @@ let arr2 = ["Hi"]
 let arrStr = JSON.stringify(arr)
 let arrStr2 = JSON.stringify(arr2)
 console.log(arrStr === arrStr2) //true
+
+------------shallow Copy and Deep Copy---------------
+// Deep Copy because array assigned by reference not value
+let arr1 = [1,2,3,4]
+let arr2 = arr1
+arr2[0] = 5;
+console.log(arr1) // [5,2,3,4]
+
+// shallow Copy
+let arr1 = [1,2,3,4]
+let arr2 = Array.from(arr1)
+arr2[0] = 5
+console.log(arr1) // [1,2,3,4]
+
+// Methods to Shallow Copy
+[1] arr.slice(0)
+[2] [].concat(arr)
+[3] Spread Operator
+[4] Object.create({} , obj)
+[5] Object.assign({}, obj)
+[6] Array.from(arr)
+
+// if object has a non-primitive value of property
+
+let obj = {
+  number : 55 ,
+  string : "String",
+  arr : [1,2,3,4],
+  object : {one : "value"}
+}
+// in spite of Shallow but when a value of property is non-primitive values 
+//(like array and Objects) will assigned also by reference
+let newObj = {...obj}
+newObj.arr[0] = 5
+console.log(obj) // obj.arr  [5,2,3,4]
+console.log(newObj) // newObj.arr  [5,2,3,4]
+
+// to solve this Problem use JSON.parse(JSON.strignify())
+let newObj2 = JSON.parse(JSON.stringify(obj))
+newObj2.arr[0] = 5
+console.log(obj) // obj.arr  [1,2,3,4]
+console.log(newObj2) // newObj2.arr  [5,2,3,4]
 
 ------------JavaScript is a multi-paradigm-------------
 JavaScript is a multi-paradigm language that allows you to freely mix and match
@@ -8334,50 +8377,82 @@ data.json() return a promise object also
 // let p2 = Promise.resolve("Second")
 // Promise.race([p2,p1,p3]).then((result) => console.log(result)) // second
 
-// ----- race vs all vs allSettled 
-let p1 = new Promise((resolve, reject) => {
-  resolve(1)
-})
-let p2 = new Promise((resolve, reject) => {
-  resolve(2)
-})
-let p3 = new Promise((resolve, reject) => {
-  reject(3)
-  // throw Error("Error from Promise")
-})
-let p4 = new Promise((resolve, reject) => {
-  reject(4)
-})
+// ----- race vs all vs allSettled vs any
+// let p1 = new Promise((resolve, reject) => {
+//   // reject(1)
+//   resolve(1)
+// })
+// let p2 = new Promise((resolve, reject) => {
+//   resolve(2)
+// })
+// let p3 = new Promise((resolve, reject) => {
+//   reject(3)
+//   // throw Error("Error from Promise")
+// })
+// let p4 = new Promise((resolve, reject) => {
+//   reject(4)
+// })
 
-// all will return array if all promises resolved and you can loop on that array
-Promise.all([p1,p2,p3,p4])
-  .then((results) =>{
-    results.forEach((result) => {
-      console.log({result})
-    })
-  })
-  .catch((err) => console.log(`Rejected From all Promise no.: ${err}`))
+// // all will return array if all promises resolved and you can loop on that array
+// Promise.all([p1,p2,p3,p4])
+//   .then((results) =>{
+//     results.forEach((result) => {
+//       console.log({result})
+//     })
+//   })
+//   .catch((err) => console.log(`Rejected From all Promise no.: ${err}`))
 
-// race will return fastet resolve
-Promise.race([p1,p2,p3,p4])
-  .then((result) => {
-    console.log(`Resolved from race ${result}`)
-  })
-  .catch((err) => console.log(`Rejected From race Promise no.: ${err}`))
+// // race will return fastet resolve
+// Promise.race([p1,p2,p3,p4])
+//   .then((result) => {
+//     console.log(`Resolved from race ${result}`)
+//   })
+//   .catch((err) => console.log(`Rejected From race Promise no.: ${err}`))
 
-// allSettled return array of objects {status : , value : } if resolved and {status : , reason : } if rejected
-// rejected will not trigger catch but will return {status : , reason : } from then
-// error will not trigger catch but will return {status : , reason : Error}
-Promise.allSettled([p1,p2,p3,p4])
-  .then((results) => {
-    results.forEach((result => console.log(result)))
-  })
-  .catch((err) => console.log(`Rejected From allS Promise no.: ${err}`))
+// // allSettled return array of objects {status : , value : } if resolved and {status : , reason : } if rejected
+// // rejected will not trigger catch but will return {status : , reason : } from then
+// // error will not trigger catch but will return {status : , reason : Error}
+// Promise.allSettled([p1,p2,p3,p4])
+//   .then((results) => {
+//     results.forEach((result => console.log(result)))
+//   })
+//   .catch((err) => console.log(`Rejected From allS Promise no.: ${err}`))
 
-// regular then
-p1.then((result)=>{
-  console.log(`resolved from p1 ${result}`)
-})
+// // regular then
+// p1.then((result)=>{
+//   console.log(`resolved from regular p1 ${result}`)
+// })
+//   .catch((err) => console.log(`Rejected From regular Promise no.: ${err}`))
+
+// // any => like race but race if first promise rejected will got to Error with catch but with any will search 
+// // for all promises and give you first founded promise resolved
+// Promise.any([p1,p2,p3,p4])
+//   .then((result) => {
+//     console.log(`Resolved from any Promise no. ${result}`)
+//   })
+//   .catch((err) => console.log(`Rejected From any Promise no.: ${err}`))
+
+
+/* 
+small note about order of out put in last exp.
+[1] resolved from regular p1 1
+[2] Resolved from race 1
+[3] loop from Promise.allSettled
+[4] Rejected From all Promise no.: 3
+
+* 
+- regular P1 is the first in console but last in code because p1.then will be excuted once p1 resolved
+but race , all and allSettled should check for each promise in array [p1,p2,p3,p4] and will take 
+time but regular only one promise p1
+
+- Promise.all is the last in console but the first in code because promise.all will only be resolved
+when all [p1,p2,p3,p4] resolved but p3 and p4 rejected so will go to catch and all catches will
+be excuted after then
+
+- Promise.allSettle is in console before Promise.all but in code after because Promise.allSettle 
+will not go to catch so then(s) before catch(s) 
+
+*/
 
 // ---------------async / await ------------------
 // without async and await
@@ -8431,5 +8506,259 @@ p1.then((result)=>{
 //   .finally(_ => {
 //     console.log("From Finally")
 //   })
+
+// -------then accept upto 2 arguments 1st calback func is for resolved 2nd for rejected--------------
+
+// let p1 = new Promise((resolve , reject)=>{
+//   // resolve("Resolved")
+//   // reject("Rejected")
+//   throw Error("Error")
+// })
+// p1 
+//   .then((result)=> {
+//     console.log(`1st then 1st func : ${result}`)
+//     throw Error("Error from 1st then 1st func")
+//     return "Value from 1st then 1st func"
+//   },
+//   (result)=>{
+//     console.log(`1st then 2nd func: ${result}`)
+//     throw Error("Error from 1st then 2nd func")
+//     return "Value from 1st then 2nd func"
+//   })
+//   .then((result)=>console.log(`2nd then : ${result}`))
+//   .catch((err)=>console.log(`Catch: ${err}`))
+
+  /* 
+  2nd then will only show the value returned from 1st then not catching any Errors or rejects 
+  2nd function in 1st then will catch any Errors or rejects 
+  catch will catch Error from thens because then return Promise Object also
+  */
+
+// Promise.then() is also a promise
+// let p1 = new Promise((resolve , reject)=>{
+//   resolve("Resolved")
+//   reject("Rejected")
+//   throw Error("Error")
+// })
+// let p1Then = p1.then((result)=>result)
+// p1Then.then((result)=>console.log(result)).catch((err)=>console.log(err))
+
+
+//----------------------------------Object Oriented Programming-----------------------------
+
+/* 
+The idea behind object-oriented programming (OOP) is that you organize your code 
+in classes/ objects (objects are based on classes).
+Your data is stored in properties, your logic in methods. 
+And properties and methods that work closely together live in the same class.
+*/
+
+// Procedual vs OOP
+
+/* 
+[1] Procedual Programming
+- Progran divided into Function + Variables
+- Overloading is not possible
+- Hiding Data not possible
+- Data is separated
+
+[2] OOP
+- Program divided into Objects + Methods
+- Overloading is possible
+- Hiding data possible
+- Data is in one location
+*/
+
+/* 
+defining Object
+[1] Object Literal
+[2] new Keyword
+[3] Object.create()
+[4] Object.assign()
+*/
+
+// [1] Object Literal
+// let user = {
+//   firstName : "Mohamed",
+//   lastName : "Hussein",
+//   adresses : {
+//     egy : "Cairo",
+//     usa : "California",
+//     ksa : "Riyadh",
+//     getMainAdress : function(){
+//       return `Main Adress is ${this.egy}`
+//     }
+//   },
+//   getFullName : function(){
+//     return `Full names is ${this.firstName} ${this.lastName}`
+//   }
+// };
+// console.log(user.firstName) //Dot Notaion
+// console.log(user["lastName"]) //Bracet Notaion
+// console.log(user.getFullName())
+// console.log(user.adresses.egy)//Dot Notaion
+// console.log(user["adresses"]["usa"])//Bracet Notaion
+// console.log(user.adresses.getMainAdress())
+
+// Arrow Function syntax but we can not use this here because arrow function does not hasv it's own this
+// let user = {
+//   firstName : "Mohamed",
+//   lastName : "Hussein",
+//   age : 33,
+//   adresses : {
+//     egy : "Cairo",
+//     usa : "California",
+//     ksa : "Riyadh",
+//     getMainAdress : () =>`Main Adress is ${user.adresses.egy}`,
+//   },
+//   getFullName :() => `Full names is ${user.firstName} ${user.lastName}`,
+//   getAgeinDays : () => `Age in Days is ${user.age * 356}`
+// };
+// console.log(user.firstName) //Dot Notaion
+// console.log(user["lastName"]) //Bracet Notaion
+// console.log(user.getFullName())
+// console.log(user.adresses.egy)//Dot Notaion
+// console.log(user["adresses"]["usa"])//Bracet Notaion
+// console.log(user.adresses.getMainAdress())
+// console.log(user.getAgeinDays())
+
+// Dot Notaion vs Bracket Notation
+
+// let myObj = {
+//   "One" : 1,
+//   "Two-" : 2,
+//   3 : "Three",
+//   4 : "Four",
+//   "Five" : "by Variable"
+// }
+// let myVar = "Five"
+
+// Dot Notation
+// console.log(myObj."One") // Syntax Error
+// console.log(myObj.Two-) // Syntax Error
+// console.log(myObj.3) // Syntax Error
+// console.log(myObj.4) // Syntax Error
+// console.log(myObj.myVar) // undefined
+
+// Bracket Notation
+// console.log(myObj["One"])
+// console.log(myObj["Two-"])
+// console.log(myObj["3"])
+// console.log(myObj["4"])
+// console.log(myObj[myVar])
+
+// [2] new Keyword
+// let user = new Object()
+// user.firstName = "Mohamed"
+// user.lastName = "Hussein"
+// user["age"] = 33
+// user.getFullName = () => `Full Name is ${user.firstName} ${user.lastName}`
+// console.log(user)
+// console.log(user.getFullName())
+
+// [3] Object.create()
+// let mainObj = {
+//   hasDicount : false,
+//   showMsg : function (){
+//     // but you have to use this if user.hasDicount you can not change value of property (hasDiscount) from otherObj
+//     return `You ${this.hasDicount ? "" : "Don't "}Have Discount`
+//   } 
+// }
+// console.log(mainObj.showMsg())
+
+// let otherObj = Object.create(mainObj)
+// console.log(otherObj) //{} properties and methods inside prototype
+// otherObj.hasDicount = true
+// console.log(otherObj.showMsg())
+
+// let otherObj2 = Object.create(mainObj)
+// otherObj.hasDicount = false
+// console.log(otherObj.showMsg())
+
+
+// [4] Object.assign()
+
+// const src1 = {
+//   prop1 : "Value 1",
+//   prop2 : "Value 2",
+//   method1 : function(){
+//     return `Method 1`
+//   }
+// }
+
+// const src2 = { 
+//   prop3 : "Value 3",
+//   prop4 : "Value 4",
+//   method2 : function(){
+//     return `Method 2`
+//   }
+// }
+
+// const targetObj = {
+//   prop5 : "Value 5"
+// }
+
+// Object.assign(targetObj, src1, src2, {prop6 : "value 6"})
+// console.log(targetObj)
+
+// const newObj = Object.assign({}, {prop7 : "Value 7"})
+// console.log(newObj)
+
+// Delete Operator (to delete property of object)
+
+// const userName = {
+//   name : "Soliman"
+// }
+
+// console.log(userName)
+// console.log(userName.name)
+// // you cannot delete object but you can delete properties
+// // delete userName;
+// delete userName.name;
+// console.log(userName)
+// console.log(userName.name)
+
+// because of freeze you can not delete property
+// const freezedObj = Object.freeze({age  : 33})
+// console.log(freezedObj)
+// console.log(freezedObj.age)
+// delete freezedObj.age;
+// console.log(freezedObj)
+// console.log(freezedObj.age)
+
+// you can not delete variable
+// const userName = "Soliman"
+// console.log(userName)
+// delete userName;
+// console.log(userName)
+
+// because of configurable : false you can not delete property
+// const emptyObj = {}
+// Object.defineProperty(emptyObj, "a", {value : 1, configurable : false})
+// console.log(emptyObj.a)
+// delete emptyObj.a
+// console.log(emptyObj.a)
+
+// For ---- in Loop ( loop on Properties inside Object)
+
+const user = {
+  name : "Soliman",
+  Country : "Egypt",
+  age : 37
+}
+for (let prop in user){
+  console.log(prop)
+}
+let allData = ""
+for (let prop in user){
+  console.log(user[prop])
+  allData += user[prop]
+}
+
+console.log(allData)
+
+
+
+
 
 
