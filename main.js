@@ -2911,6 +2911,22 @@ This means that functions are simply a value and are just another type of object
 
 // obj.fun()
 
+// Arrow function inside constructor
+// function User(fName,lName,age){
+//   this.fName = fName;
+//   this.lName = lName;
+//   this.age = age;
+//   this.country = "EGYPT"
+//   this.fullName = _ => `Full Name: ${this.fName} ${this.lName}`
+// }
+
+/* 
+Why this inside Arrow function inside constructor refer to created Object?
+Instance Objects are powerful because they are derived from a function, 
+they provide private scope when they are created, and expressions can be executed on instantiation.
+But A JavaScript object literal does not, by nature, provide private scope.
+*/
+
 
 // in Explicit Binding this refer to object passed in apply , call or bind (objFun.apply(obj))
 // let obj = {
@@ -7620,6 +7636,14 @@ Copy Part of an Array to Another Location in the Same Array
 // console.log(anyName)
 // console.log(myRank)
 
+// console.log(this) // undefined
+/* 
+In Node modules, this at the top level doesn’t reference the global object. 
+Instead, it has the same value as module.exports. Inside functions (Node environment), 
+the value of this is determined based on how the function is called. In JavaScript modules, 
+this at the top level is undefined.
+*/
+
 //------------------classes ES6------------------------
 // Old Syntax
 
@@ -8741,24 +8765,120 @@ defining Object
 
 // For ---- in Loop ( loop on Properties inside Object)
 
-const user = {
-  name : "Soliman",
-  Country : "Egypt",
-  age : 37
-}
-for (let prop in user){
-  console.log(prop)
-}
-let allData = ""
-for (let prop in user){
-  console.log(user[prop])
-  allData += user[prop]
-}
-
-console.log(allData)
-
+// const user = {
+//   name : "Soliman",
+//   Country : "Egypt",
+//   age : 37
+// }
+// for (let prop in user){
+//   console.log(prop)
+// }
+// let allData = ""
+// for (let prop in user){
+//   console.log(user[prop])
+//   allData += user[prop]
+// }
+// console.log(allData)
 
 
 
+// ---------------------Constructor---------------------
 
+// this refer to created object
+// function Phone(serial, color , price) {
+//   this.serial = 1;
+//   this.color = 2;
+//   this.price = 3;
+// }
+// this called instance
+// let phone1 = new Phone(123,"red",500)
+// // values from constructor will override
+// console.log(phone1) // 1 2 3
 
+// function Phone(serial, color , price) {
+//   this.serial = serial;
+//   this.color = color;
+//   this.price = price - 100;
+// }
+// let phone1 = new Phone(123,"red",500)
+// console.log(phone1) // 123 red 500
+// let phone2 = new Phone(324,"black",500)
+// let phone3 = new Phone(564,"blue",500)
+// let phone4 = new Phone(867,"silver",500)
+// let phone5 = Phone(746,"Pink",500)
+// console.log(phone2)
+// console.log(phone3)
+// console.log(phone4)
+// let phone6 = {serial : 123}
+// console.log(phone4 instanceof Phone) //true
+// console.log(phone4.constructor === Phone) //true
+// console.log(phone6 instanceof Phone) //false
+// console.log(phone6.constructor === Phone) //false
+// console.log(phone5) // undefined
+// console.log(this.serial) // 746
+
+// function User(fName,lName,age){
+//   this.fName = fName;
+//   this.lName = lName;
+//   this.age = age;
+//   this.country = "EGYPT"
+//   this.fullName = _ => `Full Name: ${this.fName} ${this.lName}`
+// }
+/* 
+Why this inside Arrow function inside constructor refer to created Object?
+Instance Objects are powerful because they are derived from a function, 
+they provide private scope when they are created, and expressions can be executed on instantiation.
+But A JavaScript object literal does not, by nature, provide private scope.
+*/
+
+// let user1 = new User("Mohamed","Hussein",33)
+// let user2 = new User("Osama","elzero",37)
+// console.log(user1)
+// console.log(user2)
+// console.log(user2.fullName())
+
+// function User(name,email,age,showEmail){
+//   this.name = name;
+//   // this.email= email;
+//   this.age = age;
+//   this.updateName = function(newName){
+//     if(this.age > 18){
+//       this.name = newName
+//     }else{
+//       console.log("You can not update the name")
+//     }
+//   }
+//   this.showEmail = function(){
+//     if(showEmail){
+//       return `Email is ${this.email}`
+//     }else{
+//       return `Data is Private`
+//     }
+//   }
+// }
+
+// let user1 = new User("Soliman", "o@nn.sa", 37,false)
+// console.log(user1)
+// console.log(user1.showEmail())
+// user1.updateName("Mohamed")
+// console.log(user1)
+
+// ------built-in Constructor
+
+// let obj1 = new Object({a:1})
+// let obj2 = new Object({b:2})
+
+// let num1 = new Number(1)
+// let num2 = new Number(2)
+
+// let str1 = new String("Mohamed")
+// let str2 = new String("Ahmed")
+
+// // here under the hood you are using String Constructor let str3 = new String("Soliman")
+// let str3 = "Soliman"
+
+let newObj = new Object({
+  showThis : function () {console.log(this)} 
+})
+
+newObj.showThis()
