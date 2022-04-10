@@ -8865,8 +8865,8 @@ But A JavaScript object literal does not, by nature, provide private scope.
 
 // ------built-in Constructor
 
-// let obj1 = new Object({a:1})
 // let obj2 = new Object({b:2})
+// let obj1 = new Object({a:1})
 
 // let num1 = new Number(1)
 // let num2 = new Number(2)
@@ -8877,8 +8877,120 @@ But A JavaScript object literal does not, by nature, provide private scope.
 // // here under the hood you are using String Constructor let str3 = new String("Soliman")
 // let str3 = "Soliman"
 
-let newObj = new Object({
-  showThis : function () {console.log(this)} 
-})
+// -----------------protoType------------------
 
-newObj.showThis()
+// function User(name){
+//   this.name = name;
+//   this.welcome = _ => `Welcome ${this.name}`
+// }
+
+// // function normal() {
+// //   return `Normal Function`
+// // }
+
+// // console.log(User.prototype)
+// // console.log(normal.prototype) // any function not only constructor has prototype
+
+// // all instances created from constructor will inherit all properties from constructor's prototype
+// let user1 = new User("Mohamed")
+// let user2 = new User("Ahmed")
+// console.log(User.prototype)
+// console.log(user1)
+// // when you add property or Method to prototype and try to access it from instance will search in prototype chain 
+// // sreach at child instance first if not availabe will search at parent an so on ....
+// User.prototype.addTitle = function(){
+//   return `Mr ${this.name}`
+// }
+// console.log(user1.addTitle())
+// console.log(user2.addTitle())
+
+// // you can also add property or Method to prototype of built-in constructor ( Object )
+// // and any created object by literal will have access to these properties or methods
+// // because object by literals is under the hood created using Object built-in constructor
+// Object.prototype.elzero = "Elzero Web School"
+// console.log(Object.prototype)
+// console.log(Object.elzero)
+// const myObj = {a:1 , b:2}
+// console.log(myObj)
+// console.log(myObj.elzero)
+
+
+
+// // instances has not prototypes but it's constructor have
+// console.log(user1.prototype) //undefined
+// console.log(User.prototype)
+// console.log(user1.constructor.prototype)
+// if you want to access user1 prototype use __proto__
+
+// const arr = [1,2,3,4]
+// console.log(arr.constructor) // Array Constructor ( built-in constructor)
+// console.log(Array.prototype) 
+
+
+// let myStr = "Osama"
+// String.prototype.zFill = function(width){
+//   let result = this;
+//   while(result.length < width){
+//     result = `0${result}`
+//   }
+//   console.log(result)
+// }
+// myStr.zFill(6)
+
+// String.prototype.sayYouLoveMe = function (){
+//   console.log(`i love you ${this}`)
+// }
+// "Soliman".sayYouLoveMe()
+
+// every thing in js is Object and have at the end of protoType chain Object Prototype
+// function is object and created by built-in Object constructor
+
+// steps of contructor under the Hood
+// function User(name){
+//   /*
+// [1] Create Empty Object
+// [2] assign the New Object to this Context (this = {}) 
+// [3] the new Object's prototype = constructor's Prototype (this.__proto__ = User.__proto__)
+// */
+//   this.name = name;
+//   /* 
+//   [4] return new Object
+//   */
+//   // you can throw Error by this if condition incase of new Object without new keyword 
+//   // if(!(this instanceof User)){
+//   //   throw new Error("no New KeyWord")
+//   // }
+//   // ES6 Version
+//   if(!new.target){
+//     throw new Error("no New KeyWord")
+//   }
+// }
+
+// let user1 = new User("Mohamed")
+// console.log(User.prototype)
+// console.log(user1.__proto__)
+// let user2 = User("Ahmed") // handmade Error from constructor
+// console.log(user2)
+// // Array is created by Array built-in constructor but Array constructor is created by Object 
+// // constructor so prototype chain will be Array protoType => Object Prototype
+// let myArr = [1,2,3,4]
+// console.log(myArr.__proto__)
+
+
+/* 
+The new.target pseudo-property lets you detect whether a function or constructor 
+was called using the new operator. In constructors and functions invoked using 
+the new operator, new.target returns a reference to the constructor or function. 
+In normal function calls, new.target is undefined.
+In arrow functions, new.target is inherited from the surrounding scope.
+*/
+// function Constructor(name){
+//   this.name = name;
+//   console.log(new.target);
+//   this.arrowFunc = () => console.log(new.target.name);
+// }
+
+// let instance = new Constructor("Mohamed") // Constructor
+// // In arrow functions, new.target is inherited from the surrounding scope.
+// instance.arrowFunc() // Constructor
+// let instance2 = Constructor("Ahmed") // undefined
