@@ -8790,7 +8790,7 @@ defining Object
 //   this.color = 2;
 //   this.price = 3;
 // }
-// this called instance
+//  called instance (new keyword will invoke the constructor)
 // let phone1 = new Phone(123,"red",500)
 // // values from constructor will override
 // console.log(phone1) // 1 2 3
@@ -8878,6 +8878,78 @@ But A JavaScript object literal does not, by nature, provide private scope.
 // let str3 = "Soliman"
 
 // -----------------protoType------------------
+// -----------Intro to ProtoType----------
+
+// let obj1 = {
+//   prop1 : () => console.log("Prop1")
+// }
+// let obj2 = {
+//   prop2 : () => console.log("Prop2")
+// }
+
+// // Object.setPrototypeOf() is like extends in ES6 obj2 will inherit properties of obj1
+// Object.setPrototypeOf(obj2,obj1)
+// console.log(Object.getPrototypeOf(obj1)) // ProtoType of main Object prototype
+// console.log(Object.getPrototypeOf(obj2)) // obj1 because obj2 inherit from obj1
+// console.log(obj2.__proto__) // like Object.getPrototypeOf(obj2)
+// // return an array of property only of this object not all properties that inherit
+// console.log(Object.getOwnPropertyNames(obj2))
+// // return list of all default properties which are availabe to all Objects in JS
+// console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(obj1))) 
+// obj2.prop1()
+// obj2.prop2()
+// // will not list all properties in prototype because some of them is not enumerable
+// for (let prop in obj2){
+//   console.log(prop)
+// }
+
+/*
+----------------ProtoType Steps-------------
+function a (name) {
+  this.name = name;
+}
+prototype property is created when a function is declared.
+When JavaScript executes this code, it adds prototype property to a,
+prototype property is an object with two properties to it:
+1. constructor
+2. __proto__
+So when we do
+a.prototype it returns
+     constructor: a  // function definition
+    __proto__: Object
+Now as you can see constructor is nothing but the function a itself and __proto__ points 
+to the root level Object of JavaScript.
+Let us see what happens when we use a function with new key word.
+var b = new a ('JavaScript');
+When JavaScript executes this code it does 4 things:
+
+1. It creates a new object, an empty object // {}
+
+2. It creates __proto__ on b and makes it point to a.prototype so b.__proto__ === a.prototype
+
+3. It executes a.prototype.constructor (which is definition of function a )
+with the newly created object (created in step#1) as its context (this), 
+hence the name property passed as 'JavaScript' (which is added to this) gets added to newly created object.
+
+4. It returns newly created object in (created in step#1) so var b gets assigned 
+to newly created object.
+Now if we add a.prototype.car = "BMW" and do b.car, the output "BMW" appears.
+this is because when JavaScript executed this code it searched for car property on b, 
+it did not find then JavaScript used b.__proto__ (which was made to point to 'a.prototype' 
+in step#2) and finds car property so return "BMW".
+
+function a (name) {
+  this.name = name;
+}
+let b = new a ('JavaScript');
+console.log(a.prototype)
+console.log(b.__proto__)
+console.log(Object.getPrototypeOf(b))
+// last three are the same
+console.log(b.__proto__.__proto__)
+console.log(Object.prototype)
+// last two are the same
+*/
 
 // function User(name){
 //   this.name = name;
@@ -8995,6 +9067,38 @@ In arrow functions, new.target is inherited from the surrounding scope.
 // instance.arrowFunc() // Constructor
 // let instance2 = Constructor("Ahmed") // undefined
 
+/* 
+---------------------ProtoType chain---------------------
+because Js is prototype-based not class-based language childObj is not taking a copy of properties
+and methods os parentObj it is just have a link to parent's prototype
+*/
+// let parentObj = {
+//   prop1 : 123,
+//   method1 : () => console.log("This is Method1 from parentObj")
+// }
+// let childObj = {}
+// // prototype chain here is : 
+// // childObj ---> parentObj ---> Object.prototype ---> null
+// Object.setPrototypeOf(childObj, parentObj)
+// console.log(childObj.prop1)
+// childObj.method1()
+// console.log(childObj.__proto__)
+// // here we are not overriding the prop1 inside parentObj we are creating a new prop1 inside childObj
+// childObj.prop1 = 777;
+// console.log(parentObj.prop1)
+// console.log(childObj.prop1)
+
+// using Constructor
+// function ParentObj(){
+//   this.prop1 = 123
+//   this.method1 = () => console.log("This is Method1 from parentObj")
+// }
+// let childObj = new ParentObj()
+// // childObj ---> parentObj ---> Object.prototype ---> null
+// console.log(childObj.prop1)
+// childObj.method1()
+// console.log(childObj.__proto__)
+
 // ----------------------Classes----------------------------
 
 /* 
@@ -9055,7 +9159,7 @@ because function is always hoisted
 //   sayHello = () => `Hello ${this.name}`;
 //   showEmail = () => `Email is ${this.email}`
   
-//   // Static Method (this here refer to static counter)
+//   // Static Method (this here refer to class User static counter)
 //   static countObj = () => `${this.counter} Objects Created`
 // }
 
@@ -9070,6 +9174,59 @@ because function is always hoisted
 // console.log(user2.showEmail())
 
 // console.log(User.countObj())
+
+// You can not use Static with old sytnax of constructor but you can use Object.defineProperty
+// function User(name) {
+//   this.name = name;
+//   this.innerInfo = () => console.log("Inner Method");
+// }
+// User.prototype.outerInfo = () => console.log("Outer Method");
+// Object.defineProperty(User, "staticInfo", {
+//   value : () => console.log("Static Method")
+// })
+// let user1 = new User("Soliman")
+// user1.innerInfo()
+// user1.outerInfo()
+// User.staticInfo()
+
+// --------------Getter and Setter----------------
+/* 
+Get and Set in Js is only for simple syntax
+in other languages like PHP there is an option for private prperties accessable only by get and set
+*/
+
+// class User {
+//   constructor(name, email) {
+//     this.name = name;
+//     this.email = email;
+//     this.sayHello = _ => `Hello ${this.name}`;
+//   }
+//   showInfo(){
+//     return `name : ${this.name}, Email: ${this.email}`
+//   }
+//   get showInfoGetter(){
+//     return `name : ${this.name}, Email: ${this.email}`
+//   }
+//   changeName(newName){
+//     this.name = newName;
+//   }
+//   set changeNameSetter(newName){
+//     this.name = newName;
+//   }
+// }
+
+// let user1 = new User("Mohamed","Email-1")
+// let user2 = new User("Ahmed","Email-2")
+// // method
+// console.log(user1.showInfo())
+// // computed property (from getter Method)
+// console.log(user1.showInfoGetter)
+// // difference between getter method and regular method only simple syntax you have been changed
+// // the Method to computed property and you do not need ()
+// user1.changeName("Soliman")
+// console.log(user1.name) // soliman
+// user1.changeNameSetter = "Hussein"
+// console.log(user1.name) // Hussein
 
 
 // ----------------Inheritance--------------
@@ -9106,7 +9263,7 @@ because function is always hoisted
 
 // class Admin extends User {
 //   constructor(name, email, id) {
-//     super(name, email); 
+//     super(name, email); //to invoke the constructor of User
 //     this.id = id;
 //     this.showDetails = () => `Name is ${name} and email is ${email} and id is ${id}`;
 //   }
@@ -9143,32 +9300,32 @@ because function is always hoisted
 // console.log(Admin1.writeMsg())
 
 // ------How to copy prototype of one constructor to another
-function Me(){
-this.name =  this.name || "Dejan";
-}
-function You(){
-this.name = this.name || "Ivan";
-}
+// function Me(){
+// this.name =  this.name || "Dejan";
+// }
+// function You(){
+// this.name = this.name || "Ivan";
+// }
 
 
-Me.prototype = new You();
-let somebody = new Me();
-console.log(somebody.name); // Ivan 
+// Me.prototype = new You();
+// let somebody = new Me();
+// console.log(somebody.name); // Ivan 
 
-class Me2 {
-  constructor() {
-    this.name = this.name || "Dejan";
-  }
-}
-class You2 {
-  constructor() {
-    this.name = this.name || "Ivan";
-  }
-}
-
-Me2.prototype = new You2();
-let somebody2 = new Me2();
-console.log(somebody2.name); // Dejan
+// class Me2 {
+//   constructor() {
+//     this.name = this.name || "Dejan";
+//   }
+// }
+// class You2 {
+//   constructor() {
+//     this.name = this.name || "Ivan";
+//   }
+// }
+// // In ES6, the .prototype property of classes is not writable and not configurable1
+// Me2.prototype = new You2();
+// let somebody2 = new Me2();
+// console.log(somebody2.name); // Dejan
 
 
 /* 
@@ -9211,80 +9368,57 @@ so in next Exp. if we remove this.id from constructor Old the outputs will be un
 // console.log(user1.id) // 6
 // console.log(user2.id) // 7
 
-// -----------Intro to ProtoType----------
 
-// let obj1 = {
-//   prop1 : () => console.log("Prop1")
+
+// ----------------Meta Data and Descriptor----------------
+
+// let obj = {
+//   a : 1,
+//   b : 2
 // }
-// let obj2 = {
-//   prop2 : () => console.log("Prop2")
-// }
+// Object.defineProperty(obj, "c" , {
+//   value : 3,
+//   writable : false,
+//   enumerable : false,
+//   configurable: false
+// })
 
-// // Object.setPrototypeOf() is like extends in ES6 obj2 will inherit properties of obj1
-// Object.setPrototypeOf(obj2,obj1)
-// console.log(Object.getPrototypeOf(obj1)) // ProtoType of main Object prototype
-// console.log(Object.getPrototypeOf(obj2)) // obj1 because obj2 inherit from obj1
-// console.log(obj2.__proto__) // like Object.getPrototypeOf(obj2)
-// // return an array of property only of this object not all properties that inherit
-// console.log(Object.getOwnPropertyNames(obj2))
-// // return list of all default properties which are availabe to all Objects in JS
-// console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(obj1))) 
-// obj2.prop1()
-// obj2.prop2()
-// // will not list all properties in prototype because some of them is not enumerable
-// for (let prop in obj2){
-//   console.log(prop)
-// }
+// obj.c = 500;
+// console.log(obj.c) // 3 not 500 because writable : false
 
-/*
-----------------ProtoType Steps-------------
-function a (name) {
-  this.name = name;
-}
-prototype property is created when a function is declared.
-When JavaScript executes this code, it adds prototype property to a,
-prototype property is an object with two properties to it:
-1. constructor
-2. __proto__
-So when we do
-a.prototype it returns
-     constructor: a  // function definition
-    __proto__: Object
-Now as you can see constructor is nothing but the function a itself and __proto__ points 
-to the root level Object of JavaScript.
-Let us see what happens when we use a function with new key word.
-var b = new a ('JavaScript');
-When JavaScript executes this code it does 4 things:
+// for(let prop in obj){
+//   console.log(prop , obj[prop])
+// } // a 1 - b 2 / c 3 will not be shown because of enumerable : false
+// console.log(Object.keys(obj)) // [a,b] return only iterable properties
+// console.log(Object.getOwnPropertyNames(obj)) // [a,b,c] because enumerable : false has no effect on getOwnPropertyNames
 
-1. It creates a new object, an empty object // {}
+// console.log(delete obj.c) // false means can not delete property c becasue of configurable:false
 
-2. It creates __proto__ on b and makes it point to a.prototype so b.__proto__ === a.prototype
+// // Object.defineProperty(obj, "c" , {
+// //   writable:true
+// // }) // Error because of configurable:false you can not redefine property
+// // obj.c = 600;
+// // console.log(obj.c) 
+// // default of porperty's attributes(inside Object) are true
+// console.log(Object.getOwnPropertyDescriptor(obj, "a"))
+// // default of porperty's attributes(created by defineProperty) are false
+// console.log(Object.getOwnPropertyDescriptor(obj, "c"))
 
-3. It executes a.prototype.constructor (which is definition of function a )
-with the newly created object (created in step#1) as its context (this), 
-hence the name property passed as 'JavaScript' (which is added to this) gets added to newly created object.
+// Object.defineProperties(obj, {
+//   d : {
+//     value : 4,
+//     writable : false,
+//     enumerable : false,
+//     configurable: false
+//   },
+//   e : {
+//     value : 5,
+//     writable : false,
+//     enumerable : true,
+//     configurable: false
+//   }
+// })
 
-4. It returns newly created object in (created in step#1) so var b gets assigned 
-to newly created object.
-Now if we add a.prototype.car = "BMW" and do b.car, the output "BMW" appears.
-this is because when JavaScript executed this code it searched for car property on b, 
-it did not find then JavaScript used b.__proto__ (which was made to point to 'a.prototype' 
-in step#2) and finds car property so return "BMW".
-
-function a (name) {
-  this.name = name;
-}
-let b = new a ('JavaScript');
-console.log(a.prototype)
-console.log(b.__proto__)
-console.log(Object.getPrototypeOf(b))
-// last three are the same
-console.log(b.__proto__.__proto__)
-console.log(Object.prototype)
-// last two are the same
-*/
-
-
-
-
-
+// console.log(obj)
+// console.log(Object.keys(obj))
+// console.log(Object.getOwnPropertyNames(obj))
