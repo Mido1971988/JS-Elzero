@@ -8994,3 +8994,297 @@ In arrow functions, new.target is inherited from the surrounding scope.
 // // In arrow functions, new.target is inherited from the surrounding scope.
 // instance.arrowFunc() // Constructor
 // let instance2 = Constructor("Ahmed") // undefined
+
+// ----------------------Classes----------------------------
+
+/* 
+Js is prototype based language not class based language.
+Classes are primarily syntactical sugar for prototype-based inheritance.
+
+the difference between ES6 Class and old syntax :
+[1] Hoisting
+* old syntax is a function and you can create instance before constructor function 
+because function is always hoisted
+* ES6 class you should create instances after class decleration 
+[2] forcing to use new keyword (will throw Error autmatically not handmade Error like old syntax)
+
+*/
+
+// Old Syntax
+// let user1 = new User("Mohamed")
+// let user2 = new User("Ahmed")
+
+// function User(name,email){
+//   this.name = name;
+//   this.email = email;
+//   this.sayHello = _ => `Hello ${this.name}`;
+// }
+
+// console.log(user1)
+// console.log(user2)
+
+// ES6 class
+// class User {
+//   constructor(name, email) {
+//     this.name = name;
+//     this.email = email;
+//     this.sayHello = _ => `Hello ${this.name}`;
+//   }
+// }
+
+// let user1 = new User("Mohamed")
+// let user2 = new User("Ahmed")
+
+// console.log(user1)
+// console.log(user2)
+
+// --------------Static Properties and Methods---------------
+// Static properties only for consructor not for instances
+
+// class User {
+//   // Static Properties
+//   static counter = 0;
+//   // constructor
+//   constructor(name, email) {
+//     this.name = name;
+//     this.email = email;
+//     // we used User not this because this here refer to created instances not class User
+//     User.counter++;
+//   }
+//   // Methods for instances
+//   sayHello = () => `Hello ${this.name}`;
+//   showEmail = () => `Email is ${this.email}`
+  
+//   // Static Method (this here refer to static counter)
+//   static countObj = () => `${this.counter} Objects Created`
+// }
+
+// let user1 = new User("Mohamed","Email_1")
+// let user2 = new User("Ahmed","Email_2")
+// // will throw Error autmatically not handmade Error like old syntax
+// // let user3 = User("Soliman","Email_3") 
+
+// console.log(user1)
+// console.log(user1.sayHello())
+// console.log(user2)
+// console.log(user2.showEmail())
+
+// console.log(User.countObj())
+
+
+// ----------------Inheritance--------------
+
+// ---------difference between class and old syntax in inheritance---------------
+
+// [1] inheritance in old Syntax
+// function User(name,email){
+//   this.name = name;
+//   this.email = email;
+//   this.showDetails = () => `Name is ${name} and email is ${email}`
+// }
+
+// function Admin(name,email,id){
+//   User.call(this,name,email) // like super
+//   this.id = id
+//   this.showDetails = () => `Name is ${name} and email is ${email} and id is ${id}`
+// }
+// Object.setPrototypeOf(Admin, User.prototype) // like extend
+
+// let Admin1 = new User("Soliman","email")
+// let Admin2 = new Admin("Soliman","email",321)
+// console.log(Admin1.showDetails())
+// console.log(Admin2.showDetails())
+
+// [2] inheritance in new syntax ( class )
+// class User {
+//   constructor(name, email) {
+//     this.name = name;
+//     this.email = email;
+//     this.showDetails = () => `Name is ${name} and email is ${email}`;
+//   }
+// }
+
+// class Admin extends User {
+//   constructor(name, email, id) {
+//     super(name, email); 
+//     this.id = id;
+//     this.showDetails = () => `Name is ${name} and email is ${email} and id is ${id}`;
+//   }
+// }
+
+// let Admin1 = new User("Soliman","email")
+// let Admin2 = new Admin("Soliman","email",321)
+// console.log(Admin1.showDetails())
+// console.log(Admin2.showDetails())
+
+// --------Override in inheritance-------
+// class User {
+//   constructor(name, email) {
+//     this.name = name;
+//     this.email = email;
+//   }
+//   sayHello = () => `Hello ${this.name}`;
+//   showEmail = () => `Email is ${this.email}`
+//   writeMsg = () => `Msg from parent Class`
+// }
+
+// class Admin extends User {
+//   constructor(name,email){
+//     super(name,email);
+//   }
+//   adminMsg = () => `You Are Admin`
+//   // will override method from parent class
+//   writeMsg = () => `Msg from Child Class`
+// }
+
+// let Admin1 = new Admin("Mohamed","Email-1")
+// console.log(Admin1.sayHello())
+// console.log(Admin1.adminMsg())
+// console.log(Admin1.writeMsg())
+
+// ------How to copy prototype of one constructor to another
+function Me(){
+this.name =  this.name || "Dejan";
+}
+function You(){
+this.name = this.name || "Ivan";
+}
+
+
+Me.prototype = new You();
+let somebody = new Me();
+console.log(somebody.name); // Ivan 
+
+class Me2 {
+  constructor() {
+    this.name = this.name || "Dejan";
+  }
+}
+class You2 {
+  constructor() {
+    this.name = this.name || "Ivan";
+  }
+}
+
+Me2.prototype = new You2();
+let somebody2 = new Me2();
+console.log(somebody2.name); // Dejan
+
+
+/* 
+The Advantage of inheritance in classes is you can access prototypes 
+from parent and also you can override any Property or Method of parent
+*/
+
+/* 
+JS engine wll search for id property inside instance(which take properties from constructor)
+if did not find it inside instance will search at prototype Chain 
+so in next Exp. if we remove this.id from constructor Old the outputs will be undefined and 7
+*/
+// function Old(name){
+//   this.name = name;
+//   // id here is a property of created instance
+//   this.id = 6;
+// }
+// let user1 = new Old("Mohamed")
+// console.log(user1.id) // 6 // undefined (incase of remving this.id = 6; from Old)
+// // id here is prototype added to constructor
+// Old.prototype.id = 7;
+// console.log(Old.prototype)
+// console.log(user1.id) // 6 // 7 (incase of remving this.id = 6; from Old)
+
+// class Old {
+//   constructor(name , id = 6 ) {
+//     this.name = name;
+//     this.id = id;
+//   }
+// }
+// class New extends Old {
+//   constructor(name,id) {
+//     super(name,id)
+//   // override id of parent
+//     this.id = 7;
+//   }
+// }
+// let user1 = new Old("Mohamed")
+// let user2 = new New("Soliman")
+// console.log(user1.id) // 6
+// console.log(user2.id) // 7
+
+// -----------Intro to ProtoType----------
+
+// let obj1 = {
+//   prop1 : () => console.log("Prop1")
+// }
+// let obj2 = {
+//   prop2 : () => console.log("Prop2")
+// }
+
+// // Object.setPrototypeOf() is like extends in ES6 obj2 will inherit properties of obj1
+// Object.setPrototypeOf(obj2,obj1)
+// console.log(Object.getPrototypeOf(obj1)) // ProtoType of main Object prototype
+// console.log(Object.getPrototypeOf(obj2)) // obj1 because obj2 inherit from obj1
+// console.log(obj2.__proto__) // like Object.getPrototypeOf(obj2)
+// // return an array of property only of this object not all properties that inherit
+// console.log(Object.getOwnPropertyNames(obj2))
+// // return list of all default properties which are availabe to all Objects in JS
+// console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(obj1))) 
+// obj2.prop1()
+// obj2.prop2()
+// // will not list all properties in prototype because some of them is not enumerable
+// for (let prop in obj2){
+//   console.log(prop)
+// }
+
+/*
+----------------ProtoType Steps-------------
+function a (name) {
+  this.name = name;
+}
+prototype property is created when a function is declared.
+When JavaScript executes this code, it adds prototype property to a,
+prototype property is an object with two properties to it:
+1. constructor
+2. __proto__
+So when we do
+a.prototype it returns
+     constructor: a  // function definition
+    __proto__: Object
+Now as you can see constructor is nothing but the function a itself and __proto__ points 
+to the root level Object of JavaScript.
+Let us see what happens when we use a function with new key word.
+var b = new a ('JavaScript');
+When JavaScript executes this code it does 4 things:
+
+1. It creates a new object, an empty object // {}
+
+2. It creates __proto__ on b and makes it point to a.prototype so b.__proto__ === a.prototype
+
+3. It executes a.prototype.constructor (which is definition of function a )
+with the newly created object (created in step#1) as its context (this), 
+hence the name property passed as 'JavaScript' (which is added to this) gets added to newly created object.
+
+4. It returns newly created object in (created in step#1) so var b gets assigned 
+to newly created object.
+Now if we add a.prototype.car = "BMW" and do b.car, the output "BMW" appears.
+this is because when JavaScript executed this code it searched for car property on b, 
+it did not find then JavaScript used b.__proto__ (which was made to point to 'a.prototype' 
+in step#2) and finds car property so return "BMW".
+
+function a (name) {
+  this.name = name;
+}
+let b = new a ('JavaScript');
+console.log(a.prototype)
+console.log(b.__proto__)
+console.log(Object.getPrototypeOf(b))
+// last three are the same
+console.log(b.__proto__.__proto__)
+console.log(Object.prototype)
+// last two are the same
+*/
+
+
+
+
+
