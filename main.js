@@ -165,6 +165,13 @@ School") */
 // if you want new line  you can add \n
 // console.log("Elzero \n Web \n School" )
 
+/* 
+\n => new line
+\t => horizontal tab
+\v => vertical tab
+\r => carriage return (like \n in old Mac)
+*/
+
 // Concatenation +
 
 // let a = "We Love"
@@ -351,6 +358,10 @@ console.log(typeof a) */
 // // + , Number , parseInt all of them will return number but parseInt will return number even
 // // if it's number and word parseInt will return only the number but + and Number will return NaN
 // console.log(parseInt("100.5 Osama"));
+// parseInt(string , base)
+// console.log(parseInt("123456", 10)) // decimal
+// console.log(parseInt("123456", 2)) // binary 
+// console.log(parseInt("123456", 16)) // hexadecimal
 // console.log(parseFloat("100.5 Osama"));
 // console.log(Number.isInteger("100"));
 // console.log(Number.isInteger(100.5));
@@ -3204,6 +3215,20 @@ your callback will be executed after a few seconds. */
 // for(const i =0; i < 4; i++) {
 //   console.log(i)
 // }
+
+// because setTimeout excuted in seperate excution context so this will refer to window Object
+// not refer to myArray as inside myArray.myMethod to solve this problem use bind
+// myArray = ['zero', 'one', 'two'];
+// myArray.myMethod = function (sProperty) {
+//     console.log(arguments.length > 0 ? this[sProperty] : this);
+// };
+// myArray.myMethod(); // prints "zero,one,two"
+// myArray.myMethod(1); // prints "one"
+// setTimeout(myArray.myMethod, 1000); // prints "[object Window]" after 1 second
+// setTimeout(myArray.myMethod, 1000, "1"); // prints "undefined" after 1 second
+// setTimeout(myArray.myMethod.bind(myArray), 1000); // prints "zero,one,two"
+// setTimeout(myArray.myMethod.bind(myArray), 1000, "1"); // prints "one"
+
 
 // ------------------Constructor ---------------
 
@@ -8491,7 +8516,7 @@ will not go to catch so then(s) before catch(s)
 // function promfunc() {
 //   return new Promise((resolve , reject) => {
 //     resolve("Resolved!") 
-//     reject("Rejected!")
+//     // reject("Rejected!")
 //   }).catch(err => console.log(`From Catch: ${err}`))
 // }
 
@@ -8511,7 +8536,7 @@ will not go to catch so then(s) before catch(s)
 //   return new Promise((resolve , reject) => {
 //     // resolve("Resolved!")
 //     setTimeout(_ => resolve("Resolved!"),1000)
-//     reject("Rejected!")
+//     // reject("Rejected!")
 //   }).catch(err => console.log(`From Catch: ${err}`))
 // }
 
@@ -9422,3 +9447,255 @@ so in next Exp. if we remove this.id from constructor Old the outputs will be un
 // console.log(obj)
 // console.log(Object.keys(obj))
 // console.log(Object.getOwnPropertyNames(obj))
+
+// ---------------AJAX-------------------
+// Asynchronous JavaScript And XML (Extensible Markup Language)
+/* 
+XML is one of the most widely-used formats for sharing structured information today: 
+between programs, between people, between computers and people, both locally and across networks.
+the syntax rules of XML are strict: XML tools will not process files that contain errors, 
+but instead will give you error messages so that you fix them
+
+XMLHttpRequest (XHR) objects are used to interact with servers. You can retrieve data 
+from a URL without having to do a full page refresh. 
+This enables a Web page to update just part of a page without disrupting 
+what the user is doing.
+* Update a web page without reloading the page
+* Request data from a server - after the page has loaded
+* Receive data from a server  - after the page has loaded
+* Send data to a server - in the background
+
+Despite its name, XMLHttpRequest can be used to retrieve any type of data, not just XML.
+*/
+
+/* 
+The FormData interface provides a way to easily construct a set of key/value pairs 
+representing form fields and their values, which can then be easily sent 
+using the fetch() or XMLHttpRequest.send() method. It uses the same format 
+a form would use if the encoding type were set to "multipart/form-data".
+*/
+
+//Run the script after loading DOM       
+// let url = "https://jsonplaceholder.typicode.com/users";       
+// let xhr = new XMLHttpRequest();       
+// xhr.open("GET", url, true); // true is default and means Async - false means Sync       
+// // xhr.open("POST", url, true);       
+// let fd = new FormData();       
+// fd.append("firstName", "Jesse");       
+// fd.append("lastName", "Custer");        
+// xhr.onreadystatechange = function(ev) {         
+//   //2 - request sent, 3 - something back, 4 - full response         
+//   console.log(xhr.readyState);         
+//   if (xhr.readyState === 4) {           
+//     switch (xhr.status) {             
+//       case 200:             
+//       case 304:               
+//       console.log("OK or Not Modified (cached)", xhr.status);               
+//       outputUsers(xhr.responseText); //responseXML               
+//       break;             
+//       case 201:               
+//       console.log("Created", xhr.status);               
+//       let main = document.querySelector("#xml");               
+//       main.textContent = xhr.responseText;               
+//       break;             
+//       case 403:             
+//       case 401:               
+//       console.log("Not Authorized or Forbidden", xhr.status);               
+//       break;             
+//       case 404:               
+//       console.log("Not Found", xhr.status);               
+//       break;             
+//       case 500:               
+//       console.log("Server Side Error", xhr.status);               
+//       break;             
+//       default:               
+//       console.log("Some other code: ", xhr.status, xhr.status);           
+//     }         
+//   }       
+// }; 
+// // another way to use onload instead of onreadystatechange 
+// // xhr.addEventListener("load", function(){
+// //   if (xhr.readyState === 4){
+// //     console.log("OK or Not Modified (cached)", xhr.status);               
+// //     outputUsers(xhr.responseText); //responseXML 
+// //   }
+// // })      
+// xhr.onerror = function(err) {         
+//   console.warn(err);       
+// };       
+// xhr.send(null); // with GET        
+// // xhr.send(fd); // With POST
+// function outputUsers(str) {         
+//   let data = JSON.parse(str);         
+//   let main = document.querySelector("#xml");         
+//   data.forEach(item => {           
+//     let p = document.createElement("p");           
+//     p.textContent = item.id + " " + item.name;           
+//     main.appendChild(p);         
+//   });       
+// }
+
+/* ------onload vs onreadystatechange-------------------
+A readystatechange occurs several times in the life of a request as it progresses to 
+different phases, but a load event only occurs when the request has successfully completed.
+If you're not interested in detecting intermediate states or errors, then onload might be a good choice.
+
+* onreadystatechange needs : if (xhr.readyState === 4) & if (xhr.status === 200)
+* onload needs only : if (xhr.readyState === 4)
+*/
+
+// var uri = 'http://jsonplaceholder.typicode.com/users/s7'; 
+//none of these examples do proper error handling of 
+//nasty http status codes or 
+//invalid data types - text, xml, json, etc 
+//********************************************************* 
+
+// OLD Version AJAX 
+// var xhr = new XMLHttpRequest(); 
+// xhr.open('GET', uri, true); 
+// xhr.addEventListener('load', function(ev){
+//   if(xhr.status === 200 && xhr.readyState === 4){
+//     //handle the response from the server 
+//     var data = xhr.responseText; //or responseXML 
+//     var json = JSON.parse(data); //JSON object 
+//     console.log('XMLHttpRequest: ', json)
+//   }else if(xhr.status === 404){
+//     throw new Error(uri)
+//   }
+// }); 
+// xhr.addEventListener('error', function(err){ 
+//   //error handling network request but not for HTTP errors like 404
+// }) 
+// window.addEventListener('error', function(err){ 
+//   //error handling for HTTP errors you should throw an Error by yourself if(xhr.status === 404)
+//   console.log(err.message)
+//   // to stop error to be shown (uncaught Error)
+//   err.preventDefault()
+// }) 
+// xhr.send(null); 
+  //********************************************************* 
+  
+//NEW Version AJAX 
+// fetch(uri) 
+//   .then(function(response){
+//     if(response.status === 200){
+//       return response.json()
+//     }else{
+//       return Promise.reject(response.statusText)
+//     }
+//   }) 
+//   .then(function(data){ 
+//     console.log( data ); 
+//   }) 
+//   .catch(function(err){ 
+//     //error handling network request err = response because of return Promise.reject(response)
+//     console.log(err) 
+//   }); 
+    //********************************************************* 
+    
+//REALLY OLD Version AJAX 
+//IE 5.5 ActiveX object or XMLHttpRequest object 
+// var request = false; 
+// if (window.XMLHttpRequest) { 
+//     // Mozilla, Safari,... 
+//     request = new XMLHttpRequest(); 
+//   } else if (window.ActiveXObject) { 
+//     // IE 
+//     try { 
+//       request = new ActiveXObject("Msxml2.XMLHTTP"); 
+//     } catch (e) { 
+//       try { 
+//         request = new ActiveXObject("Microsoft.XMLHTTP"); 
+//       } catch (e) {} 
+//     } 
+//   } if(request){ 
+//     request.open('GET', uri, true); 
+//     request.addEventListener('load', function(ev){ 
+//       if(request.status === 200 && request.readyState === 4 ){
+//         //handle the response from the server 
+//         var data = request.responseText; 
+//         //or responseXML 
+//         var json = JSON.parse(data); 
+//         //JSON object 
+//         console.log('XMLHttpRequest: ', json);
+//       }else if(request.status === 404){
+//         throw new Error(uri)
+//       }
+//     }); 
+//     request.addEventListener('error', function(err){ 
+//       //error handling request
+//     }) 
+//     window.addEventListener('error', function(err){ 
+//       //error handling for HTTP errors you should throw an Error by yourself if(xhr.status === 404)
+//       console.log(err.message)
+//       // to stop error to be shown (uncaught Error)
+//       err.preventDefault()
+//     })
+//     request.send(null); 
+  // }
+// ----------------Error Handling-----------------
+// with onerror you can catch the error but you can not use preventDefault() user return true instead
+// window.onerror = function (msg, url , col , err){
+//   console.log(msg, url , col , err)
+//   return true
+// }
+// soliman
+
+// with addEventListener you can catch the error and you can use preventDefault()
+// window.addEventListener("error" , function(ev){
+//   console.log(ev)
+//   ev.preventDefault()
+// })
+// soliman
+
+// A 404 status will not trigger xhr.onerror() because, 
+// technically it's not an error; the 404 itself is a valid response.
+
+// ---------Error in fetch---------
+/* The fetch() function will automatically throw an error for network errors 
+but not for HTTP errors such as 4xx or 5xx responses. */
+
+// fetch('http://jsonplaceholder.typicode.com/users/7')
+//   .then(async response => {
+//     const isJson = response.headers.get('content-type')?.includes('application/json');
+//     const data = isJson ? await response.json() : null;
+//     // check for error response
+//     if (!response.ok) {
+//       // get error message from body or default to response status
+//       const error = (data && data.message) || response.status;
+//       return Promise.reject(error);
+//     }
+//   })
+//   .catch(error => {
+//     console.log('There was an error!', error);
+//   });
+
+// ? and (&&) explanation of last exp.
+// let arr = [1,2,3,4]
+// let check = arr?.includes(5)
+// console.log(check)
+/* 
+the operator returns the value of the first falsy operand encountered when evaluating 
+from left to right, or the value of the last operand if they are all truth
+*/
+// let x = 1;
+// let y = 2; // falsy value
+// let xy = ( x && y );
+// console.log(xy)
+// ------------------------Try Catch--------------------------
+
+// Programme will crash 
+// throw "ERROR" 
+// console.log("After ERROR")
+
+// Programm will not crash and continue normally
+// try{
+//   throw "ERROR"
+//   console.log("After Error Directly") // will not be excuted
+// }catch(err){
+//   console.log(err)
+// }finally{
+//   console.log("Will Work regardless there is Error or not") // like outside
+// }
+// console.log("After ERROR of try catch")
+
