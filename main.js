@@ -4,6 +4,10 @@
 line 
 comment */
 
+// Script tag should be written at the bottom of HTML File 
+// if you want to write scipt tag at the Head you show add 
+// document.addEventListener("DomContentLoaded", function)
+
 // Javascript has 5 data types 
 // that are passed by value: Boolean, null, undefined, String, and Number.
 //  We’ll call these primitive types.
@@ -624,6 +628,7 @@ console.log(typeof a) */
 // console.log(Boolean(NaN))
 // console.log(Boolean(undefined))
 // console.log(Boolean(0n))
+
 
 // with && falsy value will return and ignore anything after it but true value will return after &&
 // console.log( false && "dog") // false
@@ -1895,6 +1900,20 @@ console.log(typeof a) */
 
 // ------------------------ Deep to JS Engine-----------------------------
 
+/* 
+JavaScript is an interpreted language, not a compiled language.
+
+A program such as C++ or Java needs to be compiled before it is run. 
+The source code is passed through a program called a compiler, 
+which translates it into bytecode that the machine understands and can execute. 
+In contrast, JavaScript has no compilation step. 
+Instead, an interpreter in the browser reads over the JavaScript code, 
+interprets each line, and runs it.
+Modern browsers use a technology known as Just-In-Time (JIT) compilation, 
+which compiles JavaScript to executable bytecode just as it is about to run.
+JavaScript engines have two places where they can store data: The memory heap and stack.
+*/
+
 // to understand this read about Closures , Lexical Environment and Excecution Context (link below)
 // https://blog.bitsrc.io/a-beginners-guide-to-closures-in-javascript-97d372284dda
 
@@ -2021,6 +2040,55 @@ or click a button, the web browser can do these activities concurrently and asyn
 The setTimeout(), fetch requests, and DOM events are parts of the Web APIs of the web browser.
 
 see link to understand (https://www.javascripttutorial.net/javascript-event-loop/)
+*/
+
+
+/*----------------Event Loop------------------------
+Once all the normal JS code is executed and the call stack gets empty, the event loop is then triggered.
+The event loop then checks for any tasks in the task queue and if there are any, 
+it pushes it to the call stack and it gets executed.
+*/
+/* ----------------------Web API------------------------ 
+Web APIs are basically a large number of powerful functions and interfaces exposed to us by the browser.
+* 		Network requests
+* 		DOM manipulation
+* 		Local storage
+* 		Bluetooth
+* 		Screen Capture
+* 		Location
+* 		setTimeout and Timer
+* 		And even console.log is also part of console web API
+*/
+
+/* ------------Task queue vs  Render queue vs Microtask queue------------
+All will go to call Stack once the Call Stack is empty
+* Task queue (Callback Queue): Here the tasks are executed one at a time and new ones are added. 
+  There is not rule that all the tasks here should be finished before moving.
+
+* Render queue: Once the event loop comes to the render queue, 
+  it will finish everything which was existing at the beginning, 
+  and if something is added after the event loop starts here, 
+  they are deferred to the next render cycle.
+
+* Microtask queue: This queue is executed until it is exhausted. 
+  So, if you run an infinite recursion of promises, 
+  you will block the main thread as shown above.
+
+https://felixgerschau.com/javascript-memory-management/
+https://lightmap.dev/how-does-javascript-even-work-part-2#heading-render-queue
+
+// Promise will go to call stack before setTimeout becaue Promise in microtask Queue and setTimeout in task Queue
+
+// SetTimeout is web Api and will be in task Queue
+setTimeout(function(){
+  console.log("From SetTimeOut")
+},0)
+
+// Promise will be in MicroTask Queue
+let p1 = new Promise((resolve, reject)=> {
+  resolve("from Promise")
+})
+p1.then((resolve) => console.log(resolve))
 */
 
 /* JS Hoisting 
@@ -4952,6 +5020,25 @@ onsubmit
 // })
 
 /* 
+
+// -------------Keyboard Event-----------------
+// // to get unicode of pressed key
+// // depend on which browser one of these property will work (ev.char || ev.charCode || ev.which)
+// let input = document.getElementById("inputKey")
+// // will trigger event only when you focus at input and press any Key
+// input.addEventListener("keydown", function(ev){
+//   let char = ev.char || ev.charCode || ev.which
+//   let pressedKey = String.fromCharCode(char)
+//   console.log(ev.currentTarget.tagName) // input
+//   console.log(pressedKey)
+// })
+// // will trigger event when you press any key 
+// document.body.addEventListener("keydown", function(ev){
+//   let char = ev.char || ev.charCode || ev.which
+//   let pressedKey = String.fromCharCode(char)
+//   console.log(ev.currentTarget.tagName) //body
+//   console.log(pressedKey)
+// })
 --------------Document Fragment-------------------
 let ul = document.getElementById("ul")
 console.log(ul)
@@ -9698,4 +9785,90 @@ from left to right, or the value of the last operand if they are all truth
 //   console.log("Will Work regardless there is Error or not") // like outside
 // }
 // console.log("After ERROR of try catch")
+
+// -------------------Function curring----------------------
+/* 
+Why Function is First-Class Object ? 
+* A function is an instance of the Object type
+* A function can have properties and has a link back to its constructor method
+* You can store the function in a variable
+* You can pass the function as a parameter to another function
+* You can return the function from a function
+*/
+
+// function sayHello(msg){
+//   return function (name){
+//     console.log(msg, name)
+//   }
+// }
+// let english = sayHello("Hi")
+// let espanol = sayHello("Hola")
+// let svenska = sayHello("Hej")
+// let detusch = sayHello("Hello")
+// english("Tom")
+// espanol("Matheio")
+// svenska("Ikea")
+// detusch("Thomas")
+
+// different between function curring and callback hell
+// function curring => function return another function
+// callback hell => passing function as parameter to another function
+
+// -----------------Time and Date in JavaScript------------------
+
+// let d = new Date()
+// console.log(d)
+// // miliseconds after default start date (Unix Epoch) Jan 1 00:00:00.0000 1970
+// let d1 = new Date(1500000000000) 
+// console.log(d1)
+// // you can pass string as argument
+// let d2 = new Date("20 July 2012")
+// console.log(d2)
+// // year , Month , day , hours , minutes , seconds ,miliseconds
+// let d3 = new Date(2017,0,2,13,30,40)
+// console.log(d3)
+
+// // to change in date
+// d.setFullYear(2020)
+// d.setMonth(0)
+// d.setDate(12)
+// d.setHours(9)
+// d.setMinutes(20)
+// d.setSeconds(30)
+// d.setMilliseconds(50)
+// console.log(d)
+
+// let getFullYear = d.getFullYear()
+// let getMonth = d.getMonth()
+// let getDate = d.getDate()
+// let getHours = d.getHours()
+// let getMinutes = d.getMinutes()
+// let getSeconds = d.getSeconds()
+// let getMilliseconds = d.getMilliseconds()
+// // not availabe in set methods
+// let getDay = d.getDay() // give you no. 0 sunday => 1 monday => .....
+// console.log(getDay)
+
+// let d4 = new Date()
+// console.log(d4.toDateString())
+// console.log(d4.toTimeString())
+// console.log(d4.toISOString()) // another format
+// console.log(d4.toJSON()) // another format
+// console.log(d4.toLocaleString()) // another format
+// console.log(d4.toLocaleString("en-kw")) // another format
+// console.log(d4.toUTCString()) // another format
+
+
+// -----------------null vs undefined----------------
+// null is nothing value and you can add it to variable for exp. if you don't know yet what to assign to this variable
+// but undefined is nothing added to variable or function does not return something or when you try to access property not exist in specific object
+
+console.log( null + 1) // 1
+console.log( undefined + 1) // NaN
+
+console.log(typeof null) //Object
+console.log(typeof undefined) // undefined
+
+let x = null;
+console.log(x)
 
