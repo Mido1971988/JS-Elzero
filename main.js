@@ -2173,6 +2173,7 @@ console.log(counter)
 
 */
 
+
 // references
 /* https://www.javascripttutorial.net/javascript-execution-context/
 
@@ -3006,6 +3007,75 @@ they provide private scope when they are created, and expressions can be execute
 But A JavaScript object literal does not, by nature, provide private scope.
 */
 
+// -----this in IIFE----------
+// let myObj = {
+//   name : "Soliman",
+//   func: (function parent(){
+//     let child = () => console.log(this.name)
+//     child()
+//   })()
+// }
+// console.log(window.name)
+// console.log(myObj.name)
+// IIFE will excute automatically inside global Scope and will output empty String 
+/* 
+The reason you get "" rather than undefined is that you're using loose mode,
+and so this refers to the global object, which is the window on browsers, 
+and the window has a name property (the name of the current window) which is usually empty ("").
+last exp. excute in this way :
+let parent = (function (){
+  let child = () => console.log(this.name)
+  child()
+})()
+let myObj = {
+  name : "Soliman",
+  func : parent
+}
+console.log(window.name)
+console.log(myObj.name)
+*/
+
+/* ------------this with setTimeout and addEventListener-----------
+setTimeout is web api and will go to callback queue once call stack is empty will go to call stack 
+and will be excuted in global context.
+
+in first exp. 1st this refer to obj - 2nd this refer to window because setTimeout will be excuted 
+in global context once call stack is empty
+
+in second exp. 1st this refer to btn - 2nd this refer to window same reasone of first exp.
+
+in third exp. 1st this refer to btn - 2nd this refer to btn also because arrow function
+take this from lexical context and this of lexcial context is btn from addEventListener 
+
+*/
+// let btn = document.querySelector(".btn")
+// let obj = {
+//   name : "Soliman",
+//   func : function getThis(){
+//     console.log(this)
+//     setTimeout(function(){
+//       console.log(this)
+//     },1000)
+//   }
+// }
+// obj.func() //output obj - window
+
+
+// let getThis = function (){
+//   console.log(this)
+//   setTimeout(function(){
+//     console.log(this)
+//   },1000)
+// }
+// let getThisArrow = function (){
+//   console.log(this)
+//   setTimeout(() => {
+//     console.log(this)
+//   },1000)
+// }
+// // btn.addEventListener("click", getThis) // output btn - window
+// btn.addEventListener("click", getThisArrow) // output btn  - btn
+
 
 // in Explicit Binding this refer to object passed in apply , call or bind (objFun.apply(obj))
 // let obj = {
@@ -3372,7 +3442,7 @@ console.log(newUser.func())
 
 // (function() {
 //   "use strict";
-//   let x = {p1:10, p2:20};
+//   x = {p1:10, p2:20};
 //   console.log(x.p1)
 // })();
 
@@ -9862,13 +9932,149 @@ Why Function is First-Class Object ?
 // -----------------null vs undefined----------------
 // null is nothing value and you can add it to variable for exp. if you don't know yet what to assign to this variable
 // but undefined is nothing added to variable or function does not return something or when you try to access property not exist in specific object
+// null means this property exist but nothing in it 
+// undefined means this property not exist
 
-console.log( null + 1) // 1
-console.log( undefined + 1) // NaN
+// console.log( null + 1) // 1
+// console.log( undefined + 1) // NaN
 
-console.log(typeof null) //Object
-console.log(typeof undefined) // undefined
+// console.log(typeof null) //Object
+// console.log(typeof undefined) // undefined
 
-let x = null;
-console.log(x)
 
+// -------------------debugging in Js--------------------
+/* 
+console.count => count how many time console.count method called for specific argument (var1 or var2)
+
+console.time & console.timeEnd => calculate time in miliseconds start from  console.time to console.timeEnd
+console.time("label") you can pass label for each timer to pass it again to console.timeEnd to end it
+
+console.group & console.groupEnd to create a group will be shown in console and you can use also console.group("label1")
+
+DEBUG_MODE if true will open source at line which have debugger; automatically 
+and you can excute file line by line or you can mark specific line to pasue the code at this line
+in source tab at bottom there is {} called pretter (it is like formatter) to organize code 
+then you can add break points for debug easliy
+*/
+// const DEBUG_MODE = true;
+// if(DEBUG_MODE){
+//   debugger;
+// }
+
+// console.time("label1")
+// console.group("label1")
+// let var1 = "Mohamed"
+// let var2 = "Soliman"
+// function logCount(param){console.count(param)}
+// logCount(var1) // Mohamed : 1
+// logCount(var2) // Soliman : 1
+// console.count(var1) // Mohamed : 2
+// console.groupEnd("label1")
+// console.timeEnd("label1")
+// console.time("label2")
+// console.group("label2")
+// let arr = []
+// for(let i = 0; i <= 100; i++){
+//   arr.push(i)
+// }
+// console.log(arr)
+// console.groupEnd("label2")
+// console.timeEnd("label2")
+
+// --------------NaN-------------
+/* 
+isNaN() try first to convert it to number by Number() or + 
+if converted value is not Number return true
+if if converted value is Number return false
+*/
+// console.log(isNaN(true)) // false => +ture 1
+// console.log(isNaN(false)) // false => +false 0
+// console.log(isNaN(null)) // false => +null 0
+// console.log(isNaN(1)) // false => +1 1
+// console.log(isNaN("1")) // false => +"1" 1
+// console.log(isNaN("")) // false => +"" 0
+// console.log(isNaN(" ")) // false => +"  " 0
+// console.log(isNaN(new Date())) // false => timeStamp
+// console.log(isNaN(new Date("31 Jan, 2022"))) // true
+// console.log(isNaN(undefined)) // true => +undefined NaN
+// console.log(isNaN("Soliman")) // true => +"Soliman" NaN
+
+// ---------------Arguments keyWord---------------
+// function args(){
+//   console.log(arguments)
+// }
+// args(1,2,3,4,5)
+
+// --------------delete keyWord-----------
+// delete keyWord only for properties of object
+// let obj = {
+//   prop1 : 1,
+//   prop2 : 2,
+//   prop3 : 3
+// }
+// obj.prop2 = undefined;
+// delete obj.prop3;
+// console.log(obj.prop1) // 1
+// console.log(obj.prop2) // undefined but still exist because you change it value to undefined by yourself
+// console.log(obj.prop3) // undefined because it's not exist because we deleted it
+// console.log(obj.prop4) //undefined because it's not exist
+// for(let p in obj){
+//   console.log(p)
+// }
+
+// -------------------Void------------
+
+// [1] void with IIFE ( void force function to be treated as expression instead of decleration)
+
+// function notIife(){
+//   console.log("Excuted")
+// }(); // Error because this is function decleration not expression
+
+// void function iife(){
+//   console.log("Excuted")
+// }();
+
+// [2] void with URL
+/* 
+When a browser follows a javascript: URI, it evaluates the code in the URI 
+and then replaces the contents of the page with the returned value, 
+unless the returned value is undefined. The void operator can be used to return undefined. 
+*/
+
+// [3] non Leaking Arrow Function
+// when you want arrow function that shouldn't return any Value
+// function doSomething(){
+//   // return null
+//   return true
+// }
+// let arrowFunc = () => doSomething() || undefined
+// console.log(arrowFunc()) // will return undefined only if doSomething() return falsy value 
+// let arrowFuncVoid = () => void doSomething()
+// console.log(arrowFuncVoid()) // will return undefined regardless doSomething() return falsy value or true value
+
+// [4] with <a> in HTML
+// <a href="javascript:void(0)"/>  like preventDefault
+
+// [5] in older Browsers
+/* 
+undefined is actually a global property - it's not a keyword. 
+So, undefined can be changed, where as void is an operator, 
+which cannot be overridden in JavaScript and always returns the value undefined.
+so it's safer in older Browsers to use void(O) instead of undefined
+*/
+// console.log(undefined); // undefined
+// var undefined = 1;
+// console.log(undefined); // 1
+
+// [6] void evaluate expression and this is function decleration
+// void function test(){
+//   console.log("test is defined")
+// }
+// // test(); // Error Test is not defined
+// console.log(void function test(){
+//   console.log("test is defined")
+// }) // undefined
+
+// and do not forget to use ( when evaluate expression like this exp.)
+// console.log(void 2 === "2") // false because void 2 = undefined so here like undefined === "2"
+// console.log(void (2 === "2")) // undefined
