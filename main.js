@@ -4433,6 +4433,29 @@ console.log(obj.lastName) // Hussein if writable is false | Soliman if writable 
     .......
   }
 }))
+
+// Default values will be different if property already exist in object or not 
+var obj = {};
+
+obj.a = 1;
+// is equivalent to:
+Object.defineProperty(obj, 'a', {
+  value: 1,
+  writable: true,
+  configurable: true,
+  enumerable: true
+});
+
+// On the other hand,
+Object.defineProperty(obj, 'a', { value: 1 });
+// is equivalent to:
+Object.defineProperty(obj, 'a', {
+  value: 1,
+  writable: false,
+  configurable: false,
+  enumerable: false
+});
+
 // console.log(Object.getOwnPropertyNames(obj)) //return array of properties names
 // console.log(Object.getOwnPropertyDescriptor(obj,"age")) // return info for property
 // console.log(Object.getOwnPropertyDescriptors(obj)) // return info for all property
@@ -4458,6 +4481,8 @@ Object.isSealed(obj)
 Object.preventExtensions(obj) 
 Object.freeze(obj) 
 Object.seal(obj
+
+
 */
 
 // -------Data property vs Accessor Property-------------
@@ -10078,3 +10103,356 @@ so it's safer in older Browsers to use void(O) instead of undefined
 // and do not forget to use ( when evaluate expression like this exp.)
 // console.log(void 2 === "2") // false because void 2 = undefined so here like undefined === "2"
 // console.log(void (2 === "2")) // undefined
+
+// -----------------------Private Variable--------------------------
+
+// let obj1 = {
+//   _prop1 : "Mohamed",
+//   prop2 : "Soliman",
+//   get prop1() {
+//     return this._prop1
+//   },
+//   set prop1(_val){
+//     this._prop1 = _val
+//   }
+// }
+// console.log(obj1._prop1) // Mohamed
+// console.log(obj1.prop1) // Mohamed
+// Object.defineProperty(obj1, "_prop1" , {
+//   writable : false
+// } ) //here we can stop changing value of _prop1 by writable : false
+// obj1._prop1 = "Ahmed" // here we are changing the old property _prop1
+// console.log(obj1._prop1) // Ahmed
+// for (let p in obj1){
+//   console.log(obj1[p])
+// } // Ahmed - Soliman - Ahmed
+// console.log("#############")
+
+// let obj2 = (function(){
+//   _prop1 = "Mohamed"
+//   return {
+//     prop2 : "Soliman",
+//     get prop1() {
+//       return _prop1
+//     },
+//     set prop1(_val){
+//       _prop1 = _val
+//     }
+//   }
+// })()
+
+// console.log(obj2._prop1) // undefined
+// console.log(obj2.prop1) // Mohamed
+// Object.defineProperty(obj2, "_prop1" , {
+//   value : "from defineProperty",
+//   // writable : false,
+//   enumerable : true
+// } ) // here we are creating a new Property
+// obj2._prop1 = "Ahmed" // here we are creating a new property called _prop1
+// console.log(obj2._prop1) // Ahmed
+// for (let p in obj2){
+//   console.log(obj2[p])
+// } // soliman - Mohamed - Ahmed
+
+// -----------------in Operator-----------------
+// in operator used to check if a property exist in object or index in array
+// even if property's enumerable : false in operator will catch it also
+// let obj1 = {
+//   prop1 : 1,
+//   prop2 : 2,
+//   prop3: undefined,
+//   prop4 : null
+// }
+// delete obj1.prop2
+// if("prop1" in obj1){
+//   console.log("Prop1 Exist")
+// }else{
+//   console.log("Prop1 not Exist")
+// }
+// if("prop2" in obj1){
+//   console.log("Prop2 Exist")
+// }else{
+//   console.log("Prop2 not Exist")
+// }
+// if("prop3" in obj1){
+//   console.log("Prop3 Exist")
+// }else{
+//   console.log("Prop3 not Exist")
+// }
+// if("prop4" in obj1){
+//   console.log("Prop4 Exist")
+// }else{
+//   console.log("Prop4 not Exist")
+// }
+// // here we are creating new property inside obj2 not overriding prop4 from prototype chain that's why descriptors default values all false
+// // let obj2 = Object.create(obj1, {prop4 : {value : 5}})
+// // console.log(obj1.prop4)
+// // console.log(obj2.prop4)
+// // here we are creating new property inside obj2 and descriptors default values all false 
+// let obj2 = Object.create(obj1, {prop5 : {value : 5}}) 
+// console.log(obj2.__proto__)
+// if("prop1" in obj2){
+//   console.log("Prop1 Exist from Prototype Chain")
+// }else{
+//   console.log("Prop1 not Exist")
+// }
+// if("prop2" in obj2){
+//   console.log("Prop2 Exist from Prototype Chain")
+// }else{
+//   console.log("Prop2 not Exist")
+// }
+// if("prop3" in obj2){
+//   console.log("Prop3 Exist from Prototype Chain")
+// }else{
+//   console.log("Prop3 not Exist")
+// }
+// if("prop4" in obj2){
+//   console.log("Prop4 Exist from Prototype Chain")
+// }else{
+//   console.log("Prop4 not Exist")
+// }
+// if("prop4" in obj2){
+//   console.log("Prop5 Exist")
+// }else{
+//   console.log("Prop5 not Exist")
+// }
+
+// let arr = ["a","b","c"]
+// if( 0 in arr){
+//   console.log("Array has index no 0")
+// } else{
+//   console.log("Array has no index no 0")
+// }
+// if( 1 in arr){
+//   console.log("Array has index no 1")
+// } else{
+//   console.log("Array has no index no 1")
+// }
+// if( 2 in arr){
+//   console.log("Array has index no 2")
+// } else{
+//   console.log("Array has no index no 2")
+// }
+// if( 3 in arr){
+//   console.log("Array has index no 3")
+// } else{
+//   console.log("Array has no index no 3")
+// }
+
+// even if property's enumerable : false in operator will catch it also
+// let obj3 = Object.create({},{prop :{value : 1}})
+// for (let p in obj3){
+//   console.log(p)
+// } //nothing
+// console.log("prop" in obj3) // true
+
+// ---------------casting---------------
+// let str = "12";
+// // using unary plus operator to cast string to number
+// let num = +str
+// // using double bang !! to cast number or string to boolean 
+// // (one !) will cast to boolean but will convert true to false and vice versus
+// let boolStr = !!str
+// let boolNum = !!num
+// let convertedBoolNum = !num
+// console.log(boolStr) //true
+// console.log(boolNum) //true
+// console.log(convertedBoolNum) //false
+
+// -----------combine namespaces and IIFE and Private Variable or functions------------
+
+// let nameSpace = {
+//   fName : "Mohamed",
+//   lName : "Hussein",
+//   fullName : function(){
+//     console.log(`Full Name is : ${this.fName} ${this.lName}`)
+//   },
+//   lastName : function(){
+//     console.log(`Last Name Is ${this.lName}`)
+//   }
+// }
+// nameSpace.fullName()
+// nameSpace.lastName()
+
+// let nameSpacePrivate = (function(){
+//   let privateVar = "Hidden Variable"
+//   let privateFunc = function(){
+//     console.log("Private Function is Running")
+//   }
+//   return {
+//     fName : "Mohamed",
+//     lName : "Hussein",
+//     pv : privateVar,
+//     pf : privateFunc 
+//   }
+// })();
+// console.log(nameSpacePrivate.pv)
+// nameSpacePrivate.pf()
+// console.log(nameSpacePrivate.privateVar) // undefined
+// nameSpacePrivate.privateFunc() // Error
+
+//--------------------------Inheritance vs Composition----------------------
+
+// Inheritance vs Composition
+
+//INHERITANCE
+//  Character > Human > Sam
+//  Character > Robot > x73
+//  Character > Cyborg > Dolph
+
+// const Character = {
+//   talk: function(...msg){ 
+//       console.log( msg.join(' ') ) 
+//   }
+// }
+
+// const Human = Object.create(Character, {
+//   speed: {value:3},
+//   name: {value:'Hector'}
+// });
+// Human.walk= function(){ 
+//   this.talk(this.name, 'walking') 
+// };
+// Human.eat= function(){ 
+//   this.talk(this.name, 'eating') 
+// };
+
+// const Robot = Object.create(Character, {
+//   speed: {value:8},
+//   id: {value:'THX1138'}
+// });
+// Robot.drive= function (){ 
+//   this.talk(this.id, '\u26A1', 'driving')
+// };
+// Robot.wifi= function (){ 
+//   this.talk(this.id, '\u26A1', 'connecting')
+// };
+
+// const sam = Object.create(Human, {name:{value: 'Samuel'}});
+// sam.walk();
+// sam.talk('Hello from Samuel.');
+
+// const x73 = Object.create(Robot, {id:{value: 'x73'}});
+// x73.drive();
+// x73.wifi();
+// // ????What about a Cybernetically enhanced human with wifi?
+
+
+
+// //COMPOSITION
+// const talker = (state)=>({ 
+//   talk: (...msg)=> console.log( msg.join(' '))
+// });
+// const walker = (state) => ({
+//   walk: ()=> {
+//       let nm = state.name || state.id;
+//       console.log(nm, 'walking');
+//   }
+// });
+// const eater = (state) => ({
+//   eat: ()=> {
+//       let nm = state.name || state.id;
+//       console.log(nm, 'eating');
+//   }
+// });
+// const driver = (state) => ({
+//   drive: ()=>{
+//       let nm = state.name || state.id;
+//       console.log(nm, '\u26A1', 'driving');
+//   }
+// });
+// const wifier = (state) => ({
+//   wifi: ()=>{
+//       let nm = state.name || state.id;
+//       console.log(nm, '\u26A1', 'connecting');
+//   }
+// });
+
+// const Person = (name, speed=3) => {
+//   let state = {
+//       name,
+//       speed
+//   }
+//   return Object.assign({}, 
+//     talker(state), 
+//     walker(state),
+//     eater(state));
+// };
+// let Bob = Person('Bob');
+// Bob.talk('Hello from Bob.');
+// Bob.eat();
+// Bob.walk();
+
+// const Android = (id, speed=6) => {
+//   let state = {
+//       id,
+//       speed
+//   }
+//   return Object.assign({}, 
+//     talker(state), 
+//     driver(state), 
+//     wifier(state));
+// };
+// let k45 = Android('k45');
+// k45.drive();
+// k45.wifi();
+
+// const Cyborg = (name, speed) => {
+//   let state = {
+//       name,
+//       speed
+//   };
+//   return Object.assign({},
+//     talker(state),
+//     walker(state),
+//     wifier(state));
+// };
+// let Dolph = Cyborg('Dolph', 9);
+// Dolph.walk();
+// Dolph.wifi();
+
+// -------------Object.assign vs Object.create---------------
+
+/* 
+Object.create creates a new object with the specified [[Prototype]], 
+and Object.assign assigns the properties directly on the specified object:
+
+Object.assign() provides shallow copying (Only properties and methods) 
+and it will override the method and property declared.
+while Object.create() provides Deep copying provides prototype chain.
+*/
+
+// let target1 = {
+//   tProp1 : "T1"
+// }
+// let target2 = {
+//   tProp2 : "T2"
+// }
+// let obj1 = {
+//   oProp1 : "O1"
+// }
+// let obj2 = {
+//   oProp2 : "O2"
+// }
+// // Object.create define Property => all descriptors false && creating new property in finalObj1 not overriding obj1
+// let finalObj1 = Object.create(obj1 , {oProp1 : {value : "F1"}})
+// // Object.assign only assign => all descriptors true && overriding oProp2 in obj2
+// let finalObj2 = Object.assign(obj2, {oProp2 : "F2"})
+// console.log(finalObj1.oProp1) // F1
+// console.log(finalObj2.oProp2) // F2
+// finalObj1.oProp1 = "OF1"
+// finalObj2.oProp2 = "OF2"
+// console.log(finalObj1.oProp1) // F1
+// console.log(finalObj2.oProp2) // OF2
+// console.log(obj1.oProp1) // O1 because we used Object.create we will not override
+// console.log(obj2.oProp2) // OF2 because we used Object.assgin we override the oProp2 in obj2
+
+
+let myname = "Soliman"
+let age = 33
+
+let obj = {
+  myname,
+  age
+}
+console.log(obj)
