@@ -9232,7 +9232,7 @@ In arrow functions, new.target is inherited from the surrounding scope.
 // function Constructor(name){
 //   this.name = name;
 //   console.log(new.target);
-//   this.arrowFunc = () => console.log(new.target.name);
+//   this.arrowFunc = ()=> console.log(new.target.name) ;
 // }
 
 // let instance = new Constructor("Mohamed") // Constructor
@@ -9243,7 +9243,7 @@ In arrow functions, new.target is inherited from the surrounding scope.
 /* 
 ---------------------ProtoType chain---------------------
 because Js is prototype-based not class-based language childObj is not taking a copy of properties
-and methods os parentObj it is just have a link to parent's prototype
+and methods os parentObj it is just have a link to parent's prototype using __proto__
 */
 // let parentObj = {
 //   prop1 : 123,
@@ -9256,10 +9256,13 @@ and methods os parentObj it is just have a link to parent's prototype
 // console.log(childObj.prop1)
 // childObj.method1()
 // console.log(childObj.__proto__)
+// // this is the Prove that childObj is not taking a copy of properties
+// console.log(childObj) // {}
 // // here we are not overriding the prop1 inside parentObj we are creating a new prop1 inside childObj
 // childObj.prop1 = 777;
 // console.log(parentObj.prop1)
 // console.log(childObj.prop1)
+// console.log(childObj) // {prop1: 777}
 
 // using Constructor
 // function ParentObj(){
@@ -9271,6 +9274,7 @@ and methods os parentObj it is just have a link to parent's prototype
 // console.log(childObj.prop1)
 // childObj.method1()
 // console.log(childObj.__proto__)
+// console.log(childObj)
 
 // ----------------------Classes----------------------------
 
@@ -9332,7 +9336,7 @@ because function is always hoisted
 //   sayHello = () => `Hello ${this.name}`;
 //   showEmail = () => `Email is ${this.email}`
   
-//   // Static Method (this here refer to class User static counter)
+//   // Static Method (this here refer to class User static counter even it is arrow function)
 //   static countObj = () => `${this.counter} Objects Created`
 // }
 
@@ -9348,20 +9352,58 @@ because function is always hoisted
 
 // console.log(User.countObj())
 
-// You can not use Static with old sytnax of constructor but you can use Object.defineProperty
+
+// to use Static with old sytnax of constructor but you can use Object.defineProperty or directly add it by dot notation
 // function User(name) {
 //   this.name = name;
+//   // Instance Method
 //   this.innerInfo = () => console.log("Inner Method");
 // }
+// // Prototype Method
 // User.prototype.outerInfo = () => console.log("Outer Method");
+// // Static Method using defineProperty
 // Object.defineProperty(User, "staticInfo", {
 //   value : () => console.log("Static Method")
 // })
+// // Static Method using dot notation
+// User.staticInfo2 = () => console.log("Static Method 2")
 // let user1 = new User("Soliman")
 // user1.innerInfo()
 // user1.outerInfo()
+// User.prototype.outerInfo()
 // User.staticInfo()
+// console.log(User.prototype)
+// -----------static from another class ----------
+// class Triple {
+//   static customName = 'Tripler';
+//   static description = 'I triple any number you provide';
+//   static calculate(n = 1) {
+//     return n * 3;
+//   }
+// }
 
+// class SquaredTriple extends Triple {
+//   static longDescription;
+//   static description = 'I square the triple of any number you provide';
+//   static calculate(n) {
+//     // return Triple.calculate(n) * Triple.calculate(n); // super.calculate like Triple.calculate
+//     return super.calculate(n) * super.calculate(n);
+//   }
+// }
+
+// console.log(Triple.description);            // 'I triple any number you provide'
+// console.log(Triple.calculate());            // 3
+// console.log(Triple.calculate(6));           // 18
+
+// const tp = new Triple();
+
+// console.log(SquaredTriple.calculate(3));    // 81 (not affected by parent's instantiation)
+// console.log(SquaredTriple.description);     // 'I square the triple of any number you provide'
+// console.log(SquaredTriple.longDescription); // undefined
+// console.log(SquaredTriple.customName);      // 'Tripler'
+
+// This throws because calculate() is a static member, not an instance member.
+// console.log(tp.calculate());                // 'tp.calculate is not a function'
 // --------------Getter and Setter----------------
 /* 
 Get and Set in Js is only for simple syntax
@@ -9407,23 +9449,45 @@ in other languages like PHP there is an option for private prperties accessable 
 // ---------difference between class and old syntax in inheritance---------------
 
 // [1] inheritance in old Syntax
+/* 
+Moreover, JavaScript takes advantage of this prototype chain to create Inheritance. 
+To make the Admin class inherit from the User class, first we define the Admin constructor, 
+making sure to call the User's constructor with its this context pointing to Admin’s. 
+This is equivalent to calling super().
+Then, using Object.create(), we pass in User’s prototype to return a new object with
+its __proto__ property assigned to it, pointing the returned object to Tesla’s prototype. 
+For clarity, we also point Admin’s prototype constructor to itself 
+because JavaScript does not do this automatically. 
+Finally, we can define the protoFunc() method on the prototype.
+note : if we use setPrototypeOf we do not need to point Admin’s prototype constructor to itself 
+note : but performance in Object.create() is better than setPrototypeOf
+*/
 // function User(name,email){
 //   this.name = name;
 //   this.email = email;
 //   this.showDetails = () => `Name is ${name} and email is ${email}`
 // }
+// User.prototype.protoFunc = () => "Proto Function from User"
 
 // function Admin(name,email,id){
 //   User.call(this,name,email) // like super
 //   this.id = id
 //   this.showDetails = () => `Name is ${name} and email is ${email} and id is ${id}`
 // }
-// Object.setPrototypeOf(Admin, User.prototype) // like extend
-
+// // Object.setPrototypeOf(Admin.prototype, User.prototype) // like extends
+// Admin.prototype = Object.create(User.prototype) 
+// Admin.prototype.constructor = Admin
+// Admin.prototype.protoFunc2 = () => "Proto Function from Admin"
+// console.log(Admin.prototype)
 // let Admin1 = new User("Soliman","email")
 // let Admin2 = new Admin("Soliman","email",321)
 // console.log(Admin1.showDetails())
 // console.log(Admin2.showDetails())
+// console.log(User.prototype.protoFunc())
+// console.log(Admin.prototype.protoFunc())
+// console.log(Admin1.protoFunc())
+// console.log(Admin2.protoFunc()) 
+// console.log(Admin2.protoFunc2())
 
 // [2] inheritance in new syntax ( class )
 // class User {
@@ -9432,11 +9496,14 @@ in other languages like PHP there is an option for private prperties accessable 
 //     this.email = email;
 //     this.showDetails = () => `Name is ${name} and email is ${email}`;
 //   }
+//   static staticFunc = () => "Static Method from User"
 // }
+// User.prototype.protoFunc = () => "Proto Method from USer"
 
 // class Admin extends User {
 //   constructor(name, email, id) {
-//     super(name, email); //to invoke the constructor of User
+//     //to invoke the constructor of User
+//     super(name, email); 
 //     this.id = id;
 //     this.showDetails = () => `Name is ${name} and email is ${email} and id is ${id}`;
 //   }
@@ -9446,6 +9513,9 @@ in other languages like PHP there is an option for private prperties accessable 
 // let Admin2 = new Admin("Soliman","email",321)
 // console.log(Admin1.showDetails())
 // console.log(Admin2.showDetails())
+// console.log(Admin.staticFunc())
+// console.log(Admin2.protoFunc())
+// console.log(Admin.prototype)
 
 // --------Override in inheritance-------
 // class User {
@@ -9495,7 +9565,7 @@ in other languages like PHP there is an option for private prperties accessable 
 //     this.name = this.name || "Ivan";
 //   }
 // }
-// // In ES6, the .prototype property of classes is not writable and not configurable1
+// // In ES6, the .prototype property of classes is not writable and not configurable
 // Me2.prototype = new You2();
 // let somebody2 = new Me2();
 // console.log(somebody2.name); // Dejan
@@ -10382,10 +10452,14 @@ so it's safer in older Browsers to use void(O) instead of undefined
 /* 
 Object.create creates a new object with the specified [[Prototype]], 
 and Object.assign assigns the properties directly on the specified object:
+Object.create accept two arguments : Object.create(proto, properies(like Object.defineProperities()))
 
 Object.assign() provides shallow copying (Only properties and methods) 
-and it will override the method and property declared.
-while Object.create() provides Deep copying provides prototype chain.
+and it will override the method and property 
+(in case of same name property from source object will override property inside target object 
+because steps of Object.assign is creating target object the copy from the source Object)
+while Object.create() provides Deep copying only link to prototype chain.
+Object.assign(target Object , source Object)
 */
 
 // let target1 = {
@@ -10408,8 +10482,8 @@ while Object.create() provides Deep copying provides prototype chain.
 // console.log(finalObj2.oProp2) // F2
 // finalObj1.oProp1 = "OF1"
 // finalObj2.oProp2 = "OF2"
-// console.log(finalObj1.oProp1) // F1
-// console.log(finalObj2.oProp2) // OF2
+// console.log(finalObj1.oProp1) // F1 because all descriptors false
+// console.log(finalObj2.oProp2) // OF2 because all descriptors true
 // console.log(obj1.oProp1) // O1 because we used Object.create we will not override
 // console.log(obj2.oProp2) // OF2 because we used Object.assgin we override the oProp2 in obj2
 
