@@ -9085,141 +9085,107 @@ But A JavaScript object literal does not, by nature, provide private scope.
 // let str3 = "Soliman"
 
 // -----------------protoType------------------
-// -----------Intro to ProtoType----------
+/* 
+=> Steps of Built in Object constructor
 
-// let obj1 = {
-//   prop1 : () => console.log("Prop1")
-// }
-// let obj2 = {
-//   prop2 : () => console.log("Prop2")
-// }
+* JavaScript has the built-in Object() function (constructor)
+* Also, JavaScript provides an anonymous object that can be referenced via the prototype property of the Object() function
+* The Object.prototype object has some useful properties and methods such as toString() and valueOf(). 
+* The Object.prototype also has an important property called constructor that references the Object() function. 
 
-// // Object.setPrototypeOf() is like extends in ES6 obj2 will inherit properties of obj1
-// Object.setPrototypeOf(obj2,obj1)
-// console.log(Object.getPrototypeOf(obj1)) // ProtoType of main Object prototype
-// console.log(Object.getPrototypeOf(obj2)) // obj1 because obj2 inherit from obj1
-// console.log(obj2.__proto__) // like Object.getPrototypeOf(obj2)
-// // return an array of property only of this object not all properties that inherit
-// console.log(Object.getOwnPropertyNames(obj2))
-// // return list of all default properties which are availabe to all Objects in JS
-// console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(obj1))) 
-// obj2.prop1()
-// obj2.prop2()
-// // will not list all properties in prototype because some of them is not enumerable
-// for (let prop in obj2){
-//   console.log(prop)
-// }
 
-/*
-----------------ProtoType Steps-------------
-function a (name) {
-  this.name = name;
-}
-prototype property is created when a function is declared.
-When JavaScript executes this code, it adds prototype property to a,
-prototype property is an object with two properties to it:
-1. constructor
-2. __proto__
-So when we do
-a.prototype it returns
-     constructor: a  // function definition
-    __proto__: Object
-Now as you can see constructor is nothing but the function a itself and __proto__ points 
-to the root level Object of JavaScript.
-Let us see what happens when we use a function with new key word.
-var b = new a ('JavaScript');
-When JavaScript executes this code it does 4 things:
+=> Steps of Built in Person Constructor then instances 
 
-1. It creates a new object, an empty object // {}
+* Behind the scenes, JavaScript creates a new function Person() and an anonymous object that can be referenced via the prototype property
+* And the anonymous object (Person.prototype) has the constructor property that references the Person() function
+* the JavaScript engine creates a new object named p1 (instance) and links the p1 object to the Person.prototype object via the prototype linkage:
 
-2. It creates __proto__ on b and makes it point to a.prototype so b.__proto__ === a.prototype
+The __proto__ is pronounced as dunder proto. The __proto__ is an accessor property of the Object.prototype object. It exposes the internal prototype linkage ( [[Prototype]]) of an object through which it is accessed.
+However, it may be deprecated in favor of Object.getPrototypeOf() in the future. Therefore, you should never use the __proto__ in your production code.
 
-3. It executes a.prototype.constructor (which is definition of function a )
-with the newly created object (created in step#1) as its context (this), 
-hence the name property passed as 'JavaScript' (which is added to this) gets added to newly created object.
+Another popular way to get the prototype linkage is when the Object.getPrototypeOf() method is not available is via the constructor property as follows
 
-4. It returns newly created object in (created in step#1) so var b gets assigned 
-to newly created object.
-Now if we add a.prototype.car = "BMW" and do b.car, the output "BMW" appears.
-this is because when JavaScript executed this code it searched for car property on b, 
-it did not find then JavaScript used b.__proto__ (which was made to point to 'a.prototype' 
-in step#2) and finds car property so return "BMW".
 
-function a (name) {
-  this.name = name;
-}
-let b = new a ('JavaScript');
-console.log(a.prototype)
-console.log(b.__proto__)
-console.log(Object.getPrototypeOf(b))
-// last three are the same
-console.log(b.__proto__.__proto__)
-console.log(Object.prototype)
-// last two are the same
+example of shadowing: 
+If p1 (instance ) has Method and Person(constructor) has Method with same name
+
+P1.greet() executes it immediately without looking it up in the prototype chain.
+
+The greet() method of the p1 object shadows the greet() method of the prototype object which the p1 object references.
+
 */
-
-// function User(name){
-//   this.name = name;
-//   this.welcome = _ => `Welcome ${this.name}`
-// }
-
-// // function normal() {
-// //   return `Normal Function`
-// // }
-
-// // console.log(User.prototype)
-// // console.log(normal.prototype) // any function not only constructor has prototype
-
-// // all instances created from constructor will inherit all properties from constructor's prototype
-// let user1 = new User("Mohamed")
-// let user2 = new User("Ahmed")
-// console.log(User.prototype)
-// console.log(user1)
-// // when you add property or Method to prototype and try to access it from instance will search in prototype chain 
-// // sreach at child instance first if not availabe will search at parent an so on ....
-// User.prototype.addTitle = function(){
-//   return `Mr ${this.name}`
-// }
-// console.log(user1.addTitle())
-// console.log(user2.addTitle())
-
-// // you can also add property or Method to prototype of built-in constructor ( Object )
-// // and any created object by literal will have access to these properties or methods
-// // because object by literals is under the hood created using Object built-in constructor
-// Object.prototype.elzero = "Elzero Web School"
-// console.log(Object.prototype)
-// console.log(Object.elzero)
-// const myObj = {a:1 , b:2}
-// console.log(myObj)
-// console.log(myObj.elzero)
-
-
-
-// // instances has not prototypes but it's constructor have
-// console.log(user1.prototype) //undefined
-// console.log(User.prototype)
-// console.log(user1.constructor.prototype)
-// if you want to access user1 prototype use __proto__
-
-// const arr = [1,2,3,4]
-// console.log(arr.constructor) // Array Constructor ( built-in constructor)
-// console.log(Array.prototype) 
-
-
-// let myStr = "Osama"
-// String.prototype.zFill = function(width){
-//   let result = this;
-//   while(result.length < width){
-//     result = `0${result}`
+// ----exp. tp understant Prototype----------------
+// Constructor
+// function Person(name,age){
+//   this.name = name 
+//   this.age = age
+//   this.instFunc = function(){
+//     console.log("instance Method p1")
 //   }
-//   console.log(result)
 // }
-// myStr.zFill(6)
 
-// String.prototype.sayYouLoveMe = function (){
-//   console.log(`i love you ${this}`)
+// // Class
+// class Person2 {
+//   constructor(name,age){
+//     this.name = name 
+//     this.age = age
+//     this.classInstFunc = function(){
+//       console.log("instance p2")
+//     }
+//   }
+//   static classStatFunc = () => {
+//     console.log("static Method from Class")
+//   }
 // }
-// "Soliman".sayYouLoveMe()
+// // instances
+// let p1 = new Person()
+// let p2 = new Person2()
+
+// console.log(Object.hasOwnProperty("prototype")) // true
+// console.log(Person.hasOwnProperty("prototype")) //true
+// console.log(p1.hasOwnProperty("prototype")) // false
+// // you can add method to prototype of Object ( will be shown in prototype)
+// Object.prototype.polluted = function(){
+//   console.log("Polluted")
+// }
+// Object.prototype.polluted()
+// // you can add Static Method to Object ( will be shown in constructor)
+// Object.polluted2 = function(){
+//   console.log("Polluted2")
+// }
+// Object.polluted2()
+// console.log(Object.prototype)
+// // you can add method to prototype of Person ( will be shown in prototype)
+// Person.prototype.protoFunc = function () {
+//   console.log("Prototype Method from Person")
+// }
+// Person.prototype.protoFunc()
+// // you can add Static Method to Person ( will be shown in constructor) this is before ES6
+// // after ES6 adding static method by static keyword inside class see Person2 exp.
+// Person.statFunc = function(){
+//   console.log("Static Method from Person")
+// }
+// Person.statFunc()
+// p1.__proto__.constructor.statFunc()
+// p1.constructor.statFunc()
+// console.log(Person.prototype)
+// p1.protoFunc() // will work because method added to prototype and availabe for every one contructor or instances
+// // p1.statFunc() // Error because it is static method and only availabe for constructor
+// p1.instFunc() // will work
+// // Person.instFunc() // Error because it's method for instance not availabe in prototype
+
+// // static method from class
+// Person2.prototype.classProtoFunc = function () {
+//   console.log("Prototype Method from Person2")
+// }
+// Person2.prototype.classProtoFunc()
+// console.log(Person2.prototype)
+// Person2.classStatFunc()
+// p2.__proto__.constructor.classStatFunc()
+// p2.constructor.classStatFunc()
+// // p2.classStatFunc()// Error because it is static method and only availabe for constructor
+// p2.classInstFunc() // will work
+// // Person2.classInstFunc() // Error because it's method for instance not availabe in prototype
 
 // every thing in js is Object and have at the end of protoType chain Object Prototype
 // function is object and created by built-in Object constructor
@@ -9229,7 +9195,7 @@ console.log(Object.prototype)
 //   /*
 // [1] Create Empty Object
 // [2] assign the New Object to this Context (this = {}) 
-// [3] the new Object's prototype = constructor's Prototype (this.__proto__ = User.__proto__)
+// [3] links the new object to the User.prototype object via the prototype linkage
 // */
 //   this.name = name;
 //   /* 
@@ -9251,7 +9217,7 @@ console.log(Object.prototype)
 // let user2 = User("Ahmed") // handmade Error from constructor
 // console.log(user2)
 // // Array is created by Array built-in constructor but Array constructor is created by Object 
-// // constructor so prototype chain will be Array protoType => Object Prototype
+// // constructor so prototype chain will be Array protoType => Object Prototype => null
 // let myArr = [1,2,3,4]
 // console.log(myArr.__proto__)
 
@@ -10447,12 +10413,69 @@ while Object.create() provides Deep copying provides prototype chain.
 // console.log(obj1.oProp1) // O1 because we used Object.create we will not override
 // console.log(obj2.oProp2) // OF2 because we used Object.assgin we override the oProp2 in obj2
 
+// ---------Date.now() vs valueOf()---------------
+// Miliseconds since 1 jan 1970
 
-let myname = "Soliman"
-let age = 33
+// let timeStamp1 = Date.now() //class Method or static Method
+// let timeStamp2 = new Date() 
+// console.log(timeStamp1)
+// console.log(timeStamp2.valueOf()) // instance Method
 
-let obj = {
-  myname,
-  age
-}
-console.log(obj)
+
+// ----------------toSrting()-------------------------
+/* The toString() method returns a string representing the object. [Object Type] 
+In javascript, each built-in type has its own toString method. 
+For an array, that would return all of the array values joined with a comma, 
+*/
+
+// let obj = {fname : "Soliman"}
+// let arr = [1,2,3,4]
+// let num = 12;
+// let date = new Date()
+// console.log(obj.toString()) // toString Method from Object prototype
+// console.log(arr.toString()) // toString Method from constructor Array (will override toString Method from Object prototype)
+// console.log(num.toString()) toString Method from constructor Number (will override toString Method from Object prototype)
+// console.log(date.toString()) toString Method from constructor Date (will override toString Method from Object prototype)
+// console.log(Object.prototype.toString.call(obj))
+// console.log(Object.prototype.toString.call(arr))
+// console.log(Object.prototype.toString.call(num))
+// console.log(Object.prototype.toString.call(date))
+
+
+// --toString() with classes--
+// class Person {
+//   constructor(fName, lName){
+//     this.fName = fName
+//     this.lName = lName
+//   }
+//   // here we overriding toString() Method
+//   toString(){
+//     return `${this.fName} ${this.lName}`
+//   }
+// }
+// class PersonAndAge extends Person{
+//   constructor(fName,lName,age){
+//     super(fName, lName)
+//     this.age = age
+//   }
+//   // here we overriding toString() Method
+//   toString(){
+//     return `${this.fName} ${this.lName} ${this.age}`
+//   }
+// }
+// let me = new Person("Mohamed" , "Hussein")
+// let meAndAge = new PersonAndAge("Mohamed" , "Hussein", 33)
+// // when string + object =>  under the hood JS will automaticall call toString() method me.toString()
+// // without overriding toString() inside class the output will be My FullName is : [Object Object]
+// console.log("My FullName is : " + me)
+// console.log("My FullName and Age is : " + meAndAge)
+
+
+
+// --------------BitWise Operator and Binary Numbers------------
+// let x = 10;
+// let y = 6;
+/* 
+base 2 => Binary 
+base 10 => Decimal 
+*/
