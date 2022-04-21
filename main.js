@@ -8,8 +8,8 @@ comment */
 // if you want to write scipt tag at the Head you show add 
 // document.addEventListener("DomContentLoaded", function)
 
-// Javascript has 5 data types 
-// that are passed by value: Boolean, null, undefined, String, and Number.
+// Javascript has 7 data types 
+// that are passed by value: Boolean, null, undefined, String, Number, bigint, symbol.
 //  We’ll call these primitive types.
 
 
@@ -2549,6 +2549,22 @@ The tool supports data structure like: List, Map, Set and also structures that a
 
 --------- mutable and immutable data type  (changeable and not chageable)
 
+/* 
+Mutable is a type of variable that can be changed. 
+In JavaScript, only objects and arrays are mutable, not primitive values.
+
+A mutable object is an object whose state can be modified after it is created.
+Immutables are the objects whose state cannot be changed once the object is created.
+
+Srings and Numbers (primitive values) are immutable
+
+By default, objects are mutable. This means once they're created, 
+you can add a new property to them, modify the value of an existing property, or delete a property.
+
+When an object is immutable, you can't add a new property to it, modify it, 
+or delete an existing property. There is no way even to extend it.
+*/
+/*
 // Exp. of mutable in JS
 // because array assigned by reference not value so arr and arr2 have same address to same array
 // once you make change to arr , arr2 also changes because they both point to same array
@@ -2593,7 +2609,7 @@ console.log(obj) // Soliman
 console.log(obj2) // Soliman
 console.log(obj === obj2)
 
--------Function Composition-------
+// -------Function Composition-------
 // higer order function
 function h (x) {
   x = x + 1
@@ -10498,7 +10514,8 @@ Object.assign(target Object , source Object)
 
 // ----------------toSrting()-------------------------
 /* The toString() method returns a string representing the object. [Object Type] 
-In javascript, each built-in type has its own toString method. 
+By default, the toSrting() method is inherited by every object descended from Object. 
+Every built-in core object overrides this method. 
 For an array, that would return all of the array values joined with a comma, 
 */
 
@@ -10544,12 +10561,198 @@ For an array, that would return all of the array values joined with a comma,
 // console.log("My FullName is : " + me)
 // console.log("My FullName and Age is : " + meAndAge)
 
+// ----------------toString() vs String()-------------
+/* 
+toString() is a method of Object so will not work on null or undefined 
+because they are dont support properties
 
+String() is constructor and you can pass any argument to convert it to string 
+(under the hood take that argument and use toString() on it)
+
+The String constructor is used to create a new String object. 
+When called instead as a function, it performs type conversion to a primitive string, 
+which is usually more useful.
+*/
+
+// console.log(Object.prototype.toString())
+// undefined.toString() // error
+// null.toString() // error
+
+// console.log(String.prototype)
+// console.log(Number.prototype)
+
+// console.log(String(null)) // null 
+// console.log(String(undefined)) // undefined
+
+
+// ---------------valueOf-------------------
+/* 
+JavaScript calls the valueOf method to convert an object to a primitive value. 
+You rarely need to invoke the valueOf method yourself; JavaScript automatically invokes it 
+when encountering an object where a primitive value is expected.
+By default, the valueOf method is inherited by every object descended from Object. 
+Every built-in core object overrides this method to return an appropriate value. 
+If an object has no primitive value, valueOf returns the object itself.
+*/
+
+// when using literal JS under the hood create instance object and automatically use method valuOf() on it
+// let strPrim = "Mohamed"
+// // Under the Hood
+// let strObj = new String("Mohamed")
+// let strObjPrim = strObj.valueOf()
+// console.log(typeof strPrim) // string
+// console.log(typeof strObj) // object
+// console.log(typeof strObjPrim) // string
+
+// class Product {
+//   constructor(name , cost){
+//     this.name = name
+//     this.cost = cost
+//   }
+//   // here are overriding valueOf() method
+//   valueOf(){
+//     return this.cost
+//   }
+// }
+// let p1 = new Product("Samsung", 500)
+// let p2 = new Product("Apple" , 1000)
+// // without overriding valueOf() will return [object object][object object] 
+// // because befault behavior of valueOf is returns the object itself If an object has no primitive value  
+// console.log( p1 + p2) 
+
+
+// --------------Type coercion (implicit ) vs  Type conversion ( explicit)----------
+
+// [1]  -----------Type coercion (implicit )
+
+// [a] + operator
+/* 
+Js Engine has two options convert 1 to "1" or "2" to 2 
+because with + you can concatenate strings or numbers 
+but under the hood Js will automatically convert 1 to "1" using toString() Method
+*/
+// console.log( 1 + "2") // 12
+// under the Hood
+// console.log((1).toString() + "2") // 12
+
+// [b] * operator
+/* 
+Js Engine has only one option convert "2" to 2 
+because with * you can only multiply numbers not string
+but under the Hood Js will automatically convert "2" to 2 using Number() ( ia m not sure which method will be used)
+*/
+// console.log( 1 * "2") //2
+// // under the Hood
+// console.log( 1 * Number(2)) //2 
+
+// [2] -------Type conversion ( explicit) 
+/* 
+Explicit means change data type by yourself not automatically by JS Engine
+*/
+// console.log(Number("2"))
+// console.log(String(1))
 
 // --------------BitWise Operator and Binary Numbers------------
-// let x = 10;
-// let y = 6;
+// video 
+// https://youtu.be/RRyxCmLX_ag
 /* 
-base 2 => Binary 
-base 10 => Decimal 
+// bitwise.js
+// JavaScript Bitwise operators
+// AND &
+// OR  |
+// XOR ^
+// NOT ~
+// Shift Left <<
+// Shift Right >>
+let log = console.log;
+let n = 10;     //1010
+let i = 6;      // 110
+log( n.toString(2), i.toString(2) );
+// 1010
+//  110
+// 0010  2
+log("AND &",  (n & i) )
+let temp = 2;
+log( temp.toString(2) )
+
+//  1010
+//   110
+//  1110
+log("OR | ",  (n | i) );
+
+// 1010
+//  110
+// 1100  12 XOR
+log('XOR ^', (n^i) );
+
+// ~ 1010
+//   0101
+//  x  = -(x+1)  
+log('NOT ~', (~n) );  -11
+
+//PERMISSIONS
+// read, write, delete
+let perm = 6;
+
+let allowedToRead = (perm & 4)?true:false;
+let allowedToWrite = (perm & 2)?true:false;
+let allowedToDelete = (perm & 1)?true:false;
+//  0110  6
+//  0100  AND 4
+//  0100  4
+
+//  0010  6
+//  0100  AND 4
+//  0000  0
+
+for(var c=0; c<50; c++){
+    if(c&1){
+        //log('Odd');
+    }else{
+        //log('\t\tEven');
+    }
+}
+
+//101010 >> 4  = 10
+//  111  >> 1  = 3
+log( 7 >> 1 );
+
+//  111 << 1 = 1110   (14)
+//  1000 << 1 = 10000  (16)
+log( 7 << 1);
+log( 8 << 1);
+
+//  FF3300  - 24bit values  8bits Red, 8bits Green, 8 bits Blue
+// GREEN  - Shift 8 >>, AND 11111111  (255)
+//  111111110011001100000000  >> 8 = 1111111100110011
+//  1111111100110011
+//  0000000011111111
+//          00110011
+
+var color = 0xFF3300;
+var noBlue = color >> 8;
+var green = noBlue & 255;
+log('GREEN', green, green.toString(16))
 */
+/**************************
+counting in decimal, binary
+ 0      0       
+ 1      1       2^0
+ 2     10       2^1
+ 3     11
+ 4    100       2^2
+ 5    101
+ 6    110
+ 7    111
+ 8   1000       2^3
+ 9   1001
+10   1010
+11   1011
+12   1100
+13   1101
+14   1110
+15   1111
+16  10000       2^4
+**************************/
+
+
