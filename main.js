@@ -1021,8 +1021,19 @@ console.log(typeof a) */
 
 // --------End Challenge----------
 
-// for ([initialization][condition][Action after loop]) {
+/* 
+Steps of for loop 
+[1] initialExpression => let i =0; 
+    let i = 0 ; excuted only one time a the beginning of for loop and you can 
+    declare another variables inside then step
+[2] conditionExpression => i < 10;
+[3] excute Statment
+[4] incrementExpression 
+[5] return to step [2]
+*/
 
+// for ([initialExpression][conditionExpression][incrementExpression]) {
+  // statment
 // }
 
 // for (let i = 0; i < 10; i++){
@@ -1912,6 +1923,12 @@ interprets each line, and runs it.
 Modern browsers use a technology known as Just-In-Time (JIT) compilation, 
 which compiles JavaScript to executable bytecode just as it is about to run.
 JavaScript engines have two places where they can store data: The memory heap and stack.
+Compiled language — the source file typically will be “compiled” to machine code (or byte code) before being executed.
+Interpreted language — the source code will be read and directly executed, line by line.
+JavaScript is an interpreted language, but that’s not necessarily true.
+For Example, the V8 engine, the engine that runs Google Chrome and NodeJS, compiles to native code internally:
+V8 increases performance by compiling JavaScript to native machine code before executing it, versus executing bytecode or interpreting it.
+Also, Rhino and TraceMonkey use compilation as part of their process
 */
 
 // to understand this read about Closures , Lexical Environment and Excecution Context (link below)
@@ -2310,6 +2327,17 @@ newObj2.arr[0] = 5
 console.log(obj) // obj.arr  [1,2,3,4]
 console.log(newObj2) // newObj2.arr  [5,2,3,4]
 
+----------------Host Object vs Native Object-------------
+Host Objects  :  are objects supplied by a certain environment. 
+They are not always the same because each environment differs and 
+contains host objects that accommodates execution of ECMAScript. 
+Example, browser environment supplies objects such as window. 
+While a node.js/server environment supplies objects such as NodeList.
+
+Native Objects or Built-in Objects  :  are standard built-in objects provided by Javascript. 
+Native objects is sometimes referred to as ‘Global Objects’ since they are objects 
+Javascript has provided natively available for use.
+
 ------------JavaScript is a multi-paradigm-------------
 JavaScript is a multi-paradigm language that allows you to freely mix and match
 object-oriented, procedural, and functional paradigms.
@@ -2677,6 +2705,26 @@ function rec(n) {
 console.log(rec(4))
 // will cause Error Maximun call Stack size Exceed Each call to recursiveFactorial causes a new frame to be put on the stack. 
 console.log(rec(20000))
+
+another exp. of simple loop
+let count = 0;
+function rec() {
+  if(count < 10){
+    console.log(count)
+    count++
+    rec()
+  }
+}
+
+another exp. of countdown
+function countDown(num){
+  console.log("x".repeat(num))
+  num = num - 1
+  if (num > 0){
+    countDown(num)
+  }
+}
+countDown(10)
 
 // using PTC ( proper tail calls optimization) to solve  error of Error Maximun call Stack (not supported by all browsers)
 // after the product has been updated, the browser can throw out that stack frame
@@ -4594,17 +4642,20 @@ console.log(span.textContent) //use innerHTML for element
 */
 
 
+
 /* 
 -------Difference between HTMLCollection and NodeList----------
 
 HTMLCollection : 
 * only Elements Nodes
 * live ( means any change the HTMLcollection will be updated )
-
+Exp :
+[1] document.getElementsByClassName()
+[2] document.getElementsByTagName()
 
 NodeList :
 * any type of Nodes => elements , text , comment ,....
-* static (not live) (means nodeList will not update when changes happend) except childNodes
+* static (not live) (means nodeList will not update when changes happend) except childNodes & document.getElementsByName()
 // exp. for childNodes
 let div = document.querySelector("div")
 let childnodes = div.childNodes
@@ -4634,6 +4685,53 @@ console.log(div.childNodes) // return NodeList ( all types of nodes )
 // df.appendChild(txt)
 // document.body.appendChild(df)
 // console.log(txt.ownerDocument)
+
+// -------------solve Live collection Problem ---------------
+
+/* 
+* when you assign length to variable (htmlLiveLength) 
+you are assigning a number (primitive value (immutable)) so after changing HTMLCollection
+will not affect that variable 
+
+* el4Html in this variabel you try to access el4 but not yet exist so retrun undefined 
+and assign undefined (primitive value(immutable)) so after changing HTMLCollection
+will not affect that variable
+
+* but when you assign HTMLCollection to variable (htmlLive) you are assign host Object (by reference) 
+not primitive value so after changing HTMLCollection will change that variable 
+
+*/
+// let live = document.getElementById("live")
+// let el1 = document.createElement("div")
+// let el2 = document.createElement("div")
+// let el3 = document.createElement("div")
+// let el4 = document.createElement("div")
+
+// let htmlLive = document.getElementsByTagName("div")
+// let htmlLiveLength = document.getElementsByTagName("div").length
+// let el4Html = document.getElementsByTagName("div")[3]
+// console.log(htmlLive) // HTMLCollection[]
+// console.log(htmlLiveLength) // 0
+// console.log(htmlLive.length) // 0
+// console.log(el4Html) // undefined
+// console.log(htmlLive[3]) // undefined
+// live.append(el1,el2,el3,el4)
+// console.log(htmlLive) // HTMLCollection(4)
+// console.log(htmlLiveLength) // 0
+// console.log(htmlLive.length) // 4
+// console.log(el4Html) // undeined
+// console.log(htmlLive[3]) // div
+
+/* to solve live problem you have to convert HTMLCollection to Array by three ways:
+[1] Array.from()
+let htmlLive = Array.from(document.getElementsByTagName("div"))
+
+[2] spread Opertator
+let htmlLive = [...document.getElementsByTagName("div")]
+
+[3] slice
+let htmlLive = [].slice.call(document.getElementsByTagName("div"))
+*/
 
 /* --------------NamedNodeMap----------------
 A NamedNodeMap is an array-like unordered collection of an element's attributes.
@@ -10075,6 +10173,12 @@ if if converted value is Number return false
 // console.log(isNaN(new Date("31 Jan, 2022"))) // true
 // console.log(isNaN(undefined)) // true => +undefined NaN
 // console.log(isNaN("Soliman")) // true => +"Soliman" NaN
+// console.log("" == false)  // true
+// console.log("" == 0)  // true
+// console.log(" " == 0)  // true
+// console.log(" " == false)  // true
+// console.log(0 == false) // true
+// console.log(" " == "") // false
 
 // ---------------Arguments keyWord---------------
 // function args(){
@@ -10755,4 +10859,158 @@ counting in decimal, binary
 16  10000       2^4
 **************************/
 
+// ------Avoiding Array Dubplicate values in loop--------
 
+// give you duplicate of random values
+// let arr = [1,2,3,4]
+// for(let i =0; i < arr.length; i++){
+//   let rnd = Math.floor(Math.random() * arr.length)
+//   console.log(arr[rnd])
+// }
+
+/* 
+to solve the problem of duplicate : 
+[1] give for loop static no. of loops by creating variable len and assign to it a primitive value(immutable)
+[2] use Splice() beacuse each loop arr.length will decrease and random method will give you smaller no. each loop
+*/
+
+// no Duplicate but will change the original Array
+// let arr = [1,2,3,4]
+// for(let i =0 ,len = arr.length; i < len; i++){
+//   let rnd = Math.floor(Math.random() * arr.length)
+//   console.log(arr[rnd])
+//   arr.splice(rnd, 1)
+// }
+// console.log(arr) // []
+
+// no Duplicate and no change the original Array
+// let arr = [1,2,3,4]
+// for(var i =0 ,arr2 = Array.from(arr) ,len = arr.length; i < len; i++){
+//   let rnd = Math.floor(Math.random() * arr2.length)
+//   console.log(arr2[rnd])
+//   arr2.splice(rnd, 1)
+// }
+// console.log(arr) //[1,2,3,4]
+
+// let nums = [10,11,12,13,14,15]
+// let min = 16;
+// let max = 20;
+// let range = max - min
+
+// Duplicate
+// while(nums.length < 10){
+//   let rnd = Math.floor(Math.random() * range) + min
+//   nums.push(rnd)
+//   console.log(nums.sort())
+// }
+
+// no Duplicate
+// while(nums.length < 10){
+//   let rnd = Math.floor(Math.random() * range) + min
+//   if(!nums.includes(rnd)){
+//     nums.push(rnd)
+//     console.log(nums.sort())
+//   }
+// }
+
+
+// ------------JSON-----------
+// let obj = {
+//   fName : "Mohamed",
+//   lName : "Hussein",
+//   age : 33
+// }
+// let jsonStrObj = JSON.stringify(obj)
+// let jsonParseObj = JSON.parse(jsonStrObj)
+// console.log(jsonStrObj)
+// console.log(jsonParseObj)
+
+// // you can add array as 2nd parameter to JSON.stringify to filter only specific properties
+// let jsonStrObjFilter = JSON.stringify(obj, ["lName", "age"])
+// console.log(jsonStrObjFilter)
+
+// // you can add function as 2nd parameter 
+// let jsonStrObjFunc = JSON.stringify(obj , function(key,value){
+//   if(typeof value === "string"){
+//     // return "STRING"
+//     // if you return undefined will not print the whole property
+//     return undefined
+//   }else{
+//     return value
+//   }
+// })
+// console.log(jsonStrObjFunc)
+
+// // you can add no. of spaces as 3rd parameters
+// // let jsonStrObjSpaces = JSON.stringify(obj, null , 4)
+// let jsonStrObjSpaces = JSON.stringify(obj, null , "\t") // you can use tab also
+// console.log(jsonStrObjSpaces)
+
+
+// -----------PlaceHolder for images AJAX-----------
+// check the video
+// https://youtu.be/uXTJnIUlVAA
+// let fetch = require('node-fetch') // on command line 
+// let url = "https://picsum.photos/list"
+
+// fetch(url)
+//   .then(response => response.json())
+//   .then(data => {
+//     console.log(data.length)
+//     console.og(data[0])
+//   })
+//   .catch(err => {
+//     console.log(JSON.stringify(err, null , 2))
+//   })
+
+// ----------Randomizing in JS-----------
+/* 
+if you want end of range included use (range+1)
+Math.floor(Math.random() * (range+1)) + minimum
+
+if you want end of range not included (range)
+Math.floor(Math.random() * (range)) + minimum
+
+Math.random() give you random number from 0 to 0.99999999
+*/
+
+// let people = ["John","Robert","Paul","Jimmy"]
+
+// // number between 1 and 3
+// let num = Math.floor(Math.random() * (2+1)) + 1
+// console.log(num)
+
+// // Number between 500 and 1000
+// let num2 = Math.floor(Math.random() * 500) + 500
+// console.log(num2)
+
+// // random person
+// let min = 0;
+// let max = people.length-1
+// let person = people[Math.floor(Math.random() * (max-min + 1) )] 
+// console.log(person)
+
+
+// ---------------json() vs JSON.parse()-------------
+
+/* 
+AJAX' works with 'callbacks'; 'fetch' works with 'promises'.
+Use JSON.parse() to parse the response for AJAX. Use json() to parse the response for fetch.
+
+Body.json() is asynchronous and returns a Promise object that resolves to a JavaScript object. 
+JSON.parse() is synchronous can parse a string and change the resulting returned JavaScript object.
+*/
+// let url = "https://jsonplaceholder.typicode.com/users"; 
+// fetch(url)
+//   .then(response => response.json())
+//   .then(data => console.log(data))
+
+
+// let xhr = new XMLHttpRequest();       
+// xhr.open("GET", url, true); // true is default and means Async - false means Sync       
+// xhr.onreadystatechange = function(ev) {                
+//   if(xhr.readyState === 4 && xhr.status === 200){
+//     console.log(JSON.parse(xhr.responseText))
+//   }        
+// }      
+// xhr.send()
