@@ -8,14 +8,33 @@ comment */
 // if you want to write scipt tag at the Head you show add 
 // document.addEventListener("DomContentLoaded", function)
 
-// Javascript has 7 data types 
-// that are passed by value: Boolean, null, undefined, String, Number, bigint, symbol.
-//  We’ll call these primitive types.
+/* ---------Data Type in JavaScript
 
+[1] Primitive Value  ( passed by value)
+  Boolean, null, undefined, String, Number, bigint, symbol
 
-// Javascript has 3 data types 
-// that are passed by reference: Array, Function, and Object.
-//  These are all technically Objects, so we’ll refer to them collectively as Objects.
+[2] Object ( passed by Reference)
+  Object , Array , Function , ....
+*/
+
+// --------BigInt
+/* 
+The BigInt type is a numeric primitive in JavaScript that can represent integers 
+with arbitrary precision. With BigInts, you can safely store and operate on large integers 
+even beyond the safe integer limit for Numbers.
+
+// BigInt
+const x = BigInt(Number.MAX_SAFE_INTEGER); 
+console.log(x)//9007199254740991n
+console.log(x + 1n)//9007199254740992n
+console.log(x + 2n)//9007199254740993n
+console.log(x + 1n === x + 2n) // false
+
+// Number
+console.log(Number.MAX_SAFE_INTEGER + 1) //9007199254740992
+console.log(Number.MAX_SAFE_INTEGER + 2) //9007199254740992
+console.log(Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2) // true
+*/
 
 
 // window.alert("hello from JS file");
@@ -2302,7 +2321,7 @@ console.log(arr1) // [1,2,3,4]
 [1] arr.slice(0)
 [2] [].concat(arr)
 [3] Spread Operator
-[4] Object.create({} , obj)
+[4] Object.create()
 [5] Object.assign({}, obj)
 [6] Array.from(arr)
 
@@ -2326,6 +2345,34 @@ let newObj2 = JSON.parse(JSON.stringify(obj))
 newObj2.arr[0] = 5
 console.log(obj) // obj.arr  [1,2,3,4]
 console.log(newObj2) // newObj2.arr  [5,2,3,4]
+
+// another Exp of shallow copy
+
+// for exp. in object we used object.assign() to create a brand new object 
+// not just creating another pointer to same object like using let obj1 = obj;
+// but at this exp. when we use object.assign() we are creating a new object and take 
+// a shallow copy of it's content which means the property names is an Array and with
+// shallow copy we are creating just a pointer to this array that's why when we changed 
+// the array obj.names.push("Hussein") also changed at obj1
+// when we change what names property point to this is a different story we are changing 
+// property name not changing teh exisiting array so property name will be changed only at obj
+// not at shallow copy obj1
+
+let obj = {
+  names : ["Mohamed","Ahmed","Soliman"],
+  skills : {
+    frontEnd : "JS",
+    backEnd : "PHP"
+  }
+}
+let obj1 = Object.assign({},obj)
+obj.names.push("Hussein")
+console.log(obj)
+console.log(obj1)
+console.log(obj === obj1)
+obj.name = [1,2,3,4]
+console.log(obj)
+console.log(obj1)
 
 ----------------Host Object vs Native Object-------------
 Host Objects  :  are objects supplied by a certain environment. 
@@ -4443,6 +4490,12 @@ for (x in arr) {
 for (x of arr) {
   console.log(x) // 1 2 3 4 5 6
 }
+
+------for...in loop vs hasOwnProperty -----
+The hasOwnProperty() method returns true if the specified property is a direct property of the object — 
+even if the value is null or undefined. The method returns false if the property is inherited, 
+or has not been declared at all. Unlike the in operator, 
+this method does not check for the specified property in the object's prototype chain.
 */
 // ------Object Property Descriptor-------
 /* 
@@ -9569,7 +9622,7 @@ To make the Admin class inherit from the User class, first we define the Admin c
 making sure to call the User's constructor with its this context pointing to Admin’s. 
 This is equivalent to calling super().
 Then, using Object.create(), we pass in User’s prototype to return a new object with
-its __proto__ property assigned to it, pointing the returned object to Tesla’s prototype. 
+its __proto__ property assigned to it, pointing the returned object to User’s prototype. 
 For clarity, we also point Admin’s prototype constructor to itself 
 because JavaScript does not do this automatically. 
 Finally, we can define the protoFunc() method on the prototype.
@@ -9589,8 +9642,10 @@ note : but performance in Object.create() is better than setPrototypeOf
 //   this.showDetails = () => `Name is ${name} and email is ${email} and id is ${id}`
 // }
 // // Object.setPrototypeOf(Admin.prototype, User.prototype) // like extends
+
 // Admin.prototype = Object.create(User.prototype) 
 // Admin.prototype.constructor = Admin
+
 // Admin.prototype.protoFunc2 = () => "Proto Function from Admin"
 // console.log(Admin.prototype)
 // let Admin1 = new User("Soliman","email")
@@ -10699,7 +10754,7 @@ Every built-in core object overrides this method to return an appropriate value.
 If an object has no primitive value, valueOf returns the object itself.
 */
 
-// when using literal JS under the hood create instance object and automatically use method valuOf() on it
+// when using literal JS under the hood create instance object (called auto-boxing) and automatically use method valuOf() on it 
 // let strPrim = "Mohamed"
 // // Under the Hood
 // let strObj = new String("Mohamed")
@@ -11014,3 +11069,351 @@ JSON.parse() is synchronous can parse a string and change the resulting returned
 //   }        
 // }      
 // xhr.send()
+
+// --------------------Object.create vs Object.assign()----------------
+
+/* 
+* The Object.create() method creates a new object, using an existing object 
+as the prototype of the newly created object.
+
+* The Object.assign() method copies all enumerable own properties from one or more source 
+objects to a target object. It returns the modified target object.
+
+* 2nd param in Object.create is define property for this new created object
+
+* 2nd and 3rd and ... param in Object.assign are one or more source objects to a target object
+
+*/
+
+// let obj = {
+//   fName : "Mohamed",
+//   lName : "Hussein"
+// }
+// let obj1 = Object.create(obj,{mName:{value : "Ahmed"}})
+// console.log(obj1)
+// console.log(obj1.fName)
+// console.log(obj1.lName)
+// console.log(obj1.mName)
+
+// let obj2 = Object.assign({},obj,{mName2:"Soliman"})
+// console.log(obj2)
+// console.log(obj2.fName)
+// console.log(obj2.lName)
+// console.log(obj2.mName2)
+
+// ----adding static and prototype Methods to built-in Array Object
+// Array.staticMethod = (arr) => arr.splice(-1)
+// Array.prototype.protoMethod = (arr) => arr.splice(0,1)
+// Array.prototype.protoMethodLength = function(){return this.length}
+// let arr1 = [1,2,3,4]
+// Array.staticMethod(arr1)
+// arr1.protoMethod(arr1)
+// // this here refer to arr1 because arr1 inherit protoMethodLength from prototype chain and 
+// // act as it's a method inside arr1 Object and this will refer to this arr object
+// // conclusion this will refer to anything before .protoMethodLength()
+// console.log(arr1.protoMethodLength())
+// console.log(arr1)
+// console.log(Array.prototype)
+
+
+// ---------------Searching inside Array--------------
+
+// let arr = ["Mohamed","Ahmed","Soliman","Hussein"]
+
+// [1] includes
+// includes accept 2nd argument (start index)
+// console.log(arr.includes("Mohamed",0)) // true
+// console.log(arr.includes("Mohamed",1)) // false
+
+// [2] indexOf
+// indexOf accept 2nd argument (start index)
+// console.log(arr.indexOf("Soliman",3)) // -1
+// console.log(arr.indexOf("Soliman",0)) // 2
+
+// [3] some
+/* 
+default behavior of some is return true or false 
+return true will stop the loop and assign true to variable result
+if the loop finished and not returning true will assign false to variable result 
+even if return false not exist will retrun false also because undefined also a falsy value
+
+for exp. if we use here map instead of some will return array of [false,false,true,false]
+*/
+// let result = arr.some((name)=>{
+//   if(name === "Soliman"){
+//     return "true" 
+//   }else{
+//     return false 
+//   }
+// })
+// let result = arr.some((name)=> name === "Soliman")
+// console.log(result)
+
+// [4]
+/* 
+Default behavior of find return found value or if not found return undefined
+*/
+// let result2 = arr.find((name)=> name === "Soliman")
+// console.log(result2)
+
+// ---------reduce can also return array or object not only return single value------
+// let objKeys = ["a" , "b" , "c"]
+// let objValues = [1 , 2 , 3]
+
+// // For ...loop Version
+// function myFunction(objKeys, objValues) {
+//   let obj = {};
+//   for( let i = 0; i < objKeys.length; i++){
+//     obj[objKeys[i]] = objValues[i]
+//   }
+//   return obj
+// }
+// // reduce Version
+// function myFunction2(objKeys, objValues) {
+//   return objKeys.reduce((acc, cur, i) => ({ ...acc, [cur]: objValues[i] }), {});
+// }
+// console.log(myFunction(objKeys,objValues))
+// console.log(myFunction2(objKeys,objValues))
+
+
+// ------------how to search on string and replace------------------
+
+// let lorem = `Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+// At, deserunt dolorem. Veritatis rerum iusto quidem saepe mollitia doloremque velit ullam, 
+// et aperiam nemo placeat ea perferendis dicta repudiandae provident ratione!`
+
+// let find =" "
+// let replace = ""
+// while(lorem.indexOf(" ") > -1){
+//   lorem = lorem.replace(find,replace)
+// }
+// console.log(lorem)
+
+
+// -------------Object.create(null)--------------
+/* 
+Creating objects by using {} will create an object whose prototype is Object.
+prototype which inherits the basic functions from Object prototype while creating objects 
+by using Object.create(null) will create an empty object whose prototype is null.
+*/
+// let obj1 = Object.create(null)
+// let obj2 = {}
+// console.log(obj1) 
+// console.log(obj2)
+
+// ---------------Trimming and Padding---------------
+/* 
+* trim remove all spaces between string left and right
+* trimLeft remove spaces from left side
+* trimRight remove spaces from right side
+
+* padStart(minLength, "added pad") in added pad you can add space by " " or text "x" 
+and the added pad will repeat till reach min length
+* padEnd (minLength, "added pad") in added pad you can add space by " " or text "x" 
+and the added pad will repeat till reach min length
+*/
+// let name = "Soliman"
+// let nameWithSpaces = "      Soliman     "
+
+// console.log("!",nameWithSpaces.trim(),"!")
+// console.log("!",nameWithSpaces.trimLeft(),"!")
+// console.log("!",nameWithSpaces.trimRight(),"!")
+// console.log("!",name.padStart(15,"x"),"!")
+// console.log("!",name.padEnd(15,"x"),"!")
+
+// -------------Number Formatting-------------
+/* 
+The Math.round() function returns the value of a number rounded to the nearest integer.
+
+The Math.floor() function returns the largest integer less than or equal to a given number.
+
+The Math.ceil() function always rounds a number up to the next largest integer.
+
+The toFixed() method formats a number using fixed-point notation.
+
+The toPrecision() method returns a string representing the Number object to the specified precision.
+
+The parseInt() function parses a string argument and returns an integer of the specified radix (the base in mathematical numeral systems).
+
+The parseFloat() function parses an argument (converting it to a string first if needed) and returns a floating point number.
+
+The toExponential() method returns a string representing the Number object in exponential notation.
+*/
+// let num = 111.547
+// let dec = 0.000167
+// let str = "111.467 this is a string"
+
+// // round if number after . below 5 will be 111 if above 5 or 5 will be 112
+// console.log(Math.round(num)) // 112 
+// // Ceil will always give you the biggest number no matter number after . below or above 5
+// console.log(Math.ceil(num)) // 112 
+// // Ceil will always give you the smallest number no matter number after . below or above 5
+// console.log(Math.floor(num)) // 111
+// // toFixed will give you one number after . (depending on argument passed to toFixed())
+// // and it will use round that's why return 111.5 not 111.6
+// console.log(num.toFixed(1)) // 111.5 as tring
+// // toPrecision will give you two number after .000 (depending on argument passed to toFixed())
+// // and it will use round that's why return  0.00017 not 0.00016
+// console.log(dec.toPrecision(2)) // 0.00017 as string
+// // toExponential return string in Exponential notation 
+// // and it will use round that's why return 111.5e+2 not 111.6e+2
+// console.log(num.toExponential(3)) // as string
+
+// console.log(parseInt(str)) // 111 integer
+// console.log(parseFloat(str)) // 111.467 float
+// console.log(parseFloat(str).toFixed(2)) // 111.47 as string
+
+// ------------------Object initializer--------------
+
+//------------- New Notations in ES6
+// // Short-hand property Name (ES6)
+// let a =1 ,
+//     b =2 ,
+//     c =3 ;
+
+// let obj1 = {a,b,c}
+// console.log(obj1)
+
+// // Short-hand Method Name (ES6)
+// // no need of function word (instead of method2 : function(){console.log("Method from obj2")})
+// let obj2 = {
+//   method2(){
+//     console.log("Method from obj2")
+//   }
+// }
+// obj2.method2()
+
+// // Computed property names (ES6)
+// let prop = "foo"
+
+// let obj3 = {
+//   [prop] : "prop3",
+//   ["b" + "ar"] : "prop4"
+// }
+// console.log(obj3[prop])
+// console.log(obj3["bar"])
+
+// -----------Object literal notation vs JSON(JavaScript Object Notation)
+ //JSON has the following syntactical constraints:
+/*
+ * Object keys must be strings (enclosed in double quotes " ") and can not be computed (ES6).
+ * Property can not be shorthanded
+ * The values can be either:
+     * a string
+     * a number
+     * an (JSON) object
+     * an array
+     * true
+     * false
+     * null
+     * *** function not allowed
+ * Duplicate keys ({"foo":"bar","foo":"baz"}) produce undefined
+
+In JavaScript, object literals can have
+ * Property can be shorthanded
+ * String literals, number literals or identifier names as keys (since ES6, keys can now also be computed).
+ * The values can be any valid JavaScript expression, including function definitions and undefined.
+ * Duplicate keys produce defined, 
+    specified results (in loose mode, the latter definition replaces the former; in strict mode, it's an error then allowed after ES6). 
+ * Poperty can be accessed by dot notaion or bracket notaion obj.prop or obj["prop"]
+ */
+
+// -----------Spread Properties 
+/* 
+like Object.assign() take shallow copy but Object.assign() triggers setters, whereas the spread operator doesn't!
+*/
+// let mainObj ={
+//   key : "Value"
+// }
+// let obj = {
+//   a : 1,
+//   b : 2,
+//   c : 3,
+//   // prototype mutaion
+//   __proto__ : mainObj
+// }
+
+// let spreadObj = {...obj}
+// let assignObj = Object.assign({},obj)
+// let createObj = Object.create(obj)
+// console.log(obj)
+// console.log(spreadObj)
+// console.log(assignObj)
+// console.log(createObj)
+
+// ------------ProtoType Mutaion
+
+/* A property definition of the form __proto__: value or "__proto__": value does not create a property with the name __proto__. Instead, if the provided value is an object or null, it changes the [[Prototype]] of the created 
+object to that value. (If the value is not an object or null, the object is not changed.) */
+// let obj1 = {}
+// console.log(Object.getPrototypeOf(obj1) === Object.prototype)
+
+// let obj2 = {__proto__: null}
+// console.log(Object.getPrototypeOf(obj2) === null)
+
+// let protoObj = {}
+// let obj3 = {'__proto__': protoObj}
+// console.log(Object.getPrototypeOf(obj3) === protoObj)
+
+// let obj4 = {__proto__: 'not an object or null'}
+// console.log(Object.getPrototypeOf(obj4) === Object.prototype)
+// console.log(!obj4.hasOwnProperty('__proto__'))
+/* 
+----------------------Boxing Wrappers---------------
+
+This happens in two cases in JavaScript:
+1. When you pass a primitive value as the this value to .call or .apply (not in strict mode though).
+2. When you are trying to access a "property" of a primitive value, e.g. "foo bar".split().
+
+AutoBoxing
+Boxing is wrapping a primitive value in an Object. 
+When you treat a primitive type like if it were an object, 
+e.g., calling to the toLowerCase function, JavaScript would wrap the primitive type 
+into the corresponding object. This new object is then linked to the related 
+built-in <.prototype>, so you can use prototype methods on primitive types.
+
+Manual Boxing and Gotchas
+In general, using the boxed object wrapper directly isn’t usually a good idea 
+because there are some gotchas related to him, and you have to be careful 
+if you don’t want unexpected results.
+
+const a = new Boolean(true)
+if(a) console.log("it's true")// it's true
+const b = new Boolean(false)
+if(!b) console.log("never runs");// objects are “truthy.“
+const c = Object(false)
+if(!c) console.log("never runs"); // objects are “truthy.“
+
+The problem here is that you are creating an object wrapper around a false value, 
+but objects are “truthy.” So, if you want to box a primitive value manually, be careful.
+
+Unboxing
+The easiest way to obtain the underlying primitive value from an object wrapper is to use 
+the valueOf() method ( that what happens automatically with string literal ) 
+*/
+
+// -------------------Spread vs Object.assign()-------------------------
+/* 
+spread defines new properties, whereas Object.assign() sets them. 
+For example, Object.assign() calls setters that are defined on Object.prototype, 
+whereas the spread operator does not.
+*/
+
+// Object.defineProperty(Object.prototype, 'myProp', {
+//   set: () => console.log('Setter called')
+// });
+// const obj = { myProp: 42 };
+// let assignObj = Object.assign({}, obj); // Prints "Setter called"
+// const newObj = {...obj }; // Does **not** print "Setter called"
+
+
+// --------------------defineSetter--------------
+
+/* The __defineSetter__ method binds an object's property to a function to 
+be called when an attempt is made to set that property. */
+// Object.defineProperty(Object.prototype, 'myProp', {
+//   set: () => console.log('Setter called')
+// });
+// const obj = { Prop: 42 };
+// obj.myProp = 1; // will trigger setter method
+
