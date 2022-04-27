@@ -8245,14 +8245,13 @@ running without interruption.
 */
 
 // ----------setTimeout vs Promise vs Promise.then()
-// setTimeout after the call stack is empty but promise.then() at the end of the main stack
+// setTimeout after the call stack is empty (Task queue) but promise.then() at the end of the main stack (micro-task queue)
 // let x = 0;
 // let myPromise = new Promise((resolve , reject) => {
-//   let status = true;
+//   let status = false;
 //   console.log("From inside of Promise")
 //   if(status) {
 //     resolve( x = 2 )
-//     // resolve( console.log(( x += 2)))
 //   }else{
 //     reject(x = 3)
 //   }
@@ -8262,16 +8261,11 @@ running without interruption.
 //   (rejected) => console.log(rejected)
 // )
 // console.log("From Outside of Promise")
-// output 
-/* 
+
+/* output
 [1] "From inside of Promise"
 [2] "From outside of Promise"
 [3] 2 => 2 printed after "From outside of Promise" 
-
-but if console.log inside promise it self 
-[1] "From inside of Promise"
-[3] 2 => 2 printed before "From outside of Promise" 
-[2] "From outside of Promise"
 */
 
 // window.setTimeout(_=>console.log("From setTimeout") , 0)
@@ -8279,11 +8273,9 @@ but if console.log inside promise it self
 //   let status = true;
 //   console.log("From inside of Promise")
 //   if(status) {
-//     resolve(console.log("From Resolve"))
-//     // resolve("From Resolve")
+//     resolve("From Resolve")
 //   }else{
-//     reject(console.log("From reject"))
-//     // reject("From reject")
+//     reject("From reject")
 //   }
 // });
 // myPromise.then(
@@ -8300,17 +8292,10 @@ but if console.log inside promise it self
 [4] "From setTimeout"
 */
 
-//output if console.log() inside promise itself not promise.then()
-/* 
-[1] "From inside of Promise"
-[2] "From Resolve"
-[3] "From outside of Promise"
-[4] undefined => from Promise.then will try to console.log(console.log(resolved))
-[5] "From setTimeout"
-
 // ---------asynchronous of then--------
-using a resolved promise, the 'then' block will be triggered instantly,
-but its handlers will be triggered asynchronously as demonstrated by the console.logs
+/*
+// then itself is promise Object
+// its handlers will be triggered asynchronously as demonstrated by the console.logs
 const resolvedProm = Promise.resolve(33);
 
 let thenProm = resolvedProm.then(value => {
@@ -8319,7 +8304,6 @@ let thenProm = resolvedProm.then(value => {
 });
 // instantly logging the value of thenProm
 console.log(thenProm);
-
 // using setTimeout we can postpone the execution of a function to the moment the stack is empty
 setTimeout(() => {
     console.log(thenProm);
@@ -8339,7 +8323,7 @@ Promise {[[PromiseStatus]]: "resolved", [[PromiseValue]]: 33}
 //   (resolved) => x += 1 
 // )
 // console.log(x) // 5 because then will be excuted at the end of main Stack
-// window.setTimeout(_ => console.log(x)) // 6 because setTimeout will wait till call stack to be empty
+// window.setTimeout(_ => console.log(x)) // 6 because setTimeout (Task Queue) after promise(microTask Queue)
 // let x = 5;
 // let pro = new Promise((resolve , reject) => {
 //   resolve(x += 1)
@@ -8853,41 +8837,94 @@ will not go to catch so then(s) before catch(s)
 */
 
 // ---------------async / await ------------------
-// without async and await
-// asyncAwait();
-// function asyncAwait() {
-//   let p1 = promfunc()
-//   if(p1) {
-//     console.log(p1) // Promise{Pending}
-//   }
+/* 
+with async await you tell JS engine convert this function to promise and excute lines inside 
+this function synchronous and if there is any line of code Promise based API(asynchronous)
+you can use await to tell JS engine wait until the promise fulfilled or rejected
+*/
+
+/* ----Normal Function
+normal function return myProm (Promise {<Pending>}) and when we try to console.log(myProm) 
+will give us also (Promise {<Pending>}) because it's inside normal function and excuted synchronous
+*/
+// function promFunc(){
+//   // Promise Object
+//   let myProm = new Promise((res,rej)=>{
+//     setTimeout(function(){
+//       res(77)
+//     },5000)
+//   })
+//   // will excute immediatly will not wait the Promise to be resolved
+//   console.log("From Inside 1" ,myProm) // promise Pending
+//   // will return (Promise {<Pending>})
+//   return myProm
+// }
+// // will return (Promise {<Pending>})
+// console.log(promFunc())
+// // will print the resolved value after 5 sec because we used then and wait till Promise to be resolved
+// promFunc().then(doubleSeven => console.log(doubleSeven))
+
+/* ----Async Function + await
+Async Function return here myProm (Promise {<Pending>}) and when we try to console.log(myProm) 
+will give us (77) because it's inside Async function and we add await before promise to pause the excution
+until the promise resolved and take value of resolved promise and assign it to myProm ( that's how await works)
+*/
+// async function promFunc2(){
+//   // await will pause the excution till promise resolved then take value of resolved and assign it to myProm
+//   let myProm = await new Promise((res,rej)=>{
+//     setTimeout(function(){
+//       res(77)
+//     },5000)
+//   })
+//   // 77 after 5 sec not (Promise {<Pending>}) because of await
+//   console.log("From Inside 2", myProm) // 77
+//   return myProm
+// }
+// // will return (Promise {<Pending>}) because return will not pause or wait till promise resolved
+// console.log(promFunc2())
+// // will print the resolved value after 5 sec because we used then and wait till Promise to be resolved
+// promFunc2().then(doubleSeven => console.log(doubleSeven))
+
+/* ------Async function without await 
+it's like normal function but the difference is Async functions always return a promise. 
+If the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise.
+*/
+// async function promFunc3(){
+//   return 88
+// }
+// // return {<fulfilled>: 88} because always Async function return 
+// console.log(promFunc3())
+// // will print the resolved value immediatly because we used then
+// promFunc3().then(result => console.log(result))
+
+// ---------async with fetch
+// [1] without Async - Await
+// let url = 'http://jsonplaceholder.typicode.com/users/7'
+// fetch(url)
+//   .then(function(response){
+//     if(response.status === 200){
+//       return response.json()
+//     }else{
+//       return Promise.reject(response.statusText)
+//     }
+//   }) 
+//   .then(function(data){ 
+//     console.log( data ); 
+//   }) 
+//   .catch(function(err){ 
+//     console.log(err) 
+//   }); 
+
+// [2] with Async - Await
+// let url = 'http://jsonplaceholder.typicode.com/users/7'
+// async function asyncAwait(){
+//   let response = await fetch(url);
+//   let responseObj = await response.json()
+//   console.log(responseObj)
+//   return responseObj
 // }
 
-// function promfunc() {
-//   return new Promise((resolve , reject) => {
-//     resolve("Resolved!") 
-//     // reject("Rejected!")
-//   }).catch(err => console.log(`From Catch: ${err}`))
-// }
-
-// with async and await
-// await will wait the promise to resolve and return the value of resolve
-// if the resolve inside setTimeout await will also wait for Promise to resolve and return the value of resolve
-// if we have resolve inside setTimeout and reject inside Promise p1 will be catch
-// asyncAwait();
-// async function asyncAwait() {
-//   let p1 = await promfunc()
-//   if(p1) {
-//     console.log(p1) // "Resolved!" even if we use setTimeout 
-//   }
-// }
-
-// function promfunc() {
-//   return new Promise((resolve , reject) => {
-//     // resolve("Resolved!")
-//     setTimeout(_ => resolve("Resolved!"),1000)
-//     // reject("Rejected!")
-//   }).catch(err => console.log(`From Catch: ${err}`))
-// }
+// console.log(asyncAwait()) // promise pending
 
 // -----------finally-----------
 // finally will always run regardless resolved , rejected or Error finally will always work
@@ -8899,7 +8936,7 @@ will not go to catch so then(s) before catch(s)
 // myPromise
 //   .then(console.log)
 //   .catch((err)=>{
-//     console.log(err.message)
+//     console.log(err)
 //   })
 //   .finally(_ => {
 //     console.log("From Finally")
@@ -10116,7 +10153,7 @@ Why Function is First-Class Object ?
 
 // -----------------Time and Date in JavaScript------------------
 
-// let d = new Date()
+let d = new Date()
 // console.log(d)
 // // miliseconds after default start date (Unix Epoch) Jan 1 00:00:00.0000 1970
 // let d1 = new Date(1500000000000) 
@@ -10157,6 +10194,15 @@ Why Function is First-Class Object ?
 // console.log(d4.toLocaleString()) // another format
 // console.log(d4.toLocaleString("en-kw")) // another format
 // console.log(d4.toUTCString()) // another format
+
+// add d days to a date
+// function myFunction(a,b){
+//   return a.setDate(b + a.getDate())
+// }
+
+// console.log(myFunction(new Date(Date.UTC(2000,01,01)), 31)) //952041600000
+// console.log(myFunction(new Date(Date.UTC(2000,01,01)), 10)) //950227200000
+// console.log(myFunction(new Date(Date.UTC(2000,02,28,)), 2)) //954374400000
 
 
 // -----------------null vs undefined----------------
@@ -10969,12 +11015,12 @@ to solve the problem of duplicate :
 // }
 
 
-// ------------JSON-----------
-// let obj = {
-//   fName : "Mohamed",
-//   lName : "Hussein",
-//   age : 33
-// }
+// ------------JSON (JavaScript Object Notation)-----------
+let obj = {
+  fName : "Mohamed",
+  lName : "Hussein",
+  age : 33
+}
 // let jsonStrObj = JSON.stringify(obj)
 // let jsonParseObj = JSON.parse(jsonStrObj)
 // console.log(jsonStrObj)
@@ -11406,9 +11452,52 @@ whereas the spread operator does not.
 // let assignObj = Object.assign({}, obj); // Prints "Setter called"
 // const newObj = {...obj }; // Does **not** print "Setter called"
 
+// ----------------------getter and setter---------------
+/* 
+[1] set syntax binds an object property to a function to be called 
+when there is an attempt to set that property.
 
-// --------------------defineSetter--------------
 
+[2] The get syntax binds an object property to a function that will be called 
+when that property is looked up.
+
+* you can not give getter or setter same name of existing property of object that have a value
+* you can use getter or setter to create Psudo-property
+* getter has zero param but setter has one param
+*/
+// [1] --------setter
+// let obj = {
+//   _prop1 : 1988,
+//   get prop1(){
+//     return this._prop1 
+//   },
+//   set prop1(val){
+//     this._prop1 = val + " From Setter"
+//   }
+// }
+// console.log(obj.prop1) // 1988
+// obj.prop1 = 2000 // invoking setter method
+// console.log(obj.prop1) // 2000 from Setter
+
+// we can use setter to create Psudo-property
+
+// let language = {
+//   lang : [],
+//   set current(val){
+//     this.lang.push(val)
+//   }
+// }
+// console.log(language.lang)
+// language.current = "EN"
+// console.log(language.lang) // ["EN"]
+// language.current = "AR"
+// console.log(language.lang) // ["EN","AR"]
+// // Note that current is not defined, and any attempts to access it will result in undefined.
+// console.log(language.current) // undefined
+// we can delete setter with delete operator
+// delete language.current;
+
+//-----defineSetter-----
 /* The __defineSetter__ method binds an object's property to a function to 
 be called when an attempt is made to set that property. */
 // Object.defineProperty(Object.prototype, 'myProp', {
@@ -11417,3 +11506,77 @@ be called when an attempt is made to set that property. */
 // const obj = { Prop: 42 };
 // obj.myProp = 1; // will trigger setter method
 
+// [1] Non-standard and deprecated way
+// var o = {};
+// o.__defineSetter__('value', function(val) { this.anotherValue = val; });
+// o.value = 5;
+// console.log(o.value); // undefined
+// console.log(o.anotherValue); // 5
+
+// [2] Standard-compliant ways
+// Using the set operator
+// var o = { set value(val) { this.anotherValue = val; } };
+// o.value = 5;
+// console.log(o.value); // undefined
+// console.log(o.anotherValue); // 5
+
+// [3] Using Object.defineProperty
+// var o = {};
+// Object.defineProperty(o, 'value', {
+//   set: function(val) {
+//     this.anotherValue = val;
+//   }
+// });
+// o.value = 5;
+// console.log(o.value); // undefined
+// console.log(o.anotherValue); // 5
+
+//[2] -------getter
+
+// let obj = {
+//   prop1 : ["A","B","C"],
+//   get last(){
+//     return this.prop1[this.prop1.length -1]
+//   }
+// }
+// console.log(obj.last)
+
+// ------difference between getter and defineProperty------
+/* 
+When using get the property will be defined on the instance's prototype, 
+while using Object.defineProperty() the property will be defined on the instance it is applied to.
+*/
+// let obj = {
+//   _prop1 : "Mohamed",
+//   _prop2 : "Ahmed",
+//   _prop3 : "Soliman",
+//   get prop1(){
+//     return this._prop1
+//   },
+//   get prop2(){
+//     return this._prop2
+//   }
+// }
+// Object.defineProperty(obj,"prop3",{
+//   get: function prop3(){
+//     return this._prop3
+//   }
+// })
+// // because getter take zero parameters so we you try to assign value to it will no change anything
+// obj.prop1 = "Hussein" // No changes happends
+// console.log(obj)
+// console.log(obj.prop1)
+// console.log(obj.prop2)
+// console.log(obj.prop3)
+// we can delete getter with delete operator
+// delete obj.prop1;
+
+
+
+// ----check even Number
+// function evenNum(num){
+//   return num % 2 === 0 
+// }
+// console.log(evenNum(4))
+// console.log(evenNum(5))
+  
