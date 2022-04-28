@@ -3265,7 +3265,8 @@ take this from lexical context and this of lexcial context is btn from addEventL
 //   }
 // }
 // obj.func()
-// --------- Call Method
+// ------------------------------Call Method----------------------------------
+// Call (thisArg, arg1,arg2,....) takes arguments separately
 // The example below calls person1.fullName function with person2 as an argument,
 //  this refers to person2, even if fullName is a method of person1:
 // call force person1.fullName() to accept person2 (object) as an argument
@@ -3283,7 +3284,38 @@ take this from lexical context and this of lexcial context is btn from addEventL
 
 // console.log(person1.fullName.call(person2))
 
-// --------- bind Method 
+// ---- adding function print to each object inside array animals using Call()
+// const animals = [
+//   { species: 'Lion', name: 'King' },
+//   { species: 'Whale', name: 'Fail' }
+// ];
+
+// for (let i = 0; i < animals.length; i++) {
+//   (function(i) {
+//     this.print = function() {
+//       console.log('#' + i + ' ' + this.species
+//                   + ': ' + this.name);
+//     }
+//     this.print();
+//   }).call(animals[i], i);
+// }
+// console.log(animals[0])
+// console.log(animals[1])
+
+// -----Using call() to invoke a function and without specifying the first argument
+// In the example below, we invoke the display function without passing the first argument. 
+// If the first argument is not passed, the value of this is bound to the global object.
+
+// var sData = 'Wisen';
+// function display() {
+//   console.log('sData value is %s ', this.sData);
+// }
+// display.call();  // sData value is Wisen
+// note : in strict mode this will not refer to global object -this will undefined
+
+// ----------------------------bind Method-------------------------
+// bind(thisArg, arg1,arg2,...)
+// The bind() function creates a new bound function
 // With the bind() method, an object can borrow a method from another object.
 // This example creates 2 objects (person and member).
 // The member object borrows the fullname method from the person object:
@@ -3319,9 +3351,45 @@ take this from lexical context and this of lexcial context is btn from addEventL
 
 // console.log(g()) //Mohamed
 
+// ----bound function
+// should be var x = 10 not let x = 10; because we want x to be added to global object
+// var x = 10;
+// let obj = {
+//   x : 20,
+//   getX : function(){
+//     return this.x
+//   }
+// }
+// console.log(obj.getX()) // 20
+// let globalX = obj.getX;
+// console.log(globalX()) // 10 because excuted in global object and this.x and this refer to global object
+// // to solve this problem use bind()
+// let objX = obj.getX.bind(obj)
+// console.log(objX()) // 20
+//---partial applied function 
+// you can use bind() and bound function to add 3rd parameters to pre-specified no. of arguments in function
+// function sum(param1, param2){
+//   return param1 + param2
+// }
+// console.log(sum(2,3,20)) // 5 because it accept only 2 arguments
+// let sumResult = sum.bind(null,20)
+// console.log(sumResult(5)) // 25 by passing old parameters to bound function (2,3) = 5
+
+// -----apply vs concat
+/* 
+Concat does not append to the existing array—it instead creates and returns a new array.
+Push.apply() append to the existing array
+let arr = [1,2,3]
+let extra = [4,5]
+console.log(arr.concat(extra)) // [1,2,3,4,5]
+console.log(arr) // [1,2,3]
+arr.push.apply(arr,extra)
+console.log(arr) // [1,2,3,4,5]
+*/
+
 // -------The difference between Call and apply
-// The call() method takes arguments separately.
-// The apply() method takes arguments as an array.
+// The call(thisArg, arg1,arg1,....) method takes arguments separately.
+// The apply(thisArg, argArray) method takes arguments as an array or array like object.
 // const person = {
 //     fullName: function(city, country) {
 //       return this.firstName + " " + this.lastName + "," + city + "," + country;
@@ -11016,11 +11084,11 @@ to solve the problem of duplicate :
 
 
 // ------------JSON (JavaScript Object Notation)-----------
-let obj = {
-  fName : "Mohamed",
-  lName : "Hussein",
-  age : 33
-}
+// let obj = {
+//   fName : "Mohamed",
+//   lName : "Hussein",
+//   age : 33
+// }
 // let jsonStrObj = JSON.stringify(obj)
 // let jsonParseObj = JSON.parse(jsonStrObj)
 // console.log(jsonStrObj)
@@ -11580,3 +11648,414 @@ while using Object.defineProperty() the property will be defined on the instance
 // console.log(evenNum(4))
 // console.log(evenNum(5))
   
+
+
+/*  ----------Arguments and Parameters------------
+The arguments object is an array-like object that is available within all functions. 
+It allows the argument’s values passed to the function to be retrieved by number, 
+rather than by name. The object allows us to pass any number of arguments to a function
+
+If a  function expects to receive only one argument. 
+When we call it with two arguments, the first argument is accessible in the function 
+by the parameter name param1 or the arguments object arguments[0], 
+but the second argument is accessible only as arguments[1]. 
+But if you are using rest parameter you can access parameter [1]
+
+function arg(){
+  console.log(arguments)
+  console.log(arguments[1])
+  console.log(Array.prototype.slice.call(arguments))
+  console.log(Array.from(arguments))
+}
+arg(1,2,3,4)
+
+Parameter and argument are like two different names for the same variable.
+the arguments object has an unusual feature: It keeps its values in sync with 
+the values of the corresponding named parameters. but in strict mode this not happend
+
+function foo(param) { 
+  console.log(param === arguments[0]); // true 
+  arguments[0] = 500; 
+  console.log(param === arguments[0]); // true 
+  return param 
+} 
+console.log(foo(200)) // 500
+
+
+function foo2(param) { 
+  "use strict"
+  console.log(param === arguments[0]); // true 
+  arguments[0] = 500; 
+  console.log(param === arguments[0]); // false 
+  return param 
+} 
+console.log(foo2(200)) // 200
+
+-----Mandatory Arguments
+If an argument is missing in a function call, it will be set to undefined
+ES6 we can use default parameters to set mandatory arguments:
+
+function throwError() { 
+  throw new Error('Missing parameter'); 
+} 
+function foo(param1 = throwError(), param2 = throwError()) { 
+  return [param1,param2]
+} 
+foo(10, 20); // ok 
+foo(10); // Error: missing parameter
+*/
+
+/* ---------Function constructor Vs function declaration----------
+Functions created with the Function constructor do not create closures to their 
+creation contexts; they always are created in the global scope. When running them, 
+they will only be able to access their own local variables and global ones, 
+not the ones from the scope in which the Function constructor was created
+
+var x = 10;
+function funcObj (){
+  var x = 20
+  return new Function("return x")
+}
+
+function funcConstruc(){
+  var x = 20
+  return function f(){
+    return x
+  }
+}
+let newFunc = funcObj()
+console.log(newFunc()) 
+let newFunc2 = funcConstruc()
+console.log(newFunc2()) 
+*/
+
+/*--------------Array like Object------------ 
+EXP. 
+* Arguments object
+* HTML Collection
+* NodeList 
+
+one key difference between Arrays and Array-like Objects is that Array-like objects 
+inherit from Object.prototype instead of Array.prototype. This means that Array-like 
+Objects can't access common Array prototype methods like forEach(), push(), map(), filter(), 
+and slice():
+
+to Transfer Array like Object to Array : 
+
+function arrLike(){
+  // [1] Array.fom
+  // let arr = Array.from(arguments)
+  
+  // [2] Spread operator
+  // let arr = [...arguments]
+  
+  // [3] for..of loop
+  // let arr = [];
+  // for(let arg of arguments){
+  //   arr.push(arg)
+  // }
+  
+  // [4] Object.values
+  // let arr = Object.values(arguments)
+
+  // [5] Object.keys
+  // let arr = Object.keys(arguments).map((key)=>arguments[key])
+
+  // [6] Array.prototype.slice
+  // let arr = Array.prototype.slice.apply(arguments)
+
+  // [7] Function.prototype.apply.bind
+  // let slice = Function.prototype.apply.bind(Array.prototype.slice) // slice now is bound function
+  // let arr = slice(arguments)
+
+  // [8] use a function directly to array like object without changing it to array
+  // let arr = []
+  // Array.prototype.forEach.call(arguments,function(arg){
+  //   arr.push(arg)
+  // })
+  // return arr
+}
+console.log(arrLike(1,2,3,4))
+*/
+
+// ----------------------------Call , Apply and Bind------------------------------
+
+// [1]-----------------------Call()
+/* 
+The call() allows for a function/method belonging to one object to be assigned 
+and called for a different object.
+
+Call (thisArg, arg1,arg2,....) takes arguments separately
+*/
+
+// EXP. 1
+// The example below calls person1.fullName function with person2 as an argument,
+//  this refers to person2, even if fullName is a method of person1:
+// call force person1.fullName() to accept person2 (object) as thisArg
+
+// const person1 = {
+//   fullName: function() {
+//     return this.firstName + " " + this.lastName;
+//   }
+// }
+
+// const person2 = {
+//   firstName:"John",
+//   lastName: "Doe",
+// }
+
+// console.log(person1.fullName.call(person2))
+
+// EXP. 2
+// ---- adding function print to each object inside array animals using Call()
+// const animals = [
+//   { species: 'Lion', name: 'King' },
+//   { species: 'Whale', name: 'Fail' }
+// ];
+
+// for (let i = 0; i < animals.length; i++) {
+//   (function(i) {
+//     this.print = function() {
+//       console.log('#' + i + ' ' + this.species
+//                   + ': ' + this.name);
+//     }
+//     this.print();
+//   }).call(animals[i], i);
+// }
+// console.log(animals[0])
+// console.log(animals[1])
+
+// EXP. 3
+// -----Using call() to invoke a function and without specifying the first argument
+// In the example below, we invoke the display function without passing the first argument. 
+// If the first argument is not passed, the value of this is bound to the global object.
+
+// var sData = 'Wisen';
+// function display() {
+//   console.log('sData value is %s ', this.sData);
+// }
+// display.call();  // sData value is Wisen
+// note : in strict mode this will not refer to global object -this will undefined
+
+// EXP. 4
+// ------Using call() to chain constructors for an object (Like Super in ES6 Class)
+// function Product(name, price) {
+//   this.name = name;
+//   this.price = price;
+// }
+
+// function Food(name, price) {
+//   Product.call(this, name, price);
+//   this.category = 'food';
+// }
+
+// function Toy(name, price) {
+//   Product.call(this, name, price);
+//   this.category = 'toy';
+// }
+
+// const cheese = new Food('feta', 5);
+// const fun = new Toy('robot', 40);
+
+// [2]----------------------------Apply()
+/* 
+apply is very similar to call(), except for the type of arguments it supports. 
+call() accepts an argument list, while apply() accepts a single array of arguments.
+The call(thisArg, arg1,arg1,....) method takes arguments separately.
+The apply(thisArg, argArray) method takes arguments as an array or array like object.
+*/
+
+// EXP. 1
+// const person = {
+//     fullName: function(city, country) {
+//       return this.firstName + " " + this.lastName + "," + city + "," + country;
+//     }
+//   }
+  
+//   const person1 = {
+//     firstName:"John",
+//     lastName: "Doe"
+//   }
+//   // apply accept argument as Array
+// console.log(person.fullName.apply(person1, ["Oslo", "Norway"]))
+//   // call accept argument separatly
+// console.log(person.fullName.call(person1, "Oslo", "Norway"))
+
+// EXP. 2
+// ------Using Apply() to chain constructors
+// // creating global Method
+// Function.prototype.construct = function(aArgs) {
+//   // this object will be the future instance (myInstance) of future constructor (MyConstructor)
+//   let oNew = Object.create(this.prototype);
+//   //  this here will refer to future constructor will user with (MyConstructor)
+//   this.apply(oNew, aArgs); // using future constructor (oNew = (myInstance) is thisArg and argArray = myArray)
+//   return oNew;
+// };
+// // future constructor
+// function MyConstructor() {
+//   for (let nProp = 0; nProp < arguments.length; nProp++) {
+//     this['property' + nProp] = arguments[nProp];
+//   }
+// }
+// // array of arguments
+// let myArray = [4, 'Hello world!', false];
+// // future instance
+// let myInstance = MyConstructor.construct(myArray); //like new MyConstructor but with passing array of arguments
+// // let myInstance = new MyConstructor(4, 'Hello world!', false);
+
+// console.log(myInstance.property1);                // logs 'Hello world!'
+// console.log(myInstance instanceof MyConstructor); // logs 'true'
+// console.log(myInstance.constructor);              // logs 'MyConstructor'
+// console.log(myInstance.__proto__);              // logs constructor function
+
+// EXP. 3
+// ----Using apply to append an array to another
+// // without using Apply()
+// const array = ['a', 'b'];
+// const elements = [0, 1, 2];
+// array.push(elements);
+// console.info(array); // ["a", "b", [0, 1, 2]]
+
+// // using Concat => concat creat a new array not changing existing array1
+// const array1 = ['a', 'b'];
+// const elements1 = [0, 1, 2];
+// console.info(array1.concat(elements1)); // ["a", "b", [0, 1, 2]]
+// console.info(array1); // ["a", "b"]
+
+// // Using Apply()
+// const array2 = ['a', 'b'];
+// const elements2 = [0, 1, 2];
+// array2.push.apply(array2, elements2);
+// console.info(array2); // ["a", "b", 0, 1, 2]
+
+
+
+// EXP. 4
+// ---Math.max()
+// let arr = [1,2,3,4,5]
+// console.log(Math.max(arr)) // NaN because Math.max() accept arguments separate not array
+// // [1] using Spread opertator
+// console.log(Math.max(...arr))
+// // [2] using apply() accept arguments as array or array like object
+// console.log(Math.max.apply(Math,arr))
+// console.log(Math.max.apply(null,arr))
+// // Note Argument limit in js 65536 
+
+// [3]----------------------------Bind()
+/* 
+The bind() function creates a new bound function. 
+Calling the bound function generally results in the execution of its wrapped function.
+*/
+
+// EXP. 1
+// ----bound function
+// should be var x = 10 not let x = 10; because we want x to be added to global object
+// var x = 10;
+// let obj = {
+//   x : 20,
+//   getX : function(){
+//     return this.x
+//   }
+// }
+// console.log(obj.getX()) // 20
+// let globalX = obj.getX;
+// console.log(globalX()) // 10 because excuted in global object and this.x and this refer to global object
+// // to solve this problem use bind()
+// let objX = obj.getX.bind(obj)
+// console.log(objX()) // 20
+
+// EXP. 2
+//---partial applied function 
+// you can use bind() and bound function to add 3rd parameters to pre-specified no. of arguments in function
+// function sum(param1, param2){
+//   return param1 + param2
+// }
+// console.log(sum(2,3,20)) // 5 because it accept only 2 arguments
+// let sumResult = sum.bind(null,20)
+// console.log(sumResult(5)) // 25 by passing old parameters to bound function (2,3) = 5
+
+// EXP. 3
+// **** using bind to callBack function
+// function MyObject (){
+//   this.name = 'MyObjectName';
+//   this.myProperty = 'property';
+// };
+// MyObject.prototype.doStuff = function (action) {
+//   console.log(this.name + ' is ' + action + '!');
+// }
+// var obj = new MyObject();
+// // here we are calling setTimeout and after delay 1 second there is no this.name 
+// setTimeout(obj.doStuff, 1000, 'awesome1');
+// // here we are calling callBack function immedialtly 
+// setTimeout(obj.doStuff.call(obj,'awesome2'), 1000); 
+// // here we bind this (which refer to obj) to function and ready once setTimeout invoke callBack function
+// setTimeout(obj.doStuff.bind(obj), 1000, 'awesome3'); 
+// // to understand EXP. 3 see below Implicit Binding & Explicit Binding
+
+// reference (https://gist.github.com/zcaceres/2a4ac91f9f42ec0ef9cd0d18e4e71262)
+
+// EXP. 4 
+// -----using bind with addEventListener 
+// let obj = {
+//   theName : "soliman",
+//   age : 33,
+//   func : function () {
+//     console.log(`my Name is ${this.theName} and my age is ${this.age}`)
+//   }
+// }
+// let btn = document.getElementById("bind")
+// // here we used bind beacuse now this refer to element that recive click and we want this to refer to obj
+// btn.addEventListener('click',obj.func.bind(obj) )
+// // if you use call or apply function will invoked immedialtly and give you output before clicking on element
+// btn.addEventListener('click',obj.func.call(obj) )
+
+// let arr = [1,2,3,4]
+// let obj = {
+//   theName : "Soliman",
+//   age: 33
+// }
+// arr.map(function(el) {console.log(this)},obj)
+
+// EXP. 5
+// bind can be used as constructor see link below
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind
+
+// EXP. 6
+// shortcut to function for exp. slice
+// function args(){
+//   // [1] shortcut with Apply()
+//   // let arr = Array.prototype.slice.apply(arguments)
+//   // console.log(arr)
+//   // Shortcut with bind()
+//   // let slice = Function.prototype.apply.bind(Array.prototype.slice) // slice now is bound function
+//   // let arr = slice(arguments)
+//   // console.log(arr)
+// }
+// args(1,2,3,4)
+
+
+// -----------------------Implicit Binding & Explicit Binding-------------
+// [1] Implicit Binding
+// Implicit binding occurs when dot notation is used to invoke a function.
+
+// [2] Explicit Binding
+// Explicit binding of this occurs when .call(), .apply(), or .bind() are used on a function.
+
+/* 
+This is all about where a function is invoked. 
+Often, early programmers worry about where the function was declared. 
+Perhaps the function was declared in a specific file or a particular object. 
+Surely this changes it's this!
+*/
+
+// Eyeballing This ( Steps to know this refer to what)
+/*
+1. Is there a dot? Look to the left. That's this.
+2. Do you see .call() or .apply()? What's passed in before the first comma? Thats this.
+3. Does the function stand alone when it's invoked? Then what's your global context? That's this.
+
+Note : bind creates a persistent this context, 
+we can't eyeball it. We have to go back and find where this is bound.
+*/
+
+
