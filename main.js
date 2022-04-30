@@ -3791,7 +3791,7 @@ console.log(newUser.func())
 // var str = "if( x === 0) {'sunday'} else {'Monday'}; "
 // console.log(eval(str))
 
-/* Expressions and Statments
+/* -----------------Expressions and Statments--------------------
 In general, an expression is a snippet of code that evaluates to a value.
 A statement is a snippet of code that performs an action.
 Easy way to know is it expression or statment use console.log()
@@ -3822,23 +3822,31 @@ sum ( varaible)
 this
 
 * Left hand side Expressions
-i = 10;
-var obj = {}
-obj.x = 10
-console.log(obj.x)
+i = 10; // i is expression
+var obj = {} // obj is expression  _ var is not part of the expression.
+obj.x = 10 // obj.x is expression
+console.log(obj.x) 
+
+* Assignment Expression :
+a = 1 is assignment expression & b = ( a = 1) is also assignment expression but var is not part of the expression.
+var b = ( a = 1)
 
 * function 
 -function can be expression or statment:
-* function hello (){}  // expression
-* let fun = function () {}  or let fun = function hello() {} // statment
+* function hello (){}  // Function Declaration ( statment)
+* let fun = function () {}  or let fun = function hello() {} // Function Expression
+- difference between function expression and statment is :
+> function Expression excuted once you reach it's line of code and assign it's return value to variable
+> function Declaration ( statment) you have to invoke it separatly like foo()
 -that's why with IIFE you should write parenteses (function (){})() 
-because JS engine dont know if it function Expression (can be with name or not) or function decleration inside parenteses is expression
+because JS engine dont know if it function Expression (can be with name or not) or function decleration 
+alwayes expression is inside parenteses 
 
 Statment EXP. :
 
 * Decleration Statment
 var x = 10; (declare variable )
-function hello () {} ( function decleration)
+function hello () {} ( function declaration)
 
 * Expression Statment
 you can not use statment in the place of Expression
@@ -3857,7 +3865,8 @@ if (expression)
 else
   statment2
 
-* Loops nad Jumps Statments:
+* Loops and Jumps Statments:
+Jump statements are used to make the JavaScript interpreter jump to a specific location within the program.
 Loop like while , do/while , for, for-in
 Jump like Break , continue , return , throw
 
@@ -4315,6 +4324,7 @@ myObj = {
 let arrObj = Array.from(myObj)
 console.log(arrObj)
 */
+
 
 // -------------Generator
 /* difference between generator and normal function
@@ -7488,8 +7498,11 @@ myMap.clear()
 // ----------------Symbol------------
 /* 
 it's a primitive data Type (assigned by value) (does not have Method)
-
-Every Symbol value (desciption) returned from symbol() is unique 
+* Symbol is a new Primitive value (ES6)
+* Every Value return from Symbol(desciption) is unique
+* Used as identifier for object properties but it will not be shown in iteration or JSON.stringify 
+* You can say it’s a container of unique value
+* Symbol() is not a constructor 
 
 let a = 123
 let b = 123
@@ -7498,7 +7511,6 @@ a === b
 let a = Symbol(123)
 let b = Symbol(123)
 a !== b
-
 */
 
 // const mySymbol = Symbol()
@@ -7509,16 +7521,21 @@ a !== b
 // console.log(mySymbolOne === mySymbolTwo) //false
 
 // myNewSymbol = Symbol();
-
 // const myObj = {
 //   userName : "Osama",
 //   webSite : "Elzero.org",
 //   [myNewSymbol] : "This is Hidden from Iteration"
 // }
-// // Symbol will not be shown in iteration
-// for (let val of Object.entries(myObj)) {
+// Symbol will not be shown in iteration
+// for...of loop
+// for (let val of Object.values(myObj)) {
 //   console.log(val)
 // } 
+// // for...in loop
+// for (let prop in myObj){
+//   console.log(myObj[prop])
+// }
+
 // console.log(Object.keys(myObj)) // Symbol will not be shown
 // console.log(Object.getOwnPropertyNames(myObj)) // Symbol will not be shown
 // console.log(JSON.stringify(myObj)) // Symbol will not be shown
@@ -7528,8 +7545,11 @@ a !== b
 
 // for Method
 /* 
+Search in The global symbol registry for a symbol with the given key if found return it; 
+otherwise, a new symbol is created and returned
+
 when you use for method it will search for any Symbol that has a key "Test" inside it 
-if found will assign it to the varaible if not will creat it and assign it to variable
+if found will assign it to the varaible if not will create it and assign it to variable
 so in mySymbolthree will search for key "Test" not found so will create and assign to variable
 in mySymbolFour will search and find a Symbol key "Test" so will assign it to new variable
 Symbol("Testing") => Testing here is a description 
@@ -7539,6 +7559,17 @@ that's why when we write Symbol.keyFor(Symbol("Testing")) we get undefined becau
 /* 
 The global symbol registry is just a convenient global repository for symbol instances
 that works regardless of scope or compilation unit.
+
+const sym1 = Symbol.for('some-key'); // Symbol is created in global registry
+
+// Elsewhere in project:
+const sym2 = Symbol.for('some-key'); // Symbol is retrieved from global registry
+
+// They are the same symbol:
+console.log(sym1 === sym2); // true
+
+// You can even access the key property:
+console.log(Symbol.keyFor(sym1)); // some-key
 */
 
 // const mySymbolOne = Symbol("Testing")
@@ -12058,4 +12089,350 @@ Note : bind creates a persistent this context,
 we can't eyeball it. We have to go back and find where this is bound.
 */
 
+// -------using forEach on Object
+// let obj = {
+//   0 : "A",
+//   1 : "B",
+//   2 : "C",
+//   length : 3
+// }
+// let arr = [1,2,3]
 
+// Array.prototype.forEach.call(obj, (ele)=> console.log(ele))
+// arr.forEach((ele)=> console.log(ele))
+
+// ------------difference between Map and Set
+
+/* 
+---------------------Maps - Like Objects they have keys and values---------------
+    (unique keys)
+    .size
+    .set(key, value)
+    .delete(key)
+    .get(key)
+    .has(key)
+    .keys() - returns Iterator with array of keys
+    .values() - returns Iterator with array of values
+    .entries() - returns Iterator with array of [key, value]
+    .clear()
+    .forEach()
+
+// An Array or other iterable object whose elements are key-value pairs. 
+// (For example, arrays with two elements, such as [[ 1, 'one' ],[ 2, 'two' ]].) 
+// Each key-value pair is added to the new Map.
+
+let obj = {
+  prop1 : "D",
+  prop2 : "E",
+  prop3 : "F",
+}
+let map = new Map(Object.entries(obj))
+console.log(map)
+
+------------------------Sets - Like Arrays they have values-------------------
+    (unique values) - remove non-unique values from array
+    .size
+    .add(value)
+    .delete(value)
+    .entries() - returns Iterator with array of [value, value]
+    .values() - returns Iterator with array of values
+    .has(value)
+    .clear()
+    .forEach()
+
+// Set Constructor accept one argument (If an iterable object is passed, 
+// all of its elements will be added to the new Set.)
+let arr = ["A","B","C"]
+let set = new Set(arr)
+console.log(set)
+
+*/
+
+// --- return undefined
+/* 
+All Function in JS return by Default undefined unless you tell the function to return something else
+except Constructor when you use new it return instance
+*/
+
+
+// --------------Chaining Objects and Methods together
+// let myObj = function(nm){
+//   this.name = nm;
+//   //when used with 'new' it will return an instance
+// }
+
+// myObj.prototype.capitalize = function(){
+//   this.name = this.name.substring(0,1).toUpperCase() + this.name.substring(1);
+//   return this;
+// }
+
+// myObj.prototype.upper = function(){
+//   this.name =  this.name.toUpperCase();
+//   return this;
+// }
+
+// myObj.prototype.getName = function(){
+//   console.log(this.name);
+// }
+
+// let bob = new myObj('bob');
+// let cole = new myObj('cole');
+
+// // without (retun this) in capitalize and Upper Functions you have to seperate them
+// bob.capitalize()
+// bob.upper()
+// bob.getName()
+
+// // with (retun this) in capitalize and Upper Functions you can chain them
+// cole.capitalize().upper().getName()
+
+
+// there is an Built in Exp. for Chaining Methods like sort() - sort() change array and return it
+// let arr = [4,2,3,1]
+// arr.sort().forEach((ele)=>console.log(ele))
+
+// -----------home-Made iterator with generator
+/*
+So your code basically means that the iterator of NumbersFromOne is defined as a generator. 
+Instead of manually having to define a function which returns a next and other properties
+
+Returning the generator creates the next function automatically for. 
+This allows you to yield when you need to.
+*/
+//  Old Way without generator
+// var NumbersFromOne = {
+//   [Symbol.iterator]: function () {
+//     var i = 1;
+//     return {
+//         next: function() {
+//             if( i < 4){
+//               return { value: i++, done: false };
+//             }else{
+//               return { value: undefined, done: true };
+//             }
+//         }
+//     };
+//   }
+// };
+// let ite = NumbersFromOne[Symbol.iterator]()
+// console.log(ite.next())
+// console.log(ite.next())
+// console.log(ite.next())
+// console.log(ite.next())
+
+// // new Way with Generator
+// var NumbersFromOne1 = {
+//   [Symbol.iterator]: function* () {
+//     for (let i = 1; i < 4 ; ++i) yield i;
+//   }
+// };
+// let ite1 = NumbersFromOne1[Symbol.iterator]()
+// console.log(ite1.next())
+// console.log(ite1.next())
+// console.log(ite1.next())
+// console.log(ite1.next())
+
+// -----------For.....in loop
+
+/* 
+The for...in statement iterates over all enumerable properties of an object 
+that are keyed by strings (ignoring ones keyed by Symbols), 
+including inherited enumerable properties. 
+Objects created from built–in constructors like Array and Object have inherited 
+non–enumerable properties from Object.prototype and String.prototype, 
+such as String's indexOf() method or Object's toString() method. 
+
+** Iterating over own properties only :
+if (obj.hasOwnProperty(prop)){} => the inherited properties are not displayed.
+or if(Object.prototype.hasOwnProperty.call(myObject, prop)){}
+in case myObject has overwritten the inherited hasOwnProperty() method.
+
+var triangle = {a: 1, b: 2, c: 3};
+
+function ColoredTriangle() {
+  this.color = 'red';
+}
+
+ColoredTriangle.prototype = triangle;
+
+var obj = new ColoredTriangle();
+
+for (const prop in obj) {
+  if (obj.hasOwnProperty(prop)) {
+    console.log(`obj.${prop} = ${obj[prop]}`);
+  }
+}
+
+// OR 
+
+for (const prop in obj) {
+  if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+    console.log(`obj.${prop} = ${obj[prop]}`);
+  }
+}
+*/
+
+//--------------------------Before and After Spread operator--------------
+// // [1] Array of Arguments
+// function sum(x,y,z){
+//   return x + y + z
+// }
+// let args = [1,2,3]
+// // Before Spread Operator
+// console.log(sum.apply(null,args))
+// // After Spread Operator
+// console.log(sum(...args))
+
+// // [2] Combine two Arrays
+// let arr1 = [1,2,3]
+// let arr2 = [4,5,6]
+// // Before Spread Operator
+// let arr3 = arr1.concat(arr2)
+// // After Spread Operator
+// let arr4 = [...arr1,...arr2]
+
+// [3] Adding Array at the beginning of another array
+// let arr1 = [1,2,3]
+// let arr2 = [4,5,6]
+// // Before Spread Operator
+// Array.prototype.unshift.apply(arr1,arr2)
+// // After Spread Operator
+// arr1 = [...arr2,...arr1]
+// console.log(arr1)
+
+// [4] clone new Object
+/*
+It copies own enumerable properties from a provided object onto a new object.
+Note that Object.assign() triggers setters, whereas spread syntax doesn't.
+*/
+// // before Spread Operator
+// let obj ={
+//   a : "A",
+//   b : "B"
+// }
+// let clone = Object.assign({},obj)
+// clone.c = "C"
+// console.log(obj)
+// console.log(clone)
+
+// // After Spread Operator (ES2018)
+// let obj1 = {
+//   a : "A",
+//   b : "B"
+// }
+// let clone1 = {...obj1}
+// clone1.c = "C"
+// console.log(obj1)
+// console.log(clone1)
+
+//[5] array of parameters with new Operator
+// Before Spread Operator
+/*
+it's not possible to directly use an array and apply() (apply() does a [[Call]] and not a [[Construct]])
+check the EXP. how to use array of parameters with new Operator without Spread Operator
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+*/ 
+// After Spread Operator
+// let dateFields = [1970, 0, 1];  // 1 Jan 1970
+// let d = new Date(...dateFields);
+
+
+// ----------Spread operator is not suitable for copying multidimensional arrays
+/* 
+here a is array of arrays and when we take a copy of array using spread operator we are taking
+shallow copy of array put child arrays(arrays inside the parent array) we are taking deep copy
+so when we change one of child arrays from b it will be changed also at a
+*/
+// let a = [[1], [2], [3]];
+// let b = [...a];
+// b.shift().shift()
+// console.log(a) // [[],[2],[3]]
+// console.log(b) // [[2],[3]]
+
+// ----------------------------Callee and Caller------------------
+/* 
+[1] Callee : 
+The arguments.callee property contains the currently executing function. 
+This is useful when the name of the function is unknown, 
+such as within a function expression with no name (also called "anonymous functions").
+
+[2] Caller :
+The function.caller property returns the function that invoked the specified function. 
+It returns null for strict, async function and generator function callers.
+*/
+
+
+// function test(a,b,c){
+//   console.log(arguments)
+//   console.log(arguments.callee) // like console.log(test) // test
+//   console.log(arguments.callee.caller) // like console.log(test.caller) // null
+//   function inside(d,e,f){
+//     console.log(arguments)
+//     console.log(arguments.callee) // inside
+//     console.log(arguments.callee.caller) // test
+//   }
+//   inside("Hussein","Mohamed","Ahmed")
+// }
+// test("Mohamed","Ahmed","Soliman")
+// console.log(test.length) // retrun arguments length
+// console.log(test.name) // return function name
+
+// now you can refer to anonymous functions by arguments.callee
+// let arr = [1,2,3,4]
+// arr.map(function(){
+//   console.log(arguments.callee) 
+// })
+
+// No arguments object returned from Arrow function
+// let arrowFunc = (a,b,c,d)=>{
+//   console.log(arguments)
+// }
+// arrowFunc(1,2,3,4) // Error
+
+// ----------------[[Call]] and [[Construct]]-------------
+/*
+In technical terms, functions in Javascript are defined by the two internal methods 
+[[Call]] and [[Construct]] . Any object with a [[Call]] method is called a function, 
+and any function that additionally has a [[Construct]] method is called a constructor¹. 
+The [[Call]] method determines what happens when you invoke an object as a function, 
+e.g. foo(args) , while [[Construct]] determines what happens when you invoke it as 
+a new expression, i.e. new foo or new foo(args) .
+For ordinary function definitions², calling [[Construct]] will implicitly create a new object
+whose [[Prototype]] is the prototype property of the constructor function 
+if that property exists and is object valued, or Object.prototype otherwise. 
+The newly created object is bound to the this value inside the function’s local environment. 
+If the function returns an object, the new expression will evaluate to that object, 
+otherwise, the new expression evaluates to the implicitly created this value.
+As for the prototype property, that is implicitly created whenever you define an ordinary 
+function. Each newly defined function has a property named “prototype” defined upon it
+with a newly created object as its value. That object in turn has a constructor property 
+which points back to the original function. Note that this prototype property is not the 
+same as the [[Prototype]] slot. In the previous code example, Foo is still just a function, 
+so its [[Prototype]] is the predefined object Function.prototype .
+*/
+
+// -------why we can not use Apply with new keyword-------------
+/* 
+[[Call]] is invoked via Date(…) whereas [[Construct]] is invoked via new Date(…). 
+If you were to attempt to [[Construct]] a Date via new Date.apply(…, dateFields), 
+it actually invokes [[Construct]] on the Function.prototype.apply method, 
+not the Date object, which does not properly initialize a Date object, 
+but rather it attempts to initialize an object with [[Prototype]] equal to 
+apply.prototype which is undefined since apply() is not a constructable function, 
+and therefore throws a TypeError.
+*/
+
+function Construct(name){
+  this.name = name
+}
+Construct.stat = function(){
+  console.log("Static")
+}
+let con1 = Object("Soliman")
+let con2 = new String("Soliman")
+let con3 = String("Soliman")
+console.log(con1)
+console.log(con2)
+console.log(con3)
+console.log(Object.getOwnPropertyNames(String))
+console.log(String.prototype.__proto__.constructor)
