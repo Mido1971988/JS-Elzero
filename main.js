@@ -4668,7 +4668,7 @@ Objects can be
 Object PROPERTIES can be 
 1. Writable - change the value 
 2. Enumerable - seen through a for...in loop 
-3. Configurable - change the property descriptors 
+3. Configurable - change the property descriptors  or delete
 
 Object.isExtensible(obj) 
 Object.isFrozen(obj) 
@@ -6577,33 +6577,163 @@ const map1= new Map (map) ;
 // console.log([...n1, ...n2].length * Math.max(...n2));
 // console.log(n1.reduce((el1 , el2) => el1 + el2) * n2.length)
 
+// ----------------------------Regular expressions--------------------------
+/* 
+Regular expressions are patterns used to match character combinations in strings. 
+In JavaScript, regular expressions are also objects. These patterns are used with the 
+exec() and test() methods of RegExp, 
+and with the match(), matchAll(), replace(), replaceAll(), search(), and split() methods of String.
 
-// --------------Regular Expression-------------
-// Syntax 
-// /pattern/modifier(s)
-// new RegExp("pattern", "modifier(s)")
+** Creating a regular expression: 
+[1] regular expression literal : 
+const re = /ab+c/;
+[2] constructor function of the RegExp object, as follows:
+const re = new RegExp('ab+c');
+
+** Methods of RegExp  :
+- exec() : Executes a search for a match in a string. It returns an array of 
+information or null on a mismatch.
+- test() : Tests for a match in a string. It returns true or false.
+- complie() : (Re-)compiles a regular expression during execution of a script.
+- toString() : Returns a string representing the specified object. Overrides the Object.prototype.toString() method.
+[@@....] === [Symbol....]
+- [@@match]() : Performs match to given string and returns match result.
+- [@@matchAll]() : Returns all matches of the regular expression against a string.
+- [@@replace]() : Replaces matches in given string with new substring.
+- [@@search]() : Searches the match in given string and returns the index the pattern found in the string.
+- [@@split]() : Splits given string into an array by separating the string into substrings.
 
 
-// let str1 = '10 20 100 1000 5000';
-// let str2 = 'os1 os12 os123 os123os';
+** Method of String used with RegExp :
+- match() : Returns an array containing all of the matches, including capturing groups, or null if no match is found.
+- matchAll() : Returns an iterator containing all of the matches, including capturing groups.
+- search() : Tests for a match in a string. It returns the index of the match, or -1 if the search fails.
+- replace() : Executes a search for a match in a string, and replaces the matched substring with a replacement substring.
+- replaceAll() : Executes a search for all matches in a string, and replaces the matched substrings with a replacement substring.
+- split() : Uses a regular expression or a fixed string to break a string into an array of substrings.
 
-// let invalidEmali  =  "Osama@@@Gmail...com";
-// let validEmali  =  "Osama@Gmail.com";
+** Instance properties : 
+RegExp.prototype.flags : A string that contains the flags of the RegExp object.
+RegExp.prototype.dotAll : Whether . matches newlines or not.
+RegExp.prototype.global : Whether to test the regular expression against all possible matches in a string, or only against the first.
+RegExp.prototype.hasIndices : Whether the regular expression result exposes the start and end indices of captured substrings.
+RegExp.prototype.ignoreCase : Whether to ignore case while attempting a match in a string.
+RegExp.prototype.multiline : Whether or not to search in strings across multiple lines.
+RegExp.prototype.source : The text of the pattern.
+RegExp.prototype.sticky : Whether or not the search is sticky.
+RegExp.prototype.unicode : Whether or not Unicode features are enabled.
+RegExp: lastIndex : The index at which to start the next match.
 
-// let ip = "192.168.2.1" // Ipv4
+Modifiers Flags :
+i => case insensitive ( if you write it it will search for both capital and small)
+g => global search (if you did not add g will retrun Array of information with first element match)
+m => mutlilines.
+d => Generate indices for substring matches.
+s =>  Allow . to match new line character. 
+u => "unicode"; treat a pattern as a sequence of unicode code points.
+y => Perform a "sticky" search that matches starting at the current position in the target string.(https://javascript.info/regexp-sticky)
 
-// let url = "elzero.org"
-// let url = "https://www.elzero.org"
 
-// let myString = "Hello Elzero Web School I Love elzero"
-// Match Method 
-// return Array / matches a String Against a regular Expression Pattern
+Intro to Regular Expression:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+
+Main Document for Regular Expression: 
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+
+Regular expression syntax cheatsheet:
+(Character classes - Assertions - Group and Ranges - Quantifiers - Unicode property escapes) 
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet
+
+Regular Expressions Groups and Ranges: 
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Groups_and_Ranges
+
+Stick flag read this to understand index and lastIndex :
+https://javascript.info/regexp-sticky
+*/
+// ---------------match() vs exec()----------------
+/* 
+[1] exec() :
+* is a Method of RegExp
+* return Array of Information
+* with g flag returns each match and its position iteratively
+
+[2] match() :
+* is a Method of String
+* return normal Array
+* with g flag returns all matches at once, but without their position.
+
+both without using g flag return Array of information with first match
+
+*/
+
+// regular expression literal
+// const myRe = /d(b+)d/g;
+// or constructor function of the RegExp object
+// const myRe = new RegExp('d(b+)d', 'y'); // or const myRe = new RegExp(/d(b+)d/, 'g'); 
+// const execArray = myRe.exec('cdbbdbsbz'); // Method of RegExp
+// const matchArray = ('cdbbdbsbz').match(myRe); // Method of String used with RegExp
+// console.log(execArray) // Array of information
+// console.log(matchArray) // Normal Array 
+
+// // if you use regular expression directly without assigning it to variable you cannot acccess
+// // properties of Array of information because every occurrence is a new regular expression 
+// let myArray = myRe.exec('cdbbdbsbz');
+// console.log(`The value of lastIndex is ${myRe.lastIndex}`); // 5
+// console.log(`The value of index is ${myArray.index}`); // 1
+// let myArray2 = /d(b+)d/g.exec('cdbbdbsbz');
+// myArray2 = /bsbz/g.exec('cdbbdbsbz');
+// console.log(`The value of lastIndex is ${/d(b+)d/g.lastIndex}`); // 0
+// console.log(`The value of index is ${myArray2.index}`); // 5
+
+// //----------Using regular expression on multiple lines
+// let s = 'Please yes make my day!'
+// let m1 = s.match(/yes.*day/); // Returns null becaue . does not match line terminator
+// let m2 = s.match(/yes[^]*day/g); // we can not use \n because \ will cancel effect of *
+// console.log(m1)// Returns null
+// console.log(m2)// Returns ["yes\nmake my day"]
+
+// // ---Using the global search flag with exec()
+// // RegExp.prototype.exec() method with the g flag returns each match and its position iteratively.
+// const str = 'fee fi fo fum';
+// const re = /\w+\s/g;
+// console.log(re.exec(str)); // ["fee ", index: 0, input: "fee fi fo fum"]
+// console.log(re.exec(str)); // ["fi ", index: 4, input: "fee fi fo fum"]
+// console.log(re.exec(str)); // ["fo ", index: 7, input: "fee fi fo fum"]
+// console.log(re.exec(str)); // null
+// In contrast,match() method returns all matches at once, but without their position.
+// console.log(str.match(re)); // ["fee ", "fi ", "fo "]
+
+// // -----------Exp. using Group and sticky flag 
+// let personList = `First_Name: John, Last_Name: Doe
+// First_Name: Jane, Last_Name: Smith`;
+// let regexpNames =  /First_Name: (?<firstname>\w+), Last_Name: (?<lastname>\w+)/y;
+// // regexpNames.lastIndex = 33 // with this line of code outpit will be Jane Smith without will be John Doe
+// let match = regexpNames.exec(personList)
+// console.log(match.groups.firstname,match.groups.lastname )
+
+// --------Using regular expression to split lines with different line endings/ends of line/line breaks
+// let text = 'Some text\nAnd some more\r\nAnd yet\rThis is the end'
+// let lines = text.split(/\r\n|\r|\n/)
+// console.log(lines) // logs [ 'Some text', 'And some more', 'And yet', 'This is the end' ]
+
+// // --------Using a regular expression to change data position
+// In the replacement text, the script uses $1 and $2 to indicate the results of the 
+// corresponding matching parentheses in the regular expression pattern.
+// let re = /(\w+)\s(\w+)/
+// let str = 'John Smith'
+// let newstr = str.replace(re, '$2 $1')
+// console.log(newstr) // Smith John
+
+// //-----difference between global flag and sticky flag
+// re = /\d/y;
+// // will stop because of space between 3 and 4 lastIndex will stop at 3 
+// // and exec function needs lastIndex 4 to continue
+// while (r = re.exec("123 456")) console.log(r, "AND re.lastIndex", re.lastIndex); 
+// let re2 = /\d/g;
+// // will continue till 6 because will search globally because of g flag not waiting lastIndex like sticky flag
+// while (r2 = re2.exec("123 456")) console.log(r2, "AND re2.lastIndex", re2.lastIndex);
 
 
-// Modifiers Flags
-// i => case insensitive ( if you write it it will search for both capital and small)
-// g => global search (if you did not add g will retrun first element match then it's index inside Array)
-// m => mutlilines
 // let regularExpression = /elzero/i;
 
 // console.log(myString.match(regularExpression))
@@ -6614,7 +6744,7 @@ const map1= new Map (map) ;
 
 // let nums = "12345678910";
 // // Range
-// let numsRe = /[0-9]/g;
+// let numsRe = /[0-9]/;
 // console.log(nums.match(numsRe))
 
 // let notNums = "12345678910";
@@ -9427,22 +9557,31 @@ The greet() method of the p1 object shadows the greet() method of the prototype 
 //   }
 // }
 
-// // Class
+// Class
 // class Person2 {
 //   constructor(name,age){
 //     this.name = name 
 //     this.age = age
+//     // Property of instance not Method
 //     this.classInstFunc = function(){
 //       console.log("instance p2")
 //     }
 //   }
+//   // Property for instance 
+//   classInstProp = "Property"
+//   // Method for Instance
+//   classInstFunc2 = () => {
+//     console.log("static Method from Class")
+//   }
+//   // Static Method for Constructor
 //   static classStatFunc = () => {
 //     console.log("static Method from Class")
 //   }
 // }
-// // instances
+// instances
 // let p1 = new Person()
 // let p2 = new Person2()
+
 
 // console.log(Object.hasOwnProperty("prototype")) // true
 // console.log(Person.hasOwnProperty("prototype")) //true
@@ -9799,8 +9938,15 @@ note : but performance in Object.create() is better than setPrototypeOf
 //   constructor(name, email) {
 //     this.name = name;
 //     this.email = email;
+//     // property of instance not added to prototype
 //     this.showDetails = () => `Name is ${name} and email is ${email}`;
 //   }
+//   // we are using Method Shorthand and add this method to prototype
+//   instMethod(){return "Instance Method"} 
+//   // will be added as property to prototype not Method 
+//   // because we have to use a variable with it no Method shorthand for arrow function
+//   arrowInstMethod = () => "Arrow Intance Method"
+//   // will be added to constructor
 //   static staticFunc = () => "Static Method from User"
 // }
 // User.prototype.protoFunc = () => "Proto Method from USer"
@@ -9821,6 +9967,8 @@ note : but performance in Object.create() is better than setPrototypeOf
 // console.log(Admin.staticFunc())
 // console.log(Admin2.protoFunc())
 // console.log(Admin.prototype)
+// console.log(Admin2.instMethod())
+// console.log(User.prototype)
 
 // --------Override in inheritance-------
 // class User {
@@ -12422,17 +12570,119 @@ apply.prototype which is undefined since apply() is not a constructable function
 and therefore throws a TypeError.
 */
 
-function Construct(name){
-  this.name = name
-}
-Construct.stat = function(){
-  console.log("Static")
-}
-let con1 = Object("Soliman")
-let con2 = new String("Soliman")
-let con3 = String("Soliman")
-console.log(con1)
-console.log(con2)
-console.log(con3)
-console.log(Object.getOwnPropertyNames(String))
-console.log(String.prototype.__proto__.constructor)
+/* ------Steps for new Keyword
+1. Creates a blank, plain JavaScript object.
+2. Adds a property to the new object (__proto__) that links to the constructor function's prototype object
+3. Binds the newly created object instance as the this context (i.e. all references to this in the constructor function now refer to the object created in the first step).
+4. Returns this if the function doesn't return an object.
+*/
+
+// ---------------------------------------Reflect.construct()-------------------
+/*
+Reflect.construct(target , args , newTarget)
+
+Reflect.construct() allows you to invoke a constructor with a variable number of arguments. 
+(This would also be possible by using the spread syntax combined with the new operator.)
+The static Reflect.construct() method acts like the new operator, but as a function. 
+It is equivalent to calling new target(...args)
+
+let obj = new Foo(...args)
+let obj = Reflect.construct(Foo, args)
+
+Return value
+A new instance of target (or newTarget, if present), 
+initialized by target as a constructor with the given argumentsList.
+*/
+
+// ---------Reflect.construct() vs Object.create()
+/*
+* Reflect.construct() like new Constructor() so new.target will refer to constructor of
+of target (or newTarget, if present)
+
+* Object.create() not like new Constructor so new.target will refer to undefined
+
+*/
+// function OneClass() {
+//   this.name = 'one'
+//   console.log(new.target)
+//   console.log(this)
+// }
+
+// function OtherClass() {
+//   this.name = 'other'
+// }
+// let args = [1,2,3,4]
+// Calling this:
+// let obj1 = Reflect.construct(OneClass, args, OtherClass)
+
+// // ...has the same result as this:
+// let obj2 = Object.create(OtherClass.prototype)
+// OneClass.apply(obj2, args)
+
+// console.log(obj1.name)  // 'one'
+// console.log(obj2.name)  // 'one'
+
+
+// console.log(obj1 instanceof OneClass)  // false
+// console.log(obj2 instanceof OneClass)  // false
+
+// console.log(obj1 instanceof OtherClass)  // true
+// console.log(obj2 instanceof OtherClass)  // true
+
+
+// ----------------------Encapsulation----------------------
+
+/* 
+- Class Fields are Public by Default
+- Guards the Datat against illegal Access
+- Helps to Achieve the target without revealing its complex details
+- will reduce human errors
+- make the app more flexible
+- simplifies the app
+*/
+
+
+// class User {
+//   // to declare private property
+//   #passWord;
+//   constructor(id,userName, passWord){
+//   this.id = id;
+//   this.userName = userName;
+//   this.#passWord = passWord;
+//   }
+//   /* method to get private property (here we used parseInt to get number only of user input)
+//   so we used Encapsulation not only to hide the password but also to reduce human errors 
+//   if the user input a string not numbers because for exp if we want to multiply it 
+//   the result will be NaN */
+//   getPass(){
+//     return parseInt(this.#passWord)
+//   }
+//   #privatMethod(){
+//     return "i Am Private Method"
+//   }
+//   getPrivateMethod(){
+//     return this.#privatMethod()
+//   }
+// }
+
+// // let user1 = new User(1,"Soliman","1234 lool")
+// // console.log(user1.id)
+// // console.log(user1.userName)
+// // console.log(user1.getPass())
+// // console.log(user1.getPass() * 2)
+// // console.log(user1.getPrivateMethod())
+
+// class Admin extends User {
+//   constructor(id,userName, passWord,age){
+//     super(id,userName, passWord)
+//     this.age = age
+//   }
+// }
+// let admin1 = new Admin(1,"Soliman","1234 lool", 33)
+// console.log(admin1.passWord) // undefined
+// console.log(admin1.getPass()) // 1234
+// console.log(admin1.privatMethod) // undefined
+// console.log(admin1.getPrivateMethod()) // "i Am Private Method"
+
+
+
