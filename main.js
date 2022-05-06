@@ -6580,8 +6580,8 @@ const map1= new Map (map) ;
 // ----------------------------Regular expressions--------------------------
 /* 
 Regular expressions are patterns used to match character combinations in strings. 
-In JavaScript, regular expressions are also objects. These patterns are used with the 
-exec() and test() methods of RegExp, 
+In JavaScript, regular expressions are also objects. 
+These patterns are used with the exec() and test() methods of RegExp, 
 and with the match(), matchAll(), replace(), replaceAll(), search(), and split() methods of String.
 
 ** Creating a regular expression: 
@@ -6628,11 +6628,45 @@ Modifiers Flags :
 i => case insensitive ( if you write it it will search for both capital and small)
 g => global search (if you did not add g will retrun Array of information with first element match)
 m => mutlilines.
-d => Generate indices for substring matches.
+d =>  The "d" flag indicates that the result of a regular expression match should contain the start and end indices of the substrings of each capture group.
 s =>  Allow . to match new line character. 
 u => "unicode"; treat a pattern as a sequence of unicode code points.
 y => Perform a "sticky" search that matches starting at the current position in the target string.(https://javascript.info/regexp-sticky)
 
+Character classes:
+// . => matches any Character , except newLine and another line terminators (with s flag . will match new line charachter)
+// \w => matches word characters. [a-z, A-Z, 0-9 And Underscore]
+// \W => matches non Word Characters
+// \d => matches digits from 0 to 9
+// \D => matches non-digits characters
+// \s => matches Whitespaces
+// \S => matches non Whitespaces charachter
+// there is more in link below
+
+Quantifiers :
+// n+ => One Or More
+// n* => Zero or More
+// n? => Zero or One
+// n{x} => Number of
+// n{x,y} => Range
+// n{x, } => At Least x
+// there is more in link below
+
+Assertions : 
+// \b => matches at the beginning or end of a word
+// \B => matches Not at the beginning / end of a word
+// $ => End With Something
+// ^ => Start With something
+// ?= => followed By something (lookahead)
+// ?! => Not followed By Something (negative lookahead)
+// ?<! => Lookbehind 
+// ?>! => negative Lookbehind
+// there is more in link below
+
+Group: 
+() => to capture group
+(?<groupName>) => to write your own group name
+(?:) => to not capturing this group
 
 Intro to Regular Expression:
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
@@ -6649,6 +6683,9 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expression
 
 Stick flag read this to understand index and lastIndex :
 https://javascript.info/regexp-sticky
+
+Quick Review  Based on YouTube Video(https://youtu.be/rhzKDrUiJVk)
+useful Web-Site to test Regular Expression (https://regexr.com)
 */
 // ---------------match() vs exec()----------------
 /* 
@@ -6680,15 +6717,18 @@ both without using g flag return Array of information with first match
 // let myArray = myRe.exec('cdbbdbsbz');
 // console.log(`The value of lastIndex is ${myRe.lastIndex}`); // 5
 // console.log(`The value of index is ${myArray.index}`); // 1
-// let myArray2 = /d(b+)d/g.exec('cdbbdbsbz');
-// myArray2 = /bsbz/g.exec('cdbbdbsbz');
-// console.log(`The value of lastIndex is ${/d(b+)d/g.lastIndex}`); // 0
+// let myRe2 = /bsbz/g
+// let myArray2 = myRe2.exec('cdbbdbsbz');
+// // 0 because we are checking for lastIndex of regExp object and not yet excuted so lastIndex still 0
+// console.log(`The value of lastIndex is ${/d(b+)d/g.lastIndex}`); 
+// console.log(`The value of lastIndex is ${myRe2.lastIndex}`); // 9
 // console.log(`The value of index is ${myArray2.index}`); // 5
 
 // //----------Using regular expression on multiple lines
-// let s = 'Please yes make my day!'
+// let s = 'Please yes\nmake my day!'
 // let m1 = s.match(/yes.*day/); // Returns null becaue . does not match line terminator
-// let m2 = s.match(/yes[^]*day/g); // we can not use \n because \ will cancel effect of *
+// let m1 = s.match(/yes.*day/s); // we added s flag now . will match new line charachter
+// let m2 = s.match(/yes[^]*day/g); // we can not use \n because \ will change effect of *
 // console.log(m1)// Returns null
 // console.log(m2)// Returns ["yes\nmake my day"]
 
@@ -6697,23 +6737,29 @@ both without using g flag return Array of information with first match
 // const str = 'fee fi fo fum';
 // const re = /\w+\s/g;
 // console.log(re.exec(str)); // ["fee ", index: 0, input: "fee fi fo fum"]
+// console.log(`The value of lastIndex is ${re.lastIndex}`); // 4
 // console.log(re.exec(str)); // ["fi ", index: 4, input: "fee fi fo fum"]
+// console.log(`The value of lastIndex is ${re.lastIndex}`); // 7
 // console.log(re.exec(str)); // ["fo ", index: 7, input: "fee fi fo fum"]
+// console.log(`The value of lastIndex is ${re.lastIndex}`); // 10
 // console.log(re.exec(str)); // null
-// In contrast,match() method returns all matches at once, but without their position.
+// // In contrast,match() method returns all matches at once, but without their position.
 // console.log(str.match(re)); // ["fee ", "fi ", "fo "]
 
 // // -----------Exp. using Group and sticky flag 
 // let personList = `First_Name: John, Last_Name: Doe
 // First_Name: Jane, Last_Name: Smith`;
+// // to write group name you can use ?<Group Name> without group name the default names will be $1 $2
 // let regexpNames =  /First_Name: (?<firstname>\w+), Last_Name: (?<lastname>\w+)/y;
-// // regexpNames.lastIndex = 33 // with this line of code outpit will be Jane Smith without will be John Doe
+// // with sticky flag you can use lastIndex to determine the starting index of searching 
+// regexpNames.lastIndex = 33 // Jane Smith without will be John Doe
 // let match = regexpNames.exec(personList)
 // console.log(match.groups.firstname,match.groups.lastname )
+// console.log(match)
 
 // --------Using regular expression to split lines with different line endings/ends of line/line breaks
 // let text = 'Some text\nAnd some more\r\nAnd yet\rThis is the end'
-// let lines = text.split(/\r\n|\r|\n/)
+// let lines = text.split(/\r\n|\r|\n/) // /\r\n|\r|\n/ this format compatible with all browsers
 // console.log(lines) // logs [ 'Some text', 'And some more', 'And yet', 'This is the end' ]
 
 // // --------Using a regular expression to change data position
@@ -6733,9 +6779,35 @@ both without using g flag return Array of information with first match
 // // will continue till 6 because will search globally because of g flag not waiting lastIndex like sticky flag
 // while (r2 = re2.exec("123 456")) console.log(r2, "AND re2.lastIndex", re2.lastIndex);
 
+// -------Lookbehind & Lookahead
+// // Lookbehind
+// let str1 ="we love soliman"
+// let reg1 = /(?<=soli)\w+/g
+// console.log(str1.match(reg1)) // man
+// // negative Lookbehind
+// let str2 ="we love soliman"
+// let reg2 = /(?<!we\s)\w{4,}/g 
+// console.log(str2.match(reg2)) // soliman
+// // Lookahead
+// let str3 ="we love2 soliman"
+// let reg3 = /\w+(?=2)/g
+// console.log(str3.match(reg3)) // love
+// // negative Lookahead
+// let str4 ="we love soliman"
+// let reg4 = /\w{5,}(?!\s)/g // soliman
+// console.log(str4.match(reg4))
 
+// // ------back reference
+// // \1 to refere to last captured group inside same regular expression
+// // \k<groupName> to refere to last captured named group inside same regular expression
+// let str = "Mohamed Ahmed Ahmed Soliman"
+// // let reg = /(\w+)\s\1/g
+// let reg = /(?<myName>\w+)\s\k<myName>/g 
+// console.log(str.match(reg)) // Ahmed Ahmed
+
+// -------------ElZero RegExp
+// let myString = "elzero web school"
 // let regularExpression = /elzero/i;
-
 // console.log(myString.match(regularExpression))
 
 // let tld = "Com Net Org Info Code Io"
@@ -6778,21 +6850,11 @@ both without using g flag return Array of information with first match
 
 // console.log(myString.match(specials2 ));
 
-// . => matches any Character , except newLine and another line terminators
-//  \w => matches word characters. [a-z, A-Z, 0-9 And Underscore]
-// \W => matches non Word Characters
-// \d => matches digits from 0 to 9
-// \D => matches non-digits characters
-// \s => matches Whitespaces
-// \S => matches non Whitespaces charachter
-// \b => matches at the beginning or end of a word
-// \B => matches Not at the beginning / end of a word
-
 // let email = "O@@@g...com O@g.com O@g.net A@Y.com O-g.com o@s.org 1@1.com";
 // let dot = /./g;
 // let w = /\w/g;
 // let W = /\W/g;
-// i added \ before . because . match any charachters but if i add \. will match . only (not mentioned in elzero course)
+// i added \ (to Escape charachter)before . because . match any charachters but if i add \. will match . only (not mentioned in elzero course)
 // let validEmail = /\w@\w\.(com|net)/g;
 // console.log(email.match(validEmail))
 
@@ -6810,20 +6872,6 @@ both without using g flag return Array of information with first match
 // console.log(re.test(names))
 // console.log(/(\bspam|spam\b)/ig.test("Osama"))
 // console.log(/(\bspam|spam\b)/ig.test("1Spam"))
-
-
-// Quantifiers  
-// n+ => One Or More
-// n* => Zero or More
-// n? => Zero or One
-// n{x} => Number of
-// n{x,y} => Range
-// n{x, } => At Least x
-// $ => End With Something
-// ^ => Start With something
-// ?= => followed By something
-// ?! => Not followed By Something
-
 
 // let mails = "o@nn.sa osama@gmail.com elzero@gmail.net osama@mail.ru";
 // let mailRe = /\w@\w\w\.sa/ig
@@ -6858,14 +6906,17 @@ both without using g flag return Array of information with first match
 // console.log(/^We/ig.test(myString))
 // console.log(myString.match(/[^We]/ig))
 // console.log(/lz$/ig.test(names))
-// // \s means space
+// // \s means whitespace
 // will return false because @1OsamaZ does not start with words but if @ at 2nd value @2AhmedZ will return true because it found 1OsamaZ without @
 // console.log(/^\w/ig.test(names))
 // // here will output element + Z
 // console.log(names.match(/\d\w{5}Z/ig))
-// // here will output element without Z 
+// here will output element without Z 
 // console.log(names.match(/\d\w{5}(?=Z)/ig))
 // console.log(names.match(/\d\w{8}(?!Z)/ig))
+// difference between $ and \b 
+// console.log(myString.match(/\w+$/ig)) // [Programming] will match last word only
+// console.log(myString.match(/\w+e\b/ig)) // will match ever word end with e not lat word in string
 
 /* -------multiline mode--------
 The multiline mode is enabled by the flag m.
@@ -6873,7 +6924,7 @@ It only affects the behavior of ^ and $.
 In the multiline mode they match not only at the beginning and the end of the string, 
 but also at start/end of line.
 That’s because by default a caret ^ only matches at the beginning of the text, 
-and in the multiline mode – at the start of any line.
+and in the multiline mode – at the start of each line.
 
 let str = `1st place: Winnie
 2nd place: Piglet
