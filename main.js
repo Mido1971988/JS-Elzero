@@ -3488,51 +3488,7 @@ not immediately. If you execute code like setTimeout(fn, 0)
 but then immediately after run a loop that counts from 1 to 10 billion,
 your callback will be executed after a few seconds. */
 
-// setTimeout and for Loop tricky problem 
-
-// for(var i=0; i < 4; i++){
-//   setTimeout(_=> console.log(i),1000)
-// } // output 4 (4 times)
-
-// why output 4 (4times) ? because of 2 problems ( var and setTimeout)
-// var is function scope not block scope and in for loop var will be considered in global scope
-// and setTimeout API will only start executing the callback functions once all the global synchronous code has executed’
-// so callback function will take value of i after the loop finish
-
-// how to solve this Problem
-
-// pass parameter to callback function
-// for ( var i =0; i < 4; i++) {
-//   setTimeout((index) => console.log(index),3000,i)
-// }
-// for ( var i =0; i < 4; i++) {
-//   setTimeout(function (index){
-//     console.log(index)
-//   },1000,i)
-// }
-
-// using IIFE will create a new scope for each setTimeout execution
-// for ( var i =0; i < 4; i++) {
-//   (function(index) {
-//     setTimeout(() => console.log(index),1000)
-//   })(i)
-// }
-
-// using let instead of var because let is block scope and create separate scope for the code block
-// so when setTimeout search for i will not search at gobal scope and wait till all the global synchronous code has executed
-// it will find a separate scope 
-// for ( let i =0; i < 4; i++) {
-//   setTimeout(_ => console.log(i) ,1000)
-// }
-
-// a good link for this problem
-// https://discuss.codecademy.com/t/var-and-let-in-a-loop-working-differently/550468/8
-
-// Error you can not reassign const
-// for(const i =0; i < 4; i++) {
-//   console.log(i)
-// }
-
+// -----setTimeout with bind
 // because setTimeout excuted in seperate excution context so this will refer to window Object
 // not refer to myArray as inside myArray.myMethod to solve this problem use bind
 // myArray = ['zero', 'one', 'two'];
@@ -3545,7 +3501,6 @@ your callback will be executed after a few seconds. */
 // setTimeout(myArray.myMethod, 1000, "1"); // prints "undefined" after 1 second
 // setTimeout(myArray.myMethod.bind(myArray), 1000); // prints "zero,one,two"
 // setTimeout(myArray.myMethod.bind(myArray), 1000, "1"); // prints "one"
-
 
 // ------------------Constructor ---------------
 
@@ -11314,6 +11269,14 @@ to solve the problem of duplicate :
 
 
 // ------------JSON (JavaScript Object Notation)-----------
+/*
+difference between normal function and JSON object:
+Json file is just a text file you can store object or array inside it 
+key in object must be inside "" and 
+value (inside object or array) can be only (string,number,object,array,true,false.null) 
+reference this link => https://www.json.org/json-en.html
+*/
+
 // let obj = {
 //   fName : "Mohamed",
 //   lName : "Hussein",
@@ -12736,4 +12699,224 @@ of target (or newTarget, if present)
 // console.log(admin1.getPrivateMethod()) // "i Am Private Method"
 
 
+
+// -------------Asyn Iterators for Big Data--------------
+// you have really big data and you need to fetch a lot of times
+// based on Youtube Video(https://youtu.be/u2hwYeN1P-I)
+//https://jsonplaceholder.typicode.com/posts
+//retrieves 100 records
+//let's pretend that there are millions of records
+// let posts = {};
+// posts[Symbol.iterator] = function(){
+//   const URL = "//jsonplaceholder.typicode.com/posts";
+//   return {
+//     next: async function(){
+//       //early pre-emptive move
+//       let rand = Math.random();
+//       if(rand > 0.7){
+//         return {
+//           value: undefined,
+//           done: true
+//         };
+//       }
+//       let request = new Request(URL+`?r=${rand}`, {
+//         method: 'GET',
+//         mode: 'cors'
+//       });                
+//       let response = await fetch(request);
+//       //need to add catch()
+//       let data = await response.json();
+//       console.log('array of posts fetched', data);
+//       return {
+//         value: data,
+//         done: false
+//       }
+//     }
+//   }
+// }
+// let output = document.getElementById('output');
+// let main = document.querySelector('.main');
+// main.addEventListener('click', de);        
+// function de(ev){
+//   //start getting data
+//   //output.textContent += JSON.stringify(d);
+//   let iterator = posts[Symbol.iterator]();          
+//   (async function getData(){
+//     let data = await (iterator.next());
+//     if(data.value && !data.done){
+//       output.textContent += '\r\n' + JSON.stringify(data.value);
+//       console.log('getData', data.value);
+//       setTimeout(getData, 2000);
+//     }else{
+//       console.log( 'Done:', data.done );
+//       output.textContent += '\r\n DONE.';
+//     }
+//   })();
+// }
+
+// -----------------------------–Typed Array-------------------------------
+/* 
+Typed Arrays in JavaScript accept only one data type look exp. of restricted data type in type array :  
+
+Int8Array - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array
+-128 to 127
+
+Uint8Array - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array
+0 - 255
+
+Uint8ClampedArray - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray
+0 - 255
+
+Int16Array - like Int8Array but 16 bits in length
+-32768 to 32767
+Uint16Array - like Uint8Array but 16 bits in length
+0 to 65535
+
+Int32Array - like Int8Array but 32 bits in length
+-2147483648 to 2147483647
+Uint32Array - like Uint8Array but 32 bits in length
+0 to 4294967295
+
+Float32Array - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array
+1.2x10-38 to 3.4x10 38
+
+Float64Array - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array
+5.0x10 -324 to 1.8x10 308
+
+ArrayBuffer - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
+- used to represent a generic, fixed-length raw binary data buffer.
+
+DataView - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView
+
+Typed Arrays are used by: WebGL, Canvas, Web Audio API, XMLHttpRequests, Fetch API,  WebSockets, Web Workers, Media Source API and File APIs. 
+*/
+
+//new Int8Array(length(bytes) | buffer | TypedArray);
+// array of 8-bit integers
+// most Array methods are available on TypedArrays too
+
+// let buffer = new ArrayBuffer(16);
+// //create a 16 byte buffer
+
+// let dv1 = new DataView(buffer);
+// //create a DataView to be able to access/set whole buffer
+// let dv2 = new DataView(buffer, 10, 3);
+// //start at slot 10, get 3 bytes
+
+
+// dv1.setInt8(11, 42);
+// //put "42" in slot 11 of the buffer through view1
+// let num = dv2.getInt8(1);
+// console.log(num)
+// console.log( dv2.getInt8(0))
+// console.log( dv2.getInt8(2))
+// //retrieve the 42 from the 2nd byte in view2 which was 
+// //the 11th byte in the buffer
+
+//--------------------Private Variable inside Factory Function with Closure -------------------
+/* 
+In JavaScript, a closure is a function that references variables in the outer scope from 
+its inner scope. The closure preserves the outer scope inside its inner scope.
+JavaScript engine uses the scope to manage the variable accessibility.
+normally, a local variable only exists during the execution of the function.
+The magic of this is closure. In other words, the sayHi() function is a closure.
+A closure is a function that preserves the outer scope in its inner scope.
+function greeting() {
+    let message = 'Hi';
+    function sayHi() {
+        console.log(message);
+    }
+    return sayHi;
+}
+let hi = greeting();
+hi(); // still can access the message variable
+*/
+
+// function Factory(x){
+//   let _privateVariable = x;
+//   return {
+//     prop1 : _privateVariable,
+//     prop2 : function(){
+//       console.log(_privateVariable)
+//     }
+//   }
+// }
+// let obj = Factory(10)
+// obj.prop2()
+
+// ------------------------Closure with Loops-------------------
+
+/* [1] Function inside Function
+this will work normally because here where are using setTimeout function inside
+another function so we are creating closure which preserves the outer scope inside its inner scope.
+so this will work even if we use var not let because we already create a closure (function inside function)
+*/
+// let myNames = ["Mohamed","Ahmed","Soliman","Hussein"]
+// for(var i =0 ; i < myNames.length; i++){
+//   myFunc(i,myNames[i])
+// }
+// function myFunc(index,name){
+//   setTimeout(function(){
+//     console.log(`The Index : ${index} and the name : ${name}`)
+//   },1000*index)
+// }
+/* [2] Using Let
+this will work normally because of using let : let is block scope and create separate scope 
+for the code block which create a closure and the closure preserves the outer scope inside its inner scope
+*/
+// let myNames2 = ["Mohamed","Ahmed","Soliman","Hussein"]
+// for(let i =0 ; i < myNames2.length; i++){
+//   setTimeout(function(){
+//     console.log(`The Index : ${i} and the name : ${myNames2[i]}`)
+//   },1000*i)
+// }
+
+/*
+this will not work normally will return index 4 and undefined 4 times because we are usning var
+and var is not block scope so will not create seperate scope or create closure so when setTimeout
+excute will search at var i inside global scope and i in global scope after loop will be 4
+and there is no myNames3[4] so myNames3[4] = undefined
+
+*/
+// let myNames3 = ["Mohamed","Ahmed","Soliman","Hussein"]
+// for(var i =0 ; i < myNames3.length; i++){
+//   setTimeout(function(){
+//     console.log(`The Index : ${i} and the name : ${myNames3[i]}`)
+//   },1000*i)
+// }
+
+// ----to Solve this Problem you have 4 options : 
+
+// [1] Using let instead of var
+
+// [2] using bind method
+// because once the setTimeout function excute in future we already bound(thisArg, arg1) to it
+// let myNames = ["Mohamed","Ahmed","Soliman","Hussein"]
+// for(var i =0 ; i < myNames.length; i++){
+//   setTimeout((function(index){
+//     console.log(`The Index : ${index} and the name : ${this[index]}`)
+//   }).bind(myNames,i),1000*i)
+// }
+
+// [3] passing parameters to setTimeout
+// like concept of binding we pass the value of i each loop to setTimeout Function once it excute in future it has it's i value
+// let myNames = ["Mohamed","Ahmed","Soliman","Hussein"]
+// for(var i =0 ; i < myNames.length; i++){
+//   setTimeout(function(index){
+//     console.log(`The Index : ${index} and the name : ${myNames[index]}`)
+//   },1000*i,i)
+// }
+
+// [4] Using IIFE
+// IIFE will create a new scope for each setTimeout execution
+// let myNames = ["Mohamed","Ahmed","Soliman","Hussein"]
+// for(var i =0 ; i < myNames.length; i++){
+//   (function(index){
+//     setTimeout(function(){
+//       console.log(`The Index : ${index} and the name : ${myNames[index]}`)
+//     },1000*i)
+//   })(i)
+// }
+// a good link for this problem
+// https://discuss.codecademy.com/t/var-and-let-in-a-loop-working-differently/550468/8
 
