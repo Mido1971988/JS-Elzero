@@ -2355,7 +2355,7 @@ console.log(newObj2) // newObj2.arr  [5,2,3,4]
 // shallow copy we are creating just a pointer to this array that's why when we changed 
 // the array obj.names.push("Hussein") also changed at obj1
 // when we change what names property point to this is a different story we are changing 
-// property name not changing teh exisiting array so property name will be changed only at obj
+// property names not changing teh exisiting array so property names will be changed only at obj
 // not at shallow copy obj1
 
 let obj = {
@@ -6871,7 +6871,7 @@ both without using g flag return Array of information with first match
 // console.log(names.match(/\d\w{8}(?!Z)/ig))
 // difference between $ and \b 
 // console.log(myString.match(/\w+$/ig)) // [Programming] will match last word only
-// console.log(myString.match(/\w+e\b/ig)) // will match ever word end with e not lat word in string
+// console.log(myString.match(/\w+e\b/ig)) // will match ever word end with e not last word in string
 
 /* -------multiline mode--------
 The multiline mode is enabled by the flag m.
@@ -10406,7 +10406,7 @@ Why Function is First-Class Object ?
 
 // -----------------Time and Date in JavaScript------------------
 
-let d = new Date()
+// let d = new Date()
 // console.log(d)
 // // miliseconds after default start date (Unix Epoch) Jan 1 00:00:00.0000 1970
 // let d1 = new Date(1500000000000) 
@@ -11518,6 +11518,7 @@ by using Object.create(null) will create an empty object whose prototype is null
 and the added pad will repeat till reach min length
 * padEnd (minLength, "added pad") in added pad you can add space by " " or text "x" 
 and the added pad will repeat till reach min length
+default added pad is space if you didnt write anything
 */
 // let name = "Soliman"
 // let nameWithSpaces = "      Soliman     "
@@ -11527,6 +11528,19 @@ and the added pad will repeat till reach min length
 // console.log("!",nameWithSpaces.trimRight(),"!")
 // console.log("!",name.padStart(15,"x"),"!")
 // console.log("!",name.padEnd(15,"x"),"!")
+
+// some use cases for padding : 
+
+// [1] id with constant length 
+// let id = 123456
+// console.log(id.toString().padStart(9,"0"))
+
+// [2] fixed length file format
+// let userId = 123456
+// let userName = "Soliman"
+// let userEmail = "@email"
+// let file = userId.toString().padStart(9,"0") + "\n"+ userName.padStart(9,">") + "\n"+userEmail.padStart(9,"#")
+// console.log(file)
 
 // -------------Number Formatting-------------
 /* 
@@ -12919,4 +12933,188 @@ and there is no myNames3[4] so myNames3[4] = undefined
 // }
 // a good link for this problem
 // https://discuss.codecademy.com/t/var-and-let-in-a-loop-working-differently/550468/8
+
+// ---------------Filter vs some vs find vs findIndex----------------
+/*
+* Filter will return found element or array of found elements and will continue the loop till end of array
+
+* Find will return found element only of first match not array of found elements 
+not like Filter will return an array of all matches and will not continues the loop till the end
+
+*FindIndex will return the index of first Match if not found return -1 like indexOf method
+
+* Some will return true once found first match and will not continue the loop till the end
+*/
+// let names = ["Mohamed","Ahmed","Soliman","Hussein"]
+// console.log(names.indexOf("Ahmed")) // 1
+// let arrOfObjs = [
+//   {id : 1 , name : "Mohamed"},
+//   {id : 2 , name : "Ahmed"},
+//   {id : 3 , name : "Soliman"},
+//   {id : 4 , name : "Hussein"}
+// ]
+// //  will return -1 because this object is not the same object inside arrOfObjs (assigned be reference)
+// let toBeFound = {id : 2 , name : "Ahmed"}
+// console.log(arrOfObjs.indexOf(toBeFound)) 
+// let obj = {
+//   lastName : "Hussein"
+// }
+
+// // to solve this problem you can use filter or some or find or findIndex
+
+// [1] Filter
+// let count = 0;
+// let filterFound = arrOfObjs.filter(ele => {
+//   count++
+//   if(toBeFound.id === ele.id){
+//     return true
+//   }else{
+//     return false
+//   }
+// })
+// console.log(filterFound,"After Looping", count,"Times") // 4 times
+
+// [2] Some
+// count = 0;
+// let someFound = arrOfObjs.some((ele,index) =>{
+//   count++;
+//   if(toBeFound.id === ele.id){
+//     console.log(arrOfObjs[index],'After Looping',count,'Times') // 2 times
+//     return true
+//   }else{
+//     return false
+//   }
+// })
+// console.log(arrOfObjs[count-1],'After Looping',count,'Times') // 2 times
+
+// [3] Find
+// count = 0;
+// let findFound = arrOfObjs.find((ele) =>{
+//   count++;
+//   if(toBeFound.id === ele.id){
+//     return true
+//   }else{
+//     return false
+//   }
+// })
+// console.log(findFound,'After Looping',count,'Times') // 2 times
+
+// [4] findIndex
+// count = 0;
+// let findIndexFound = arrOfObjs.findIndex((ele,index) =>{
+//   count++;
+//   if(toBeFound.id === ele.id){
+//     return true
+//   }else{
+//     return false
+//   }
+// })
+// console.log(arrOfObjs[findIndexFound],'After Looping',count,'Times') // 2 times
+
+// ---note : you can use thisArg with filter ,find, some, findIndex
+// let filterFound = arrOfObjs.filter(function(ele) {
+//   if(this.lastName === ele.name){
+//     return true
+//   }else{
+//     return false
+//   }
+// },obj)
+// console.log(filterFound)
+
+// ----------------escape sequence in javascript-----------------
+/*
+\b Backspace 
+\f Form Feed 
+\n New Line 
+\r Carriage Return
+\t Horizontal Tabulator 
+\v Vertical Tabulator 
+\' Single quote 
+\" Double quote 
+\\ Backslash
+
+* Carriage return (\r): moves the cursor to the beginning of the line
+* Line Feed (\n): moves the cursor down to the next line 
+* Form Feed  :"On printers, load the next page. In some terminal emulators, 
+it clears the screen." (truncates the string on Safari.)
+* Backspace : "Move the cursor one position leftwards." (ignored on Safari.)
+*/
+
+// ------------------------trimStart and trimEnd---------------------
+/* 
+white space : space, tab , no-Break space , LF, CR => depending on which operator system
+
+* Carriage return (\r): moves the cursor to the beginning of the line
+* Line Feed (\n): moves the cursor down to the next line 
+
+A CR immediately followed by a LF (CRLF, \r\n, or 0x0D0A) moves the cursor down to the next 
+line and then to the beginning of the line.
+
+non-breaking spaces can't be split on separate lines
+non-breaking spaces will not be "collapsed" like regular spaces will
+*/
+
+// let nbsp = "\u00A0" // \xa0 in hex
+// let cr = "\u000D" // \x0D in hex
+// let lf = "\u000A" // \x0A in hex
+// let tab = "\t" // \x09 in hex
+
+// let str = `${tab}.i am a front-end developer.${nbsp}`
+// let str1 = `\t.i am a front-end developer.${nbsp}`
+// console.log(str)
+// console.log(str.trim())
+// console.log(str.trimStart())
+// console.log(str.trimEnd())
+
+// -------------------Clock-------------
+// you can use it in your clock (count down in vs folder on desktop)
+
+/*
+ * Converting seconds into proper time values like a digital clock
+ * 00:01:03
+*/
+
+// let timmy = setInterval(showTime, 1000);
+// let seconds = 3595;
+
+// function showTime() {
+//      //update the time as hours, minutes, and seconds 00:00:00
+//   seconds++;
+//   let hours = Math.floor(seconds / 3600);
+//   let mins = Math.floor(seconds / 60) - (hours * 60);
+//   let secs = Math.floor(seconds % 60);
+//   let output = hours.toString().padStart(2, '0') + ':' +
+//   mins.toString().padStart(2, '0') + ':' +
+//   secs.toString().padStart(2, '0');
+//   console.log(output);
+// } 
+
+// --------------Chained Variable Declaration--------------
+/*
+=> z will be added to global object because we didn't declare z with var or let
+JS engine will search for variable with name z in local scope will not find variable z
+then will go to global scope also will not find variable z so will add z as property to 
+global object
+
+=> b like z will be added as property to global scope
+
+* let and var are function scope but let is block scope var is not block scope
+* because var is function scope will not added to global scope but if it's inside block or 
+in global scope will be added to global scope
+*/
+// (function f1(){
+//   let x = 1;
+//   var y = 2;
+//   z = 3
+//   var a = b = 4
+// })()
+// console.log(window.z)
+// console.log(window.b)
+// if(true){
+//   let f = 5;
+//   var g = 6
+// }
+// var k = 7;
+// console.log(window.g)
+// console.log(window.k)
 
