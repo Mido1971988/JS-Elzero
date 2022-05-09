@@ -2139,7 +2139,7 @@ This feature is known as hoisting in JavaScript.
 // var hoist = 10;
 
 // give Error annot access before initialization
-// console.log(hoist)
+// console.log(hoist) // here yoou are at stage called temporal deadzone (you are between hoisting and initializing)
 // let hoist = 10;
 
 // output undefined
@@ -4630,10 +4630,26 @@ Object.isFrozen(obj)
 Object.isSealed(obj) 
 Object.preventExtensions(obj) 
 Object.freeze(obj) 
-Object.seal(obj
+Object.seal(obj)
 
+let obj  = {
+  prop1 : "test"
+}
+let objProto = {}
+Object.seal(obj)
+Object.freeze(obj)
+Object.preventExtensions(obj)
+
+
+                          seal()            freeze()              preventExtensions()
+* Add new prop              no                no                        no
+* Edit prop value           yes               no                        yes
+* Delete a prop             no                no                        yes
+* Change descriptors        no                no                        yes
+* Reassign __proto__        no                no                        no
 
 */
+
 
 // -------Data property vs Accessor Property-------------
 /*
@@ -13118,3 +13134,69 @@ in global scope will be added to global scope
 // console.log(window.g)
 // console.log(window.k)
 
+// --------------------Conditional Operand Selectors----------------
+/*
+(&&) will look first at first value :
+* if truthy value will render second value 
+* if falsy value will render first value
+
+(||) will render first truthy value if no truthy value will render last falsy value
+*/
+
+// console.log( true && true) // true
+// console.log( false && true) // false
+// console.log( true || false) // true
+// console.log( false || true) // true
+// console.log("#######")
+// console.log( 0 && true) // 0
+// console.log( 0 && false) // 0
+// console.log( 1 && true) // true
+// console.log( 0 || false) // false
+// console.log( 1 || true) // 1
+// console.log("#######")
+// console.log( 0 && "text") // 0
+// console.log( 1 && "text") // "text"
+// console.log( 0 || "text") // "text"
+// console.log( 1 || "text") // 1
+// console.log("#######")
+// console.log( false && "text") // false
+// console.log( true && "text") // "text"
+// console.log( false || "text") // "text"
+// console.log( true || "text") // true
+
+// -----------------------charCodeAt and codePointAt------------
+/**
+ * Character Codes and Code Points 
+ * str.charCodeAt(index) //good for UTF-8  (0 - 65535 or 0xFFFF) for normal characters
+ * str.codePointAt(index) //better for UTF-16 (0 - 1114111 or 0x10FFFF) for different characters like Emoji
+ * str.charAt(index)
+ *
+ * String.fromCharCode(code) //good for UTF-8 (0 - 65535 of 0xFFFF)
+ * String.fromCodePoint(code) //better for UTF-16 (0 - 1114111 or 0x10FFFF) better for Emoji
+ */
+// Emoji is bigger than 65535 so it will be 2 charachters
+// let emojis = "😆😀😂🍔🔥❤";
+// let str = "ab🔥C";
+
+// console.log(str.length); // 5 because 🔥 divided to 2 charachter
+// console.log(
+//   str.charAt(0),
+//   str.charAt(1),
+//   //  position 2 and 3 is 🔥 (because it's divided to 2 charachter)
+//    str.charAt(2), // ? because it half of 🔥
+//    str.charAt(3), // ? because it half of 🔥
+//   str.charAt(4)
+// );
+
+// let cs = str.charCodeAt(0);
+// console.log(cs, cs.toString(16));
+
+// let cca = emojis.charCodeAt(0);
+// let cpa = emojis.codePointAt(0);
+// console.log(cca, cpa, cca.toString(16), cpa.toString(16));
+
+// let char3 = String.fromCharCode(cs);
+// console.log(char3); // a
+// let char1 = String.fromCharCode(cca);
+// let char2 = String.fromCodePoint(cpa);
+// console.log(char1, char2); // ? 😆
