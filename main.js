@@ -1763,6 +1763,7 @@ Steps of for loop
 // to change string to Array
 // 1 - Array.from("string")
 // 2 - "string".split("")
+// 3 - [..."string"]
 
 // to change Array to String
 // 1 - ["s", "t", "r", "i", "n", "g"].join("") without comma
@@ -13200,3 +13201,159 @@ in global scope will be added to global scope
 // let char1 = String.fromCharCode(cca);
 // let char2 = String.fromCodePoint(cpa);
 // console.log(char1, char2); // ? 😆
+
+// -----------------------------For Await of Loop-------------------------
+
+// let arr = [
+//   new Promise(resolve =>setTimeout(resolve,4000,"One")),
+//   new Promise(resolve =>setTimeout(resolve,1000,"Two")),
+//   new Promise(resolve =>setTimeout(resolve,1000,"Three"))
+// ];
+
+// for(let p of arr ){
+//   console.log(p) // will return Promise<pending>
+// };
+
+// (async function(){
+//   for await (let res of arr ){
+//     console.log(res) // will return one two three
+//   }
+// })();
+
+// let myObj = {
+//   //add an asyncIterator method to my object
+//   [Symbol.asyncIterator]() {
+//     //which will return an object that contains a method called next()
+//     return {
+//       i: 0 /* my counter property */,
+//       next() {
+//         if (this.i < 3) {
+//           //return value from the next method must be an object
+//           //the object should contain a value and a done property
+//           return new Promise(resolve => {
+//             let obj = { value: this.i, done: false };
+//             this.i = this.i + 1;
+//             setTimeout(resolve, 1000, obj);
+//             //this timeout delay value is not set until next() is called by for await...of
+//           });
+//         }
+//         //once our counter value is 3 or more tell whoever called next that we are done
+//         return new Promise(resolve => {
+//           setTimeout(resolve, 3000, { done: true });
+//         });
+//       }
+//     };
+//   }
+// };
+
+// (async function() {
+//   for await (let num of myObj) {
+//     console.log(num);
+//   }
+// })();
+
+
+// ---------------------------custom event---------------------
+
+// // Browser version with Event Listener to call a function
+// let Schwift = new CustomEvent("schwifty");
+// class MyObj extends EventTarget {
+//   //allowed to receive / listen for events
+//   constructor() {
+//     super();
+//   }
+//   log(ev) {
+//     console.log("EVENT", ev); // Schwift Event object
+//   }
+// }
+// // let obj = new MyObj();
+// // you can also directly create obj from EventTarget constructor to be allowed to receive / listen for events
+// let obj = new EventTarget();
+// obj.addEventListener("schwifty", obj.log);
+// obj.addEventListener("schwifty", ev => console.log(ev.type)); //"schwifty"
+// setTimeout(function() {
+//   obj.dispatchEvent(Schwift); //trigger the two event listeners for "schwift"
+// }, 1000);
+
+// --------------------------new Object for everyThing-------------
+// let obj1 = {
+//   a: "this",
+//   b: "is",
+//   c: "an",
+//   d: "object",
+//   e: "literal"
+// };
+// let obj2 = new Object(["object", "contructor", "one"]); // new Array("", "", "")
+// let obj3 = new Object({ an: "object", literal: "again" });
+// let obj4 = new Object(obj1.a); // new Object("some string")  new String("asdfas")
+// let obj5 = new Object(); //same as new Object(null) or new Object(undefined)
+// let obj6 = new Object(true); // new Boolean(true)
+
+// console.log(
+//   "OBJ1",
+//   obj1,
+//   typeof obj1,
+//   obj1 instanceof Object,
+//   obj1.constructor,
+//   "\n"
+// );
+
+// console.log(
+//   "OBJ2",
+//   obj2,
+//   typeof obj2,
+//   obj2 instanceof Array,
+//   obj2 instanceof Object,
+//   Array.isArray(obj2),
+//   obj2.constructor,
+//   "\n"
+// );
+
+// console.log(
+//   "OBJ3",
+//   obj3,
+//   typeof obj3,
+//   obj3 instanceof Object,
+//   obj3.constructor,
+//   "\n"
+// );
+
+// console.log(
+//   "OBJ4",
+//   obj4,
+//   typeof obj4,
+//   obj4 instanceof String,
+//   obj4.constructor,
+//   "\n"
+// );
+
+// console.log(
+//   "steve",
+//   String("steve"),
+//   new String("steve"),
+//   typeof "steve",
+//   typeof String("steve"),
+//   typeof new String("steve"),
+//   "\n"
+// );
+
+// console.log(
+//   "OBJ5",
+//   obj5,
+//   typeof obj5,
+//   obj5 instanceof Object,
+//   obj5.constructor,
+//   "\n"
+// );
+
+// console.log(
+//   "OBJ6",
+//   obj6,
+//   typeof obj6,
+//   obj6 instanceof Boolean,
+//   obj6 instanceof Object,
+//   obj6.constructor,
+//   "\n" 
+// );
+
+
