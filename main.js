@@ -5859,11 +5859,11 @@ first parsing it, we would get back a string as a response.
 // we can use Destructuring Array to get index of array with entries() method
 // let arr = [ "One","Two","Three","Four"]
 // let arrIn = arr.entries()
-// // console.log(arrIn.next())
-// // console.log(arrIn.next())
-// // console.log(arrIn.next())
-// // console.log(arrIn.next())
-// // console.log(arrIn.next())
+// console.log(arrIn.next())
+// console.log(arrIn.next())
+// console.log(arrIn.next())
+// console.log(arrIn.next())
+// console.log(arrIn.next())
 // for([index, value] of arrIn ) {
 //   console.log(index , value)
 // }
@@ -5918,6 +5918,7 @@ first parsing it, we would get back a string as a response.
 //   console.log(`Your Name Is ${obj.theName}`)
 //   console.log(`Your Age Is ${obj.theAge}`)
 //   console.log(`Your Css Skills Is ${obj.skills.css}`)
+//   console.log(`Your Css Skills Is ${c}`)
 // }
 // function showDetails({theName : n, theAge : a, skills: {css : c}} = user) {
 //   console.log(`Your Name Is ${n}`)
@@ -5969,6 +5970,8 @@ console.log(secretName) // Bruce Wayne
 
 // you can use Destructuring also with nested object
 const {address : { city }} = hero
+const {address : { city : x }} = hero
+console.log(x)
 
 // you can use variable with string(same value of key)
 const prop = "realName"
@@ -13357,3 +13360,198 @@ in global scope will be added to global scope
 // );
 
 
+// ------------------------Before and After Destructuring--------------
+//Why Destructuring (and ES6) is Awesome
+
+// let person = {
+//   id: 123,
+//   name: "Leslie",
+//   dob: new Date("1985-01-01").valueOf(),
+//   age: 44,
+//   salary: 55000,
+//   department: "Parks and Recreation",
+//   hometown: "Pawnee"
+// };
+
+
+// ---ES5 version
+// function savePersonES5(someObj) {
+//   let id = Date.now();
+//   if (someObj.id) {
+//     id = someObj.id;
+//   }
+//   let name = someObj.name;
+//   if (!name) {
+//     name = "Blank";
+//   }
+//   let dob = someObj.dob ? someObj.dob : new Date("2000-01-01").valueOf();
+//   //save it in localStorage for later use
+//   const KEY = "someRandomUniqueString";
+//   let jsonStr = JSON.stringify({ id: id, name: name, dob: dob });
+//   // localStorage.setItem(KEY, jsonStr);
+//   console.log(jsonStr)
+// }
+// savePersonES5(person);
+
+// ----ES6 Version
+// function savePersonES6({id = Date.now(),name = "Blank",dob = new Date("2001-01-01").valueOf()}) {
+//   const KEY = "someRandomUniqueString";
+
+//   let jsonStr = JSON.stringify({ id, name, dob });
+//   // localStorage.setItem(KEY, jsonStr);
+//   console.log(jsonStr)
+// }
+// savePersonES6(person);
+
+// --------Symbol.iterator how it works--------------
+/* The Symbol.iterator is a function that returns a next() function.
+
+The Symbol.iterator method is called automatically by for..of.
+
+The spread operator and for...of statements call the iterable protocol of an object. Some objects, like Array, String, Set and Map have built in iterable protocols. That means that they have the Symbol.iterator method.
+
+1. When for..of starts, it calls that method once (or errors if not found). The method must return an iterator – an object with the method next.
+2. Onward, for..of works only with that returned object.
+3. When for..of wants the next value, it calls next() on that object.
+4. The result of next() must have the form {done: Boolean, value: any}, where done=true means that the iteration is finished, otherwise value is the next value.
+*/
+
+// ------------------------------Numeric Seperator---------------------
+// you can add _ between numbers to make it easy to read and will not effect anything
+// let num = 1_000_000_000
+// console.log(num)
+// console.log(num + 1)
+
+// -------------------------------Optional Chaining--------------
+/*
+we have two exp. 
+[1] 1st exp. is array 
+* before Optional Chaining : we have to check first if arr1[0] has 
+property called label using if condition
+
+* After Optional Chaining : we can use ?. and it will search automatically if 
+arr1[0] has property called label if exist will return it's value to variable 
+propValue if not exist will return undefined
+
+[2] 2nd Exp. is object 
+* you can check for property name using ?. if if exist will return it's value to variable 
+grandChild if not exist will return undefined
+
+* it's very usefull in methods if the method does not exist and use ?.() instead of . 
+will not thorw an Error will do nothing but using () directly will throw an Error
+*/
+// let arr1 = [
+//   { label: 'ONE' },
+//   { label: 'TWO' },
+//   { label: 'THREE' },
+//   { label: 'FOUR' },
+//   { label: 'FIVE' }
+// ]
+
+// before Optional Chaining
+// function hasLabel(arr){
+//   if(arr[0].label){
+//     let propValue = arr[0].label
+//     console.log("Found", propValue)
+//   }
+// }
+// hasLabel(arr1)
+
+
+// // Using Optional Chaining
+// function hasLabel2(arr){
+//   let propValue = arr[0]?.label
+//   if(propValue){
+//     console.log("Found", propValue)
+//   }
+// }
+// hasLabel2(arr1)
+
+// let obj1 = {
+//   prop1 : 1,
+//   prop2 : 2,
+//   prop3 : {subProp1 : 3 , subProp2 : {subSubProp1 : 4 }},
+//   method1 : function(){
+//     console.log("I Am Method 1")
+//   }
+// }
+// let grandChild = obj1.prop3.subProp2.subSubProp1
+// let grandChild2 = obj1?.prop3?.subProp2?.subSubProp1
+// let grandChild3 = obj1?.prop3?.subProp2?.subSubProp2
+// let grandChild4 = obj1.prop3.subProp2.subSubProp2
+// console.log(grandChild) // 4
+// console.log(grandChild2) // 4
+// console.log(grandChild3) // undefined
+// console.log(grandChild4) // undefined
+// obj1.method1()
+// // obj1.method2() // Error
+// obj1.method2?.() // No Error
+
+
+/*
+more complicated exp. from this video ( https://youtu.be/G662_abEci0)
+const dataArr = [
+  { label: 'ONE' },
+  { label: 'TWO' },
+  { label: 'THREE' },
+  { label: 'FOUR' },
+  { label: 'FIVE' }
+];
+const dataObj = {
+  4: { label: 'I am Number Four' },
+  7: { label: `What's in the box?` },
+  m: () => {
+    console.log('custom method');
+  },
+  top: { mid: { deep: 123 } }
+};
+
+const addPara = (num, hex) => {
+  // let txt = 'default';
+  // if(dataArr && dataArr[num-1]) {
+  //   txt=dataArr[num-1].label
+  // }
+  // let txt = dataArr[num - 1]?.label;
+  let txt = dataObj[num]?.label;
+  if (txt) {
+    let p = document.createElement('p');
+    p.style.backgroundColor = hex; //8 digit hex
+    p.id = `_${num}`; // _4, _5, _6, _7
+    p.textContent = txt;
+    document.body.appendChild(p);
+  }
+  //console.log(dataObj?.toplevel?.mid?.deep);
+  //if (dataObj && dataObj.top && dataObj.top.mid && dataObj.top.mid.deep) {
+  //}
+  dataObj.m?.();
+  dataObj.f?.();
+};
+
+const handleClick = ev => {
+  let num = Math.floor(Math.random() * 7) + 1; // 1 - 7
+  let id = '_'.concat(num); // _3
+  let hex = randColour(); // 8 digit hex
+  console.log(id, hex);
+  let div = document.getElementById(id);
+  div ? (div.style.backgroundColor = hex) : addPara(num, hex); // or void 0
+  //addPara.call(null, num, hex); //addPara(num, hex)
+};
+
+const randColour = () => {
+  let clr = Math.floor(Math.random() * Math.pow(2, 24));
+  let red = (clr >> 16).toString(16).padStart(2, '0');
+  let green = ((clr >> 8) & 255).toString(16).padStart(2, '0');
+  let blue = (clr & 255).toString(16).padStart(2, '0');
+  let alpha = Math.floor(Math.random() * 200 + 55)
+    .toString(16)
+    .padStart(2, '0'); //alpha is a value 0-100% but written as num 0-255
+  // and in hex that means 00 - FF. 50% is 128 in decimal or 80 in Hex
+  // https://codepen.io/chriscoyier/pen/XjbzAW - ref chart for percentages
+  //console.log(red, green, blue, alpha);
+  return `#${red}${green}${blue}${alpha}`;
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.body.addEventListener('click', handleClick);
+});
+*/
