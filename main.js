@@ -2632,13 +2632,15 @@ In JavaScript, only objects and arrays are mutable, not primitive values.
 A mutable object is an object whose state can be modified after it is created.
 Immutables are the objects whose state cannot be changed once the object is created.
 
-Srings and Numbers (primitive values) are immutable
+Strings and Numbers (primitive values) are immutable
 
 By default, objects are mutable. This means once they're created, 
 you can add a new property to them, modify the value of an existing property, or delete a property.
 
 When an object is immutable, you can't add a new property to it, modify it, 
 or delete an existing property. There is no way even to extend it.
+
+const is not immutable const prevent reassign 
 */
 /*
 // Exp. of mutable in JS
@@ -2676,7 +2678,7 @@ or delete an existing property. There is no way even to extend it.
 // console.log(obj2)
 // console.log(obj === obj2)
 
-// using Object.freeze
+// using Object.freeze (convert object to immutable)
 let obj = {theName : "Soliman"}
 let obj2 = obj
 Object.freeze(obj)
@@ -2684,6 +2686,17 @@ obj2.theName = "hussein"
 console.log(obj) // Soliman
 console.log(obj2) // Soliman
 console.log(obj === obj2)
+
+// Using Object.seal() ( mix ) you can not add property but you can change it
+let obj = {
+  name : "Mohamed",
+  last : "Soliman"
+}
+Object.seal(obj)
+obj.middle = "Ahmed" // can not add property
+console.log(obj)
+obj.last = "Hussein"
+console.log(obj) // can change property
 
 // -------Function Composition-------
 // higer order function
@@ -13555,3 +13568,541 @@ document.addEventListener('DOMContentLoaded', () => {
   document.body.addEventListener('click', handleClick);
 });
 */
+
+// ----------------------Custom Sorting--------------------
+/* when use sorting it's under the hood convert elements inside the array to string so here 
+elements inside array is objects and when converted to string using toString() all of them 
+will convert to [Object Object] so using sort() with custom function will not do anything 
+
+the custom function should return postive or negative number or zero  
+number > 0 sort element1 before element2 | number < 0 sort element1 before element2 | === 0 keep original order
+*/
+
+// const people = [
+//   { id: 12, name: 'Billy', dob: '1998-10-05' },
+//   { id: 123, name: 'Bart', dob: '1993-02-15' },
+//   { id: 45, name: 'Belinda', dob: '1996-01-31' },
+//   { id: 67, name: 'Bonnie', dob: '1998-04-09' },
+//   { id: 89, name: 'Brenda', dob: '1996-07-08' },
+//   { id: 34, name: 'Bobby', dob: '1994-09-12' },
+//   { id: 234, name: 'Blake', dob: '2000-01-01' },
+// ];
+
+// const log = console.log;
+
+// log('\n\n built-in sort method');
+// log(people.sort());
+
+// log('\n\n sort by name');
+// log(people.sort(byName));
+
+// log('\n\n sort by id');
+// log(people.sort(byId));
+
+// log('\n\n sort by date');
+// log(people.sort(byDate));
+
+// log('\n\n sort by birthday as it occurs during the year');
+// log(people.sort(byBirthday));
+
+// function byName(a, b) {
+//   //alphabetically by name
+//   if (a.name > b.name) {
+//     return 1;
+//   } else if (b.name > a.name) {
+//     return -1;
+//   } else {
+//     return 0;
+//   }
+// }
+
+// function byId(a, b) {
+//   //numerically by id
+//   return parseInt(a.id) - parseInt(b.id);
+// }
+
+// function byDate(a, b) {
+//   //chronologically by year, month, then day
+//   return new Date(a.dob).valueOf() - new Date(b.dob).valueOf(); //timestamps
+// }
+
+// function byBirthday(a, b) {
+//   //by month and then by day
+//   let d1 = new Date(a.dob); // 1993-02-15T00:00:00Z =>   1993-02-14T20:00:00EST
+//   let d2 = new Date(b.dob);
+//   // always when you want to get time from instance (d1,d2) of Date constructor (Date)
+//   // use d1.getUTCDate() instead of d1.getDate() because when you create instances (d1,d2)
+//   // without adding time will add default T00:00:00Z and if you live in region time less 
+//   // than UTC so when you try to use d1.getDate() the day will be less 
+//   //  like 1993-02-15T00:00:00Z =>   1993-02-14T20:00:00EST but using d1.getUTCDate() will not
+
+//   log(d1.getDate(), d1.getUTCDate(), d1.getMonth(), d1.getUTCMonth());
+//   if (d1.getUTCMonth() > d2.getUTCMonth()) {
+//     return 1;
+//   } else if (d1.getUTCMonth() < d2.getUTCMonth()) {
+//     return -1;
+//   } else {
+//     //same month
+//     return d1.getUTCDate() - d2.getUTCDate();
+//   }
+// }
+
+// ---------------------------flat() with level -----------------
+//Array.prototype.flat() to flat multi dimension array
+// let numbers = [
+//   1,
+//   2,
+//   [3, 4, 5],
+//   [6, 7],
+//   8,
+//   9,
+//   [
+//     [10, 11],
+//     [12, 13],
+//   ],
+// ];
+// // level number
+// let arr1 = numbers.flat(); // default flat(1)
+// let arr2 = numbers.flat(2);
+// console.log(arr1); // [1, 2, 3, 4, 5, 6, 7, 8, 9, Array(2), Array(2)]
+// console.log(arr2); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] 
+
+// -------------------------------------Array.prototype.flatMap()-----------------
+
+// Array.prototype.flatMap()  equivalent to  myArray.map().flat(1)
+
+// let movies = [
+//   'Dog Soldiers',
+//   ['In Bruges', 'From Paris with Love', 'Layer Cake'],
+//   'The Big Lebowski',
+//   '',
+//   '    ',
+//   'Memento, The Platform,Fight Club, ',
+//   'Hotel Rwanda, Moon, Under the Skin',
+//   'Lady Bird',
+//   ['Platoon', 'Wall-E'],
+// ];
+// let arr = movies.flatMap((entry) => {
+//   if (Array.isArray(entry)) {
+//     return entry;
+//   } else if (typeof entry === 'string' && entry.trim() === '') {
+//     // this to remove '','    ', because when you return [] and use flat() flat will remove rempty arr
+//     return []; //remove the empty strings
+//   } else {
+//     //other strings
+//     return entry
+//       .split(',')
+//       // this to remove space before , The Platform,
+//       .map((txt) => txt.trim())
+//       // this to , ' after Fight Club
+//       .filter((txt) => txt != '');
+//   }
+// });
+// console.log(arr);
+
+// --------------------------------Memoization----------------------------------
+
+/**
+ * Memoization - save the results of your function
+ * to improve performance.
+custom function if you give it same arguments instead if run the function again it will give
+you the result saved in memo object 
+ */
+
+// const myFunc = (function buildFunc() {
+//   const memo = {};
+//   return (args) => {
+//     //this is the function that will be myFunc
+//     let key = getKey(args);
+//     if (memo[key]) {
+//       return memo[key];
+//     } else {
+//       let sum = 0;
+//       for (let i = args[0]; i > 0; i--) {
+//         sum += args[0] * args[1];
+//       }
+//       memo[key] = sum;
+//       return sum;
+//     }
+//   };
+// })();
+// const getKey = ([a, b]) => {
+//   //we are always expecting to get two values
+//   let key = `${a}-${b}`;
+//   return key;
+// };
+
+
+// // here same arguments
+// let start = Date.now();
+// let result1 = myFunc([9000008, 100001]);
+// let result2 = myFunc([9000008, 100001]);
+// let result3 = myFunc([9000008, 100001]);
+// let result4 = myFunc([9000008, 100001]);
+// let result5 = myFunc([9000008, 100001]);
+// let result6 = myFunc([9000008, 100001]);
+// let result7 = myFunc([9000008, 100001]);
+// let end = Date.now();
+// console.log(end - start); // will give you time less than next version
+
+// // here different arguments
+// start = Date.now();
+// result1 = myFunc([9000001, 100001]);
+// result2 = myFunc([9000002, 100001]);
+// result3 = myFunc([9000003, 100001]);
+// result4 = myFunc([9000004, 100001]);
+// result5 = myFunc([9000005, 100001]);
+// result6 = myFunc([9000006, 100001]);
+// result7 = myFunc([9000007, 100001]);
+// end = Date.now();
+// console.log(end - start);
+
+// ------Dynamic Object properties-------
+// let obj = {}
+// let str = "Soliman"
+// let str2 = "hussein"
+// // here will take "str" itself as name of key
+// obj.str = "test"
+// // using [] will take value of variable str as name of key
+// obj[str] = "test2"
+// console.log(obj)
+// // you can add variable directly to object and name of variable will be the key of the property 
+// // and value of variable will be the value of property this called (Property value Shorthand )
+// let obj2 = {str,str2}
+// console.log(obj2)
+
+// function addProp(obj,prop,value){
+//   obj[prop] = value
+//   // if we use obj.prop will create property key called prop (will not use prop argument)
+//   obj.prop = "Mohamed"
+// }
+// addProp(obj,"str3","Ahmed")
+// console.log(obj)
+
+// --------------------?? nullish coalescing operator--------------------
+// // in ternanry operator if truthy value => Yes if falsy value => No
+// let result1 = null ? "Yes" : "No" 
+// // in nullish coalescing operator if null or undefined return value after ?? if not null or 
+// // undefined return that value
+// let result2 = null  ?? "Yes" 
+// let x = 10;
+// let result3 = x ?? "Yes"
+// console.log(result1) // No
+// console.log(result2) // Yes
+// console.log(result3) // 10
+
+// // exp. of using nullish coalescing operator inside function
+// let current;
+
+// function f(){
+//   let result = current ?? getNum() // because current in undefined so will invoke getNum()
+//   console.log(result)
+// }
+
+// function getNum(){
+//   current = Math.floor(Math.random() * 100)
+//   return current
+// }
+
+// f()
+
+// ---------------------tagged template literal ------------------
+// template literal is using ``
+
+// let num = 41;
+// let str1 = `"\t" and "\n" are escape sequences. ${num}`;
+// let str2 = `"\\t" and "\\n" are escape sequences. ${num}`;
+//  // instead of using escape sequences you can use tring.raw before ``
+// let str3 = String.raw`"\t" and "\n" are escape sequences. ${num}`;
+// // &{} inside can be variable or expression
+// let str4 = `The meaning of life is ${num + 1}.`;
+// const log = console.log;
+
+// // log(1, str1);
+// // log(2, str2);
+// // log(3, str3);
+// // log(4, str4);
+
+// let first = 'ham';
+// let second = 'pineapple';
+// let txt = f`I don't like pizza with ${first} and ${second}.`;
+// log(txt);
+// function f(strings, ...expressions) { // strings or expression is array
+//   // return strings 
+//   // return expressions
+//   // return `I don't like pizza with ${expressions[0]} and ${expressions[1]}.`
+//   // return `I don't like pizza with ${expressions.join(" and ")}.`
+//   return expressions.reduce((acc, exp, idx) => {
+//     return acc + exp.toUpperCase() + strings[idx + 1];
+//   }, strings[0]);
+// }
+
+
+//--------------------Identifiers and IdentifierNames in JavaScript--------------
+  /*************
+   * //Reserved keywords
+   * break, case, catch, class, const, continue, debugger, default, delete, do, else,
+   * export, extends, finally, for, function, if, import, in, instanceof, new, return,
+   * super, switch, this, throw, try, typeof, var, void, while, with, yield,
+   * enum, true, false, null,
+   *
+   * //In strict mode
+   * implements, interface, let, package, private, protected, public, static
+   *
+   * //In modules
+   * await
+   *
+   * //In older versions of ECMAScript
+   * abstract, boolean, byte, char, double, final, float, goto, int, long, native,
+   * short, synchronized, throws, transient, volatile
+   */
+
+// var $;
+// let _;
+// let aas;
+// let abc1;
+// let $as3423d_;
+// let abc123_ = 'something';
+// const STEVE = Symbol();
+
+// // with object you can number as key because it will converted to string anyway
+// let obj = {
+//   $: 'a',
+//   _: 'b',
+//   abc: 'c',
+//   [abc123_]: 'd',
+//   [STEVE]: 'e',
+//   1: 'f',
+//   '1.213423': 'g'
+// };
+
+// ----------------------------type casting and coercing in JavaScript----------------
+//
+// String(), +, Number(), +, -, Boolean(), !, !!
+// toString(), valueOf()
+// parseInt(), parseFloat()
+// unary plus, logical NOT, addition operator, comparison operators
+// let log = console.log;
+// let n = '56';
+// //log(-n, +n);
+// //                              String,         Number,       Boolean
+// let obj = { a: 1, b: 2 }; // '[object Object]'    NaN           true
+// let emptyObj = {}; //        '[object Object]'    NaN           true
+// let arr = [1]; //            '1'                  1             true 
+// let arr2 = [1, 2, 3]; //     '1,2,3'              NaN           true 
+// let emptyArr = []; //        ''                   0             true
+// let str = 'hello'; //        'hello'              NaN           true
+// let emptyStr = ''; //        ''                   NaN           false   ('43'=>43, '0'=>0)
+// let num = 1; //              '1'                  1             true
+// let zero = 0; //             '0'                  0             false
+// let T = true; //             'true'               1             true
+// let F = false; //            'false'              0             false
+// //  null    //               'null'               0             false
+// //  undefined   //           'undefined'          NaN           false
+// //  NaN       //             'NaN'                NaN           false
+
+
+/**
+ * Plus vs Concatenation
+ * exp1 + exp2
+ * if either exp1 or exp2 is a string then treat the '+' as a concatenation
+ *  coerce both values to Strings as needed
+ *
+ * if neither exp1 or exp2 is a string then treat the '+' as an addition operation
+ *  coerce both values to Numbers as needed
+ *
+ */
+
+//log(F + num);
+//"234234".toLowerCase()
+// Falsey values - false, 0, '', null, undefined, NaN
+// Truthy values - Everything else....
+// Boolean() != new Boolean(), String() != new String(), Number() != new Number()
+// Boxing of Primitives
+// Boolean() == !!  (! will flip truthiness too)
+// Number() == +  (- will flip sign too)
+// String() == .toString() unless null was set as the prototype of the Object
+
+//log(Boolean(234), Boolean(0), new Boolean(0));
+//log(true && Boolean(new Boolean(0)));
+
+// && compares the two operands and then actually returns
+// the second if the first is truthy
+
+// Operator Precedence
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
+
+// log(!arr < +T || !!arr > +emptyArr);
+//unary plus 17, logical NOT 17, less than 12, greater than 12, logical OR 6
+// (false < 1 || true > 0)
+// ( 0 < 1 || 1 > 0 )
+// ( true || )
+// true
+
+/* look at the link + will work from right to left and check 
+=> if + between 2 numbers will be addition 
+=> if one of them string will be concatenate
+=>  one oe them neither number or string will be unary plus */
+// log(1 + - + + + - +1); //2
+
+
+// -----------------------Premissions with Bitwise-----------------------------
+/**
+ * Using a single integer to represent multiple permissions
+ * based on binary values using bitwise operators
+ *
+ *  & bitwise AND - if both the top and bottom bit are 1, result is 1
+ *  | bitwise OR - if either the top and bottom bit or both are 1, result is 1
+ *  ^ bitwise XOR - if only one of the bits are 1, result is 1
+ * 0101
+ * 0100 & =   0100
+ *
+ * 0100
+ * 1110 | = 1110
+ *
+ * 0101
+ * 0001 ^ = 0100
+ *
+ * 0 - 0000
+ * 1 - 0001 x
+ * 2 - 0010 x
+ * 3 - 0011
+ * 4 - 0100 x
+ * 5 - 0101
+ * 6 - 0110
+ * 7 - 0111
+ * 8 - 1000 x
+ * 9 - 1001
+ * 10 - 1010
+ */
+
+//  const READ = 1; //   0001
+//  const DRINK = 2; //  0010
+//  const SING = 4; //   0100
+//  const DELETE = 8; // 1000
+
+// class Person {
+//   constructor(name, access = 0) {
+//     this.name = name;
+//     this.access = access;
+//   }
+//   getAll() {
+//     return {
+//       [READ]: !!(this.access & READ),
+//       [DRINK]: !!(this.access & DRINK),
+//       [SING]: !!(this.access & SING),
+//       [DELETE]: !!(this.access & DELETE),
+//     };
+//   }
+//   addPerm(perm) {
+//     this.access = this.access | perm;
+//   }
+//   removePerm(perm) {
+//     if (this.getAll()[perm]) {
+//       this.access = this.access ^ perm;
+//     }
+//   }
+// }
+
+// let steve = new Person('Steve', 5);
+// let joanne = new Person('Joanne');
+// joanne.addPerm(DRINK);
+// joanne.addPerm(SING);
+// joanne.addPerm(DELETE);
+// steve.addPerm(SING);
+
+// joanne.removePerm(READ);
+// steve.removePerm(READ);
+
+// console.log(steve.access, steve.getAll());
+// console.log(joanne.access, joanne.getAll());
+
+ // console.log(steve.getAll()[READ]);
+ // console.log(joanne.getAll()[READ]);
+
+// ----------------------globalThis-----------------
+// in node.js version will not add var to global object but will be added to window object
+// varaible without keyword like (n) will be added to global object in both
+
+//-----node.js version 
+
+// let l = 10;
+// var v = 20;
+
+// (function(){
+//   n = 30;
+//   console.log(this)
+//   console.log(global)
+//   console.log(globalThis)
+//   console.log(globalThis.l) // undefined
+//   console.log(globalThis.v) // undefined
+//   console.log(globalThis.n) // 30
+// })();
+
+// // ---browser version
+
+// (function(){
+//   n = 30;
+//   console.log(this)
+//   console.log(window)
+//   console.log(globalThis)
+//   console.log(globalThis.l) // undefined
+//   console.log(globalThis.v) // 20
+//   console.log(globalThis.n) // 30
+// })();
+
+// -------------------Reflect Object-----------------
+// Used with Proxy and help to write dynamic code (you can control objects by passing them as argument to reflect)
+// console.log(Reflect)
+// Reflect Object - built-in object that provides methods for interceptable JavaScript operations
+// All methods are static
+// has no constructor cannot use `new`
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect
+// const log = console.log;
+
+// let alex = {
+//   name: 'Alex',
+//   id: 93,
+//   hello: function (a, b) {
+//     console.log(`Hello my name is ${this.name}. ${a} ${b}`);
+//   },
+// };
+
+// log(Reflect.ownKeys(alex));
+// log(Reflect.get(alex, 'id'));
+// log(Reflect.set(alex, 'id', 94));
+// log(Reflect.get(alex, 'id'));
+// log(Reflect.has(alex, 'name'));
+// Reflect.apply(alex.hello, alex, Reflect.ownKeys(alex));
+// Reflect.defineProperty(alex, 'age', { value: 30, enumerable: false });
+// log(Reflect.get(alex, 'age'));
+
+/**
+Reflect.apply(targetFunc, thisArg, argList); //for functions
+Reflect.get(target, key, handler); //handler is Proxy. get the value of a property
+Reflect.set(target, key, value, handler); //handler is Proxy. set the value of a property
+Reflect.has(target, key); // check if it has a property
+Reflect.delete(target, key); //like the delete operator
+Reflect.ownKeys(target); // enumerate through the properties
+Reflect.defineProperty(target, key, {propertyDescriptor}); //like Object.defineProperty
+ */
+
+
+// -------------------slice vs splice-------------- 
+/*
+slice return shallow copy of original array
+splice return deleted part and cahnge original array
+*/
+
+// //[1] Slice
+// let arr = [1,2,3,4]
+// let arrSlice = arr.slice()
+// arrSlice[0] = 5
+// console.log(arr) // [1,2,3,4]
+// console.log(arrSlice) // [5,2,3,4]
+
+// //[2] Splice
+// let arr2 = [1,2,3,4]
+// let arrSplice = arr2.splice(0,4,5,6,7,8)
+// console.log(arrSplice) // [1,2,3,4] return deleted part
+// console.log(arr2) // change original array
