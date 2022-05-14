@@ -4662,6 +4662,12 @@ Object.preventExtensions(obj)
 * Change descriptors        no                no                        yes
 * Reassign __proto__        no                no                        no
 
+// Object.freeze is shallow nested array is mutable 
+let arr = [1,2,3,[4,5]]
+Object.freeze(arr)
+arr[0] = 9;
+arr[3][1] = 7
+console.log(arr) // [1,2,3,[4,7]]
 */
 
 
@@ -14106,3 +14112,227 @@ splice return deleted part and cahnge original array
 // let arrSplice = arr2.splice(0,4,5,6,7,8)
 // console.log(arrSplice) // [1,2,3,4] return deleted part
 // console.log(arr2) // change original array
+
+// -------------------------Record and Tuples (new)-------------------
+/*
+Tuple like Array ----------Record like Object
+let tuple = #[1,2,3]
+let record = #{a:1, b:2, c:3}
+
+- Tuple and Record are primitive value so thy are assigned by value not reference
+- Tuple and Record are immutable but Array and Object mutable
+- nesting:  only primitive value allowed to be nested you can not add normal array inside tuple
+but you can add tuple or any another primitive value inside it
+let tuple = #[1,2,3,#[4,5]]
+- JSON.parseImmutable() like JSON.parse but return tuple or Record instead of array or Object
+- because they are primitive they have wrapper Object to have methods(Boxing) but some methods
+that change the original array will be replaced to another method for exp. push will be replaced
+with pushed and return a new array not changing the original one
+ */
+
+// --------------------------------------Proxy------------------------------
+
+/*
+The Proxy object allows you to create an object that can be used in place of the original 
+object, but which may redefine fundamental Object operations like getting, setting, 
+and defining properties. Proxy objects are commonly used to log property accesses, validate, 
+format, or sanitize inputs, and so on.
+*/
+
+// let obj = {a:"Mohamed",b:"Ahmed",c:"Soliman"}
+// let handler = {
+//   get : function(target,prop,reciver){
+//     // console.log(target) // obj
+//     // console.log(prop) // property inside obj
+//     // console.log(reciver) // proxy
+//     if(prop in target){
+//       return target[prop].toUpperCase() // make changes to property using proxy
+//     }else{
+//       return " No Such Prop in Object"
+//     }
+//   },
+//   set : function(target,prop,reciver){
+//     // console.log(target) // obj
+//     // console.log(prop) // property inside obj
+//     // console.log(reciver) // the new value passed to property
+//     if(prop in target){
+//       console.log("Editing old property")
+//       target[prop] = reciver.toLowerCase()
+//     }else{
+//       console.log("Creating new property")
+//       target[prop] = reciver.toLowerCase()
+//     }
+//   }
+// }
+// let proxy = new Proxy(obj,handler)
+// // console.log(proxy.a)
+// // console.log(proxy.d)
+// proxy.a = "MIDO"
+// proxy.d = "HUSSEIN"
+// console.log(obj)
+
+// ---using IIFE to protect original object and not changing it
+// let obj = {a:"Mohamed",b:"Ahmed",c:"Soliman"}
+// let objIffe = (function(myObj){
+//   let handler = {
+//     get: function(target , prop, reciver){
+//       if(prop in target){
+//         return target[prop].toUpperCase() // make changes to property using proxy
+//       }else{
+//         return " No Such Prop in Object"
+//       }
+//     },
+//     set: function(target , prop, reciver){
+//       if(prop in target){
+//         target[prop] = reciver.toLowerCase()
+//         console.log("Editing old property",myObj) // here will change property of myObj not original obj
+//       }else{
+//         target[prop] = reciver.toLowerCase()
+//         console.log("Creating new property",myObj) // here will add property to myObj not original obj
+//       }
+//     }
+//   }
+//   return new Proxy(myObj,handler)
+// })({a:"Mohamed",b:"Ahmed",c:"Soliman"});
+// objIffe.a = "Mido"
+// console.log(obj) // original object will not be changed
+
+// how to validate age using proxy
+// let objects = [
+//   {id:123,name:"Mohamed",age:33},
+//   {id:456,name:"Ahmed",age:-34},
+//   {id:789,name:"Soliman",age:135}
+// ];
+// objects = objects.map(person=> new Proxy(person,{
+//   get : function(target,prop,reciver){
+//     if(prop in target){
+//       if(prop === "age" && target[prop] > 0 && target[prop] < 130){
+//         // return target[prop]
+//         return Reflect.get(...arguments) // like Reflect.get(target,prop,reciver)
+//       }else{
+//         throw new RangeError("Age Is Not Valid")
+//       }
+//     }
+//   },
+//   set : function(target,prop,reciver){
+//     return true
+//   }
+// }))
+// objects.forEach(person=>{
+//   try{
+//     console.log(person.age)
+//   }catch(err){
+//     console.log(err.name, err.message)
+//   }
+// })
+
+// ---proxy with function
+// let fContext = {a : 7}
+// let sum = function (a,b){
+//   return a + b
+// }
+// let proxyFunc = new Proxy(sum,{
+//   apply: function(target,thisArg,args){
+//     // console.log(target) // sum function
+//     // console.log(thisArg) // fContext => from bind() or call()
+//     // console.log(args) // arguments 
+//     return sum(thisArg.a,...args) * 10
+//   }
+// }).bind(fContext) // you can use bind() here or use call() when you call proxyFunc
+// console.log(sum(1,2)) // 3
+// console.log(proxyFunc(2)) // 90
+// console.log(proxyFunc.call(fContext,2)) // 90
+
+
+// ---------------------Destructring with promise and array Methods-----------------
+/*
+Destructuring allows us to see inside an object
+or array when it is being passed to a function.
+
+This can be combined with calls to Array methods
+and Promise.then methods to great effect.
+*/
+// const log = console.log;
+// let people = [
+//   { id: 1, name: 'Leonard', phd: true, partner: 'Penny' },
+//   { id: 2, name: 'Howard', phd: false, partner: 'Bernadette' },
+//   { id: 3, name: 'Sheldon', phd: true, partner: 'Amy' },
+//   { id: 4, name: 'Raj', phd: true, partner: 'Cinnamon' },
+// ];
+// let nums = [12, 34, 56, 78, 90];
+
+// let n = nums.map((number) => {
+//   log(number);
+// });
+// let ppl = people.map(({ name: nm, partner: pt }) => {
+//   log(nm, '&', pt);
+// });
+
+// let url = 'http://jsonplaceholder.typicode.com/users'
+// fetch(url)
+//   .then((resp) => {
+//     if (!resp.ok) throw new Error(resp.statusText);
+//     // Error This error means you have resolved the promise (in this case, you use resp.json()) more than once.
+//     // console.log(resp.json()) 
+//     return resp.json();
+//   })
+//   .then(([first, {name:secondName}, ...rest]) => {
+//     //...rest MUST be the last argument for desctructuring
+//     // rest[rest.length-1] would be the last element.
+//     log(first);
+//     log(secondName);
+//   })
+//   .catch(log);
+
+// ---------------------Reducer Function--------------------
+/*
+Context for non-Archer fans
+https://www.youtube.com/watch?v=4IUNc6yxp2g
+https://www.youtube.com/watch?v=8FYJfEHOuY0
+*/
+// const log = console.log;
+
+// const reducer = (state, action) => {
+//   if (action === 'DARKEN') {
+//     return state + 'er';
+//   }
+//   if (action === 'LIGHTEN') {
+//     return state.replace('er', '');
+//   }
+//   return state;
+// };
+
+// let dark = 'dark';
+// dark = reducer(dark, 'DARKEN');
+// log(dark);
+// dark = reducer(dark, 'LIGHTEN');
+// dark = reducer(dark, 'LIGHTEN');
+// log(dark);
+
+// const reducer = (state, action) => {
+//   switch (action.type) {
+//     case 'DARKEN':
+//       if (state.agent === 'Archer' && state.turtleneckType === 'tactical') {
+//         return {
+//           ...state,
+//           turtleneckBlackness: state.turtleneckBlackness + 10,
+//         };
+//       }
+//       if (state.agent !== 'Archer') {
+//         return state;
+//       }
+//     case 'LIGHTEN':
+//       return state;
+//   }
+//   return state;
+// };
+
+// let state = {
+//   agent: 'Archer',
+//   turtleneckType: 'tactical',
+//   turtleneckBlackness: 100,
+// };
+// state = reducer(state, { type: 'DARKEN' });
+// state = reducer(state, { type: 'DARKEN' });
+// state = reducer(state, { type: 'DARKEN' });
+// log(state);
