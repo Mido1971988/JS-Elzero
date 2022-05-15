@@ -4737,6 +4737,7 @@ A method is an action you can do (like add or deleting an HTML element).
 ---------Node Types-----------
 let nodeTypes = {
   1 : "Element",
+  2 : "Attribute"
   3 : "Text",
   8 : "Comment",
   9 : "Document",
@@ -5035,10 +5036,11 @@ console.log(divAttr.getNamedItem("class")) // return value of specific attribute
 
 // myElement.setAttributeNode(myAttribute)
 // myElement.setAttribute("data-test", "testing")
-// // if you want to change value of custom attribute you can use only setAttribute 
+// // if you want to change value of custom attribute you can use setAttribute or dataset
 // // but you can't change it directly like normal attributes
 // // myElement.data-custom = "hello" // Error
-// myElement.setAttribute("data-custom", "hello")
+// // myElement.setAttribute("data-custom", "hello")
+// myElement.dataset.custom = "helloooo"
 // // if you want to access custom attribute you can do it only getAttribute
 // console.log(myElement.getAttribute("data-custom"))
 
@@ -14336,3 +14338,141 @@ https://www.youtube.com/watch?v=8FYJfEHOuY0
 // state = reducer(state, { type: 'DARKEN' });
 // state = reducer(state, { type: 'DARKEN' });
 // log(state);
+
+// ----------------------Curring & partial Function & Closure------------------------
+/**
+ * Currying vs Partial Application
+ * Closures
+ *   A function which returns a function that
+ *   can has access to the returned function's scope.
+ *   function example(param){
+ *     let a = 123;
+ *     return function(otherParam){
+ *       //both param and otherParam and a are available here
+ *     }
+ *   }
+ *
+ * Partial Application
+ *   Uses closures.
+ *   Returned function is partially applied to a new value,
+ *   meaning that the value passed to the original function
+ *   is already attached to the returned `partially applied` function
+ *
+ * Currying
+ *   The process of taking a multiple argument function and
+ *   breaking it up into a series of single argument partially
+ *   applied functions.
+ */
+// const log = console.log;
+
+//  //Simple demo - the things we would want to curry
+// function bakeChocolateCupcakeWithVanilla(cakeType, cakeFlavor, icingType) {
+//   return `Made a ${cakeFlavour} ${cakeType} with ${icingType} icing.`;
+// }
+// function bakeVanillaCakeWithLemon(cakeType, cakeFlavor, icingType) {
+//   return `Made a ${cakeFlavour} ${cakeType} with ${icingType} icing.`;
+// }
+//  //curry it
+// function bake(cakeType) {
+//    //partially applied
+//   return function (cakeFlavour) {
+//      //partially applied
+//     return function (icingType) {
+//       return `Made a ${cakeFlavour} ${cakeType} with ${icingType} icing.`;
+//     };
+//   };
+// }
+// let bakeCake = bake('cake');
+// let bakeCupcake = bake('cupcake');
+// let bakeMuffin = bake('muffin');
+
+// let chocCake = bakeCake('chocolate');
+// let vanillaCake = bakeCake('vanilla');
+// let chocCupcake = bakeCupcake('chocolate');
+// let carrotMuffin = bakeMuffin('carrot');
+
+ // log(chocCake('strawberry'));
+ // log(chocCake('vanilla'));
+ // log(chocCupcake('chocolate'));
+ // log(chocCupcake('orange'));
+
+ // log(bake('cake')('chocolate')('vanilla'));
+ // log(bake('cupcake')('chocolate')('cherry'));
+ // log(bake('muffin')('carrot')('vanilla'));
+
+ //More realistic example
+// import fetch from 'node-fetch';
+
+/**
+  * Possible resources are posts, comments, albums, photos, todos, and users
+  * @param {string} endpoint which resource to get from http://jsonplaceholder.typicode.com/
+  * @returns {function} partially applied function
+  */
+// let jsonPlaceholder = async (endpoint) => {
+//   let url = `http://jsonplaceholder.typicode.com/${endpoint}`;
+//   let resp = await fetch(url);
+//   let data = await resp.json();
+//   return (num) => {
+//     return data
+//       .slice(0, num)
+//       .map((item) => {
+//         let label = item.name || item.title;
+//         return `<p>${endpoint} :: ${label}</p>`;
+//       })
+//       .join('\n');
+//   };
+// };
+
+// const sleep = (milliseconds) => {
+//   return new Promise((resolve) => setTimeout(resolve, milliseconds));
+// };
+
+// async function init() {
+//   let posts = await jsonPlaceholder('posts');
+//   let users = await jsonPlaceholder('users');
+
+//   log(posts(2));
+//   log(users(4));
+// }
+// init()
+
+// ------------------------DOM by Steve Griffith-----------------
+
+// ----------getAttributeNode vs getAttribute-----------
+// let div = document.getElementById("hello")
+// let idNode = div.getAttributeNode("id")
+// let idValue = div.getAttribute("id")
+// console.log(idNode.nodeType) // 2
+// console.log(idValue) // hello
+
+// ------------childeren vs childNodes vs childElementCount----------
+// let div = document.querySelector(".childCount")
+// console.log(div.childNodes.length) // 5 will count elements and also txt nodes and carriage return \n
+// console.log(div.children.length) // 2 will count only elements
+// console.log(div.childElementCount) // 2 will count only elements
+
+// -------------contains------------
+// accept node as argument and return boolean
+// let div = document.querySelector(".test")
+// let txt = div.childNodes[0]
+// let txt2 = "test"
+// console.log(div.contains(txt)) // true
+// console.log(div.contains(txt2)) // Error passing string not node to contains
+
+// ---------insertBefore and replaceChild and cloneNode
+// let ul = document.querySelector("ul")
+// let two = ul.children[1]
+// let three = ul.children[2]
+// let addLi = document.createElement("li")
+// addLi.textContent = "before Two"
+// let replaceli = document.createElement("li")
+// replaceli.textContent = "replace three"
+// // 1st param is the element we want to add and 2nd param is the element we want to add before
+// ul.insertBefore(addLi,two) // this not like two.prepend(addLi) because prepend will add (addLi) inside two element not before it
+// // 1st param is new element to replace the old element(2nd param)
+// ul.replaceChild(replaceli,three)
+
+// let cloneUl = ul.cloneNode(false)
+// let cloneUlAndChilds = ul.cloneNode(true)
+// console.log(cloneUl) // clone only ul element without it's childs
+// console.log(cloneUlAndChilds) // clone ul and it's childs
