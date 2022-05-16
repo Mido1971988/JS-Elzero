@@ -4960,6 +4960,7 @@ console.log(divAttr.getNamedItem("class")) // return value of specific attribute
 // myElement.innerHTML = " Text From <span>Main.js</span> File";
 // myElement.textContent = " Text From <span>Main.js</span> File";
 
+// those are shortcut for setAttribute
 // document.images[0].src = "https//google.com"
 // document.images[0].alt = "Alternat"
 // document.images[0].title = "Picture"
@@ -14476,3 +14477,242 @@ https://www.youtube.com/watch?v=8FYJfEHOuY0
 // let cloneUlAndChilds = ul.cloneNode(true)
 // console.log(cloneUl) // clone only ul element without it's childs
 // console.log(cloneUlAndChilds) // clone ul and it's childs
+
+// ---------getComputedStyle----------
+// let div = document.querySelector(".css")
+// let style = window.getComputedStyle(div)
+// console.log(style.length)
+// console.log(style.item(200))
+// console.log(style.getPropertyValue("color"))
+
+// ------------------fetch using a Request and a Headers objects--------------
+
+// //using jsonplaceholder for the data
+
+// const uri = 'http://jsonplaceholder.typicode.com/users';
+
+// //new Request(uri)
+// //new Request(uri, options)
+// //options - method, headers, body, mode
+// //methods:  GET, POST, PUT, DELETE, OPTIONS
+
+// //new Headers()
+// // headers.append(name, value)
+// // Content-Type, Content-Length, Accept, Accept-Language,
+// // X-Requested-With, User-Agent
+// let myHeader = new Headers();
+// myHeader.append('Accept', 'application/json'); // here we are accepting only json files
+
+// let req = new Request(uri, {
+//     // if we use POST the JSON file will be {id:11} because no. of users from uri is 10 
+//     // and using POST means add new data to server and add user no. 11
+//     method: 'GET', 
+//     headers: myHeader,
+//     mode: 'cors' // means policy (what you are allowed to do)
+// });
+
+// fetch(req) 
+//     .then( (response)=>{
+//         if(response.ok){
+//             return response.json();
+//         }else{
+//             throw new Error('BAD HTTP stuff');
+//         }
+//     })
+//     .then( (jsonData) =>{
+//         console.log(jsonData);
+//     })
+//     .catch( (err) =>{
+//         console.log('ERROR:', err.message);
+//     });
+
+// --------------------------------GeoLocation-------------------------
+// geolocation.js
+// How to use Navigator.geolocation
+//
+// let G, options, spans;
+
+// document.addEventListener('DOMContentLoaded', init);
+
+// function init(){
+//     if(navigator.geolocation){
+//         let giveUp = 1000 * 30;  //30 seconds
+//         let tooOld = 1000 * 60 * 60;  //one hour
+//         options ={
+//             // HighendAccurcy => to use GPS but will drain the battery of user’s device ( you can use wifi to get location ) 
+//             enableHighAccuracy: true,
+//             // Timeout => for how long you need the browser to try to get the location 
+//             timeout: giveUp,
+//             // MaximumAge => when the browser fetch it will take information that cached from last time like location and in MaximumAge you determin 
+//             // For how long the location valid and no need to update it 
+//             // For exp. You can but update location every 24 hrs or every 5 mins 
+//             maximumAge: tooOld
+//         }
+//         // Accept 3 parameters => 1st parameter is success Function and 2nd parameter is fail Function  and 3rd parameter is options
+//         navigator.geolocation.getCurrentPosition(gotPos, posFail, options);
+//     }else{
+//         //using an old browser that doesn't support geolocation
+//     }
+// }
+
+// function gotPos(position){
+//     spans = document.querySelectorAll('p span');
+//     spans[0].textContent = position.coords.latitude;
+//     spans[1].textContent = position.coords.longitude;
+//     spans[2].textContent = position.coords.accuracy;
+    
+//     spans[6].textContent = position.timestamp;
+// }
+
+// function posFail(err){
+//     // fail function accept err as number => 1 : permission to access location denied by browser 
+//     // 2 : can not determine the Location 
+//     // 3 : take too long to determine the location (after timeout from options object ) 
+//     let errors = {
+//         1: 'No permission',
+//         2: 'Unable to determine',
+//         3: 'Took too long'
+//     }
+//     document.querySelector('h1').textContent = errors[err];
+// }
+
+// ---------------------Real World Ajax Fetch to Live HTML and CSS-------------------------
+
+//fetch user data from jsonplaceholder 
+//generate a user list on the web page
+//add a click event to the body that will
+//refresh the list each time with a random 
+//number of users
+
+// const uri = 'http://jsonplaceholder.typicode.com/users';
+
+// let req = new Request(uri, {
+//     method: 'GET',
+//     mode: 'cors'
+// });
+
+// fetch(req)
+//     .then( (response)=>{
+//         if(response.ok){
+//             return response.json();
+//         }else{
+//             throw new Error('BAD HTTP!');
+//         }
+//     })
+//     .then( (jsonData) =>{
+//         //console.log(jsonData);
+//         let ul = document.querySelector('#users');
+//         let df = new DocumentFragment();
+//         jsonData.forEach( (user) =>{
+//             let li = document.createElement('li');
+//             let pn = document.createElement('p');
+//             let pue = document.createElement('p');
+//             pn.textContent = user.name;
+//             pue.textContent = ''.concat(user.username, ' - ', user.email);
+//             pn.className = 'name';
+//             pue.classList.add('info');
+//             li.appendChild(pn);
+//             li.appendChild(pue);
+//             df.appendChild(li);
+//         });
+//         ul.appendChild(df);
+//     })
+//     .catch( (err) =>{
+//         console.log('ERROR:', err.message);
+//     });
+
+//----------------------Real Life Temp Forcast------------------
+
+// load the sample weather JSON data
+// build a grid of temps over the next 24 hours
+// blue background in hours where percipitation possibility is higher than 70%
+
+// let uri = './darksky-sample.json';
+// let req = new Request(uri, {method:'GET'});
+// let container, df;
+
+// document.addEventListener('DOMContentLoaded', init);
+
+// function init(){
+//     container = document.getElementById('container');
+//     df = new DocumentFragment();
+    
+//     fetch(req)
+//     .then((response)=>{
+//         if(response.ok){
+//             return response.json();
+//         }else{
+//             throw new Error('BAD HTTP');
+//         }
+//     })
+//     .then((json)=>{
+//         //create the weather grid
+//         json.hourly.data.forEach((hour)=>{
+//             //to show the temp
+//             let div = document.createElement('div');
+//             div.classList.add('hour');
+//             let timestamp = hour.time;
+//             div.id = 'ts_' + timestamp.toString();
+//             let temp = parseInt(hour.temperature);
+//             div.textContent = temp.toString().concat('\u00B0');
+//             div.title = hour.summary;
+            
+//             //to show the time
+//             let span = document.createElement('span');
+//             let timmy = new Date(timestamp * 1000);
+//             span.textContent = timmy.getHours().toString().concat(":00");
+            
+//             div.appendChild(span);
+//             df.appendChild(div);
+//         });
+//         container.appendChild(df);
+        
+//         //highlight the times when it will be raining
+//         json.hourly.data.filter((hour)=>{
+//             if(hour.precipProbability > 0.5){
+//                 return true;
+//             }
+//             return false;
+//         }).map((hour)=>{
+//             return hour.time;
+//         }).forEach((timestamp)=>{
+//             let id = 'ts_'.concat(timestamp);
+//             document.getElementById(id).classList.add('precip');
+//         });
+        
+//         //highest temp
+//         let highObj = json.hourly.data.reduce((accumulator, hour)=>{
+//             if(hour.temperature > accumulator.temp){
+//                 return {temp: hour.temperature, time: hour.time};
+//             }else{
+//                 return accumulator;
+//             }
+//         }, {temp:-100, time:1000})
+//         let id = 'ts_' + highObj.time;
+//         document.getElementById(id).classList.add('hot');
+//     })
+//     .catch((err)=>{
+//         console.log( err.message );
+//     })
+// }
+
+// -----------------------CloneNode with HTML---------------
+// const init = function(){
+//   let t1, t2, div1, temp, div2, cln
+//   t1 = document.getElementById('target1');
+//   t2 = document.getElementById('target2');
+  
+//   div1 = document.querySelector('.advertisement');
+//   //for(let i=0; i<5; i++){
+//       // t1.appendChild(div1); // will move the div to target1
+//       t1.appendChild(div1.cloneNode(true) ); // will take a copy and put it inside target1 and keep the original
+//   //}
+  
+//   temp = document.querySelector('[type="text/html"]');
+//   cln = temp.cloneNode(true);
+//   div2 = cln.textContent; // String
+//   t2.innerHTML = div2; // because of innerHTML property will convert String to HTML elements
+
+// }
+
+// document.addEventListener('DOMContentLoaded', init)
