@@ -14716,3 +14716,87 @@ https://www.youtube.com/watch?v=8FYJfEHOuY0
 // }
 
 // document.addEventListener('DOMContentLoaded', init)
+
+// -------------------------------History API---------------------------------
+// console.log(location.href) // link
+// console.log(location.protocol) // http: protcol decide how info transfered between server and client
+// console.log(location.host) // host name
+// console.log(location.port) // :5500 or befault port used by http: :80
+// console.log(location.hash) // #id will scroll page to element with this id
+// console.log(location.pathname) // file location on server
+// console.log(location.search) // QueryString ?name=Soliman&age=33
+// location.replace(new url) // will replace current page to new one
+// location.reload() // will reload current page
+
+// history.go(3) // go forward 3 steps 
+// history.go(-3) // go backward 3 steps 
+// history.back() // go backword 1 step // like history.go(-1)
+// history.forward() // go forward 1 step // like history.go(1)
+// history.state
+
+
+//  pushState, replaceState, history.state, popstate, hashchange 
+// http:// sub.example.com :80 /path/filename.html 
+// ?query=string&num=1
+// #hashvalue - comes after the querystring
+// 127.0.0.1 localhost
+
+
+// document.addEventListener('DOMContentLoaded', ()=>{
+//   // this object will be added to history.state and you can access it
+//   //history.pushState({"abc":123}, "title", url);  //add to the array
+//   //history.replaceState({"abc":123}, "title", url);   //replace current entry
+//   //history.pushState(null, "Title", "pretend.html");
+//   //add listeners to buttons and links that navigate
+//   document.getElementById("link").addEventListener('click', c);
+//   //intercept initial load incase there is a hash value or state
+//   //add listeners for hashchange and popstate
+//   // will trigger if we press back or forward arrow from browser or link inside webpage
+//   window.addEventListener("hashchange", hc); // will be triggered if hash changed in url
+//   window.addEventListener("popstate", ps); // will be triggered if the whole URL changed
+  
+// });
+
+// function c(ev){
+//   show('clicked');
+//   ev.preventDefault(); // because of this will not trigger popstate 
+//   let href = ev.currentTarget.href;
+//   let pid = ev.currentTarget.getAttribute("data-person");
+//   show(href);
+//   // history.pushState({"pid":pid}, "title", href); // will add to history list in browser
+//   history.replaceState({"pid":pid}, "title", href); // will no add anything to history list will only change the current 
+//   loadPerson();
+// }
+
+// function loadPerson(){
+//   show('LoadPerson');
+//   show(history.state.pid);
+// }
+
+// function hc(ev){
+//   // ev.newURL  ev.oldURL
+//   show("hashchange");
+//   //location.hash
+// }
+// function ps(ev){
+//   //  ev.state
+//   show("popstate");
+// }
+
+// function show(output){
+//   let p = document.createElement('p');
+//   p.textContent = output;
+//   document.getElementById('output').appendChild(p);
+//   setTimeout(_ => {
+//       document.getElementById('output').removeChild(p);
+//   }, 4000);
+// }
+
+//  -------------------------Localhost = 127.0.0.1 = IP Address-----------------
+/*
+to try your html file on mobile phone:
+you can change local host to your IP (you can get your IP from terminal by using ifconfig)
+then connect you mobile phone to same wifi then open the link on your phone
+
+or you can use MAMP application but here the phone not should be connected to same wifi
+*/
