@@ -14800,3 +14800,170 @@ then connect you mobile phone to same wifi then open the link on your phone
 
 or you can use MAMP application but here the phone not should be connected to same wifi
 */
+
+// ---------------------------Vibration-----------------------------------
+//check for the different versions of the vibrate api
+// navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+// let div = document.getElementById("vibrate")
+        
+// if (navigator.vibrate) {
+//     // vibration API supported
+//     div.addEventListener('click', function(ev){
+//             console.log('body clicked. Time to shake.');
+//             //navigator.vibrate(1000); // miliseconds
+//             // navigator.vibrate([500, 300, 100]); // vibarte stop vibrate
+//             //navigator.vibrate(0); // stop 
+//             navigator.vibrate([125,75,125,275,200,275,125,75,125,275,200,600,200,600]);
+//         });
+// }
+
+/***
+James Bond Theme
+navigator.vibrate([200,100,200,275,425,100,200,100,200,275,425,100,75,25, 75,125,75,25,75,125,100,100]);
+
+Super Mario Theme
+navigator.vibrate([125,75,125,275,200,275,125,75,125,275,200,600,200,600]);
+
+Darth Vader Theme
+navigator.vibrate([500,110,500,110,450,110,200,110,170,40,450,110,200,110,170,40, 500]);
+***/
+
+
+// ------------------Online and Offline Events---------------
+// window.addEventListener('online',  changeStatus);
+// window.addEventListener('offline', changeStatus);
+        
+// document.addEventListener('DOMContentLoaded', function(){
+// //check for the original starting status
+//   if( navigator.onLine){ // navigator has built in property called online
+//     changeStatus( {type:'online'} ); // here we are creating fake object whichs has type property to be like ev.type
+//   }else{
+//     changeStatus( {type:'offline'} );
+//   }
+// });
+        
+// function changeStatus(ev){
+// //handle the change in status   ev.type online  offline
+//   document.getElementById("status").textContent = ev.type.toUpperCase();
+//   let img = document.createElement("img");
+//   img.src = "https://picsum.photos/g/500/300?image=0&blur";
+//   let p = document.querySelector('p.img');
+//   p.className = "img";
+//   if( ev.type == "online"){
+//     p.classList.add('online');
+//   }
+//   p.textContent = "STATUS IS ".concat(ev.type.toUpperCase() );
+// }
+
+
+// ----------------------Adjacent---------------------
+// let span = document.createElement('span');
+// span.textContent = 'This is a span Element.';
+// let html = '<span>HTML span in a String.</span>';
+// let txt = 'This is just some text.'
+// let p = document.querySelector('#para');
+        
+// /* because we are dealing with element not just string we cannot insert same element at 2 
+// different location but it will move it but you have 2 options to solve this problem :
+// [1] use cloneNode(true) 
+// [2] use insertAdjacentHTML because it's just string */
+
+// p.insertAdjacentElement('beforebegin', span);   //moved from original location
+// p.insertAdjacentElement('afterend', span);
+// p.insertAdjacentElement('afterend', span.cloneNode(true));
+// document.body.insertAdjacentElement('afterbegin', span); // will be added at the beginning of webpage
+// document.body.insertAdjacentElement('afterbegin', span.cloneNode(true)); // will be added at the beginning of webpage
+        
+// p.insertAdjacentHTML('beforebegin', html);
+// p.insertAdjacentHTML('afterend', html);
+// p.insertAdjacentText('afterbegin', txt);
+// p.insertAdjacentText('beforeend', txt);
+        
+/*****************************************
+let position = 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend'
+Element.insertAdjacentHTML(position, htmlString);
+Element.insertAdjacentElement(position, Element);
+Element.insertAdjacentText(position, someText);
+*****************************************/
+
+// ------------------------Visibility change (move to another tab in browser)---------
+
+//document.hidden  
+//document.addEventListener('visibilitychange', myfunc)
+//... webkitHidden            msHidden
+//... webkitvisibilitychange  msvisibilitychange
+// this to check if it supported in different versions of browsers
+// let hidden, vChange;
+// if( typeof document.hidden !== 'undefined'){
+//   hidden = 'hidden';
+//   vChange = 'visibilitychange';
+// }else if(typeof document.webkitHidden !== 'undefined'){
+//   hidden = 'webkitHidden';
+//   vChange = 'webkitvisibilitychange';
+// }else if(typeof document.msHidden !== 'undefined'){
+//   hidden = 'msHidden';
+//   vChange = 'msvisibilitychange';
+// }else{
+// //no support
+//   hidden = null;
+//   vChange = null;
+// }
+
+// if( hidden){
+//   document.addEventListener(vChange, function(ev){
+//   // like document.hidden but we are using hidden as variable to check will different browsers versions
+//   console.log('visibilitychange', document[hidden]); 
+//   if(document[hidden]){
+//     //page has lost focus
+//     //stop the audio or video
+//   }else{
+//     //page has regained focus
+//     //start the audio or video
+//   }
+//   });
+// }
+
+// ----------------------------Upload file to server using Fetch------------------
+
+//fetch using a Request and a Headers objects
+// uploading an image along with other POST data
+//using jsonplaceholder for the data
+
+// a website to upload file to
+// const url = 'https://postman-echo.com/post';
+
+// document.addEventListener('DOMContentLoaded', init);
+
+// function init(){
+//     document.getElementById('btnSubmit').addEventListener('click', upload);
+// }
+
+// function upload(ev){
+//     ev.preventDefault();    //stop the form submitting immediatly and wait to choose the file
+
+//     //create any headers we want
+//     let h = new Headers();
+//     h.append('Accept', 'application/json'); //what we expect back
+//     //bundle the files and data we want to send to the server
+//     let fd = new FormData();
+//     fd.append('user-id', document.getElementById('user_id').value);
+    
+//     // input element with type file (see HTML file) will have file inside it as array
+//     let myFile = document.getElementById('avatar_img').files[0];
+//     fd.append('avatar', myFile, "avatar.png"); // will be the name saved in server not the name of the file you uploaded
+//     // $_FILES['avatar']['file_name']  "avatar.png" => this PHP
+//     let req = new Request(url, {
+//         method: 'POST',
+//         headers: h,
+//         mode: 'no-cors',
+//         body: fd
+//     });
+
+//     fetch(req)
+//         .then( (response)=>{
+//             document.getElementById('output').textContent = "Response received from server";
+//         })
+//         .catch( (err) =>{
+//             console.log('ERROR:', err.message);
+//         });
+// }
