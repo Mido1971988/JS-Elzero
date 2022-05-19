@@ -14967,3 +14967,206 @@ Element.insertAdjacentText(position, someText);
 //             console.log('ERROR:', err.message);
 //         });
 // }
+
+
+// --------------------Notification API-----------------------
+//Notification objects have a close() method. SOME browser automatically close them.
+//Notification Events - click, error, close, show
+// if( 'Notification' in window){
+    
+//   if (Notification.permission === 'granted') {
+//       // If it's okay let's create a notification
+//       doNotify();
+//   }else{
+//       //notification == denied
+//       Notification.requestPermission()
+//           .then(function(result) {
+//               console.log(result);  //granted || denied
+//               if( Notification.permission == 'granted'){ 
+//                   doNotify();
+//               }
+//           })
+//           .catch( (err) => {
+//               console.log(err);
+//           });
+//   }
+
+// }
+      
+// function doNotify(){
+//     let title = "The Title";
+//     let t = Date.now() + 120000;    //2 mins in future
+//     let options = { // not just a object it's options object passed to Notification constructor
+//         body: 'Hello from JavaScript!',
+//         data: {prop1:123, prop2:"Steve"},
+//         lang: 'en-CA',
+//         icon: './img/calendar-lg.png',
+//         timestamp: t, // this prop to determine when notification appears (maybe not supported)
+//         vibrate: [100, 200, 100] // vibration (maybe not supported)
+//     }
+//     let n = new Notification(title, options);
+
+//     n.addEventListener('show', function(ev){
+//         console.log('SHOW', ev.currentTarget.data);
+//     });
+//     n.addEventListener('close', function(ev){
+//         console.log('CLOSE', ev.currentTarget.body); 
+//     });
+//     setTimeout( n.close.bind(n), 3000); //close notification after 3 seconds
+// }
+/*************
+Note about actions param - used with webworkers/serviceworkers
+actions: [
+    {action: 'mail', title: 'e-mail', icon: './img/envelope-closed-lg.png'},
+    {action: 'blastoff', title: 'Blastoff', icon: './img/rocket-lg.png'}]
+*********************/
+
+// --------target vs current target-----------
+/*
+because of bubbling up when we click on span it will fire 2 addEventListener for span and then 
+will bubble up to div => target will always what you click on it but current target is THIS
+in span.addEventListener this and current target will be span and 
+in div.addEventListener this and current target will be div
+*/
+// let div = document.getElementById("currentTarget")
+// let span = document.getElementById("target")
+
+// span.addEventListener("click",function(ev){
+//   console.log("Target is "+ ev.target.tagName)
+//   console.log("Current Target is "+ ev.currentTarget.tagName)
+//   console.log("THIS is "+ ev.currentTarget.tagName)
+// })
+// div.addEventListener("click",function(ev){
+//   console.log("Target is "+ ev.target.tagName)
+//   console.log("Current Target is "+ ev.currentTarget.tagName)
+//   console.log("THIS is "+ ev.currentTarget.tagName)
+// })
+
+// ------------------------mouseOver-mouseOut vs mouseEnter-mouseLeave-----------
+
+// Adding addEventListener to child <p> only NO Differences so far..
+// document.querySelector('.enter p').addEventListener('mouseenter', entering);
+// document.querySelector('.enter p').addEventListener('mouseleave', leaving);
+// function entering(ev){
+//     ev.currentTarget.style.borderColor = 'gold';
+//     console.log('mouseenter p');
+// }
+// function leaving(ev){
+//     ev.currentTarget.style.borderColor = 'black';
+//     console.log('mouseleave p');
+// }
+// document.querySelector('.over p').addEventListener('mouseover', overing);
+// document.querySelector('.over p').addEventListener('mouseout', outing);
+// function overing(ev){
+//     ev.currentTarget.style.borderColor = 'gold';
+//     console.log('mouseover p');
+// }
+// function outing(ev){
+//     ev.currentTarget.style.borderColor = 'black';
+//     console.log('mouseout p');
+// }
+
+// Adding addEventListener to <div> parent also will make the difference
+/*
+Each time your mouse enters or leaves a child element, 
+mouseover and mouseOut are triggered, but not mouseenter and mouseLeave.
+
+=> with mouseOver-mouseOut (not good performance) 
+when you move mouse from div to p will be considered as : 
+1. moveOut from div
+2. moveOver to p
+3. moveOver again to div ( because of event bubbling) you can use ev.stopPropagation() to stop bubbling
+
+when you move mouse from p to div will be considered as : 
+1. moveOut from p 
+2. moveOut from div ( because of event bubbling) you can use ev.stopPropagation() to stop bubbling
+3. moveOver to div 
+4. moveOut from div ( when me move mouse away)
+
+=> with mouseEnter-mouseLeave (good performance) 
+when you move mouse from div to p will be considered as :
+1. mouseEnter to p
+when you move mouse from p to div will be considered as : 
+1 . mouseLeave from P
+2. mouseLeave from div ( when me move mouse away)
+*/
+// document.querySelector('.enter').addEventListener('mouseenter', function(ev){
+//     ev.currentTarget.classList.add('blue');
+//     console.log('mouseenter div. Add blue.');
+// });
+// document.querySelector('.enter').addEventListener('mouseleave', function(ev){
+//     ev.currentTarget.classList.remove('blue');
+//     console.log('mouseleave div. Remove blue.');
+// });
+
+// document.querySelector('.over').addEventListener('mouseout', function(ev){
+//   ev.stopPropagation()
+//     ev.currentTarget.classList.remove('blue');
+//     console.log('mouseout div. Remove blue.');
+// });
+// document.querySelector('.over').addEventListener('mouseover', function(ev){
+//   ev.stopPropagation()
+//     ev.currentTarget.classList.add('blue');
+//     console.log('mouseover div. Add blue.');
+//     //, ev.currentTarget.tagName, ev.target.tagName
+// });
+
+// -------------------focusin-focusout vs focus-blur----------------
+/*
+The events focusin and focusout are similar to mouseenter and mouseleave. They DO NOT bubble
+The events focus and blur are similar to mouseover and mouseout.They DO bubble.
+
+relatedtarget property will be available between 2 events on 2 elements can be focused
+*/
+// document.querySelector('.in-out input').addEventListener('focusin', goIn);
+// document.querySelector('.in-out input').addEventListener('focusout', goOut);
+// function goIn(ev){
+//     ev.currentTarget.style.color = 'gold';
+//     console.log('focusin input left');
+//     if(ev.relatedTarget){
+//         ev.relatedTarget.style.color = 'red';
+//         console.log('Just left relatedTarget', ev.relatedTarget.id)
+//     }
+// }
+// function goOut(ev){
+//     ev.currentTarget.style.color = 'black';
+//     console.log('focusout input left');
+//     if(ev.relatedTarget){
+//         console.log('Headed to relatedTarget', ev.relatedTarget.id);
+//     }
+// }
+
+// document.querySelector('.focus-blur input').addEventListener('focus', doFocus);
+// document.querySelector('.focus-blur input').addEventListener('blur', doBlur);
+// function doFocus(ev){
+//     ev.currentTarget.style.color = 'gold';
+//     console.log('focus input right');
+//     if(ev.relatedTarget){
+//         ev.relatedTarget.style.color = 'red';
+//         console.log('Just left relatedTarget', ev.relatedTarget.id)
+//     }
+// }
+// function doBlur(ev){
+//     ev.currentTarget.style.color = 'black';
+//     console.log('blur input right');
+//     if(ev.relatedTarget){
+//         console.log('Headed to relatedTarget', ev.relatedTarget.id);
+//     }
+// }
+
+
+// -------------------Touch Event-----------------
+//touch events - touchstart, touchend, touchmove, touchcancel
+//There is NO tap, doubletap, swipe, swipeleft, swiperight, rotate, pinch, or zoom
+//You would have to create those events yourself by connecting to the touch events.
+//work on devices that are touch capable
+//No error on other devices because 'touchstart' is just a name like winlottery
+//The event will probably just never happen on my laptop
+// document.querySelector('p').addEventListener('touchstart', f);
+// document.querySelector('p').addEventListener('touchend', f);
+// document.querySelector('p').addEventListener('touchmove', f);
+
+// function f(ev){
+//     console.log( ev.touches, ev.type );
+// }
+

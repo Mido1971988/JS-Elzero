@@ -141,23 +141,95 @@ h1{
 
 /* h1{
     text-align: center;  
-  }
-  p.img{
-      min-height: 310px;
-      max-width: 600px;
-      margin: 1rem auto;
-      text-align: center;
-      font-size: 3rem;
-      color: #FFF;
-      text-shadow: 2px 2px 2px #333;
-      padding-top:3rem;
-      background-image: url('https://picsum.photos/g/500/300?image=0&blur');
-      background-color: #999;
-      background-repeat: no-repeat;
-      background-size: cover;
-  }
-  .img.online{
-      background-image: url('https://picsum.photos/500/300?image=0');
-      background-repeat: no-repeat;
-      background-size: cover;
-  } */
+}
+p.img{
+    min-height: 310px;
+    max-width: 600px;
+    margin: 1rem auto;
+    text-align: center;
+    font-size: 3rem;
+    color: #FFF;
+    text-shadow: 2px 2px 2px #333;
+    padding-top:3rem;
+    background-image: url('https://picsum.photos/g/500/300?image=0&blur');
+    background-color: #999;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.img.online{
+    background-image: url('https://picsum.photos/500/300?image=0');
+    background-repeat: no-repeat;
+    background-size: cover;
+} */
+
+/* section{
+    border: 1px solid #aaa;
+    padding: 1rem;
+    font-family: "andale mono", sans-serif;
+}
+p{
+    padding: 1rem;
+    cursor: pointer;
+    border: 2px solid #000;
+}
+div{
+    float: left;
+    overflow: auto;
+    box-sizing: border-box;
+    width: 50%;
+    border: 1px solid #aaa;
+    padding: 1rem;
+    font-family: "andale mono", sans-serif;
+}
+.enter{
+    background-color: rebeccapurple;
+    color: white;
+}
+.over{
+    background-color: #bada55;
+    color: #333;
+}
+.blue{
+    background-color: cornflowerblue;
+} */
+
+/* input{
+margin: 1rem;
+min-width: 80%;
+max-width: 100%;
+padding: 0.25rem 1rem;
+}
+section{
+clear:both;
+padding: 1rem;
+margin: 1rem 0;
+}
+div{
+float: left;
+overflow: auto;
+box-sizing: border-box;
+width: 50%;
+border: 1px solid #aaa;
+padding: 1rem;
+font-family: "andale mono", sans-serif;
+}
+.in-out{
+background-color: chocolate;
+color: white;
+}
+.focus-blur{
+background-color: thistle;
+color: #333;
+}
+.blue{
+background-color: cornflowerblue;
+} */
+
+/* p{
+    padding: 1rem;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    font-family: "andale mono", sans-serif;
+    background-color: rebeccapurple;
+    color: white;
+} */
