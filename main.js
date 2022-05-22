@@ -4294,8 +4294,7 @@ let arrObj = Array.from(myObj)
 console.log(arrObj)
 */
 
-
-// -------------Generator
+// -------------------------Generator----------------------------------
 /* difference between generator and normal function
 
 * Normal Function once you invoke it you can not pause it ... it will finish then other codes will run after it
@@ -4311,10 +4310,13 @@ With normal functions, you get parameters at the beginning and a return value at
 With generator functions, you send messages out with each yield, 
 and you send messages back in with each restart.
 
+* generator is iterable
+
 * step by step how generator works :
 1st next() yield 1 will pause the generator and return 1 then 2nd next() will resume from yield 2 then pause and return 2
 function *Yield() {
   yield 1;
+  console.log("After Yield one")
   yield 2;
   yield 3;
   yield 4;
@@ -4327,6 +4329,11 @@ console.log(genY.next().done) // to give you false or true
 console.log(genY.next())
 console.log(genY.next())
 console.log(genY.next())
+
+//will loop over every thing not only yield so txt from console.log() will be printed out also
+for (let x of Yield() ){
+  console.log(x)
+} // 1, After Yield one , 2 ,3 ,4
 
 * other complicated Exp. : 
 function *foo(x) {
@@ -8171,8 +8178,10 @@ function give you control to yield
 // }
 
 // function *generateAll() {
-//   yield * generateNums()
-//   yield * generateNames()
+//   yield * generateNums() // without star will generator name
+//   yield * generateNames() // without star will generator name
+//   // return "Break From Inside" // will break iterstion
+//   yield * [4,5,6] // without star will return array it self 
 // }
 
 // let genAll = generateAll()
@@ -8180,6 +8189,10 @@ function give you control to yield
 // console.log(genAll.next())
 // console.log(genAll.next())
 // console.log(genAll.next())
+// console.log(genAll.next())
+// console.log(genAll.next())
+// console.log(genAll.next())
+// // console.log(genAll.return("Break")) // will break iteration and return {value: break , done: true}
 // console.log(genAll.next())
 // console.log(genAll.next())
 // console.log(genAll.next())
@@ -8267,21 +8280,22 @@ Copy Part of an Array to Another Location in the Same Array
 
 //-------------------------Module-----------------------
 
-// import{myRank, myArray , sayName } from './Module.js';
+// import{myRank, myArray as arr , sayName } from './Module.js'; (as is alias )
 // import everyyhing from module (everything means everything you have exported from ./Module.js)
 // import * as all from './Module.js';
 
 // // console.log(a)
 // // console.log(myRank)
 // console.log(all.myRank)
-// // console.log(myArray)
-// console.log(all.myArray)
+// // console.log(arr)
+// console.log(all.arr)
 // // console.log(sayName("Soliman"))
 // console.log(all.sayName("Soliman"))
 // console.log(all)
 
 // import anyName from './Module.js'
-// you can merge named export and default export in one line code
+// you can merge named export and default export in one line code 
+// every model has only one default export (you can write any name for default export because it's only one default)
 // import anyName , {myArray, myRank, sayName} from './Module.js';
 // // console.log(anyName())
 // console.log(anyName)
@@ -10448,37 +10462,47 @@ Why Function is First-Class Object ?
 
 // -----------------Time and Date in JavaScript------------------
 
-// let d = new Date()
+// let d = new Date() // constructor accept as parameters (TimeStamp(miliseconds) | Date String | numeric Values)
 // console.log(d)
-// // miliseconds after default start date (Unix Epoch) Jan 1 00:00:00.0000 1970
-// let d1 = new Date(1500000000000) 
+// let s = Date.now() // static method
+// console.log(s) // miliseconds after default start date (Unix Epoch) Jan 1 00:00:00.0000 1970
+// [1] TimeStamp 
+// let d1 = new Date(1500000000000) // Date after 1500000000000 miliseconds start point Jan 1 00:00:00.0000 1970
 // console.log(d1)
-// // you can pass string as argument
+// [2] Date String
 // let d2 = new Date("20 July 2012")
 // console.log(d2)
-// // year , Month , day , hours , minutes , seconds ,miliseconds
+// [3] Numeric Value :  year , Month , day , hours , minutes , seconds ,miliseconds
 // let d3 = new Date(2017,0,2,13,30,40)
 // console.log(d3)
+// let d4 = d3-d2 // you can get difference by using - and result will be in miliseconds
+// console.log(d4)
+// you can use Date.parse to change Date to miliseconds
+// console.log(Date.parse("Sep 1 1988"))
+// using T and Z => T is space between date and Time | Z is time zone with Z will give you the time in your Time zone 
+// console.log(new Date("1982-10-25T06:10:00Z"))
 
 // // to change in date
 // d.setFullYear(2020)
-// d.setMonth(0)
-// d.setDate(12)
+// d.setMonth(0) // will give you Jan because Month in 0 index
+// d.setDate(12) // 0 will give you day 30 of last month | -1 negative value will give you day 29 of last month  
 // d.setHours(9)
 // d.setMinutes(20)
 // d.setSeconds(30)
 // d.setMilliseconds(50)
+// you can also add more parameters for Exp. d.setMonth(0,12)
+// d.setMonth(0,12) // 0 => Jan & 12 => day 12
 // console.log(d)
 
 // let getFullYear = d.getFullYear()
-// let getMonth = d.getMonth()
-// let getDate = d.getDate()
+// let getMonth = d.getMonth() // 0 index => jan is 0 
+// let getDate = d.getDate() // day of the month
 // let getHours = d.getHours()
 // let getMinutes = d.getMinutes()
 // let getSeconds = d.getSeconds()
 // let getMilliseconds = d.getMilliseconds()
 // // not availabe in set methods
-// let getDay = d.getDay() // give you no. 0 sunday => 1 monday => .....
+// let getDay = d.getDay() // give you day of the week 0 index =>  0 sunday => 1 monday => .....
 // console.log(getDay)
 
 // let d4 = new Date()
@@ -13280,6 +13304,59 @@ in global scope will be added to global scope
 
 // ---------------------------custom event---------------------
 
+//1. let evt = new Event('explode');
+//2. let evt = new CustomEvent('explode', {detail:{speed:20, volume:40}});
+
+// let born = new Event('born');
+// //  if you want to add properties to event use CustomEvent constructor instead of Event
+// // adding time:Date.now() will not give you time when this event triggered will give you time when event created
+// // you can add just Date.now and add () when accessing time() property
+// let died = new CustomEvent('died', {detail:{time:Date.now}});
+// console.log(born) 
+// console.log(died) 
+
+// document.addEventListener('DOMContentLoaded', function (){
+//     let m = document.querySelector('main');
+//     addParagraph(m, 'This is a paragraph.');
+//     addParagraph(m, 'A new Star Wars movie is coming soon.');
+//     m.addEventListener('click', function(ev){
+//         removeParagraph(m, m.firstElementChild);
+//     })
+// });
+
+// function addParagraph(parent, txt){
+//     let p = document.createElement('p');
+//     p.textContent = txt;
+//     //set up and dispatch events
+//     p.addEventListener('born', wasBorn);
+//     p.addEventListener('died', hasDied);
+//     p.dispatchEvent(born)
+//     //add to screen
+//     parent.appendChild(p);
+// }
+// function removeParagraph(parent, p){
+//     // dispatch event to trigger the event
+//     p.dispatchEvent(died);
+//     //remove element from screen
+//     parent.removeChild(p);
+// }
+// function wasBorn(ev){
+//     console.log(ev.type, ev.target);
+// }
+// function hasDied(ev){
+//     console.log(ev.type, ev.target, ev.detail.time());
+//     //remove the listeners (its better to delete EventListener to save Memory)
+//     ev.target.removeEventListener('born', wasBorn);
+//     ev.target.removeEventListener('died', hasDied);
+// }
+// let main = document.getElementById("getEvent")
+// main.addEventListener("born",function(){
+//   console.log("I am Main")
+// })
+// console.log(main)
+
+
+
 // // Browser version with Event Listener to call a function
 // let Schwift = new CustomEvent("schwifty");
 // class MyObj extends EventTarget {
@@ -15169,4 +15246,552 @@ relatedtarget property will be available between 2 events on 2 elements can be f
 // function f(ev){
 //     console.log( ev.touches, ev.type );
 // }
+
+
+
+// ------------------------------buitin EventHandler-----------------
+// let obj = {
+//   init: function (){
+//       document.querySelector('#btn').addEventListener('click', this);
+//       document.querySelector('#btn').addEventListener('focus', this);
+//       document.querySelector('#btn').addEventListener('blur', this);
+//   },
+//   handleEvent: function(ev){ // this is builtin function so should be named handleEvent
+//       switch(ev.type){
+//           case 'click':
+//               this.something(ev);
+//               break;
+//           case 'focus':
+//               this.something(ev);
+//               break;
+//           case 'blur':
+//               this.something(ev);
+//               break;
+//           case 'explode':
+//               break;
+//       }
+//   },
+//   something: function (ev){
+//       //gets called by click event list
+//       console.log('btn was', ev.type, '-ed.');
+//   }
+// }
+
+// //get things started
+// obj.init();
+
+
+// --------------------------custom attribute-------------------
+/**
+dataset property names must:
+1. start with "data-"
+2. made of lowercase letters and hyphens, underscore, period, colon
+In JavaScript reference them with getAttribute() or setAttribute()
+OR dataset['property name']
+OR dataset.propertyName where camelCase is used by removing the hyphen
+NB: underscore, period and colon are left as-is
+**/
+// let h1 = document.querySelector('h1');
+// let p = document.querySelector('p');
+
+// console.log( h1.dataset ); // DomStingMap represent data for custom attributes added to elements.
+// console.log( h1.dataset['time'] );
+// console.log( h1.dataset.time );
+// console.log( h1.getAttribute('data-time'));
+
+// console.log( p.dataset );
+// console.log( p.dataset['time-stamp']) // undefined
+// console.log( p.dataset['timeStamp']) // at HTML File is time-stamp but we remove hyphen and use CamelCase
+// console.log( p.dataset['time:stamp'])
+
+// console.log( p.getAttribute('data-time-stamp'));
+// console.log( p.getAttribute('data-time:stamp'));
+
+// p.setAttribute('data-time:stamp', 'Thursday')
+// p.dataset.timeStamp = 'Wednesday'; // to use dataset. you should convert time-stamp to camelCase
+// p.dataset["time:stamp"] = "Sunday" // with time:stamp you cannot use p.dataset.time:stamp use instead p.dataset["time:stamp"] 
+// // you can also catch attribute from CSS File look there
+
+// -------------------------Single Page Application--------------------------
+// const app = {
+//   pages: [],
+//   show: new Event('show'),
+//   init: function(){
+//       app.pages = document.querySelectorAll('.page');
+//       app.pages.forEach((pg)=>{
+//           pg.addEventListener('show', app.pageShown);
+//       })
+      
+//       document.querySelectorAll('.nav-link').forEach((link)=>{
+//           link.addEventListener('click', app.nav);
+//       })
+//       history.replaceState({}, 'Home', '#home');
+//       window.addEventListener('popstate', app.poppin);
+//   },
+//   nav: function(ev){
+//       ev.preventDefault(); // wihtout it popstate will be triggered on window.addEventListener('popstate', app.poppin);
+//       let currentPage = ev.target.getAttribute('data-target');
+//       document.querySelector('.active').classList.remove('active');
+//       document.getElementById(currentPage).classList.add('active');
+//       console.log(currentPage)
+//       history.pushState({}, currentPage, `#${currentPage}`);
+//       document.getElementById(currentPage).dispatchEvent(app.show);
+//   },
+//   pageShown: function(ev){
+//       console.log('Page', ev.target.id, 'just shown');
+//       let h1 = ev.target.querySelector('h1');
+//       h1.classList.add('big')
+//       setTimeout((h)=>{
+//           h.classList.remove('big');
+//       }, 1200, h1);
+//   },
+//   poppin: function(ev){
+//       console.log(location.hash, 'popstate event');
+//       let hash = location.hash.replace('#' ,'');
+//       document.querySelector('.active').classList.remove('active');
+//       document.getElementById(hash).classList.add('active');
+//       console.log(hash)
+//       document.getElementById(hash).dispatchEvent(app.show);
+//   }
+// }
+
+// document.addEventListener('DOMContentLoaded', app.init);
+
+// ------------------------------------Modal Window---------------
+//
+
+// const showModal = (ev) =>{
+//   // ev.preventDefault();
+//   let modal = document.querySelector('.modal');
+//   modal.classList.remove('off');
+//   modal.classList.add('on');
+// }
+
+// const showOverlay = (ev) => {
+//   // ev.preventDefault();
+//   let overlay = document.querySelector('.overlay');
+//   overlay.classList.remove('hide');
+//   overlay.classList.add('show');
+//   showModal(ev)
+// }
+
+// const hideModal = (ev) => {
+//   let modal = document.querySelector('.modal');
+//   modal.classList.remove('on');
+//   modal.classList.add('off');
+// }
+
+// const hideOverlay = (ev) => {
+//   // ev.preventDefault();
+//   ev.stopPropagation(); //don't let the click pass through.
+//   let overlay = document.querySelector('.overlay');
+//   overlay.classList.remove('show');
+//   overlay.classList.add('hide');
+//   hideModal(ev);
+// }
+
+// const init = (ev)=>{
+//   document.querySelector('p').addEventListener('click', showOverlay);
+  
+//   document.querySelector('.overlay').addEventListener('click', hideOverlay);
+//   document.querySelector('.close-btn').addEventListener('click', hideOverlay);
+// }
+
+// document.addEventListener('DOMContentLoaded', init);
+
+
+// ------------------------------------SlideShow-----------------------------
+
+
+/** 
+This code would be in an external script 
+**/
+// (()=>{
+//   const slideshow = {
+//       items: [],
+//       timmy: 0,
+//       delay: 3000,
+//       init: function(){
+//           //check for the slideshow container div
+//           if( document.querySelector('.slideshow')){
+//               //create the content div
+//               let divC = document.createElement('div');
+//               divC.className = 'content';
+//               document.querySelector('.slideshow').appendChild(divC);
+              
+//               //load the CSS file for the slideshow ( no need for this we added css style directly to main.css)
+//               // let link = document.createElement('link');
+//               // link.rel = 'stylesheet';
+//               // link.href = './slideshow.css';
+//               // document.head.appendChild(link);
+              
+//               //get the slideshow content
+//               let url = './slideshow.json';
+//               fetch(url)
+//               .then((response)=>{
+//                   return response.json();
+//               })
+//               // data return from last then will be parameter to loadContents function
+//               .then(slideshow.loadContents) 
+//               .catch((err)=>{
+//                   console.log('ERROR:', err);
+//               });   
+//           }
+//       },
+//       loadContents: function(data){
+//           let df = new DocumentFragment();
+//           data.items.forEach((item, idx)=>{
+//               //add each item to the slideshow div
+//               let div = slideshow.createItem(item, idx);
+//               df.appendChild(div);
+//           })
+//           //add the slideshow items to the page
+//           document.querySelector('.slideshow .content').appendChild(df);
+//           //make the first one current because querySelector will catch only first match
+//           document.querySelector('.slideshow-item').classList.add('current');
+//           //save the array of items
+//           slideshow.items = document.querySelectorAll('.slideshow-item');
+//           //start the slideshow moving
+//           slideshow.start();
+//       },
+//       createItem: function(item, index){
+//           let div = document.createElement('div');
+//           div.classList.add('slideshow-item');
+//           div.setAttribute('data-index', index);
+//           let title = document.createElement('h1');
+//           title.textContent = item.title;
+//           div.appendChild(title);
+//           // if you want to add images
+//           // let img = document.createElement('img');
+//           // img.src = './img/' + item.img;
+//           // div.appendChild(img);
+//           let p = document.createElement('p');
+//           p.textContent = item.msg;
+//           div.appendChild(p);
+//           return div;
+//       },
+//       switchItem: function(index, ev){
+//           if(ev){ // this if you added any event to those slides
+//               ev.preventDefault();
+//           }
+//           let current = document.querySelector('.current')
+//           current.classList.remove('current');
+//           current.classList.add('leaving');
+//           setTimeout(()=>{
+//               current.classList.remove('leaving');
+//           }, 800);
+//           slideshow.items[index].classList.add('current');
+//       },
+//       start: function(){
+//           slideshow.timmy = setInterval(()=>{
+//               let [first, ...rest] = slideshow.items; // destructring
+//               slideshow.items = [...rest, first];
+//               slideshow.switchItem(0);
+//           }, slideshow.delay);
+//       }
+//   }
+//   document.addEventListener('DOMContentLoaded', slideshow.init);
+// })();
+
+
+
+// ----------------------------HTML Forms and Validation----------------
+/*
+To link Label Tag to in Input tag at label tag add (for) attribute with the value if input‘s ID
+To use default validation from The Browser add attribute required 
+To reset input field you can create another input with type=“reset”
+*/
+
+
+// const init = function(){
+//   document.getElementById('button-cancel').addEventListener('click', reset);
+//   document.getElementById('button-send').addEventListener('click', send);
+// }
+
+// const reset = function(ev){
+//   // If the button is within a form, the default behavior is submit.
+//   // If the button is not within a form, it will do nothing.
+//   ev.preventDefault(); // without this clicking this button will submit the form
+//   // programmatically we can reset it 
+//   // This method does the same thing as clicking the form's <input type="reset"> control.
+//   document.getElementById('form-user').reset();
+//   //if you want to do anything else...
+// }
+
+// const send = function(ev){
+//   ev.preventDefault(); 
+//   ev.stopPropagation();
+//   //or the click will travel to the form and the form will submit
+//   let fails = validate();
+//   //IF we wanted to do some async things then use a Promise with .then and .catch
+//   if(fails.length === 0){
+//       //good to go
+//       document.getElementById('form-user').submit();
+//   }else{
+//       //there are some errors to display
+//       fails.forEach(function(obj){
+//           let field = document.getElementById(obj.input);
+//           field.parentElement.classList.add('error');
+//           field.parentElement.setAttribute('data-errormsg', obj.msg);
+//       })
+//   }
+// }
+
+// const validate = function(ev){
+//   //let valid = true;
+//   let failures = [];
+//   //checkbox (or radio buttons grouped by name)
+//   let chk = document.getElementById('input-alive');
+//   // .checked .value
+//   if(!chk.checked){
+//       failures.push({input: 'input-alive', msg: 'Must be alive to submit.'})
+//   }
+
+//   //select
+//   let select = document.getElementById('input-age');
+//   // .selectedIndex  .options  .length   .selectedValue  .value
+//   if( select.selectedIndex === 0 ){
+//       failures.push({input:'input-age', msg:'Too young'})
+//   }
+
+//   //inputs for text, email, tel, color, number...
+//   let first = document.getElementById('input-first');
+//   let password = document.getElementById('input-password');
+//   let email = document.getElementById('input-email');
+//   //.value, .defaultValue, length of value
+//   if( first.value === ""){
+//       failures.push({input:'input-first', msg:'Required Field'})
+//   } 
+//   if( password.value === "" || password.value.length < 8){
+//       failures.push({input:'input-password', msg:'Must be at least 8 chars'})
+//   } 
+//   if( email.value === ""){
+//       failures.push({input:'input-email', msg:'Required Field'})
+//   }
+  
+//   //return an object with details about the failures
+//   console.log(failures)
+//   return failures;
+// }
+
+
+// document.addEventListener('DOMContentLoaded', init);
+
+
+
+// ---------------------Fetch Ajax with photos-----------------------
+// let fetch = require('node-fetch');
+// let url = 'https://picsum.photos/list';
+
+// fetch(url)
+// .then(response=>response.json())
+// .then(data=>{
+//     console.log(data.length);
+//     console.log(data[0].format);
+//     console.log(data[0].width);
+//     console.log(data[0].height);
+//     console.log(data[0].id);
+//     console.log(data[0].post_url);
+    
+//     /*
+//     //This code won't work through NodeJS
+//     for(let i=0; i<10; i++){
+//         let img = document.createElement('img');
+//         img.src = data[i].post_url;
+//         document.body.appendChild(img);
+//     }
+//     */
+// })
+// .catch(err=>{
+//     console.log(JSON.stringify(err, null, 2));
+// })
+
+
+// ---------------------
+
+/*************
+SAMPLE URLS
+
+1. To get the config data like image base urls
+https://api.themoviedb.org/3/configuration?api_key=<APIKEY>
+
+2. To fetch a list of movies based on a keyword
+https://api.themoviedb.org/3/search/movie?api_key=<APIKEY>&query=<keyword>
+
+3. To fetch more details about a movie
+https://api.themoviedb.org/3/movie/<movie-id>?api_key=<APIKEY>
+*************/
+// const APIKEY is inside key.js
+// let APIKEY = "b5e3456d5ee40d9b6377846684cd0a83" // register on website to get API Key
+// let baseURL = 'https://api.themoviedb.org/3/';
+// let configData = null;
+// let baseImageURL = null;
+
+// let getConfig = function () {
+//     let url = "".concat(baseURL, 'configuration?api_key=', APIKEY); 
+//     fetch(url)
+//     .then((result)=>{
+//         return result.json();
+//     })
+//     .then((data)=>{
+//         baseImageURL = data.images.secure_base_url;
+//         configData = data.images;
+//         console.log('config:', data);
+//         console.log('config fetched');
+//         runSearch('godfather')
+//     })
+//     .catch(function(err){
+//         alert(err);
+//     });
+// }
+
+// let runSearch = function (keyword) {
+//     let url = ''.concat(baseURL, 'search/movie?api_key=', APIKEY, '&query=', keyword);
+//     fetch(url)
+//     .then(result=>result.json())
+//     .then((data)=>{
+//         //process the returned data
+//         // document.getElementById('output').innerHTML = JSON.stringify(data, null, 4);
+//         //work with results array...
+//         for(let i = 0; i < 5; i++){
+//           let output = document.getElementById('output')
+//           let movie = document.createElement("div")
+//           let img = document.createElement("img")
+//           img.src = "".concat(baseImageURL,"w92" ,data.results[i].poster_path)
+//           movie.innerHTML = JSON.stringify(data.results[i], ["title","release_date","vote_average"], "#");
+//           output.append(img,movie)
+//         }
+//       })
+// }
+
+// document.addEventListener('DOMContentLoaded', getConfig);
+/*******************************
+SAMPLE SEARCH RESULTS DATA
+{ "vote_count": 2762, 
+    "id": 578, 
+    "video": false, 
+    "vote_average": 7.5, 
+    "title": "Jaws", 
+    "popularity": 16.273358, 
+    "poster_path": "/l1yltvzILaZcx2jYvc5sEMkM7Eh.jpg", 
+    "original_language": "en", 
+    "original_title": "Jaws", 
+    "genre_ids": [ 27, 53, 12 ], 
+    "backdrop_path": "/slkPgAt1IQgxZXNrazEcOzhAK8f.jpg", 
+    "adult": false, 
+    "overview": "An insatiable great white shark terrorizes the townspeople of Amity Island, The police chief, an oceanographer and a grizzled shark hunter seek to destroy the bloodthirsty beast.", 
+    "release_date": "1975-06-18" 
+}
+****************/
+
+// ----------------------------------JSON.parse()----------------------------------
+// JSON.parse(txt, reviver function)
+
+// beginning with the most nested properties and proceeding to the original value itself
+// let pars = JSON.parse('[{"prop1" : {"prop3" : 3}},{"prop2" : {"prop4" : "Four"}}]',function(key,value){
+//   console.log(key , value)
+//   /** Output will be
+//    * prop3 => // 3 inner most nested property 
+//    * prop1 => {} 
+//    * 0 => {} // this is element index 0 inside array
+//    * prop4 => Four
+//    * prop2 => {}
+//    * 1 => {} // this is element index 1 inside array
+//    * [] // the array itself
+//    */
+// })
+
+// let pars = JSON.parse('[{"prop1" : {"prop3" : 3}},{"prop2" : {"prop4" : "Four"}}]',function(key,value){
+//   return typeof value === "number" ? value * 2 : value
+// })
+// console.log(pars) //'[{"prop1" : {"prop3" : 6}},{"prop2" : {"prop4" : "Four"}}]' 
+
+
+// // Restriction =>  JSON.parse() does not allow trailing commas
+// // both will throw a SyntaxError
+// JSON.parse('[1, 2, 3, 4, ]'); // ERROR
+// JSON.parse('{"foo" : 1, }');// ERROR
+
+// // JSON.parse() does not allow single quotes
+// // will throw a SyntaxError
+// JSON.parse("{'foo': 1}");// ERROR
+
+
+// ----------------------------------JSON.stringfy()----------------------------------
+// JSON.stringfy(value, replacer, space)
+
+/*
+The replacer parameter can be either a function or an array.
+As a function, it takes two parameters: the key and the value being stringified. The object in which the key was found is provided as the replacer's this parameter.
+Initially, the replacer function is called with an empty string as key representing the object being stringified. It is then called for each property on the object or array being stringified.
+It should return the value that should be added to the JSON string, as follows:
+* If you return a Number, String, Boolean, or null, the stringified version of that value is used as the property's value.
+* If you return a Function, Symbol, or undefined, the property is not included in the output.
+* If you return any other object, the object is recursively stringified, calling the replacer function on each property. */
+
+// -------- [1]Replacer
+// function replacer(key, value) {
+//   // Filtering out properties
+//   if (typeof value === 'string') {
+//     return undefined;
+//   }
+//   return value;
+// }
+
+// var foo = {foundation: 'Mozilla', model: 'box', week: 45, transport: 'car', month: 7};
+// JSON.stringify(foo, replacer);
+// // '{"week":45,"month":7}'
+
+// // If replacer is an array, the array's values indicate the names of the properties 
+// // in the object that should be included in the resulting JSON string.
+// JSON.stringify(foo, ['week', 'month']);
+// // '{"week":45,"month":7}', only keep "week" and "month" properties
+
+// [2] Space
+/* The space argument may be used to control spacing in the final string.
+* If it is a number, successive levels in the stringification will each be indented by this many space characters (up to 10).
+* If it is a string, successive levels will be indented by this string (or the first ten characters of it). */
+
+
+// -----toJSON() behavior
+// toJSON() will work if the object has value this value is object with toJSON() method
+/*
+If an object being stringified has a property named toJSON whose value is a function, then the toJSON() method customizes JSON stringification behavior: instead of the object being serialized, the value returned by the toJSON() method when called will be serialized. JSON.stringify() calls toJSON with one parameter:
+* if this object is a property value, the property name
+* if it is in an array, the index in the array, as a string
+* an empty string if JSON.stringify() was directly called on this object */
+
+// var obj = {
+//   data: 'data',
+
+//   toJSON (key) {
+//       if (key)
+//           return `Now I am a nested object under key '${key}'`;
+//       else
+//           return this;
+//   }
+// };
+
+// console.log(JSON.stringify(obj));
+// // '{"data":"data"}'
+
+// let obj1 = {obj} // {obj : {object above}}
+// console.log(JSON.stringify(obj1)); // Shorthand property names (ES2015).
+// // '{"obj":"Now I am a nested object under key 'obj'"}'
+
+// let arr = [obj] // [{object above}]
+// console.log(JSON.stringify(arr));
+// // '["Now I am a nested object under key '0'"]'
+
+// String Keyed Array is not enumerable
+// let a = ["One","Two"]
+// a["three"] = ["Four"]
+// console.log(JSON.stringify(a)) // ["One","Two"]
+// for( let key in a){
+//   console.log(key) // 0 1 three
+// }
+// for( let value of a){
+//   console.log(value) // one two
+// }
+
 
