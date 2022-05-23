@@ -15653,12 +15653,13 @@ https://api.themoviedb.org/3/movie/<movie-id>?api_key=<APIKEY>
 //         //process the returned data
 //         // document.getElementById('output').innerHTML = JSON.stringify(data, null, 4);
 //         //work with results array...
-//         for(let i = 0; i < 5; i++){
+//         for(let i = 0; i < 4; i++){
 //           let output = document.getElementById('output')
 //           let movie = document.createElement("div")
 //           let img = document.createElement("img")
 //           img.src = "".concat(baseImageURL,"w92" ,data.results[i].poster_path)
 //           movie.innerHTML = JSON.stringify(data.results[i], ["title","release_date","vote_average"], "#");
+//           // movie.innerHTML = `${data.results[i].title} is released at ${data.results[i].release_date} and his Rate is ${data.results[i].vote_average}`
 //           output.append(img,movie)
 //         }
 //       })
@@ -15795,3 +15796,237 @@ If an object being stringified has a property named toJSON whose value is a func
 // }
 
 
+// ----------------------Multi Language webPage----------------
+// look at CSS and HTML file
+
+// ---------------------HTML Template------------------------
+/*
+Template tag in HTML file will not be shown unless you append it to document.body
+Template tag in HTML file have property called content (this content is document fragment)
+let con = document.createElement("template")
+console.log(con.content) // empty document fragmet
+ */
+
+// let bool = true
+
+// document.addEventListener('DOMContentLoaded', ()=> {
+//   if (bool) {
+//       //We can use the template element in our HTML
+//       let temp = document.getElementById('myTemplate');
+//       let content = temp.content;
+//       console.log(content); // document fragmet
+//       // we used cloneNode because if we are trying to use appendChild to append same element 
+//       // will not append another copy will move the element from old location to new location
+//       document.body.appendChild(content.cloneNode(true));
+//       document.body.appendChild(content.cloneNode(true));
+//       document.body.appendChild(content.cloneNode(true));
+//       document.body.appendChild(content.cloneNode(true));
+//       document.body.appendChild(content.cloneNode(true));
+//       document.body.appendChild(content.cloneNode(true));
+//       document.body.appendChild(content.cloneNode(true));
+      
+//   } else {
+//       //Use another method (without uing HTML Template), like manually building the elements.
+//       console.log('The else is running');
+//       let df = document.createDocumentFragment();
+//       let div = document.createElement('div');
+//       let h2 = document.createElement('h2');
+//       let p = document.createElement('p');
+//       h2.textContent = 'A Sub Heading';
+//       p.textContent = 'Some dynamically created text.';
+//       div.className = 'box';
+//       h2.className = 'temp';
+//       df.appendChild(div);
+//       div.appendChild(h2);
+//       div.appendChild(p);
+//       document.body.appendChild(df);
+//   }
+// })
+
+
+// --------------------Validate Empty Form------------------
+// All the value from form are a string even in input tage type number will converted to string
+
+// document.addEventListener("DOMContentLoaded",()=>{
+//   document.getElementById("btnSubmit").addEventListener("click",processFrom)
+// })
+
+// let processFrom = function(ev){
+//   ev.preventDefault()
+
+  // console.log(document.getElementById("username").value)
+  // console.log(document.getElementById("username").value.trim()) // to remove spaces before submittimg
+  // // you can use this to validate that username must be longer than 6 chars
+  // console.log(document.getElementById("username").value.trim().length > 6)
+
+  // console.log(document.getElementById("select").value)
+  // // you can use this to validate that you can not select 1st choice
+  // console.log(document.getElementById("select").selectedIndex > 0)
+
+//   let age = document.getElementById("age")
+//   console.log(age.min)
+//   console.log(age.max)
+//   console.log(age.value)
+//   // parseInt will give you NaN if it is an Empty string or string
+//   console.log(parseInt(age.value))
+//   /* you can use && in validate because if parseInt(age.value) before && is 
+//   NaN (or another falsy value) will not continue this line of code
+//   and will return false but if parseInt(age.value) before && is 
+//   truthy value (number) will continue the line of code and check if 
+//   it's > age.min */
+//   console.log(parseInt(age.value) && parseInt(age.value) > age.min)
+// }
+// console.log(parseInt("1")) // 1
+// console.log(parseInt("a1")) // NaN
+// console.log(parseInt("")) // NaN
+// console.log(parseInt("hi")) // NaN
+
+// -------------------Tabbed Navigation with CSS and JS----------------
+// let tabs, sections;
+        
+// let init = function(){
+//     //find all the tabs (li.tab)
+//     tabs = document.querySelectorAll(".tab");
+//     //add click listeners to each one (like tabs.forEach() but we used [].forEach.call to be compatable with old versions of browsers becuase tabs is nodeList not pure array )
+//     [].forEach.call(tabs, (tab)=>{
+//         //function will be called once
+//         //forEach tab li
+//         tab.addEventListener('click', switchTab);
+//     });
+//     //find all the content (section.tab-content)
+//     sections = document.querySelectorAll(".tab-content");
+// }
+
+// let switchTab = function(ev){
+//     let tab = ev.target;
+//     //called when a user clicks on a tab
+//     let id = tab.id;
+//     //take id from tab
+//     let actives = document.querySelectorAll('.active');
+//     console.log(actives);
+//     [].forEach.call(actives, (active)=>{
+//         active.classList.remove('active');
+//     });
+//     //remove the active class from old section
+//     //loop through the sections
+//     [].forEach.call(sections, (section)=>{
+//         if( 'section-'+id === section.id){
+//             //make the tab active
+//             tab.classList.add('active');
+//             //make the secton active
+//             section.classList.add('active');
+//         }
+//     });
+//     //find the matching id
+//     //add the active class to the matching one
+// }
+
+// window.addEventListener('DOMContentLoaded', init);
+
+
+// ------------------Master Details with single web application--------------
+
+//
+// const TODAY = new Date(15116711772000);
+// const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+// const DATA = {
+//     people: [
+//         {person_id: 1, 
+//           name: "Megan", 
+//           lastAccess:1511150221000, 
+//           isMobile:false, 
+//           avatar:"😀"},
+//         {person_id: 2, 
+//           name: "Cara", 
+//           lastAccess:1511350001000, 
+//           isMobile:false, 
+//           avatar:"😡"},
+//         {person_id: 3, 
+//           name: "Camille", 
+//           lastAccess:1511661001000, 
+//           isMobile:false, 
+//           avatar:"😜"},
+//         {person_id: 4, 
+//           name: "Bree", 
+//           lastAccess:1511670871221, 
+//           isMobile:true, 
+//           avatar:"😵"}
+//     ]
+// }
+
+// let init = function(){
+//     loadMaster(DATA.people);
+// }
+
+// let loadMaster = function(people){
+//     let ul = document.querySelector('.master-list');
+//     let df = document.createDocumentFragment();
+//     people.forEach(person => {
+//         let li = document.createElement('li');
+//         li.textContent = person.name;
+//         li.className = 'person';
+//         li.setAttribute('data-key', person.person_id);
+//         li.addEventListener('click', showDetails);
+//         df.appendChild(li);
+//     });
+//     ul.appendChild(df);
+// }
+
+// let showDetails = function(ev){
+//     let person_id = ev.target.getAttribute('data-key');
+//     let oldActive = document.querySelector('.active');
+//     (oldActive)?oldActive.classList.remove('active'):null;
+//     ev.target.classList.add('active');
+//     let activePerson;
+//     DATA.people.forEach(person=>{
+//         if(person.person_id == person_id){
+//             activePerson = person;
+//         }
+//     });
+//     let ul = document.querySelector('.detail-list');
+//     ul.innerHTML = ""; //clear old list
+//     let df = document.createDocumentFragment();
+//     for(prop in activePerson){
+//         let li = document.createElement('li');
+//         li.classList.add(prop);
+//         if(prop=='lastAccess'){
+//             let timmy = new Date(activePerson[prop]);
+//             let str = `${timmy.getDate()} ${MONTHS[timmy.getMonth()]} ${timmy.getFullYear()}`;
+//             li.textContent = str;
+//         }else{
+//             li.textContent = activePerson[prop];
+//         }
+//         console.log(activePerson[prop]);
+//         df.appendChild(li);
+//     }
+//     ul.appendChild(df);
+// }
+
+// document.addEventListener('DOMContentLoaded', init);
+
+
+// ---------------------getComputedStyle-------------
+/*
+getComputedStyle(element , psudo-element)
+
+difference between getComputedStyle and element.style.style-name is 
+with getComputedStyle you can get every style on the element even the default style added by browser
+but with element.style.style-name you can get only style added to CSS file not the default
+ */
+// document.addEventListener('DOMContentLoaded', function(){
+//   let first = document.querySelector('.first');
+//   let second = document.querySelector('.second');
+//   let third = document.querySelector('.third');
+//   // use camelCase with style names
+//   let resultOne = getComputedStyle(first).fontSize; // camelCase 
+//   let resultOne1 = getComputedStyle(first).getPropertyValue("font-size"); // using hypen
+//   console.log(resultOne1) 
+//   let resultTwo = getComputedStyle(second,'::before').content;
+//   let resultThree = getComputedStyle(third).backgroundColor;
+//   let resultThree0 = third.style.color // works only for inline styles (in HTML File)
+//   let resultThree1 = getComputedStyle(third).display; // block => this is default css style added by browser
+//   let resultThree2 = third.style.display; // will not get default css style
+
+//   let div = document.getElementById('output')
+//   div.innerHTML = `${resultOne} ${resultTwo} ${resultThree} ${resultThree0} ${resultThree1} ${resultThree2}`;
+// })
