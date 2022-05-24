@@ -16030,3 +16030,110 @@ but with element.style.style-name you can get only style added to CSS file not t
 //   let div = document.getElementById('output')
 //   div.innerHTML = `${resultOne} ${resultTwo} ${resultThree} ${resultThree0} ${resultThree1} ${resultThree2}`;
 // })
+
+// ------------------------promise.all---------------------------
+// let log = console.log;
+// let warn = console.warn;
+
+// let p1 = new Promise((resolve, reject)=>{
+//     let img = document.createElement('img');
+//     img.setAttribute('alt', '');
+
+//     img.addEventListener('load', function(ev){
+//         //the CSS has been loaded into the style tag
+//         log('your image be here')
+//         resolve(img);
+//     });
+//     img.addEventListener('error', function(err){
+//         //there was an error
+//         warn('your image is ready, NOT.')
+//         reject(err);
+//     });
+//     img.src = "https://picsum.photos/g/500/300?image=1";
+//     document.body.appendChild(img);
+// });
+
+// let p2 = new Promise((resolve, reject)=>{
+//   let img = document.createElement('img');
+//   img.setAttribute('alt', '');
+
+//   img.addEventListener('load', function(ev){
+//       // load event will trigger once the image loaded but if you load css file 
+//       // the load event will only load once you append css file to head
+//       log('your image be here')
+//       resolve(img);
+//   });
+//   img.addEventListener('error', function(err){
+//       //there was an error
+//       warn('your image is ready, NOT.')
+//       reject(err);
+//   });
+//   img.src = "https://picsum.photos/g/500/300?image=2";
+//   document.body.appendChild(img);
+// });
+
+// //  promise.all accept array of promises as parameter and the parameter 
+// // inside then is an array of resolved values from promises
+// Promise.all([p1, p2])
+// .then((things)=>{  
+//     log('BOTH the links for CSS have been loaded');
+//     //now my page can run and use both the scripts
+//     //OR images, or scripts...
+//     console.log(things) // [img,img] 
+// })
+// .catch((err)=>{
+//     warn('SOMETHING BAD HAPPENED')
+// })
+
+// ---------------------Promise.all with fetch------------
+// fetch return promise so that you can use promise all on fetches 
+
+// let output = document.getElementById("output")
+// let url1 = 'http://jsonplaceholder.typicode.com/users/1'
+// let url2 = 'http://jsonplaceholder.typicode.com/users/2'
+// let url3 = 'http://jsonplaceholder.typicode.com/users/3'
+// let p1 = fetch(url1)
+// let p2 = fetch(url2)
+// let p3 = fetch(url3)
+
+// // fetches return array promises so that you can use promise all on fetches
+// Promise.all([p1, p2, p3])
+//   // after then of promises (from fetches) we will take responses as array
+//   .then((responses)=>{ 
+//     // we need to loop over array of responses and apply .json() on each response
+//     responses.forEach (p => {
+//       // .json() return also promise and we need to use .then() to get data
+//       let prom = p.json()
+//       prom.then(res => {
+//         let parag = document.createElement("p");
+//         // now we get the data as object so we transfere this data object to string using JSON.stringify(res) 
+//         parag.textContent = JSON.stringify(res);
+//         output.appendChild(parag)
+//       })
+//     })
+//   });
+
+// --------------------------Progress Bar(Reading)------------------
+// let header = document.querySelector('header');
+// let bar = document.querySelector('.bar');
+
+// // change progress bar width when scrolling
+// window.addEventListener('scroll', adjustbar);
+// // once the page load change progress bar width to number% (percentage of paragrapgh shown on home page without scrolling)
+// document.addEventListener('DOMContentLoaded', adjustbar);
+// // change progress bar width when resizing webpage
+// window.addEventListener('resize', adjustbar);
+
+
+// function adjustbar(){
+//     let pageHeight = document.body.clientHeight; //height of <body>
+//     let pageWidth = document.body.clientWidth;  //width of <body>
+//     let pageOffset = window.pageYOffset;        //how far has page scrolled
+//     let bottom = parseInt(getComputedStyle(header).bottom);
+//     //distance from bottom of header to bottom of page (because the when when reach of end of scroll we want to measure the height if last paragraph shown on last home page)
+//     let pct = (pageOffset + bottom)/pageHeight;
+//     let w = pct * pageWidth;
+//     bar.style.width =  w + "px";
+//     console.log("resize")
+// }
+
