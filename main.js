@@ -14704,7 +14704,7 @@ https://www.youtube.com/watch?v=8FYJfEHOuY0
 // build a grid of temps over the next 24 hours
 // blue background in hours where percipitation possibility is higher than 70%
 
-// let uri = './darksky-sample.json';
+// let uri = 'json/darksky-sample.json';
 // let req = new Request(uri, {method:'GET'});
 // let container, df;
 
@@ -15426,7 +15426,7 @@ This code would be in an external script
 //               // document.head.appendChild(link);
               
 //               //get the slideshow content
-//               let url = './slideshow.json';
+//               let url = 'json/slideshow.json';
 //               fetch(url)
 //               .then((response)=>{
 //                   return response.json();
@@ -16137,3 +16137,171 @@ but with element.style.style-name you can get only style added to CSS file not t
 //     console.log("resize")
 // }
 
+// ----------------------Special charachters in HTML , CSS & Js------------------------
+
+/*
+HTML : 
+  [1] Decimal => &#165;
+  [2] Hexidecimal => &#x00A5;
+  [3] abbreviation => &yen;  (some charachters has shortcut)
+
+CSS : 
+  [1] Escaping charachter only with Hexidecimal: "\00A5"
+
+JS : 
+  [1] Escaping Charachter only with Hexidecimal: "\u00A5"
+*/
+
+
+// ---------------------------Random Color Generator----------------------
+
+// //how to generate Random Colours in JavaScript
+// let r, g, b, h, s, l, color, intColor;
+// let h1 = document.querySelector('h1');
+
+// //1. #FAB
+// r = Math.floor(Math.random() * 16).toString(16);
+// g = Math.floor(Math.random() * 16).toString(16);
+// b = Math.floor(Math.random() * 16).toString(16);
+// color = `#${r}${g}${b}`;
+// h1.textContent = color;
+// document.body.style.backgroundColor = color;
+
+// // 2. #FFED77
+// r = Math.floor(Math.random() * 256).toString(16);
+// g = Math.floor(Math.random() * 256).toString(16);
+// b = Math.floor(Math.random() * 256).toString(16);
+// r = (r.length===2)?r:'0' + r;
+// g = (g.length===2)?g:'0' + g;
+// b = (b.length===2)?b:'0' + b;
+// color = `#${r}${g}${b}`;
+// h1.textContent = color;
+// document.body.style.backgroundColor = color;
+
+// // 3. hsl(359, 50%, 40%)  hsla(h, s, l, 0.3)
+// h = Math.floor(Math.random() * 360).toString();
+// s = Math.floor(Math.random() * 101).toString();
+// l = Math.floor(Math.random() * 101).toString();
+// color = `hsl(${h}, ${s}%, ${l}%)`;
+// h1.textContent = color;
+// document.body.style.backgroundColor = color;
+
+
+// // 4. rgb(255, 0, 128)  rgba(r, g, b, 0.3)
+// r = Math.floor(Math.random() * 256).toString();
+// g = Math.floor(Math.random() * 256).toString();
+// b = Math.floor(Math.random() * 256).toString();
+// color = `rgb(${r}, ${g}, ${b})`;
+// h1.textContent = color;
+// document.body.style.backgroundColor = color;
+
+// //5. Faster colours with Bitwise operators
+// intColor = Math.floor(Math.random() * Math.pow(2, 24));
+// // random value between 0 and 2 to the power of 24
+// // 111111110000000011111111
+// r = intColor >> 16;
+// g = (intColor >> 8) & 255;
+// b = intColor & 255;
+// color = `rgb(${r}, ${g}, ${b})`;
+// h1.textContent = color;
+// document.body.style.backgroundColor = color;
+
+// ---------------------------------Circle Graph------------------------
+// let info;
+        
+// document.addEventListener('DOMContentLoaded', ev=>{
+//     info = document.querySelector('#main .info');
+//     doRotations();
+//     let timmy = setInterval(function(){
+//         let num = parseInt(info.textContent) + 1;
+//         num = (num>100)?0:num;
+//         info.textContent = num;
+//         doRotations();
+//     }, 500)
+// });
+
+// function doRotations(){
+//   let coverOver = document.querySelector('#main .cover-over50');
+//   let coverUnder = document.querySelector('#main .cover-under50');
+//   let fillOver = document.querySelector('#main .fill-over50');
+//   let infoNum = parseInt(info.textContent);
+//   let pct = (infoNum - 50) * 360 / 100;
+//   //get the percentage of 360 degrees
+//   console.log('num', infoNum, pct, 'deg');
+//   if(infoNum > 50){
+//       coverOver.style.zIndex = 20;
+//       fillOver.style.zIndex = 30;
+//       //blue on right on top
+//       fillOver.style.transform = 'rotate(180deg)';
+//       coverUnder.style.transform = 'rotate(180deg)';
+//       //move a grey under the purple
+//       coverOver.style.transform = `rotate(${pct}deg)`;
+//   }else{
+//       coverOver.style.zIndex = 30;
+//       fillOver.style.zIndex = 20;
+//       //blue on left under grey
+//       coverOver.style.transform = 'rotate(0deg)';
+//       fillOver.style.transform = 'rotate(0deg)';
+//       //rotate a grey to reveal bottom-most purple
+//       coverUnder.style.transform = `rotate(${pct}deg)`;
+//   }
+  
+//   //extra code for the demo in the alt section
+//   let altCOver = document.querySelector('#alt .cover-over50');
+//   let altCUnder = document.querySelector('#alt .cover-under50');
+//   let altFOver = document.querySelector('#alt .fill-over50');
+//   altCOver.style.transform = coverOver.style.transform;
+//   altCUnder.style.transform = coverUnder.style.transform;
+//   altFOver.style.transform = fillOver.style.transform;
+// }
+
+// -------------------------Star Rating System------------------
+// -------My-Version
+// let allStars = document.querySelectorAll("i")
+// let span = document.querySelector(".stars span")
+// allStars.forEach((star,indx) => {
+//   star.addEventListener("click", function(){
+//   star.classList = "filled fas fa-star"
+//     for(let i = 0; i < indx; i++){
+//       allStars[i].classList = "filled fas fa-star"
+//       span.textContent = `${indx+1}/5`
+//     }
+//     for(let i = indx+1; i < allStars.length; i++){
+//       allStars[i].classList = "far fa-star"
+//       span.textContent = `${indx+1}/5`
+//     }
+//   })
+// })
+
+// -------Steve version
+//initial setup
+// document.addEventListener('DOMContentLoaded', function(){
+//   let stars = document.querySelectorAll('.star');
+//   stars.forEach(function(star){
+//       star.addEventListener('click', setRating); 
+//   });
+  
+//   let rating = parseInt(document.querySelector('.stars').getAttribute('data-rating'));
+//   let target = stars[rating - 1];
+//   target.dispatchEvent(new MouseEvent('click'));
+// });
+
+// function setRating(ev){
+//   let span = ev.currentTarget;
+//   let stars = document.querySelectorAll('.star');
+//   let match = false;
+//   let num = 0;
+//   stars.forEach(function(star, index){
+//       if(match){
+//           star.classList.remove('rated');
+//       }else{
+//           star.classList.add('rated');
+//       }
+//       //are we currently looking at the span that was clicked
+//       if(star === span){
+//           match = true;
+//           num = index + 1;
+//       }
+//   });
+//   document.querySelector('.stars').setAttribute('data-rating', num);
+// }
