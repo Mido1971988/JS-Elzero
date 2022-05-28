@@ -8448,6 +8448,9 @@ Web APIs can include functions that are synchronous and asynchronous.
 For example, the setTimeout will use the event loop, 
 console.log() will synchronously write to the browser's console  
 fetch will call an asynchronous function that can be awaited.
+Asynchronous JavaScript code requires Callback functions that get 
+executed later after the desired time.
+(that's why console.log() is Web API Synchronous and  setTimeout(callback function) is Web API Asynchronous)
 */
 // console.log("One")
 // window.alert("Bad")
@@ -11176,6 +11179,33 @@ Explicit means change data type by yourself not automatically by JS Engine
 // console.log(Number("2"))
 // console.log(String(1))
 
+// ------------------convert Binary Number , decimal and HexDecimal--------------
+/*
+[1] Using toString(10) : Convert Binary or HexDecimal Number to Decimal Number 
+[2] Using toString(2) : Convert Decimal or HexDecimal Number to Decimal Number
+[3] Using praseInt(binary, radix) : Convert binary to Decimal
+
+
+Binary : Js don't know if this is a binanry or decimal number so if you need to tell 
+js it's a binary number you should write 0b like let b = 0b1010 
+Decimal : Js knows its Decimal no need to write something before
+HexDecimal : Js don't know if this is a HexDecimal you should write 0x 
+ */
+// let a = 10; 
+// let b = 0b1010;
+// let c = 1010;
+// let x = 0xFF3300
+// let d = 16724736
+
+// console.log(a.toString(2)) // convert Decimal to Binary
+// console.log(b) // will print 10 because we tell JS it's Binary bu writing 0b before
+// console.log(c.toString(10)) // 1010 because we did not tell JS it's Binary
+// console.log(b.toString(10)) // 10 toString() will work now because we told JS it's Binary
+// console.log(parseInt(c,2)) // no need here to tell JS it's Binary because we wrote here the radix as 2nd parameter
+// console.log(x.toString(2)) // convert HexDecimal to Binary
+// console.log(d.toString(16)) // convert decimal to HexDecimal
+// console.log(x.toString(10)) // convert HexDecimal to Decimal
+
 // --------------BitWise Operator and Binary Numbers------------
 // video 
 // https://youtu.be/RRyxCmLX_ag
@@ -11279,6 +11309,60 @@ counting in decimal, binary
 16  10000       2^4
 **************************/
 
+// ----how ~ "NOT" Bitwise Operator works 
+/*
+JavaScript stores numbers as 64 bits floating point numbers, 
+but all bitwise operations are performed on 32 bits binary numbers.
+Before a bitwise operation is performed, JavaScript converts numbers to 32 bits signed 
+integers. (A signed integer uses the leftmost bit as the minus sign.)
+After the bitwise operation is performed, the result is converted back to 64 bits 
+JavaScript numbers.
+
+Number.toString(2) has some problems when representing negative numbers. 
+For example, (-1).toString(2) output is "-1".
+To fix this issue, you can use the unsigned right shift bitwise operator (>>>) to 
+coerce your number to an unsigned integer.
+If you run (-1 >>> 0).toString(2) you will shift your number 0 bits to the right, 
+which doesn't change the number itself but it will be represented as an unsigned integer
+
+Javascript represents negative binary integers in two's-complement notation
+*/
+// let a = 5;
+// let b = ~5;
+// let x = 0b11111111111111111111111111111010
+// let y = -6;
+
+// console.log(a) // 5
+// console.log(b) // -6
+// console.log(x.toString(2)) // 11111111111111111111111111111010
+// console.log((y >>> 0).toString(2)) // 11111111111111111111111111111010
+
+
+//————————colors with Bitwise operators
+/* Color (8 bits red , 8 bits green , 8 bits blue ) 
+
+FF3300
+FF(Red) - 33(Green) - 00(blue) (111111110011001100000000)
+
+[1] To get green part : FF3300 >> 8 & 255 : 
+
+(a) FF3300 >> 8 : will shift to right and remove 8 bits of blue (1111111100110011)
+
+(b) & 11111111(255) : will remove Remove Red part
+1111111100110011 & 
+0000000011111111
+=              00110011 (Green part ) 
+
+[2] To get blue part : FF3300 & 255
+
+111111110011001100000000 & 
+000000000000000011111111
+= 00000000 (blue part) 
+
+[3] To get Red Part : FF3300 >> 16
+
+: will shift to right and remove 16 bits 8 bits blue and 8 bits green (11111111) */
+
 // ------Avoiding Array Dubplicate values in loop--------
 
 // give you duplicate of random values
@@ -11341,6 +11425,15 @@ Json file is just a text file you can store object or array inside it
 key in object must be inside "" and 
 value (inside object or array) can be only (string,number,object,array,true,false.null) 
 reference this link => https://www.json.org/json-en.html
+
+
+JSON VS XML 
+- Text Based Format            - Markup Language (like HTML)
+- Lightweight                  - Heavier
+- Does Not Use Tags            - Using Tags
+- Shorter                      - Not Short
+- Can Use Arrays               - Cannot use Arrays
+- Not Supprot Comments         - Support Comments
 */
 
 // let obj = {
@@ -16272,6 +16365,14 @@ JS :
 //     }
 //   })
 // })
+// document.addEventListener('DOMContentLoaded',function(){
+//   let initRate = prompt("Please Rate","Write your Rate Here ")
+//   // initRate = parseInt(initRate) && parseInt(initRate) > 0 && parseInt(initRate) < 6  ? initRate : 5
+//   while( !parseInt(initRate) || parseInt(initRate) <= 0 || parseInt(initRate) >= 6){
+//     initRate = prompt("inValid input","Your Range is 1 - 5 ")
+//   }
+//   allStars[parseInt(initRate) - 1 ].dispatchEvent(new MouseEvent('click'))
+// })
 
 // -------Steve version
 //initial setup
@@ -16305,3 +16406,55 @@ JS :
 //   });
 //   document.querySelector('.stars').setAttribute('data-rating', num);
 // }
+
+// ------------Private and Public API---------------
+// // API for Public info o Github User
+// let url1 = "https://api.github.com/users/Mido1971988" 
+// // API for list of Public Repos
+// let url2 = "https://api.github.com/users/Mido1971988/repos" 
+// // API for list of public and private repos(but private Repos needs Authorization with Personal Access Token)
+// let url3 = "https://api.github.com/search/repositories?q=user:Mido1971988"  
+// // API for list of files inside Repo
+// let url4 = "https://api.github.com/repos/Mido1971988/Private-Repo/git/trees/master?recursive=1"
+// // API to get file from Repo return metadata not raw content so you have to decode content first
+// let url5 = "https://api.github.com/repos/Mido1971988/Private-Repo/contents/darksky-sample.json"
+
+
+// // -----My Github Public API 
+
+// // fetch(url3)
+// //   .then(response => response.json())
+// //   .then(data => console.log(data)) // 14 repos because there is 1 repo Private
+// //   .catch(err => console.log(err)) 
+
+// // -----My Github Private API
+
+// let request = new Request (url5,{
+//   method : "GET",
+//   headers : {
+//     "Authorization" : "token " +"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",
+//     "content-type": "application/json"
+//   },
+//   mode : "cors",
+//   cache : "default"
+// })
+
+// // fetch(request)
+// //   .then(response => (response).json())
+// //   .then(data => console.log(data))
+// //   .catch(err => console.log(err))
+
+// fetch(request)
+//   .then(response => (response).json())
+//   .then(data => console.log(JSON.parse(atob(data.content)))) // atob to decode base64
+//   .catch(err => console.log(err))
+
+
+
+
+// -----------------------------search-------------------------------
+
+// let txt = document.getElementById("txt-search").value
+
+
+
