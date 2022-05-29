@@ -6710,7 +6710,7 @@ both without using g flag return Array of information with first match
 // regular expression literal
 // const myRe = /d(b+)d/g;
 // or constructor function of the RegExp object
-// const myRe = new RegExp('d(b+)d', 'y'); // or const myRe = new RegExp(/d(b+)d/, 'g'); 
+// const myRe = new RegExp('d(b+)d', 'g'); // or const myRe = new RegExp(/d(b+)d/, 'g'); 
 // const execArray = myRe.exec('cdbbdbsbz'); // Method of RegExp
 // const matchArray = ('cdbbdbsbz').match(myRe); // Method of String used with RegExp
 // console.log(execArray) // Array of information
@@ -16449,12 +16449,84 @@ JS :
 //   .then(data => console.log(JSON.parse(atob(data.content)))) // atob to decode base64
 //   .catch(err => console.log(err))
 
+// -----------------Exp. of difference between target and currentTarget-------------
+// let partyStarted = function(){
+//   //add event listeners to element(s) on the page  
+//   document.querySelector('.list-view').addEventListener('click', onClick2);
+//   //target will be ul
+  
+//   let lis = document.querySelectorAll('.list-item');
+//   lis.forEach(li => {
+//       // li.addEventListener('click', onClick);
+//       //target will be li
+//   })
+//   let spans = document.querySelectorAll('.list-item span');
+// }
 
+// let onClick2 = function(ev){
+//   alert(ev.target.tagName);
+//   let li = ev.target;
+//   if( ev.target.tagName == 'SPAN'){
+//       li = ev.target.parentElement;
+//   }
+//   let id = li.getAttribute('data-id');
+//   let nm = li.getAttribute('data-name');
+//   let h2 = document.querySelector('h2');
+//   h2.textContent = id + ': ' + nm;
+// }
+
+// let onClick = function(ev){
+//   //ev is the click event... but who called it?
+//   alert('target ' + ev.target + ' and currentTarget ' + ev.currentTarget);
+//   // ev.stopPropagation() // to stop ev to triggered on UL if you click on LI or SPAN
+
+//   let id = ev.currentTarget.getAttribute('data-id');
+//   let nm = ev.currentTarget.getAttribute('data-name');
+//   let h2 = document.querySelector('h2');
+//   h2.textContent = id + ': ' + nm;
+// }
+
+// document.addEventListener('DOMContentLoaded', partyStarted);
 
 
 // -----------------------------search-------------------------------
+let ul = document.createElement("ul")
+let txt = document.getElementById("txt-search")
+let output = document.getElementById("output")
+output.appendChild(ul)
+let pre = document.getElementById("array").innerHTML.split(",")
+let arr = pre.map(ele => {
+  let newEle = ele.trim().split("")
+  newEle.pop()
+  newEle.shift()
+  return newEle.join("")
+})
 
-// let txt = document.getElementById("txt-search").value
+let elements;
+txt.addEventListener("input",function(ev){
+  elements = [];
+  if(ev.target.value.length > 0){
+    arr.forEach(ele => {
+      let regX = new RegExp(`\^${ev.target.value}\\w{0,}`,"ig")
+      let matchedEle = ele.match(regX)
+      if(matchedEle){
+        if(!elements.includes(ele)){
+          elements.push(ele)
+        }
+      }
+    })
+    addToList(elements)
+  }else{
+    ul.textContent = ""
+  }
+})
 
-
+function addToList(array){
+  ul.textContent = ""
+  array.forEach(ele =>{
+    let li = document.createElement("li")
+    li.textContent = ele
+    ul.appendChild(li)
+  })
+}
 
