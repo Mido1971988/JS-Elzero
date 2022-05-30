@@ -16490,43 +16490,220 @@ JS :
 
 
 // -----------------------------search-------------------------------
-let ul = document.createElement("ul")
-let txt = document.getElementById("txt-search")
-let output = document.getElementById("output")
-output.appendChild(ul)
-let pre = document.getElementById("array").innerHTML.split(",")
-let arr = pre.map(ele => {
-  let newEle = ele.trim().split("")
-  newEle.pop()
-  newEle.shift()
-  return newEle.join("")
+// -----my Way
+// let ul = document.createElement("ul")
+// let txt = document.getElementById("txt-search")
+// let output = document.getElementById("output")
+// output.appendChild(ul)
+// let pre = document.getElementById("array").innerHTML.split(",")
+// let arr = pre.map(ele => {
+//   let newEle = ele.trim().split("")
+//   newEle.pop()
+//   newEle.shift()
+//   return newEle.join("")
+// })
+
+// let elements;
+// txt.addEventListener("input",function(ev){
+//   elements = [];
+//   if(ev.target.value.length > 0){
+//     arr.forEach(ele => {
+//       // match Method (return matched)
+//       // let regX = new RegExp(`\^${ev.target.value}\\w{0,}`,"ig")
+//       // let matchedEle = ele.match(regX)
+//       // test Method (return true or false)
+//       let regX = new RegExp(`\^${ev.target.value}`,"ig")
+//       let matchedEle = regX.test(ele)
+//       if(matchedEle){
+//         if(!elements.includes(ele)){
+//           elements.push(ele)
+//         }
+//       }
+//     })
+//     addToList(elements)
+//   }else{
+//     ul.textContent = ""
+//   }
+// })
+
+// function addToList(array){
+//   ul.textContent = ""
+//   array.forEach(ele =>{
+//     let li = document.createElement("li")
+//     li.textContent = ele
+//     ul.appendChild(li)
+//   })
+// }
+
+// -----steve way
+// const KEY = 'debounce-terms';
+
+// let init = function(){
+//     //document.getElementById('txt-search').addEventListener('input', search);
+//     document.getElementById('txt-search').addEventListener('input', efficientSearch);
+    
+//     let terms = ['apple', 'acorn', 'bee', 'beet', 'beef', 'bunny', 'cookie', 
+//                   'corn', 'corndog', 'dog', 'dogma', 'echo', 'elephant'];
+//     localStorage.setItem(KEY, JSON.stringify(terms));
+// }
+  
+// let search = function(ev){
+//     let text = ev.target.value;
+//     document.getElementById('output').textContent = `List Matching ${text}`;
+//     let ul = document.getElementById('matches');
+    
+//     //call an asynchronous search to match what has been typed
+//     getList(text)
+//     .then((list)=>{
+//         ul.innerHTML = '';
+//         if( list.length == 0){
+//             let li = document.createElement('li');
+//             li.textContent = "NO MATCHES";
+//             ul.appendChild(li);
+//         }else{
+//             list.forEach(item=>{
+//                 let li = document.createElement('li');
+//                 li.textContent = item;
+//                 ul.appendChild(li);
+//             })
+//         }
+//     })
+//     .catch(err=>console.warn(err));
+// }
+
+
+// let getList = function(txt){
+//     return new Promise((resolve, reject)=>{
+//         //use setTimeout with random value to show what can happen
+//         let r = Math.floor(Math.random()*1000);
+//         setTimeout((function(){
+//             let t = '^' + this.toString();
+//             let pattern = new RegExp(t, 'i'); //starts with t
+//             let terms = JSON.parse(localStorage.getItem(KEY));
+//             let matches = terms.filter(term => pattern.test(term));
+//             resolve(matches);
+//         }).bind(txt), r);
+//     })
+// }
+
+// // read below to know how it is works
+// let debounce = function(func, wait, immediate) {
+//     var timeout;
+//     return function() {
+//         var context = this, args = arguments;
+//         // console.log(context)
+//         // console.log(args)
+//         var later = function() {
+//             timeout = null;
+//             if (!immediate) func.apply(context, args);
+//         };
+//         var callNow = immediate && !timeout;
+//         clearTimeout(timeout);
+//         timeout = setTimeout(later, wait);
+//         if (callNow) func.apply(context, args);
+//     };
+// };
+
+// let efficientSearch = debounce(function(ev){
+//   let text = ev.target.value;
+//   document.getElementById('output').textContent = `List Matching ${text}`;
+//   let ul = document.getElementById('matches');
+  
+//   //call an asynchronous search to match what has been typed
+//   getList(text)
+//   .then((list)=>{
+//       ul.innerHTML = '';
+//       if( list.length == 0){
+//           let li = document.createElement('li');
+//           li.textContent = "NO MATCHES";
+//           ul.appendChild(li);
+//       }else{
+//           list.forEach(item=>{
+//               let li = document.createElement('li');
+//               li.textContent = item;
+//               ul.appendChild(li);
+//           })
+//       }
+//   })
+//   .catch(err=>console.warn(err));
+// }, 300);
+// //call the debounced function at most once every 300ms
+
+// document.addEventListener('DOMContentLoaded', init);
+
+
+// //debounce function - thanks to David Walsh
+// //https://davidwalsh.name/javascript-debounce-function
+// //who took this from underscore.js
+
+
+// // Read this to know how debounce function worked above
+// let test = document.getElementById("test")
+// // declaring function called first
+// let first = function(func){
+//   return function(){
+//     let context = this
+//     let args = arguments
+//     func.apply(context,args)
+//   }
+// }
+// // trigger function first and pass a function with argument (ev) to it 
+// // then save returned value to variable second
+// // now variable second is a function because function first 
+// // return another function 
+// let second = first(function(ev){console.log(ev)}) 
+// // now trigger function second which is the function returned from 
+// // first function and trigger this function will trigger the function 
+// // which is passed to first function as argument this function will
+// // take context and arguments from variables context & args whichs
+// // assigned when you trigger seconds once event triggered
+// test.addEventListener("click",second)
+
+
+// --------------------------Right Click Menu------------------------
+
+// My Way
+let box = document.getElementById("box")
+let menu = document.querySelector("ul")
+let red = document.getElementById("red")
+let gold = document.getElementById("gold")
+let green = document.getElementById("green")
+
+menu.classList.add("off")
+
+red.addEventListener("click",function(){
+  box.style.backgroundColor = "red"
+  // we can not use this because add style using JS is inline style and will override the css style file
+  // menu.classList.add("off")
+  hide()
+})
+gold.addEventListener("click",function(){
+  box.style.backgroundColor = "gold"
+  hide()
+})
+green.addEventListener("click",function(){
+  box.style.backgroundColor = "green"
+  hide()
 })
 
-let elements;
-txt.addEventListener("input",function(ev){
-  elements = [];
-  if(ev.target.value.length > 0){
-    arr.forEach(ele => {
-      let regX = new RegExp(`\^${ev.target.value}\\w{0,}`,"ig")
-      let matchedEle = ele.match(regX)
-      if(matchedEle){
-        if(!elements.includes(ele)){
-          elements.push(ele)
-        }
-      }
-    })
-    addToList(elements)
-  }else{
-    ul.textContent = ""
-  }
+document.body.addEventListener("click",function(){
+  hide()
 })
 
-function addToList(array){
-  ul.textContent = ""
-  array.forEach(ele =>{
-    let li = document.createElement("li")
-    li.textContent = ele
-    ul.appendChild(li)
-  })
+box.addEventListener("contextmenu",function(ev){
+  ev.preventDefault()
+  menu.classList.remove("off")
+  menu.style.left = ev.pageX + "px"
+  menu.style.top = ev.pageY + "px"
+})
+
+function hide(){
+  menu.style.left = "-200%"
+  menu.style.top = "-200%"
 }
+
+// -------------Steve Way
+
+
+
 
