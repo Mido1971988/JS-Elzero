@@ -5302,7 +5302,7 @@ onsubmit
 // to take a copy of elements and it's attributes
 // false (default Value) take atrributes but not take the content of Element
 // true will copy the content also
-// let myP = document.querySelector("p").cloneNode(true)
+// let myP = p.cloneNode(true)
 // let myDiv = document.querySelector("div")
 
 // // you have to change id because id unique and can't be twice
@@ -16539,7 +16539,7 @@ JS :
 // const KEY = 'debounce-terms';
 
 // let init = function(){
-//     //document.getElementById('txt-search').addEventListener('input', search);
+//     // document.getElementById('txt-search').addEventListener('input', search);
 //     document.getElementById('txt-search').addEventListener('input', efficientSearch);
     
 //     let terms = ['apple', 'acorn', 'bee', 'beet', 'beef', 'bunny', 'cookie', 
@@ -16577,12 +16577,12 @@ JS :
 //         //use setTimeout with random value to show what can happen
 //         let r = Math.floor(Math.random()*1000);
 //         setTimeout((function(){
-//             let t = '^' + this.toString();
+//             let t = '^' + txt.toString();
 //             let pattern = new RegExp(t, 'i'); //starts with t
 //             let terms = JSON.parse(localStorage.getItem(KEY));
 //             let matches = terms.filter(term => pattern.test(term));
 //             resolve(matches);
-//         }).bind(txt), r);
+//         }), r,txt);
 //     })
 // }
 
@@ -16659,51 +16659,279 @@ JS :
 // // assigned when you trigger seconds once event triggered
 // test.addEventListener("click",second)
 
+// ---------------------removeEventListener--------------
+// // here we are creating div element
+// let div = document.createElement("div")
+// div.textContent = "TEST"
+// // here we adding an Event ti div element
+// div.addEventListener("click",function(){console.log("test")})
+// // here we are just printing the div element to webpage 
+// document.body.appendChild(div)
+// // here we are removing the div element from webpage not deleting the div element but it will
+// // be garbage collected if there is no reference to it
+// // but here there is an Event refer to it so it will not be garbage collected that's why it's
+// // important to remove EventListener
+// document.body.removeChild(div)
+// console.log(div) // here div is still here because remove child only remove it from webpage
+// div.removeEventListener("click",function(){console.log("test")})
+// console.log(div)
+
+
+
 
 // --------------------------Right Click Menu------------------------
 
 // My Way
-let box = document.getElementById("box")
-let menu = document.querySelector("ul")
-let red = document.getElementById("red")
-let gold = document.getElementById("gold")
-let green = document.getElementById("green")
+// let box = document.getElementById("box")
+// let menu = document.querySelector("ul")
+// let red = document.getElementById("red")
+// let gold = document.getElementById("gold")
+// let green = document.getElementById("green")
 
-menu.classList.add("off")
+// menu.classList.add("off")
 
-red.addEventListener("click",function(){
-  box.style.backgroundColor = "red"
-  // we can not use this because add style using JS is inline style and will override the css style file
-  // menu.classList.add("off")
-  hide()
-})
-gold.addEventListener("click",function(){
-  box.style.backgroundColor = "gold"
-  hide()
-})
-green.addEventListener("click",function(){
-  box.style.backgroundColor = "green"
-  hide()
-})
+// red.addEventListener("click",function(){
+//   box.style.backgroundColor = "red"
+//   // we can not use this because add style using JS is inline style and will override the css style file
+//   // menu.classList.add("off")
+//   hide()
+// })
+// gold.addEventListener("click",function(){
+//   box.style.backgroundColor = "gold"
+//   hide()
+// })
+// green.addEventListener("click",function(){
+//   box.style.backgroundColor = "green"
+//   hide()
+// })
 
-document.body.addEventListener("click",function(){
-  hide()
-})
+// document.body.addEventListener("click",function(){
+//   hide()
+// })
 
-box.addEventListener("contextmenu",function(ev){
-  ev.preventDefault()
-  menu.classList.remove("off")
-  menu.style.left = ev.pageX + "px"
-  menu.style.top = ev.pageY + "px"
-})
+// box.addEventListener("contextmenu",function(ev){
+//   ev.preventDefault()
+//   menu.classList.remove("off")
+//   menu.style.left = ev.pageX + "px"
+//   menu.style.top = ev.pageY + "px"
+// })
 
-function hide(){
-  menu.style.left = "-200%"
-  menu.style.top = "-200%"
-}
+// function hide(){
+//   menu.style.left = "-200%"
+//   menu.style.top = "-200%"
+// }
 
 // -------------Steve Way
 
+// let menu = null;
+// document.addEventListener('DOMContentLoaded', function(){
+//     //make sure the right click menu is hidden
+//     menu = document.querySelector('.menu');
+//     menu.classList.add('off');
+    
+//     //add the right click listener to the box
+//     let box = document.getElementById('box');
+//     box.addEventListener('contextmenu', showmenu);
+    
+//     //add a listener for leaving the menu and hiding it
+//     menu.addEventListener('mouseleave', hidemenu);
+    
+//     //add the listeners for the menu items
+//     addMenuListeners();
+// });
+
+// function addMenuListeners(){
+//     document.getElementById('red').addEventListener('click', setColour);
+//     document.getElementById('gold').addEventListener('click', setColour);
+//     document.getElementById('green').addEventListener('click', setColour);
+// }
+
+// function setColour(ev){
+//     hidemenu();
+//     let clr = ev.target.id;
+//     document.getElementById('box').style.backgroundColor = clr;
+// }
+
+// function showmenu(ev){
+//     //stop the real right click menu
+//     ev.preventDefault(); 
+//     //show the custom menu
+//     menu.style.top = `${ev.clientY - 20}px`;
+//     menu.style.left = `${ev.clientX - 20}px`;
+//     menu.classList.remove('off');
+// }
+
+// function hidemenu(ev){
+//     menu.classList.add('off');
+//     menu.style.top = '-200%';
+//     menu.style.left = '-200%';
+// }
+
+// -----------------------Error Handling------------------
+
+// window.onerror = function(msg,url,line,col,err){
+//   console.log(msg,url,line,col,err)
+// }
+
+// same like onerror but here you have ev object so you can ev.preventDefault()
+// window.addEventListener("error",function(ev){
+//   console.log(ev.message,ev.filename,ev.lineno,ev.colno,ev.error)
+//   ev.preventDefault() // will stop throwing Error and stop JS file from running
+//   console.log(ev)
+// })
+// asd
+
+// you can add onerror on img will trigger if img did not loaded
+// let img = document.getElementById("bad")
+// img.onerror = function(ev){
+//   console.log(ev)
+// }
 
 
+// ----------------mediaQuery in JS--------------------
+/*
+MediaQueryList has propery called matches 
+will be true if width more than 601px
+will be false if width less than 601px
+*/
 
+// let query = window.matchMedia("(min-width : 601px)")
+// let p = document.querySelector("p")
+
+// // but you have to refresh to see the change of color
+// if(query.matches){
+//   p.style.color = "red"
+// }else{
+//   p.style.color = "yellow"
+// }
+
+// // Using Resize Event :  here no need to refresh 
+// window.addEventListener("resize",function(){
+//   if(query.matches){
+//     p.style.color = "red"
+//   }else{
+//     p.style.color = "black"
+//   }
+// })
+
+// // Using ResizeObserver :  here no need to refresh 
+// let resizer = new ResizeObserver(changeColor)
+// resizer.observe(p)
+
+// function changeColor (entries){
+//   // you can get also p from entries
+//   let para = entries[0].target
+//   if(query.matches){
+//     para.style.color = "red" // or p
+//   }else{
+//     p.style.color = "black" // or para
+//   }
+// }
+
+// ------------------------------Observers in JS----------------------
+
+/**
+ * ResizeObserver
+ * MutationObserver
+ * IntersectionObserver
+ */
+
+// [1] ResizeObserver : 
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   /* window.matchMedia() could be used on load */
+//   //ResizeObserver constructor accept callback function as parameter and this function will run once the size of element change  
+//   let resizer = new ResizeObserver(handleResize);
+//   // observe is prototype method accept the target element as parameter
+//   // resizer.observe(document.querySelector('.container'));
+// });
+
+// function handleResize(entries) {
+//   let div = entries[0].target;
+//   if (entries[0].contentRect.width > 900) {
+//     //add big class
+//     div.classList.add('big');
+//     addPhoto();
+//   } else {
+//     //remove big class
+//     div.classList.remove('big');
+//     removePhoto();
+//   }
+// }
+
+// function addPhoto() {
+//   if (!document.querySelector('.two img')) {
+//     let img = document.createElement('img');
+//     let rand = Math.floor(Math.random() * 100) + 10;
+//     img.src = `https://picsum.photos/g/500/300?image=${rand}`;
+//     img.alt = 'Random image';
+//     document.querySelector('.two p').appendChild(img);
+//   }
+// }
+// function removePhoto() {
+//   let img = document.querySelector('.two img');
+//   img?.parentElement.removeChild(img);
+//   //old equivalent of the above line
+//   //if(img){img.parentElement.removeChild(img);}
+// }
+
+// [2] MutationObserver : 
+// let observer;
+        
+// document.addEventListener('DOMContentLoaded', init);
+
+// function init(){
+//     let p = document.querySelector('main > p'); //1st p
+//     p.addEventListener('click', change);
+    
+//     let config = {
+//         attributes: true, // to track changes in element's attribute 
+//         attributeOldValue: true, // to track old element's attribute value
+//         attributeFilter: ['data-thing', 'title', 'style'], // to track only these attributes
+//         childList: true, // to track element's child including text node
+//         subtree: true, // to track deeper element's grandchild
+//         characterData: false, 
+//         characterDataOldValue: false
+//     };
+//     // atleast you have to write one of these in config childList, attributes, characterData 
+    
+//     observer = new MutationObserver(mutated);
+//     observer.observe(p, config);
+//     // observer.disconnect(); // to stop tracking any mutations
+// }
+
+
+// function mutated(mutationList){
+//     console.log( mutationList );
+//     for(let mutation of mutationList) {
+//         if (mutation.type == 'childList') {
+//             console.log('A child node has been added or removed.');
+//         }
+//         else if (mutation.type == 'attributes') {
+//             console.log('The ' + mutation.attributeName + ' attribute was modified.');
+//             console.log( mutation.oldValue );
+//         }
+//     }
+//     console.log(observer.takeRecords()) // return an array of all mutationRecords
+//     // properties of mutationRecord
+//     //target - Element
+//     //addNodes - NodeList( list of added nodes)
+//     //removedNodes - NodeList ( list of removed nodes)
+//     //oldValue 
+//     //attributeName
+//     //attributeNamespace
+//     //previousSibling - Element / textNode
+//     //nextSibling - Element / textNode
+//     //type 'attributes' or 'childList'
+// }
+// function change(ev){
+//   let p = ev.currentTarget;
+  
+//   p.textContent = ' this is new content'; // will give mutation record because childList: true
+//   p.setAttribute('data-thing', 123); // will give mutation record because attributes: true
+//   p.title = 'NEW TITLE' // will give mutation record because childList: true
+  
+//   let span = document.createElement('span');
+//   p.appendChild(span); // will give mutation record because childList: true
+//   span.textContent = ' SOME SPAN TEXT'; // will give mutation record because subtree: true
+// }
