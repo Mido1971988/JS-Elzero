@@ -6964,7 +6964,8 @@ while anchors are used to find something at the beginning/end of a line.
 // will replace the first @ only
 // console.log(txt.replace("@", "JavaScript"))
 // console.log(txt.replaceAll("@", "JavaScript"))
-// let txtRe = /@/ig;
+// let txtRe = /\b\w{3}(?=\s)/ig; // to replace with and
+// let txtRe = /@/ig; // to replace with @
 // console.log(txt.replaceAll(txtRe, "JavaScript"))
 // console.log(txt.replaceAll(/@/ig, "JavaScript"))
 
@@ -11650,10 +11651,13 @@ Default behavior of find return found value or if not found return undefined
 
 // let find =" "
 // let replace = ""
-// while(lorem.indexOf(" ") > -1){
-//   lorem = lorem.replace(find,replace)
-// }
+// // while(lorem.indexOf(" ") > -1){
+// //   lorem = lorem.replace(find,replace)
+// // }
+// // or you can use replaceAll
+// lorem = lorem.replaceAll(find,replace)
 // console.log(lorem)
+
 
 
 // -------------Object.create(null)--------------
@@ -16834,7 +16838,16 @@ will be false if width less than 601px
  * ResizeObserver
  * MutationObserver
  * IntersectionObserver
- */
+******
+- all Constructors of 3 types accept callback function as parameters
+- all instance of 3 types accept html element as parameter
+but : 
+- instance of MutationObserver accept configuration object as 2nd parameter
+- Constructor of IntersectionObserver accept options object as 2nd parameter
+******
+- callback function of ResizeObserver & IntersectionObserver accept entries as paramter
+- callback function of MutationObserver accept mutationList as paramter
+*/
 
 // [1] ResizeObserver : 
 
@@ -16935,3 +16948,142 @@ will be false if width less than 601px
 //   p.appendChild(span); // will give mutation record because childList: true
 //   span.textContent = ' SOME SPAN TEXT'; // will give mutation record because subtree: true
 // }
+
+//[3] InterSectionObserver
+// document.addEventListener("DOMContentLoaded", () => {
+//   let options = {
+//     //null means use whole viewport
+//     root: null, 
+//     // -250px means the observer area the the viewport area -250px form top and bottom and -50px from right and left 
+//     rootMargin: "-250px -50px", 
+//     // threshold means when though 0.05(5%) of target text 
+//     threshold: 0.05
+//   };
+//   let observer = new IntersectionObserver(beTouching, options);
+//   document.querySelectorAll(".container p").forEach(p => {
+//     observer.observe(p);
+//     //console.log("watching", p.textContent);
+//   });
+// });
+// // we can add observer instance as second parameter and use it for exp. inside function to stop observing by unobserve method
+// function beTouching(entries, ob) { 
+//   //entries all 30 paragraphs
+//   entries.forEach(entry => {
+//     if (entry.isIntersecting) { // isIntersecting property means p enter observer area
+//       console.log("intersecting");
+//       //console.log(entry.target); // p html element
+//       //console.log(entry.time, entry.intersectionRatio);
+//       entry.target.classList.add("active");
+//       //ob.unobserve(entry.target); // to stop watching p 
+//     } else {
+//       entry.target.classList.remove("active");
+//     }
+//   });
+// }
+
+// ------------------------Find and Replace-------------------
+
+// -----my Way
+
+// let target = document.querySelector(".target")
+// let txt = document.querySelector(".target").textContent.split(" ")
+// let input = document.getElementById("find")
+// let replace = document.getElementById("replace")
+// let button = document.getElementById("btnSearch")
+// let reg = /\w+/ig
+
+// button.addEventListener("click",function(ev){
+//   ev.preventDefault()
+//   let newTxt = txt.map(word => word.toLowerCase().match(reg).join("") === input.value.toLowerCase() ? replace.value : word)
+//   target.textContent = newTxt.join(" ")
+// })
+
+// ------steve way
+// document.addEventListener('DOMContentLoaded', function(){
+//   let btn = document.getElementById('btnSearch');
+//   btn.addEventListener('click', doFindAndReplace);
+// });
+
+// function doFindAndReplace(ev){
+//   ev.preventDefault();
+  
+//   let find = document.getElementById('find').value;
+//   let replace = document.getElementById('replace').value;
+  
+//   let p = document.querySelector('.target');
+  
+//   // while( p.textContent.indexOf(find) != -1 ){
+//   //   //we put it inside while loop because replace method will replace first match only
+//   //     p.textContent = p.textContent.replace(find, replace);
+//   // }
+
+//   // or instead of while loop you can use replaceAll method
+//   p.textContent = p.textContent.replaceAll(find, replace);
+// }
+
+// -------------------------------Modifiying text input---------------
+// ----------keyup & keypress & keydown & input
+// document.addEventListener('DOMContentLoaded', function(){
+//   let txt = document.getElementById('txt');
+//   // txt.addEventListener('keydown', upThing);  
+//   //1st - no charcode. no input value added yet
+//   // will trigger function before value of key written to input field 
+  
+//   // txt.addEventListener('keypress', upThing);  
+//   //2nd - charcode. no input value added yet
+//   // will trigger function after value of key written to input field but before keyup
+//   // that's why no ev.target.value at first time
+  
+//   // txt.addEventListener('keyup', upThing);     
+//   //3rd - no charcode. input value added
+//   // will trigger function after value of key written to input field and ev.target.value at first time is availabe
+  
+//   // txt.addEventListener('input', upThing); // best choice
+//   //4th - no charcode but input value accessible/mutable
+// });
+
+// function upThing(ev){
+//   let num = ev.charCode;
+//   let letter = String.fromCharCode(num);
+//   console.log(ev.type, num, letter, ev.target.value);
+//   ev.target.value = ev.target.value.toUpperCase();
+// }
+
+// ----------------------------Cors with Fetch---------------------------
+let p;
+        
+document.addEventListener('DOMContentLoaded', 
+    function(){
+        p = document.querySelector('main>p');
+        p.addEventListener('click', doFetch);
+    });
+
+function doFetch(ev){
+    let uri = "http://127.0.0.1:8888/json/darksky-sample.json";
+    
+    let h = new Headers();
+    h.append('Accept', 'application/json');
+    
+    let req = new Request(uri, {
+        method: 'POST',
+        headers: h,
+        mode: 'cors'
+    });
+    
+    fetch(req)
+    .then( (response)=>{
+        if(response.ok){
+            return response.json();
+        }else{
+            console.log(response)
+            throw new Error('BAD HTTP stuff');
+        }
+    })
+    .then( (jsonData) =>{
+        console.log(jsonData);
+        p.textContent = JSON.stringify(jsonData, null, 4);
+    })
+    .catch( (err) =>{
+        console.log('ERROR:', err.message);
+    });
+}
