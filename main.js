@@ -17050,6 +17050,71 @@ but :
 // }
 
 // ----------------------------Cors with Fetch---------------------------
+/*
+- if you want to take response from different server (like MAMP)
+you need to create .htaccess file and write 
+(Header Set Access-Control-Allow-Origin *) inside the .htaccess file
+to accept requests from any server and give it a response then add mode: 'cors' when sending request
+
+- but if you want to take response from same serve 
+no need to add .htaccess file and write (Header Set Access-Control-Allow-Origin *)
+because its the same server and no need of cross origin policy (only between different servers)
+
+* Note : mode: "no-cors" will return a opaque response
+* Note : Live server can not read .htaccess file so use MAMP server better
+*/
+// let p;
+        
+// document.addEventListener('DOMContentLoaded', 
+//     function(){
+//         p = document.querySelector('main>p');
+//         p.addEventListener('click', doFetch);
+//     });
+
+// function doFetch(ev){
+//     let uri = "http://127.0.0.1:5500/json/darksky-sample.json"; // From Same Server
+//     // let uri = "http://127.0.0.1:8888/json/darksky-sample.json"; // From MAMP Server
+    
+//     let h = new Headers();
+//     h.append('Accept', 'application/json');
+    
+//     let req = new Request(uri, {
+//         method: 'GET',
+//         headers: h,
+//         mode: 'cors'
+//     });
+    
+//     fetch(req)
+//     .then( (response)=>{
+//         if(response.ok){
+//             return response.json();
+//         }else{
+//             console.log(response)
+//             throw new Error('BAD HTTP stuff');
+//         }
+//     })
+//     .then( (jsonData) =>{
+//         console.log(jsonData);
+//         p.textContent = JSON.stringify(jsonData, null, 4);
+//     })
+//     .catch( (err) =>{
+//         console.log('ERROR:', err.message);
+//     });
+// }
+
+
+// --------------------------Authentication----------------
+/*
+Steps to create Password for your site : 
+[1] open terminal and go to location where you you want to save .htpasswd file at
+[2] write on terminal  ( htpasswd -c .htpasswd userName )
+[3] will ask you for PassWord and you will repeat the password then file created
+[4] write on .htaccess file : 
+      AuthType Basic
+      AuthName "mido"
+      AuthUserFile  /Applications/MAMP/user-pass/.htpasswd
+      Require valid-user
+*/
 let p;
         
 document.addEventListener('DOMContentLoaded', 
@@ -17059,13 +17124,17 @@ document.addEventListener('DOMContentLoaded',
     });
 
 function doFetch(ev){
-    let uri = "http://127.0.0.1:8888/json/darksky-sample.json";
+    // let uri = "http://127.0.0.1:5500/json/darksky-sample.json"; // From Same Server
+    let uri = "http://127.0.0.1:8888/json/darksky-sample.json"; // From MAMP Server
     
     let h = new Headers();
     h.append('Accept', 'application/json');
-    
+    let encoded = window.btoa("mido:secret")
+    let auth = "Basic " + encoded // Basic is the type before i used token for github API
+    h.append("Authorization" , auth)
+
     let req = new Request(uri, {
-        method: 'POST',
+        method: 'GET',
         headers: h,
         mode: 'cors'
     });
