@@ -17105,54 +17105,295 @@ because its the same server and no need of cross origin policy (only between dif
 
 // --------------------------Authentication----------------
 /*
-Steps to create Password for your site : 
+Steps to create Password for your website (localHost) : 
 [1] open terminal and go to location where you you want to save .htpasswd file at
 [2] write on terminal  ( htpasswd -c .htpasswd userName )
 [3] will ask you for PassWord and you will repeat the password then file created
 [4] write on .htaccess file : 
       AuthType Basic
-      AuthName "mido"
+      AuthName "Write Yor Password"
       AuthUserFile  /Applications/MAMP/user-pass/.htpasswd
       Require valid-user
+
+Steps to create Password for your website : 
+[1] open file manager on the server
+[2] add .htpasswd outSide the root Document (like www, htdocs or public_html)
+[3] add .htaccess to the folder you want to put password on it and write inside .htaccess :
+      AuthType Basic
+      AuthName "Write Yor Password"
+      AuthUserFile  location on server/.htpasswd
+      Require valid-user
+
+reference : 
+https://websistent.com/password-protect-directories-using-htpasswd/
 */
-let p;
+// let p;
         
-document.addEventListener('DOMContentLoaded', 
-    function(){
-        p = document.querySelector('main>p');
-        p.addEventListener('click', doFetch);
-    });
+// document.addEventListener('DOMContentLoaded', 
+//     function(){
+//         p = document.querySelector('main>p');
+//         p.addEventListener('click', doFetch);
+//     });
 
-function doFetch(ev){
-    // let uri = "http://127.0.0.1:5500/json/darksky-sample.json"; // From Same Server
-    let uri = "http://127.0.0.1:8888/json/darksky-sample.json"; // From MAMP Server
+// function doFetch(ev){
+//     // let uri = "http://127.0.0.1:5500/json/darksky-sample.json"; // From Same Server
+//     let uri = "http://127.0.0.1:8888/json/darksky-sample.json"; // From MAMP Server
     
-    let h = new Headers();
-    h.append('Accept', 'application/json');
-    let encoded = window.btoa("mido:secret")
-    let auth = "Basic " + encoded // Basic is the type before i used token for github API
-    h.append("Authorization" , auth)
+//     let h = new Headers();
+//     h.append('Accept', 'application/json');
+//     let encoded = window.btoa("mido:secret") // to convert it to Base64
+//     let auth = "Basic " + encoded // Basic is the type before i used token for github API
+//     h.append("Authorization" , auth)
+//     console.log(auth) // userName and Password Converted to Base64
+//     let req = new Request(uri, {
+//         method: 'GET',
+//         headers: h,
+//         // credentials : "include" // different domain will send cookies with request
+//         credentials : "same-origin" // same domain
+//     });
+    
+//     fetch(req)
+//     .then( (response)=>{
+//         if(response.ok){
+//             return response.json();
+//         }else{
+//             console.log(response)
+//             throw new Error('BAD HTTP stuff');
+//         }
+//     })
+//     .then( (jsonData) =>{
+//         console.log(jsonData);
+//         p.textContent = JSON.stringify(jsonData, null, 4);
+//     })
+//     .catch( (err) =>{
+//         console.log('ERROR:', err.message);
+//     });
+// }
 
-    let req = new Request(uri, {
-        method: 'GET',
-        headers: h,
-        mode: 'cors'
-    });
-    
-    fetch(req)
-    .then( (response)=>{
-        if(response.ok){
-            return response.json();
-        }else{
-            console.log(response)
-            throw new Error('BAD HTTP stuff');
-        }
-    })
-    .then( (jsonData) =>{
-        console.log(jsonData);
-        p.textContent = JSON.stringify(jsonData, null, 4);
-    })
-    .catch( (err) =>{
-        console.log('ERROR:', err.message);
-    });
-}
+// ------------------------------------Caching--------------------------
+// try this on MAMP server not live server
+// const DATATIMEOUT = 60;
+        
+// function fetchData(){
+//     let url = 'http://127.0.0.1:8888/api/data.php';
+//     // url = url + '?apikey=abd654e9d6cc52a1297dfee'; // this a simulation not require key you can remove this
+//     fetch(url)
+//     .then(response=>{
+//         return response.json()
+//     })
+//     .then(data=>{
+//         //now we need to check if the data is new ENOUGH
+//         let t = data.time;
+//         let p = data.people;
+//         let output  = document.getElementById('output');
+//         let oldtime = localStorage.getItem('westeros-time');
+//         if( oldtime ){
+//             //we have data
+//             let intOldTime = parseInt(oldtime);
+//             if( (intOldTime + DATATIMEOUT) < t){
+//                 localStorage.setItem('westeros-time', t);
+//                 let ps = JSON.stringify(p);
+//                 localStorage.setItem('westeros-ppl', ps);
+//                 output.textContent = 'List Updated';
+//             }else{
+//                 //no update required
+//                 output.textContent = 'List IS Up to Date';
+//             }
+            
+//         }else{
+//             //no data
+//             localStorage.setItem('westeros-time', t);
+//             let ps = JSON.stringify(p);
+//             localStorage.setItem('westeros-ppl', ps);
+//             output.textContent = 'List Created';
+//         }
+//     })
+//     .catch(err=>{
+//         let output = document.getElementById('output');
+//         output.textContent = JSON.stringify(err, null, 2);
+//     })
+// }
+
+// function init(){
+//     let h1 = document.querySelector('h1');
+//     h1.addEventListener('click', fetchData);
+//         //OR
+//     let timmy = setInterval(fetchData, 20000); 
+//         //once every 20 seconds
+// }
+
+// document.addEventListener('DOMContentLoaded', init);
+
+// ---------------TransitionEnd and AnimationEnd---------------------
+// document.addEventListener('DOMContentLoaded', function(){
+//   let ps = document.querySelectorAll('p');
+//   ps.forEach(p=>{
+//       p.addEventListener('transitionend', glow);
+//       p.addEventListener('animationend', noglow);
+//   })
+// });
+
+// function glow(ev){
+//   console.log('transitionend');
+//   ev.currentTarget.style.animationName = 'glow';
+// }
+
+// function noglow(ev){
+//   // we have to remove animation name and set it again to make animation works every time not only one time
+//   ev.currentTarget.style.animationName = '';
+// }
+
+// ----------------------------XML file fetching--------------------
+//XMLHttpRequest() - has responseXML property in the response
+        
+// document.addEventListener('DOMContentLoaded', ()=>{
+//   //fetch the data as soon as the page has loaded
+//   let url = "/xml/data.xml";
+//   fetch(url)
+//   .then(response=>response.text()) // like json() It returns a promise that resolves with a String
+//   .then(data=>{
+//       // console.log(data);  //string
+//       let parser = new DOMParser(); //Provides the ability to parse XML or HTML source code from a string into a DOM Document.
+//       let xml = parser.parseFromString(data, "application/xml");
+//       document.getElementById('output').textContent = data;
+//       console.log(xml);
+//       buildHouseList(xml);
+//       buildSwordList(xml);
+//   });
+// })
+
+// function buildHouseList(x){
+//   let list = document.getElementById('houses');
+//   let houses = x.getElementsByTagName('house');
+//   for(let i=0; i<houses.length; i++){
+//       let li = document.createElement('li');
+//       // let house = houses[i].firstChild.nodeValue; // here select firstChild (textNode) so to get value of text node you should use nodeValue property
+//       let house = houses[i].textContent; // or you can directly use textContent property of the element 
+//       li.textContent = house;
+//       list.appendChild(li);
+//   }
+// }
+
+// function buildSwordList(x){
+//   let list = document.getElementById('swords');
+//   let swords = x.getElementsByTagName('sword');
+//   for(let i=0; i<swords.length; i++){
+//       let li = document.createElement('li');
+//       let swordName = swords[i].firstChild.nodeValue;
+//       let person = swords[i].getAttribute('owner');
+//       li.textContent = `${swordName} - ${person}`;
+//       list.appendChild(li);
+//   }
+// }
+// -------------------Controlling video by JS----------------------
+// let vid;
+// document.addEventListener('DOMContentLoaded', init);
+
+// function init(){
+//     document.getElementById('btnPlay').addEventListener('click', play);
+//     document.getElementById('btnPaws').addEventListener('click', paws);
+//     document.getElementById('btnStop').addEventListener('click', stop);
+//     document.getElementById('btnRew').addEventListener('click', rew);
+//     document.getElementById('btnFF').addEventListener('click', ff);
+//     vid = document.getElementById('video');
+//     let str = vid.canPlayType("video/mp4"); // maybe - properly - empty string ( can't play)
+//     // console.log(str);// maybe
+//     vid.volume = 0.9;  //  0 is mute  - 1 is maximum
+// }
+
+// function play(ev){
+//     vid.play() // return promise because maybe will buffer so needs promise
+//     .then(()=>{
+//         console.log('video is playing')
+//     })
+//     .catch((err)=>{
+//         console.log( {err} );
+//     });
+//     //after the video starts to play you can access text tracks
+//     let tt = vid.textTracks;
+//     let cues = tt[0].cues;
+//     console.log(tt);
+//     console.log(`There are ${tt.length} text tracks`);
+//     console.log( tt[0] );
+//     console.log( cues );
+//     console.log( cues.length );
+//     console.log( cues[0] );
+//     console.log( cues[0].text );
+// }
+// function paws(ev){
+//     vid.pause(); // will not return a promise
+//     console.log( vid.currentTime, "of", vid.duration, "seconds played");
+//     console.log('video is paused. No Promise here');
+// }
+// function stop(ev){
+//     vid.pause();
+//     console.log( vid.currentTime);
+//     vid.currentTime = 0;
+// }
+// function rew(ev){
+//     console.log( vid.currentTime);
+//     if( ! vid.fastSeek ){
+//         vid.currentTime -= 20;
+//     }else{
+//         vid.fastSeek(-20) // not supported on all browsers
+//         .then(()=>{
+//             console.log('Video skipped forward 10 seconds')
+//         })
+//         .catch(err=>{
+//             console.log({err});
+//         })
+//     }
+//     console.log( vid.currentTime);
+// }
+// function ff(ev){
+//     console.log( vid.currentTime);
+//     if( ! vid.fastSeek ){
+//         vid.currentTime += 20;
+//     }else{
+//         vid.fastSeek(20) // not supported on all browsers
+//         .then(()=>{
+//             console.log('Video skipped forward 10 seconds')
+//         })
+//         .catch(err=>{
+//             console.log({err});
+//         })
+//     }
+//     console.log( vid.currentTime);
+// }
+
+// ------------------------------Permission API--------------------------
+
+// if(navigator.permissions){
+//   //browser supports this
+
+//   // method of the Permissions interface returns the state of a user permission on the global scope.
+//   // The name of the API whose permissions you want to query
+//   navigator.permissions.query({name:'geolocation'})
+//   .then(function(permissionStatus) {  
+//       console.log('geolocation permission state is ', permissionStatus.state);
+
+//       permissionStatus.onchange = function() {  
+//         console.log('geolocation permission state has changed to ', this.state);
+//       };
+//   });
+//   // Indicates whether you want to show a notification for every message or be able to 
+//   // send silent push notifications. default is false (userVisibleOnly:false) is not supported in all browsers
+//   navigator.permissions.query({name:'push', userVisibleOnly:true})
+
+//   // getCurrentPosition make a Request Asynchronously and accept 2 callback function success or fail
+//   navigator.geolocation.getCurrentPosition(ftw, wtf);
+//   function ftw(){console.log('yes')}
+//   function wtf(){console.log('no')}
+  
+//   Notification.requestPermission(function(result) {  
+//       if (result === 'denied') {  // when click deny
+//           console.log('Permission wasn\'t granted. Allow a retry.');  
+//           return;  
+//       } else if (result === 'default') {   // default means close the prompt question
+//           console.log('The permission request was dismissed.');  
+//           return;  
+//       }  
+//       console.log('Permission was granted for notifications');  // when click allow
+//   });
+// }
+
