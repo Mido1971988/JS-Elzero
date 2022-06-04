@@ -13410,7 +13410,8 @@ in global scope will be added to global scope
 // // you can add just Date.now and add () when accessing time() property
 // let died = new CustomEvent('died', {detail:{time:Date.now}});
 // console.log(born) 
-// console.log(died) 
+// console.log(died)
+
 
 // document.addEventListener('DOMContentLoaded', function (){
 //     let m = document.querySelector('main');
@@ -17396,4 +17397,146 @@ https://websistent.com/password-protect-directories-using-htpasswd/
 //       console.log('Permission was granted for notifications');  // when click allow
 //   });
 // }
+// ------------------------------Clipboard---------------
+/* if i add contenteditable="true" attribute on HTML element i can change the text from webpage
+and if i cut , copy , paste will trigger the events here in JS File */
 
+// ######### Option [1] using copy , cut , paste Built-in Events(clipboardEvents) : (work for safari)
+
+// document.addEventListener('DOMContentLoaded', ()=>{
+//     ['cut', 'copy', 'paste'].forEach(function(event) {
+//         document.addEventListener(event, function(ev) {
+//             console.log(event);   
+//             if(ev.type == 'paste'){
+//                 console.log(ev.clipboardData.getData('text')); // no need for premissions
+//             }
+//         });
+//     });
+// });
+
+// // should be in the webpage input element and focused and selected to copy the text inside input element
+// document.getElementById('btnCopy').addEventListener('click', (ev)=>{
+//     let pre = document.querySelector('pre');
+//     let text = pre.textContent;
+//     const input = document.createElement('input');
+//     document.body.appendChild(input);
+//     input.value = text;
+//     input.focus();
+//     input.select();
+//     input.style.opacity = 0 // to make it hidden
+//     const result = document.execCommand('copy'); // will trigger copy event on document you can not use dispatchEvent look below
+//     if (result === 'unsuccessful') {
+//         console.error('Failed to copy text.');
+//     }
+// });
+
+// if you want to use dispatchEvent instead of execCommand you have to create new event using 
+// Event constructor and write the function of copy event you can not use builtin copy function 
+// let copyEvent = new Event("copy")
+// pre.addEventListener("copy", navigator.clipboard.writeText(pre.textContent))
+// pre.dispatchEvent(copyEvent)
+
+
+// ######### Option [2] using clipboard writeText & readText properties (need Premissions) : 
+//Over HTTPS only (or localhost)
+//Only on active tabs
+//Permissions for read and write are required (not work for safari) maybe my safari is old version or problem with premissions
+// Get permission to access clipboard
+
+// navigator.permissions.query({
+//   name: 'clipboard-read', 
+//   name: 'clipboard-write' 
+// }).then(permissionStatus => {
+//   // Will be 'granted', 'denied' or 'prompt':
+//   console.log(permissionStatus.state);
+
+//   // Listen for changes to the permission state
+//   permissionStatus.onchange = () => {
+//     console.log('Clipboard Permission State:', permissionStatus.state);
+//   };
+// });
+
+
+// document.getElementById('btnCopy').addEventListener('click' , function(){
+//   let pre = document.querySelector('pre');
+//   navigator.clipboard.writeText(pre.textContent)
+//   .then(() => {
+//       console.log('Copied to clipboard');
+//   })
+//   .catch(err => {
+//       // This can happen if the user denies clipboard permissions:
+//       console.error('Could not copy text: ', err);
+//   });
+// })
+
+// ##### Clipboard has properties like (readText(), writeText() => for texts & read() , write() => for images)
+
+// ---writeText() => copy text in the clipborad
+// let pre = document.querySelector('pre');
+//   navigator.clipboard.writeText(pre.textContent)
+//   .then(() => {
+//       console.log('Copied to clipboard');
+//   })
+//   .catch(err => {
+//       // This can happen if the user denies clipboard permissions:
+//       console.error('Could not copy text: ', err);
+//   });
+
+// readText() => Retrieve what was in the clipboard
+// navigator.clipboard.readText()
+// .then(text => {
+//     console.log('Content in Clipboard is: ', text);
+// })
+// .catch(err => {
+//     console.error('Failed to read clipboard contents: ', err);
+// });
+
+// // you can Add listener for the paste event
+// document.addEventListener('paste', ev => {
+//     //ev.preventDefault(); //<-- if you don't want the actual paste
+    
+//     navigator.clipboard.readText().then(text => {
+//         console.log('Pasted text: ', text);
+//     });
+// });
+
+// -----------------------------------Scrolling------------------------
+// let h1 = document.querySelector('h1');
+// h1.addEventListener('click', (ev)=>{
+//     //scrollBy(x, y) scrollTo(x, y)
+//     //scrollX(x) scrollY(y)
+//     //onscroll
+//     console.group();
+//     //top of the visible screen
+//     console.log('client', ev.clientX, ev.clientY);    
+//     //top of the document(webpage)
+//     console.log('page', ev.pageX, ev.pageY);
+//     // top & left location of click event inside element h1
+//     console.log('offsetX&Y', ev.offsetX, ev.offsetY);
+//     // top & left location of h1 element at the page ( will not affected by scrolling)
+//     console.log('offset', h1.offsetLeft, h1.offsetTop);
+//     // top & left location of browser itself related to laptop screen ( will not affected by scrolling)
+//     console.log('screen window', window.screenX, window.screenY);
+//     // top & left location of click event related to laptop screen
+//     console.log('screen ev', ev.screenX, ev.screenY);
+//     console.groupEnd();
+//     window.scrollBy(0, 600); //document.querySelector('main').classList.toggle('up')
+// });
+
+
+// window.addEventListener('scroll', (ev)=>{
+//     console.group();
+//     console.log('client', ev.clientX, ev.clientY); // not work with scrolling work only with click event
+//     console.log('page', ev.pageX, ev.pageY); // not work with scrolling work only with click event
+//     console.log('offsetX&Y', ev.offsetX, ev.offsetY);// not work with scrolling work only with click event
+//     console.log('offset', h1.offsetLeft, h1.offsetTop);
+//     console.log('screen window', window.screenX, window.screenY);
+//     console.log('screen ev', ev.screenX, ev.screenY); // not work with scrolling work only with click event
+//     console.groupEnd();
+    
+//     setTimeout( ()=>{
+//         window.scrollTo(0,0);
+//     }, 2000);
+// })
+
+// ------------------------
