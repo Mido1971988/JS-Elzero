@@ -1120,3 +1120,35 @@ p::before{
 p:nth-child(odd)::before{
     transform: rotate(20deg);
 } */
+
+/* p{
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+p::after{
+    display: inline-block;
+    content: attr(data-file);
+    
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    color: rgba(0,0,0,0.5);
+} */
+
+/* :root{
+    --COLOR: cornflowerblue;
+    --SPACE: 10px;
+}
+h1{
+    color: var(--COLOR);
+    border-bottom: var(--SPACE) solid var(--COLOR);
+}
+p{
+    color: var(--COLOR);
+} */
+
+/* h2{
+    cursor: pointer;
+}
+h2:hover{
+    color: #bada55;
+} */

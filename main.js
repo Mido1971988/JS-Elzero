@@ -17539,4 +17539,210 @@ and if i cut , copy , paste will trigger the events here in JS File */
 //     }, 2000);
 // })
 
-// ------------------------
+// ------------------------International Number and Currency Formatting----------------
+// let number = 123456.789;
+        
+// console.group('numbers');
+// console.log(new Intl.NumberFormat('en-CA', { style: 'decimal'}).format(number));
+// console.log(new Intl.NumberFormat('fr-CA', { style: 'decimal'}).format(number));
+// console.groupEnd('numbers');
+
+// console.group('currency');
+// console.log(new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', useGrouping: true }).format(number));
+// // expected output: "$123,456.79"
+
+
+// let num = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' })
+// num.format(number);
+
+
+// console.log(new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(number));
+// // expected output: "£123,456.79"
+
+// console.log(new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(number));
+// // expected output: "123.456,79 €"
+
+// // the Japanese yen doesn't use a minor unit
+// console.log(new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY' }).format(number));
+// // expected output: "￥123,457"
+// console.groupEnd('currency');
+
+// // limit to three significant digits
+// console.log(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(number));
+// // expected output: "1,23,000"
+
+// ---------------------------International Localized Time & Date-------------
+// let today = new Date();
+        
+// let us = new Intl.DateTimeFormat('en-US').format(today);
+// let ca = new Intl.DateTimeFormat('en-CA').format(today);
+// let gb = new Intl.DateTimeFormat('en-GB').format(today);
+// let de = new Intl.DateTimeFormat('de-DE').format(today);
+// let ar = new Intl.DateTimeFormat('ar').format(today);
+// let xx = new Intl.DateTimeFormat('ar', 'sv').format(today);
+// let sv = new Intl.DateTimeFormat('sv', 'ar').format(today);
+// document.querySelector('p[lang=en-US]').textContent = us;
+// document.querySelector('p[lang=sv-SV]').textContent = sv;
+
+// console.log(us);
+// console.log(ca);
+// console.log(gb);
+// console.log(de);
+// console.log(ar);
+// console.log(xx);
+// console.log(sv);
+
+// // Beware that the timezone returned by toISOString is always zero UTC offset, 
+// // whereas in toLocaleDateString it is the user agent's timezone.
+// console.log("#############")
+// const d = new Date() // today, now
+
+// // Timezone zero UTC offset
+// console.log(d.toISOString().slice(0, 10)) // YYYY-MM-DD
+
+// // Timezone of User Agent
+// console.log(d.toLocaleDateString('en-CA')) // YYYY-MM-DD
+// console.log(d.toLocaleDateString('en-US')) // M/D/YYYY
+// console.log(d.toLocaleDateString('de-DE')) // D.M.YYYY
+// console.log(d.toLocaleDateString('pt-PT')) // DD/MM/YYYY
+
+// --------------------Internationalization & Localization of Strings--------
+// let languageCodes = ['sv','en','fr','dk','de','cn','ru', 'el', 'no'];
+// console.log( Intl.Collator.supportedLocalesOf(languageCodes) ); // return an Array of supported languages
+
+// // if you did not add an argument to Intl.Collator() will take default language of my computer which is en
+// console.log(new Intl.Collator().compare('a', 'z')); // -1 because UTF value of a less than UTF of z
+// console.log(new Intl.Collator().compare('z', 'a')); // 1 because UTF value of z bigger than UTF of a
+// console.log(new Intl.Collator('en').compare('a', 'z'));
+
+// console.group('sv');
+// console.log(new Intl.Collator('sv').compare('ä', 'z'));
+// console.log(new Intl.Collator('sv').compare('ä', 'a'));
+
+// console.log(new Intl.Collator('sv', {
+//     sensitivity: "variant", // base (a = A & a = ä) / case (a = A & a != ä) / variant (a != A & a != ä)
+//     ignorePunctuation: true, // to ignore Punctuations like (, . / " ")
+//     numeric: true, // to compare as numbers not strings
+//     caseFirst: false // "upper" to make uppercase at first always / "lower" to make lowercase at first always / false is the default
+// }).compare('10', '2'));
+
+// console.log(new Intl.Collator('sv').compare('å', 'ä'));
+// console.log(new Intl.Collator('sv').compare('å', 'å'));
+// console.groupEnd('sv');
+
+// console.log(new Intl.Collator('de').compare('ß', 's'));
+
+// console.log(new Intl.Collator('dk').compare('å', 'z'));
+// console.log(new Intl.Collator('dk').compare('æ', 'z'));
+
+// ------------------------------Audio in JS---------------------------
+
+// document.addEventListener('DOMContentLoaded', init);
+// // we are creating an object with audio files names when the sound works we will change the value
+// // of it from null to it's name that will help us to check if the sound already work now and
+// // we trigger the event to work it again will pause the old sound and start the sound from start
+// // to avoid sound work twice at same time
+// const SOUNDS = {
+//     'clear-throat':null,
+//     'doorbell':null,
+//     'static':null
+// };
+// // you can create a button for exp. to ask the user he needs sounds to work or not (true user allows sound to work)
+// let allowSound = true; 
+
+// function init(){
+//     let p1 = document.querySelector('p[data-file]');
+//     let p2 = document.querySelector('p:nth-of-type(2)');
+//     let p3 = document.querySelector('p:last-of-type');
+//     p1.addEventListener('click', play);
+//     p2.addEventListener('mouseover', play);
+//     p3.addEventListener('dblclick', play);
+// }
+
+// function play(ev){
+//     let p = ev.currentTarget;
+//     ev.preventDefault();
+    
+//     let fn = p.getAttribute('data-file');
+//     let src = './media/' + fn + '.mp3';
+//     if( SOUNDS[fn] ){
+//         SOUNDS[fn].pause();
+//         SOUNDS[fn] = null;
+//     }
+//     console.log(src);
+    
+//     // you can create audio element or select it from HTML 
+//     //let audio = document.getElementById("a"); // [1] selecting the audio element
+//     let audio = document.createElement('audio'); // [2] creating the audio element
+//     //audio.removeAttribute('controls');
+//     //document.body.appendChild(audio); // you should not add the audio element to page it will work anyway
+//     audio.src = src;
+//     audio.volume = 0.2;
+//     //change the starting position in the file
+//     //audio.currentTime = 0.8;
+//     if(allowSound){
+//         SOUNDS[fn] = audio;
+//         audio.setAttribute('data-file', fn);
+//         audio.play();
+//     }
+    
+    
+
+//     // Event list for <audio> and <video>
+//     // https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events
+
+//     //listen for the event that ends sound
+//     audio.addEventListener('playing', goAudio);
+//     audio.addEventListener('ended', doneAudio);
+// }
+
+// function goAudio(ev){
+//     console.log(ev.target.src, 'has started playing');
+// }
+
+// function doneAudio(ev){
+//     console.log(ev.target.src, 'has finished playing');
+//     let fn = ev.target.getAttribute('data-file');
+//     SOUNDS[fn] = null;
+// }
+
+// ---------------------------CSS Variables------------------
+// document.addEventListener('DOMContentLoaded', ()=>{
+//   let html = document.documentElement; // HTML element which is :root in CSS File
+//   let body = document.body; // body element
+//   html.style.setProperty('--COLOR', '#bada55'); // will override variable in CSS File
+// })
+
+// ------------------open and close TAB from JS--------------
+// you can open an html File or URL
+
+// let openH2 = document.getElementById("open");
+// openH2.addEventListener('click', (ev)=>{
+//     //window.open(url, windowName, [windowFeatures]);
+//     //https://developer.mozilla.org/en-US/docs/Web/API/Window/open#Window_features
+//     let options = 'statusbar=no,height=300,width=600';
+//     // let options = ""; // if you want to open a new TAB you cannot add height=300,width=600
+    
+//     // [1] open different html file
+//     // _blank or Fred or any other name => open a new TAB or new Window depend on options
+//     // _self => open at same TAB even if you added height & width in options
+//     //let ref = window.open('new.html', 'Fred', options); 
+//     //let ref = window.open('new.html', '_self', options); 
+//     // [2] open URL
+//     let ref = window.open('https://www.google.com/', '_blank', options); 
+    
+    
+//     let closeH2 = document.getElementById('close');
+//     closeH2.style.cursor = 'pointer';
+//     closeH2.addEventListener('click', (ev)=>{
+//         ref.close();    
+//     });
+// });
+
+// you can open a different html file you can add this script to open 
+// document.addEventListener('DOMContentLoaded', ()=>{
+//   console.log(window.opener); // this will refer to the html file that opened the new html file
+//   console.log(window.opener.location.href)
+//   //put the focus back on the opener
+//   window.opener.focus();
+// })
