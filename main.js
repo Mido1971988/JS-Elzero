@@ -17746,3 +17746,191 @@ and if i cut , copy , paste will trigger the events here in JS File */
 //   //put the focus back on the opener
 //   window.opener.focus();
 // })
+
+// ---------------------Capturing Media (Works also on Mobile Devices)-----------
+/* 
+- if you add capture attribute to input element (type ="file") will open camera on mobile Phones
+- if you want to choose from gallery you should remove capture attribute
+- if you want to upload chosen files you should add enctype="multipart/form-data" attribute to form element 
+- accept="audio/*" isn't actually supported on iOS " but audio/mp3 works fine
+- accept="image/*" and accept="video/*" are supported on iOS "
+- to capture record on ios see next tutorials
+
+*/
+// document.addEventListener('DOMContentLoaded', (ev)=>{
+//   let form = document.getElementById('myform');
+//   //get the captured media file
+//   let input = document.getElementById('capture');
+  
+//   input.addEventListener('change', (ev)=>{
+//       console.dir( input.files[0] );
+//       if(input.files[0].type.indexOf("image/") > -1){
+//           let pImg = document.getElementById('img');
+//           let img = document.createElement("img")
+//           img.src = window.URL.createObjectURL(input.files[0]);
+//           pImg.appendChild(img)
+//       }
+//       else if(input.files[0].type.indexOf("audio/") > -1 ){
+//           let pAudio = document.getElementById('audio');
+//           let audio = document.createElement("audio")
+//           audio.src = window.URL.createObjectURL(input.files[0]);
+//           audio.setAttribute("controls","")
+//           pAudio.appendChild(audio)
+//       }
+//       else if(input.files[0].type.indexOf("video/") > -1 ){
+//           let pVideo = document.getElementById('video');
+//           let video = document.createElement('video');
+//           video.src=window.URL.createObjectURL(input.files[0]);
+//           video.setAttribute("controls","")
+//           pVideo.appendChild(video)
+//       }
+      
+      
+//   })
+  
+// })
+
+// ---------------MediaCapture, MediaRecorder and Streams API--------------
+/*
+getUserMedia returns a Promise
+
+resolve - returns a MediaStream Object
+
+reject returns one of the following errors : 
+AbortError - generic unknown cause
+NotAllowedError (SecurityError) - user rejected permissions
+NotFoundError - missing media track
+NotReadableError - user permissions given but hardware/OS error
+OverconstrainedError - constraint video settings preventing
+TypeError - audio: false, video: false
+
+*/
+
+// width: 1280, height: 720  -- preference only
+// facingMode: {exact: "user"}
+// facingMode: "environment"
+// let constraintObj = { 
+//   audio: true, // to allow or not allow audio
+//   video: {  
+//       facingMode: "user", // means front camera
+//       width: { min: 640, ideal: 1280, max: 1920 },
+//       height: { min: 480, ideal: 720, max: 1080 } 
+//   } 
+// }; 
+
+// // we don't have to use step [1] it's only to show what camera see now we can jump directly to step [2]
+// navigator.mediaDevices.getUserMedia(constraintObj)
+// .then(function(mediaStreamObj) { // mediaStreamObj is object what camera see now
+
+//   // ----[1] to open the camera and add that to first video element without capturing anything
+//   // let video = document.querySelector('video');
+//   // if ("srcObject" in video) { 
+//   //   // new browser video has srcObject property
+//   //   video.srcObject = mediaStreamObj;
+//   // } else {
+//   //     //old version does not srcObject 
+//   //     video.src = window.URL.createObjectURL(mediaStreamObj);
+//   // }
+  
+//   // video.onloadedmetadata = function(ev) {
+//   //     //show in the video element what is being captured by the webcam
+//   //     video.play();
+//   // };
+  
+//   //-----[2] save recorded video on 2nd video element 
+//   // add listeners for saving video/audio
+//   let start = document.getElementById('btnStart');
+//   let stop = document.getElementById('btnStop');
+//   let vidSave = document.getElementById('vid2');
+//   let mediaRecorder = new MediaRecorder(mediaStreamObj);
+//   let chunks = [];
+//   let singleBlob;
+  
+//   start.addEventListener('click', (ev)=>{
+//       if(mediaRecorder.state === "inactive"){
+//         mediaRecorder.start();
+//         console.log(mediaRecorder.state);
+//       }
+//   })
+//   stop.addEventListener('click', (ev)=>{
+//       if(mediaRecorder.state === "recording" ){
+//         mediaRecorder.stop();
+//         console.log(mediaRecorder.state);
+//       }
+//   });
+//   mediaRecorder.ondataavailable = function(ev) {
+//     chunks.push(ev.data); // ev.data here is blob
+//     singleBlob = ev.data
+//   }
+
+//   // create Blob = binary large object 
+//   mediaRecorder.onstop = (ev)=>{
+//     // incase of recording mutliple videos use Blob constructor that;s accept 1st parameter as array of blobs
+//       // let blob = new Blob(chunks, { 'type' : 'video/mp4;' }); 
+//     // incase of single video recorded 
+//       let blob = singleBlob
+//       let videoURL = window.URL.createObjectURL(blob);
+//       vidSave.src = videoURL;
+//   }
+// })
+// .catch(function(err) { 
+//   console.log(err.name, err.message); 
+// });
+
+
+
+// //----only use this if getUserMedia not included in realy older browsers 
+// if (navigator.mediaDevices === undefined) {
+//   navigator.mediaDevices = {}; // adding  mediaDevices as a object inside navigator 
+//   navigator.mediaDevices.getUserMedia = function(constraintObj) { //adding getUserMedia property
+//       let getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia; // prefixes
+//       if (!getUserMedia) {
+//           return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+//       }
+//       return new Promise(function(resolve, reject) {
+//           getUserMedia.call(navigator, constraintObj, resolve, reject);
+//       });
+//   }
+// }
+
+// ----------------------Record only Audio---------------
+// works on mobile phone also but should on https not http
+// let constraintObj = { 
+//   audio: true, 
+//   video: false
+// };
+
+// navigator.mediaDevices.getUserMedia(constraintObj)
+// .then(function(mediaStreamObj) { 
+//   let start = document.getElementById('btnStart');
+//   let stop = document.getElementById('btnStop');
+//   let output = document.getElementById("output")
+//   let mediaRecorder = new MediaRecorder(mediaStreamObj);
+//   let singleBlob;
+  
+//   start.addEventListener('click', (ev)=>{
+//       if(mediaRecorder.state === "inactive"){
+//         mediaRecorder.start();
+//       }
+//   })
+//   stop.addEventListener('click', (ev)=>{
+//       if(mediaRecorder.state === "recording" ){
+//         mediaRecorder.stop();
+//       }
+//   });
+//   mediaRecorder.ondataavailable = function(ev) { 
+//     singleBlob = ev.data
+//   }
+
+//   mediaRecorder.onstop = (ev)=>{
+//       let audioURL = window.URL.createObjectURL(singleBlob);
+//       let audioEl = document.createElement("audio") 
+//       audioEl.setAttribute("controls","")
+//       audioEl.src = audioURL;
+//       output.appendChild(audioEl)
+//   }
+// })
+// .catch(function(err) { 
+//   console.log(err.name, err.message); 
+// });
+
