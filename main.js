@@ -17792,6 +17792,11 @@ and if i cut , copy , paste will trigger the events here in JS File */
 
 // ---------------MediaCapture, MediaRecorder and Streams API--------------
 /*
+Steps : 
+[1] Create Video Stream Using getUserMedia Method
+[2] Record the Stream Using MediaRecorder Constructor
+[3] show it to the user and download it or upload it on the server 
+
 getUserMedia returns a Promise
 
 resolve - returns a MediaStream Object
@@ -17804,12 +17809,13 @@ NotReadableError - user permissions given but hardware/OS error
 OverconstrainedError - constraint video settings preventing
 TypeError - audio: false, video: false
 
+note : we need to use chunks incase of using timeInterval with mediaRecorder.start(200)
+because we need an array to hold small videos reach  200 miliseconds 
 */
 
-// width: 1280, height: 720  -- preference only
-// facingMode: {exact: "user"}
-// facingMode: "environment"
-// let constraintObj = { 
+// (((((Options Object contains audio and video options ))))) => will be passed as argument to getUserMedia Method 
+
+// let options = { 
 //   audio: true, // to allow or not allow audio
 //   video: {  
 //       facingMode: "user", // means front camera
@@ -17817,18 +17823,23 @@ TypeError - audio: false, video: false
 //       height: { min: 480, ideal: 720, max: 1080 } 
 //   } 
 // }; 
+// exp. of other options
+// // width: 1280, height: 720  -- preference only
+// // facingMode: {exact: "user"}
+// // facingMode: "environment"
 
-// // we don't have to use step [1] it's only to show what camera see now we can jump directly to step [2]
-// navigator.mediaDevices.getUserMedia(constraintObj)
-// .then(function(mediaStreamObj) { // mediaStreamObj is object what camera see now
+// ----Step 1 => Create Video Stream Using getUserMedia : will return a Promise when resolve returns a MediaStream Object ( Video Stream) 
 
-//   // ----[1] to open the camera and add that to first video element without capturing anything
+// navigator.mediaDevices.getUserMedia(options)
+// .then(function(mediaStreamObj) {
+
+//   // if you want you can show Video Stream to the User 
 //   // let video = document.querySelector('video');
 //   // if ("srcObject" in video) { 
 //   //   // new browser video has srcObject property
 //   //   video.srcObject = mediaStreamObj;
 //   // } else {
-//   //     //old version does not srcObject 
+//   //     //old version does not have srcObject 
 //   //     video.src = window.URL.createObjectURL(mediaStreamObj);
 //   // }
   
@@ -17837,8 +17848,8 @@ TypeError - audio: false, video: false
 //   //     video.play();
 //   // };
   
-//   //-----[2] save recorded video on 2nd video element 
-//   // add listeners for saving video/audio
+//   
+//   // ---Step 2 => Record the Stream Using MediaRecorder Constructor : accept video stream as argument
 //   let start = document.getElementById('btnStart');
 //   let stop = document.getElementById('btnStop');
 //   let vidSave = document.getElementById('vid2');
@@ -17863,10 +17874,10 @@ TypeError - audio: false, video: false
 //     singleBlob = ev.data
 //   }
 
-//   // create Blob = binary large object 
 //   mediaRecorder.onstop = (ev)=>{
-//     // incase of recording mutliple videos use Blob constructor that;s accept 1st parameter as array of blobs
-//       // let blob = new Blob(chunks, { 'type' : 'video/mp4;' }); 
+//     // incase of using mediaRecorder.start(200) with time Interval we need to create chunks array  
+//     // because we want array contains small videos each one is 200 miliseconds
+//     // let blob = new Blob(chunks, { 'type' : 'video/mp4;' }); 
 //     // incase of single video recorded 
 //       let blob = singleBlob
 //       let videoURL = window.URL.createObjectURL(blob);
@@ -17882,25 +17893,33 @@ TypeError - audio: false, video: false
 // //----only use this if getUserMedia not included in realy older browsers 
 // if (navigator.mediaDevices === undefined) {
 //   navigator.mediaDevices = {}; // adding  mediaDevices as a object inside navigator 
-//   navigator.mediaDevices.getUserMedia = function(constraintObj) { //adding getUserMedia property
+//   navigator.mediaDevices.getUserMedia = function(options) { //adding getUserMedia property
 //       let getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia; // prefixes
 //       if (!getUserMedia) {
 //           return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
 //       }
 //       return new Promise(function(resolve, reject) {
-//           getUserMedia.call(navigator, constraintObj, resolve, reject);
+//           getUserMedia.call(navigator, options, resolve, reject);
 //       });
 //   }
 // }
 
 // ----------------------Record only Audio---------------
+/*
+Steps : 
+[1] Create Video Stream Using getUserMedia Method
+[2] Record the Stream Using MediaRecorder Constructor
+[3] show it to the user and download it or upload it on the server 
+ */
+
 // works on mobile phone also but should on https not http
-// let constraintObj = { 
+
+// let options = { 
 //   audio: true, 
 //   video: false
 // };
 
-// navigator.mediaDevices.getUserMedia(constraintObj)
+// navigator.mediaDevices.getUserMedia(options)
 // .then(function(mediaStreamObj) { 
 //   let start = document.getElementById('btnStart');
 //   let stop = document.getElementById('btnStop');
@@ -17923,14 +17942,113 @@ TypeError - audio: false, video: false
 //   }
 
 //   mediaRecorder.onstop = (ev)=>{
-//       let audioURL = window.URL.createObjectURL(singleBlob);
-//       let audioEl = document.createElement("audio") 
-//       audioEl.setAttribute("controls","")
-//       audioEl.src = audioURL;
-//       output.appendChild(audioEl)
+//       let videoURL = window.URL.createObjectURL(singleBlob);
+//       let videoEl = document.createElement("audio") 
+//       videoEl.setAttribute("controls","")
+//       videoEl.src = videoURL;
+//       output.appendChild(videoEl)
 //   }
 // })
 // .catch(function(err) { 
 //   console.log(err.name, err.message); 
 // });
+
+// ----------------------Screen Capture API----------------
+/*
+Steps : 
+[1] Create Video Stream Using get getDisplayMedia Method
+[2] Record the Stream Using MediaRecorder Constructor
+[3] show it to the user and download it or upload it on the server 
+ */
+// let options = {
+//   video : {
+//     MediaSource : "screen",
+//     width: 640,
+//     height: 480 
+//   },
+//   audio : true
+// }
+
+// navigator.mediaDevices.getDisplayMedia(options)
+// .then(function(mediaStreamObj){
+//   let start = document.getElementById('btnStart');
+//   let stop = document.getElementById('btnStop');
+//   let output = document.getElementById("output")
+//   let mediaRecorder = new MediaRecorder(mediaStreamObj);
+
+//   start.addEventListener('click', (ev)=>{
+//     if(mediaRecorder.state === "inactive"){
+//       mediaRecorder.start();
+//     }
+//   })
+//   stop.addEventListener('click', (ev)=>{
+//       if(mediaRecorder.state === "recording" ){
+//         mediaRecorder.stop();
+//       }
+//   });
+//   mediaRecorder.ondataavailable = function(ev) { 
+//     singleBlob = ev.data
+//   }
+
+//   mediaRecorder.onstop = (ev)=>{
+//       let videoURL = window.URL.createObjectURL(singleBlob);
+//       let videoEl = document.createElement("video") 
+//       videoEl.setAttribute("controls","")
+//       videoEl.src = videoURL;
+//       output.appendChild(videoEl)
+//   }
+// })
+// .catch(function(err) { 
+//   console.log(err.name, err.message); 
+// });
+
+
+// ------------------Screen Capture API with Audio-----------------
+let start = document.getElementById('btnStart');
+let stop = document.getElementById('btnStop');
+let output = document.getElementById("output")
+let singleBlob;
+
+async function recordScreen() { 
+  const mimeType = 'video/webm';  
+  const displayStream = await navigator.mediaDevices.getDisplayMedia({video: true, audio: true}); 
+  const voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false }); 
+  // merge displayStream and voiceStream
+  let tracks = [...displayStream.getTracks(), ...voiceStream.getAudioTracks()] 
+  const stream = new MediaStream(tracks); 
+  handleRecord({stream, mimeType}) 
+}
+recordScreen()
+
+const handleRecord = function ({stream, mimeType}) {     
+  // let recordedChunks = [];      
+  const mediaRecorder = new MediaRecorder(stream);
+  start.addEventListener('click', (ev)=>{
+    if(mediaRecorder.state === "inactive"){
+      mediaRecorder.start();
+    }
+  })
+  stop.addEventListener('click', (ev)=>{
+      if(mediaRecorder.state === "recording" ){
+        mediaRecorder.stop();
+      }
+  });    
+  mediaRecorder.ondataavailable = function (e) {     
+    if (e.data.size > 0) {       
+      // recordedChunks.push(e.data); 
+      singleBlob = e.data
+      console.log(singleBlob)
+    }        
+  };   
+  mediaRecorder.onstop = function () {     
+    // const blob = new Blob(recordedChunks, {       type: mimeType     }); 
+    let videoURL = window.URL.createObjectURL(singleBlob);
+    let videoEl = document.createElement("video") 
+    videoEl.setAttribute("controls","")
+    videoEl.src = videoURL;
+    output.appendChild(videoEl)
+    // recordedChunks = []   
+  };
+  // mediaRecorder.start(200)   
+};
 
