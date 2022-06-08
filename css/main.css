@@ -1159,3 +1159,22 @@ p>img{
     max-width:90%;
 } */
 
+/* a{
+    font-size: 1rem;
+    padding: 0.2rem 1rem;
+}
+a.current{
+    color:white;
+    background-color: #bada55;
+    text-shadow: 1px 1px 1px #333;
+    font-weight: 900;
+    text-decoration: none;
+}
+p{
+    font-size: 1rem;
+    padding: 1rem;
+    margin: 1rem;
+}
+:target{
+    background-color: #bada55;
+} */

@@ -2095,6 +2095,10 @@ Web APIs are basically a large number of powerful functions and interfaces expos
 * 		Location
 * 		setTimeout and Timer
 * 		And even console.log is also part of console web API
+
+The Web API calls are added to the Web API Container from the Call Stack. 
+These Web API calls remain inside the Web API Container until an action is triggered. 
+Then their callBack Functions will be added to callCack queue
 */
 
 /* ------------Task queue vs  Render queue vs Microtask queue------------
@@ -18004,51 +18008,129 @@ Steps :
 
 
 // ------------------Screen Capture API with Audio-----------------
-let start = document.getElementById('btnStart');
-let stop = document.getElementById('btnStop');
-let output = document.getElementById("output")
-let singleBlob;
+// let start = document.getElementById('btnStart');
+// let stop = document.getElementById('btnStop');
+// let output = document.getElementById("output")
+// let singleBlob;
 
-async function recordScreen() { 
-  const mimeType = 'video/webm';  
-  const displayStream = await navigator.mediaDevices.getDisplayMedia({video: true, audio: true}); 
-  const voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false }); 
-  // merge displayStream and voiceStream
-  let tracks = [...displayStream.getTracks(), ...voiceStream.getAudioTracks()] 
-  const stream = new MediaStream(tracks); 
-  handleRecord({stream, mimeType}) 
+// async function recordScreen() { 
+//   const mimeType = 'video/webm';  
+//   const displayStream = await navigator.mediaDevices.getDisplayMedia({video: true, audio: true}); 
+//   const voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false }); 
+//   // merge displayStream and voiceStream
+//   let tracks = [...displayStream.getTracks(), ...voiceStream.getAudioTracks()] 
+//   const stream = new MediaStream(tracks); 
+//   handleRecord({stream, mimeType}) 
+// }
+// recordScreen()
+
+// const handleRecord = function ({stream, mimeType}) {     
+//   // let recordedChunks = [];      
+//   const mediaRecorder = new MediaRecorder(stream);
+//   start.addEventListener('click', (ev)=>{
+//     if(mediaRecorder.state === "inactive"){
+//       mediaRecorder.start();
+//     }
+//   })
+//   stop.addEventListener('click', (ev)=>{
+//       if(mediaRecorder.state === "recording" ){
+//         mediaRecorder.stop();
+//       }
+//   });    
+//   mediaRecorder.ondataavailable = function (e) {     
+//     if (e.data.size > 0) {       
+//       // recordedChunks.push(e.data); 
+//       singleBlob = e.data
+//       console.log(singleBlob)
+//     }        
+//   };   
+//   mediaRecorder.onstop = function () {     
+//     // const blob = new Blob(recordedChunks, {       type: mimeType     }); 
+//     let videoURL = window.URL.createObjectURL(singleBlob);
+//     let videoEl = document.createElement("video") 
+//     videoEl.setAttribute("controls","")
+//     videoEl.src = videoURL;
+//     output.appendChild(videoEl)
+//     // recordedChunks = []   
+//   };
+//   // mediaRecorder.start(200)   
+// };
+
+
+// -----------------------Performance API---------------
+/*
+- performance.now() better than date.now() because it's more accurate with date.now() the smaller 
+number you can get is 1 milisecond but with performance.now() you can get 0.00005 milisecond
+
+-performance.mark("name of mark ") like performance.now() but you don;t have to assign
+performance.now() to variables and substract to get difference between 2 performance.now()
+just make 2 performance.mark() and give each one an unique name then use performance.measure()
+to get a PerformanceMeasure Object which has a lot of properties like startTime of first performance.mark()
+and duration property (difference between 2 performance.mark()) 
+
+-performance.getEntries() => array of all performance and you can get specific one by name or type
+ */
+// let pNow1 = performance.now()
+// performance.mark("start")
+
+// for(let i =0; i< 10000; i++){}
+
+// let pNow2 = performance.now()
+// performance.mark("end")
+// console.log(pNow2 - pNow1)
+// console.log(performance.measure("result", "start","end").duration)
+// console.log(performance.getEntries()) 
+// console.log(performance.getEntriesByName("start")) 
+// console.log(performance.getEntriesByType("measure")) 
+
+// -----------------------CSS Attibute selector-------------
+/******
+[data-beatle] - has attribute
+[data-beatle = "john"] - exact => match only data-beatle = "john"
+[data-beatle *= "o"]  -contains o => match anything contains "o" data-beatle = "john" or data-beatle = "toni"
+[data-beatle ~= "john"]  - space separated => match data-beatle = "hi john depp"
+[data-beatle ^= "john"]  - starts with => match data-beatle = "john depp"
+[data-beatle $= "john"]  - ends with => match data-beatle = "hi john"
+[data-beatle |= "john"]  - hyphen separated, 1st value => match data-beatle = "john-depp"
+
+main [data-beatle |="john"]{
+  color: gold;
 }
-recordScreen()
+a[href^="https://"]{
+  all anchors with href that begins with https:// 
+  padding: 2rem;
+}
+a[href$= ".pdf"]{
+  all anchors that link to pdfs
+  color: red;
+}
 
-const handleRecord = function ({stream, mimeType}) {     
-  // let recordedChunks = [];      
-  const mediaRecorder = new MediaRecorder(stream);
-  start.addEventListener('click', (ev)=>{
-    if(mediaRecorder.state === "inactive"){
-      mediaRecorder.start();
-    }
-  })
-  stop.addEventListener('click', (ev)=>{
-      if(mediaRecorder.state === "recording" ){
-        mediaRecorder.stop();
-      }
-  });    
-  mediaRecorder.ondataavailable = function (e) {     
-    if (e.data.size > 0) {       
-      // recordedChunks.push(e.data); 
-      singleBlob = e.data
-      console.log(singleBlob)
-    }        
-  };   
-  mediaRecorder.onstop = function () {     
-    // const blob = new Blob(recordedChunks, {       type: mimeType     }); 
-    let videoURL = window.URL.createObjectURL(singleBlob);
-    let videoEl = document.createElement("video") 
-    videoEl.setAttribute("controls","")
-    videoEl.src = videoURL;
-    output.appendChild(videoEl)
-    // recordedChunks = []   
-  };
-  // mediaRecorder.start(200)   
-};
+and you can use this selectors with querySelector : 
+let a = document.querySelector('a[href^="https://"]') //match all <a> with href attribute that start with "https://"
+a.style.fontSize = '3rem';
+***/
 
+// ------------------------------CSS :target-------------------------
+/*
+<a> with href="#id" when you click on it the page will scroll to the element which has this is
+and you can select this element by :target(look at CSS File)
+here we are trying to style :target element and style also <a> with JS Code
+ */
+// window.addEventListener('load', setCurr);
+// window.addEventListener('hashchange', setCurr);
+
+// function setCurr(ev){
+//     let p, a, id;
+//     //:target not available until...
+//     p = document.querySelector(':target'); 
+//     console.log(ev.type, p);
+//     if(p){
+//         id = `a[href="#${p.id}"]`;
+//         //console.log(id)
+//         document.querySelectorAll('.current').forEach( anchor =>{
+//             anchor.classList.remove('current');
+//         })
+//         a = document.querySelector(id);
+//         a.classList.add('current');
+//     }
+// }
