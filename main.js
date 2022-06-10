@@ -6694,6 +6694,14 @@ https://javascript.info/regexp-sticky
 
 Quick Review  Based on YouTube Video(https://youtu.be/rhzKDrUiJVk)
 useful Web-Site to test Regular Expression (https://regexr.com)
+
+The difference between ?= and ?! is that the former requires the given expression to match 
+and the latter requires it to not match. For example a(?=b) will match the "a" in "ab", 
+but not the "a" in "ac". Whereas a(?!b) will match the "a" in "ac", but not the "a" in "ab".
+The difference between ?: and ?= is that ?= excludes the expression from the entire match 
+while ?: just doesn't create a capturing group. So for example a(?:b) will match the "ab" in 
+"abc", while a(?=b) will only match the "a" in "abc". a(b) would match the "ab" in "abc" and 
+create a capture containing the "b".
 */
 // ---------------match() vs exec()----------------
 /* 
@@ -8285,12 +8293,43 @@ Copy Part of an Array to Another Location in the Same Array
 
 //-------------------------Module-----------------------
 
-// import{myRank, myArray as arr , sayName } from './Module.js'; (as is alias )
+/* ------Import and Export
+import defaultExport from "module-name";
+import * as name from "module-name";
+import { export } from "module-name";
+import { export as alias } from "module-name";
+import { export1 , export2 } from "module-name";
+import { export1 , export2 as alias2 , [...] } from "module-name";
+import defaultExport, { export [ , [...] ] } from "module-name";
+import defaultExport, * as name from "module-name";
+import "module-name";
+var promise = import(module-name);
+
+export { name1, name2, …, nameN };
+export { variable1 as name1, variable2 as name2, …, nameN };
+export let name1, name2, …, nameN; // also var, const
+export let name1 = …, name2 = …, …, nameN; // also var, const
+export function FunctionName(){...}
+export class ClassName {...}
+
+export default expression;
+export default function (…) { … } // also class, function*
+export default function name1(…) { … } // also class, function*
+export { name1 as default, … };
+
+// Aggregating modules (ReExporting)
+export * from …;
+export { name1, name2, …, nameN } from …;
+export { import1 as name1, import2 as name2, …, nameN } from …;
+export { default } from …;
+*/
+
+// import{myRank, myArray as arr , sayName } from '/Module/Module.js'; //(as is alias )
 // import everyyhing from module (everything means everything you have exported from ./Module.js)
 // import * as all from './Module.js';
 
-// // console.log(a)
-// // console.log(myRank)
+// console.log(a)
+// console.log(myRank)
 // console.log(all.myRank)
 // // console.log(arr)
 // console.log(all.arr)
@@ -8298,7 +8337,7 @@ Copy Part of an Array to Another Location in the Same Array
 // console.log(all.sayName("Soliman"))
 // console.log(all)
 
-// import anyName from './Module.js'
+// import anyName from 'Module/Module.js'
 // you can merge named export and default export in one line code 
 // every model has only one default export (you can write any name for default export because it's only one default)
 // import anyName , {myArray, myRank, sayName} from './Module.js';
@@ -8307,6 +8346,21 @@ Copy Part of an Array to Another Location in the Same Array
 // console.log(myRank)
 
 // console.log(this) // undefined
+
+// ------Aggregating modules (ReExporting)
+/* 
+Aggregating modules : 
+- The imported function or variables from Module.js can be also 
+exported to another JS File (reExport.js) 
+- but in Aggregating modules there is no Default 
+- you can use wildCard with Aggregating modules export * from "/Module/Module.js" but with normal modules no
+*/
+
+// import{myRank, myArray as arr , sayName } from '/Module/Module.js';
+// export {myRank, myArray as arr , sayName } from '/Module/Module.js';
+// export * from "/Module/Module.js" // wild card to export everything
+
+
 /* 
 In Node modules, this at the top level doesn’t reference the global object. 
 Instead, it has the same value as module.exports. Inside functions (Node environment), 
@@ -18134,3 +18188,369 @@ here we are trying to style :target element and style also <a> with JS Code
 //         a.classList.add('current');
 //     }
 // }
+
+// ------------------------------Web Workers--------------------------
+/*
+JS is Single threaded but with web worker you can create another js File which has a another 
+Thread and work separetly and you can from main.js trigger  functions or fetch calls 
+or anything else and get back the result from web worker file to main.js
+
+Steps : 
+[1]create worker instance
+[2] add Event Listener
+[3]send message to web-work.js file => worker.postMessage()
+
+* difference between JS Asynchronous and Web Workers :
+- JavaScript is single-threaded (1 thread => 1 CPU)
+- Webworkers enable real parallelism (multiple threads on multiple CPU’s)
+but Web Worker has no access to DOM but you have access to navigator object , location Object ,.....
+ */
+// let output = document.getElementById('output');
+// let worker;
+
+// document.addEventListener('DOMContentLoaded', init);
+
+// function init(){
+//     // [1]create worker instance
+//     worker = new Worker('webWorkers/web-work.js');
+//     // [2] add Event Listener and callback Function will trigger when web-work message us back
+//     worker.addEventListener('message', workerMessaged);
+//     worker.addEventListener('error', workerError);
+    
+//     // [3]send message to web-work.js file
+//     // worker.postMessage('Get Started');
+    
+//     document.body.addEventListener('click', ()=>{
+//         //send another message to the worker
+//         // worker.postMessage('Other');
+//         worker.postMessage("fetch");
+//     })
+// }
+
+// function workerMessaged(ev){
+//     let data = ev.data;
+//     // output.textContent += data + '\n'
+//     output.textContent += JSON.stringify(data, null, 2) + '\n';
+// }
+
+// function workerError(err){
+//     console.log(err.message, err.filename);
+// }
+
+// ---------------------Orientation API-------------------
+
+// let orn = getOrientation();
+// let out = document.getElementById('output');
+// out.textContent = orn;
+// // screen.orientation is not supported in ios but window.orientation is supported
+
+// // here we mix between screen.orientation and window.orientation to be supported in both ios and desktop
+// function getOrientation() {
+//   let _orn;
+//   if(window.orientation === 0 || window.orientation === 90 || window.orientation === -90 || window.orientation === 180){
+//     _orn = window.orientation; // ios => up 0 - down 180 - left 90 - right -90
+//   }else if(screen.msOrientation || screen.orientation || screen.mozOrientation){
+//     _orn = (screen.msOrientation || screen.orientation || screen.mozOrientation).type; // desktop
+//   }
+//   switch(_orn){
+//       case 0:
+//       case 'portrait-primary':
+//         window.alert("portrait-primary")
+//         break
+//       case 180:
+//       case 'portrait-secondary':
+//         window.alert("portrait-secondary")
+//           break;
+//       case -90:
+//       case 'landscape-primary':
+//         window.alert("landscape-primary")
+//           break;
+//       case 90:
+//       case 'landscape-secondary':
+//         window.alert("landscape-secondary")
+//           break;
+//       case undefined:
+//         window.alert("not supported")
+//           break;
+//       default:
+//           //something unknown
+//   }
+//   return _orn;
+// }
+
+// window.addEventListener('orientationchange', (ev)=>{
+//     orn = getOrientation();
+//     out.textContent = orn;
+//     console.dir(ev)
+// })
+
+// ---------------------------LocalStorage Shopping Cart--------------------
+const CART = {
+  KEY: 'bkasjbdfkjasdkfjhaksdfjskd',
+  contents: [],
+  init(){
+      //check localStorage and initialize the contents of CART.contents
+      let _contents = localStorage.getItem(CART.KEY);
+      if(_contents){
+          CART.contents = JSON.parse(_contents);
+      }else{
+          //dummy test data
+          CART.contents = [
+              {id:1, title:'Apple', qty:5, itemPrice: 0.85},
+              {id:2, title:'Banana', qty:3, itemPrice: 0.35},
+              {id:3, title:'Cherry', qty:8, itemPrice: 0.05}
+          ];
+          CART.sync();
+      }
+  },
+  async sync(){
+      let _cart = JSON.stringify(CART.contents);
+      // localStorage.setItem and getItem 99% act synchronous but 1% (when data very big and bad processor will act as asynchronous)
+      await localStorage.setItem(CART.KEY, _cart); 
+  },
+  find(id){
+      //find an item in the cart by it's id
+      let match = CART.contents.filter(item=>{
+          if(item.id == id)
+              return true;
+      });
+      if(match && match[0])
+          return match[0];
+  },
+  add(id){
+      //add a new item to the cart
+      //check that it is not in the cart already
+      if(CART.find(id)){
+          CART.increase(id, 1);
+      }else{
+          let arr = PRODUCTS.filter(product=>{
+              if(product.id == id){
+                  return true;
+              }
+          });
+          if(arr && arr[0]){
+              let obj = {
+                  id: arr[0].id,
+                  title: arr[0].title,
+                  qty: 1,
+                  itemPrice: arr[0].price
+              };
+              CART.contents.push(obj);
+              //update localStorage
+              CART.sync();
+          }else{
+              //product id does not exist in products data
+              console.error('Invalid Product');
+          }
+      }
+  },
+  increase(id, qty=1){
+      //increase the quantity of an item in the cart
+      CART.contents = CART.contents.map(item=>{
+          if(item.id === id)
+              item.qty = item.qty + qty;
+          return item;
+      });
+      //update localStorage
+      CART.sync()
+  },
+  reduce(id, qty=1){
+      //reduce the quantity of an item in the cart
+      CART.contents = CART.contents.map(item=>{
+          if(item.id === id)
+              item.qty = item.qty - qty;
+          return item;
+      });
+      CART.contents.forEach(async item=>{
+          if(item.id === id && item.qty === 0)
+              await CART.remove(id);
+      });
+      //update localStorage
+      CART.sync()
+  },
+  remove(id){
+      //remove an item entirely from CART.contents based on its id
+      CART.contents = CART.contents.filter(item=>{
+          if(item.id !== id)
+              return true;
+      });
+      //update localStorage
+      CART.sync()
+  },
+  empty(){
+      //empty whole cart
+      CART.contents = [];
+      //update localStorage
+      CART.sync()
+  },
+  sort(field='title'){
+      //sort by field - title, price
+      //return a sorted shallow copy of the CART.contents array
+      let sorted = CART.contents.sort( (a, b)=>{
+          if(a[field] > b[field]){
+              return 1;
+          }else if(a[field] < a[field]){
+              return -1;
+          }else{
+              return 0;
+          }
+      });
+      return sorted;
+      //NO impact on localStorage
+  },
+  logContents(prefix){
+      console.log(prefix, CART.contents)
+  }
+};
+
+let PRODUCTS = [];
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  //when the page is ready
+  getProducts( showProducts, errorMessage );
+  //get the cart items from localStorage
+  CART.init();
+  //load the cart items
+  showCart();
+});
+
+function showCart(){
+  let cartSection = document.getElementById('cart');
+  cart.innerHTML = '';
+  let s = CART.sort('qty');
+  s.forEach( item =>{
+      let cartitem = document.createElement('div');
+      cartitem.className = 'cart-item';
+      
+      let title = document.createElement('h3');
+      title.textContent = item.title;
+      title.className = 'title'
+      cartitem.appendChild(title);
+      
+      let controls = document.createElement('div');
+      controls.className = 'controls';
+      cartitem.appendChild(controls);
+      
+      let plus = document.createElement('span');
+      plus.textContent = '+';
+      plus.setAttribute('data-id', item.id)
+      controls.appendChild(plus);
+      plus.addEventListener('click', incrementCart)
+      
+      let qty = document.createElement('span');
+      qty.textContent = item.qty;
+      controls.appendChild(qty);
+      
+      let minus = document.createElement('span');
+      minus.textContent = '-';
+      minus.setAttribute('data-id', item.id)
+      controls.appendChild(minus);
+      minus.addEventListener('click', decrementCart)
+      
+      let price = document.createElement('div');
+      price.className = 'price';
+      let cost = new Intl.NumberFormat('en-CA', 
+                      {style: 'currency', currency:'CAD'}).format(item.qty * item.itemPrice);
+      price.textContent = cost;
+      cartitem.appendChild(price);
+      
+      cartSection.appendChild(cartitem);
+  })
+}
+
+function incrementCart(ev){
+  ev.preventDefault();
+  let id = parseInt(ev.target.getAttribute('data-id'));
+  CART.increase(id, 1);
+  let controls = ev.target.parentElement;
+  let qty = controls.querySelector('span:nth-child(2)');
+  let item = CART.find(id);
+  if(item){
+      qty.textContent = item.qty;
+  }else{
+      document.getElementById('cart').removeChild(controls.parentElement);
+  }
+}
+
+function decrementCart(ev){
+  ev.preventDefault();
+  let id = parseInt(ev.target.getAttribute('data-id'));
+  CART.reduce(id, 1);
+  let controls = ev.target.parentElement;
+  let qty = controls.querySelector('span:nth-child(2)');
+  let item = CART.find(id);
+  if(item){
+      qty.textContent = item.qty;
+  }else{
+      document.getElementById('cart').removeChild(controls.parentElement);
+  }
+}
+
+function getProducts(success, failure){
+  //request the list of products from the "server"
+  const URL = "https://prof3ssorst3v3.github.io/media-sample-files/products.json";
+  fetch(URL, {
+      method: 'GET',
+      mode: 'cors'
+  })
+  .then(response=>response.json())
+  .then(showProducts)
+  .catch(err=>{
+      errorMessage(err.message);
+  });
+}
+
+function showProducts( products ){
+  PRODUCTS = products;
+  //take data.products and display inside <section id="products">
+  let imgPath = 'https://prof3ssorst3v3.github.io/media-sample-files/';
+  let productSection = document.getElementById('products');
+  productSection.innerHTML = "";
+  products.forEach(product=>{
+      let card = document.createElement('div');
+      card.className = 'card';
+      //add the image to the card
+      let img = document.createElement('img');
+      img.alt = product.title;
+      img.src = imgPath + product.img;
+      card.appendChild(img);
+      //add the price
+      let price = document.createElement('p');
+      let cost = new Intl.NumberFormat('en-CA', 
+                              {style:'currency', currency:'CAD'}).format(product.price);
+      price.textContent = cost;
+      price.className = 'price';
+      card.appendChild(price);
+      
+      //add the title to the card
+      let title = document.createElement('h2');
+      title.textContent = product.title;
+      card.appendChild(title);
+      //add the description to the card
+      let desc = document.createElement('p');
+      desc.textContent = product.desc;
+      card.appendChild(desc);
+      //add the button to the card
+      let btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = 'Add Item';
+      btn.setAttribute('data-id', product.id);
+      btn.addEventListener('click', addItem);
+      card.appendChild(btn);
+      //add the card to the section
+      productSection.appendChild(card);
+  })
+}
+
+function addItem(ev){
+  ev.preventDefault();
+  let id = parseInt(ev.target.getAttribute('data-id'));
+  console.log('add to cart item', id);
+  CART.add(id, 1);
+  showCart();
+}
+
+function errorMessage(err){
+  //display the error message to the user
+  console.error(err);
+}
