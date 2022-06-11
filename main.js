@@ -9191,9 +9191,10 @@ will not go to catch so then(s) before catch(s)
 
 // ---------------async / await ------------------
 /* 
-with async await you tell JS engine convert this function to promise and excute lines inside 
-this function synchronous and if there is any line of code Promise based API(asynchronous)
-you can use await to tell JS engine wait until the promise fulfilled or rejected
+with async await you tell JS engine convert this function to promise
+the function will run its synchronous prefix immediately, 
+but whenever you await something, the rest of its code will be put into a microtask 
+because await wrap everything behind it in Promise.resolve()
 */
 
 /* ----Normal Function
@@ -18285,272 +18286,468 @@ but Web Worker has no access to DOM but you have access to navigator object , lo
 // })
 
 // ---------------------------LocalStorage Shopping Cart--------------------
-const CART = {
-  KEY: 'bkasjbdfkjasdkfjhaksdfjskd',
-  contents: [],
-  init(){
-      //check localStorage and initialize the contents of CART.contents
-      let _contents = localStorage.getItem(CART.KEY);
-      if(_contents){
-          CART.contents = JSON.parse(_contents);
-      }else{
-          //dummy test data
-          CART.contents = [
-              {id:1, title:'Apple', qty:5, itemPrice: 0.85},
-              {id:2, title:'Banana', qty:3, itemPrice: 0.35},
-              {id:3, title:'Cherry', qty:8, itemPrice: 0.05}
-          ];
-          CART.sync();
-      }
-  },
-  async sync(){
-      let _cart = JSON.stringify(CART.contents);
-      // localStorage.setItem and getItem 99% act synchronous but 1% (when data very big and bad processor will act as asynchronous)
-      await localStorage.setItem(CART.KEY, _cart); 
-  },
-  find(id){
-      //find an item in the cart by it's id
-      let match = CART.contents.filter(item=>{
-          if(item.id == id)
-              return true;
-      });
-      if(match && match[0])
-          return match[0];
-  },
-  add(id){
-      //add a new item to the cart
-      //check that it is not in the cart already
-      if(CART.find(id)){
-          CART.increase(id, 1);
-      }else{
-          let arr = PRODUCTS.filter(product=>{
-              if(product.id == id){
-                  return true;
-              }
-          });
-          if(arr && arr[0]){
-              let obj = {
-                  id: arr[0].id,
-                  title: arr[0].title,
-                  qty: 1,
-                  itemPrice: arr[0].price
-              };
-              CART.contents.push(obj);
-              //update localStorage
-              CART.sync();
-          }else{
-              //product id does not exist in products data
-              console.error('Invalid Product');
-          }
-      }
-  },
-  increase(id, qty=1){
-      //increase the quantity of an item in the cart
-      CART.contents = CART.contents.map(item=>{
-          if(item.id === id)
-              item.qty = item.qty + qty;
-          return item;
-      });
-      //update localStorage
-      CART.sync()
-  },
-  reduce(id, qty=1){
-      //reduce the quantity of an item in the cart
-      CART.contents = CART.contents.map(item=>{
-          if(item.id === id)
-              item.qty = item.qty - qty;
-          return item;
-      });
-      CART.contents.forEach(async item=>{
-          if(item.id === id && item.qty === 0)
-              await CART.remove(id);
-      });
-      //update localStorage
-      CART.sync()
-  },
-  remove(id){
-      //remove an item entirely from CART.contents based on its id
-      CART.contents = CART.contents.filter(item=>{
-          if(item.id !== id)
-              return true;
-      });
-      //update localStorage
-      CART.sync()
-  },
-  empty(){
-      //empty whole cart
-      CART.contents = [];
-      //update localStorage
-      CART.sync()
-  },
-  sort(field='title'){
-      //sort by field - title, price
-      //return a sorted shallow copy of the CART.contents array
-      let sorted = CART.contents.sort( (a, b)=>{
-          if(a[field] > b[field]){
-              return 1;
-          }else if(a[field] < a[field]){
-              return -1;
-          }else{
-              return 0;
-          }
-      });
-      return sorted;
-      //NO impact on localStorage
-  },
-  logContents(prefix){
-      console.log(prefix, CART.contents)
-  }
-};
+// 2 challenges for you [1] add delete btn to items in cart [2]update total price when incrementing items in cart
+// const CART = {
+//   KEY: 'bkasjbdfkjasdkfjhaksdfjskd',
+//   contents: [],
+//   init(){
+//       //check localStorage and initialize the contents of CART.contents
+//       let _contents = localStorage.getItem(CART.KEY);
+//       if(_contents){
+//           CART.contents = JSON.parse(_contents);
+//       }else{
+//           //dummy test data
+//           CART.contents = [
+//               {id:1, title:'Apple', qty:5, itemPrice: 0.85},
+//               {id:2, title:'Banana', qty:3, itemPrice: 0.35},
+//               {id:3, title:'Cherry', qty:8, itemPrice: 0.05}
+//           ];
+//           CART.sync();
+//       }
+//   },
+//   async sync(){
+//       let _cart = JSON.stringify(CART.contents);
+//       // localStorage.setItem and getItem 99% act synchronous but 1% (when data very big and bad processor will act as asynchronous)
+//       await localStorage.setItem(CART.KEY, _cart); 
+//   },
+//   find(id){
+//       //find an item in the cart by it's id
+//       let match = CART.contents.filter(item=>{
+//           if(item.id == id)
+//               return true;
+//       });
+//       if(match && match[0])
+//           return match[0];
+//   },
+//   add(id){
+//       //add a new item to the cart
+//       //check that it is not in the cart already
+//       if(CART.find(id)){
+//           CART.increase(id, 1);
+//       }else{
+//           let arr = PRODUCTS.filter(product=>{
+//               if(product.id == id){
+//                   return true;
+//               }
+//           });
+//           if(arr && arr[0]){
+//               let obj = {
+//                   id: arr[0].id,
+//                   title: arr[0].title,
+//                   qty: 1,
+//                   itemPrice: arr[0].price
+//               };
+//               CART.contents.push(obj);
+//               //update localStorage
+//               CART.sync();
+//           }else{
+//               //product id does not exist in products data
+//               console.error('Invalid Product');
+//           }
+//       }
+//   },
+//   increase(id, qty=1){
+//       //increase the quantity of an item in the cart
+//       CART.contents = CART.contents.map(item=>{
+//           if(item.id === id)
+//               item.qty = item.qty + qty;
+//           return item;
+//       });
+//       //update localStorage
+//       CART.sync()
+//   },
+//   reduce(id, qty=1){
+//       //reduce the quantity of an item in the cart
+//       CART.contents = CART.contents.map(item=>{
+//           if(item.id === id)
+//               item.qty = item.qty - qty;
+//           return item;
+//       });
+//       CART.contents.forEach(async item=>{
+//           if(item.id === id && item.qty === 0)
+//               await CART.remove(id);
+//       });
+//       //update localStorage
+//       CART.sync()
+//   },
+//   remove(id){
+//       //remove an item entirely from CART.contents based on its id
+//       CART.contents = CART.contents.filter(item=>{
+//           if(item.id !== id)
+//               return true;
+//       });
+//       //update localStorage
+//       CART.sync()
+//   },
+//   empty(){
+//       //empty whole cart
+//       CART.contents = [];
+//       //update localStorage
+//       CART.sync()
+//   },
+//   sort(field='title'){
+//       //sort by field - title, price
+//       //return a sorted shallow copy of the CART.contents array
+//       let sorted = CART.contents.sort( (a, b)=>{
+//           if(a[field] > b[field]){
+//               return 1;
+//           }else if(a[field] < a[field]){
+//               return -1;
+//           }else{
+//               return 0;
+//           }
+//       });
+//       return sorted;
+//       //NO impact on localStorage
+//   },
+//   logContents(prefix){
+//       console.log(prefix, CART.contents)
+//   }
+// };
 
-let PRODUCTS = [];
+// let PRODUCTS = [];
 
-document.addEventListener('DOMContentLoaded', ()=>{
-  //when the page is ready
-  getProducts( showProducts, errorMessage );
-  //get the cart items from localStorage
-  CART.init();
-  //load the cart items
-  showCart();
-});
+// document.addEventListener('DOMContentLoaded', ()=>{
+//   //when the page is ready
+//   getProducts( showProducts, errorMessage );
+//   //get the cart items from localStorage
+//   CART.init();
+//   //load the cart items
+//   showCart();
+// });
 
-function showCart(){
-  let cartSection = document.getElementById('cart');
-  cart.innerHTML = '';
-  let s = CART.sort('qty');
-  s.forEach( item =>{
-      let cartitem = document.createElement('div');
-      cartitem.className = 'cart-item';
+// function showCart(){
+//   let cartSection = document.getElementById('cart');
+//   cart.innerHTML = '';
+//   let s = CART.sort('qty');
+//   s.forEach( item =>{
+//       let cartitem = document.createElement('div');
+//       cartitem.className = 'cart-item';
       
-      let title = document.createElement('h3');
-      title.textContent = item.title;
-      title.className = 'title'
-      cartitem.appendChild(title);
+//       let title = document.createElement('h3');
+//       title.textContent = item.title;
+//       title.className = 'title'
+//       cartitem.appendChild(title);
       
-      let controls = document.createElement('div');
-      controls.className = 'controls';
-      cartitem.appendChild(controls);
+//       let controls = document.createElement('div');
+//       controls.className = 'controls';
+//       cartitem.appendChild(controls);
       
-      let plus = document.createElement('span');
-      plus.textContent = '+';
-      plus.setAttribute('data-id', item.id)
-      controls.appendChild(plus);
-      plus.addEventListener('click', incrementCart)
+//       let plus = document.createElement('span');
+//       plus.textContent = '+';
+//       plus.setAttribute('data-id', item.id)
+//       controls.appendChild(plus);
+//       plus.addEventListener('click', incrementCart)
       
-      let qty = document.createElement('span');
-      qty.textContent = item.qty;
-      controls.appendChild(qty);
+//       let qty = document.createElement('span');
+//       qty.textContent = item.qty;
+//       controls.appendChild(qty);
       
-      let minus = document.createElement('span');
-      minus.textContent = '-';
-      minus.setAttribute('data-id', item.id)
-      controls.appendChild(minus);
-      minus.addEventListener('click', decrementCart)
+//       let minus = document.createElement('span');
+//       minus.textContent = '-';
+//       minus.setAttribute('data-id', item.id)
+//       controls.appendChild(minus);
+//       minus.addEventListener('click', decrementCart)
       
-      let price = document.createElement('div');
-      price.className = 'price';
-      let cost = new Intl.NumberFormat('en-CA', 
-                      {style: 'currency', currency:'CAD'}).format(item.qty * item.itemPrice);
-      price.textContent = cost;
-      cartitem.appendChild(price);
+//       let price = document.createElement('div');
+//       price.className = 'price';
+//       let cost = new Intl.NumberFormat('en-CA', 
+//                       {style: 'currency', currency:'CAD'}).format(item.qty * item.itemPrice);
+//       price.textContent = cost;
+//       cartitem.appendChild(price);
       
-      cartSection.appendChild(cartitem);
-  })
-}
+//       cartSection.appendChild(cartitem);
+//   })
+// }
 
-function incrementCart(ev){
-  ev.preventDefault();
-  let id = parseInt(ev.target.getAttribute('data-id'));
-  CART.increase(id, 1);
-  let controls = ev.target.parentElement;
-  let qty = controls.querySelector('span:nth-child(2)');
-  let item = CART.find(id);
-  if(item){
-      qty.textContent = item.qty;
-  }else{
-      document.getElementById('cart').removeChild(controls.parentElement);
-  }
-}
+// function incrementCart(ev){
+//   ev.preventDefault();
+//   let id = parseInt(ev.target.getAttribute('data-id'));
+//   CART.increase(id, 1);
+//   let controls = ev.target.parentElement;
+//   let qty = controls.querySelector('span:nth-child(2)');
+//   let item = CART.find(id);
+//   if(item){
+//       qty.textContent = item.qty;
+//   }else{
+//       document.getElementById('cart').removeChild(controls.parentElement);
+//   }
+// }
 
-function decrementCart(ev){
-  ev.preventDefault();
-  let id = parseInt(ev.target.getAttribute('data-id'));
-  CART.reduce(id, 1);
-  let controls = ev.target.parentElement;
-  let qty = controls.querySelector('span:nth-child(2)');
-  let item = CART.find(id);
-  if(item){
-      qty.textContent = item.qty;
-  }else{
-      document.getElementById('cart').removeChild(controls.parentElement);
-  }
-}
+// function decrementCart(ev){
+//   ev.preventDefault();
+//   let id = parseInt(ev.target.getAttribute('data-id'));
+//   CART.reduce(id, 1);
+//   let controls = ev.target.parentElement;
+//   let qty = controls.querySelector('span:nth-child(2)');
+//   let item = CART.find(id);
+//   if(item){
+//       qty.textContent = item.qty;
+//   }else{
+//       document.getElementById('cart').removeChild(controls.parentElement);
+//   }
+// }
 
-function getProducts(success, failure){
-  //request the list of products from the "server"
-  const URL = "https://prof3ssorst3v3.github.io/media-sample-files/products.json";
-  fetch(URL, {
-      method: 'GET',
-      mode: 'cors'
-  })
-  .then(response=>response.json())
-  .then(showProducts)
-  .catch(err=>{
-      errorMessage(err.message);
-  });
-}
+// function getProducts(success, failure){
+//   //request the list of products from the "server"
+//   const URL = "https://prof3ssorst3v3.github.io/media-sample-files/products.json";
+//   fetch(URL, {
+//       method: 'GET',
+//       mode: 'cors'
+//   })
+//   .then(response=>response.json())
+//   .then(showProducts)
+//   .catch(err=>{
+//       errorMessage(err.message);
+//   });
+// }
 
-function showProducts( products ){
-  PRODUCTS = products;
-  //take data.products and display inside <section id="products">
-  let imgPath = 'https://prof3ssorst3v3.github.io/media-sample-files/';
-  let productSection = document.getElementById('products');
-  productSection.innerHTML = "";
-  products.forEach(product=>{
-      let card = document.createElement('div');
-      card.className = 'card';
-      //add the image to the card
-      let img = document.createElement('img');
-      img.alt = product.title;
-      img.src = imgPath + product.img;
-      card.appendChild(img);
-      //add the price
-      let price = document.createElement('p');
-      let cost = new Intl.NumberFormat('en-CA', 
-                              {style:'currency', currency:'CAD'}).format(product.price);
-      price.textContent = cost;
-      price.className = 'price';
-      card.appendChild(price);
+// function showProducts( products ){
+//   PRODUCTS = products;
+//   //take data.products and display inside <section id="products">
+//   let imgPath = 'https://prof3ssorst3v3.github.io/media-sample-files/';
+//   let productSection = document.getElementById('products');
+//   productSection.innerHTML = "";
+//   products.forEach(product=>{
+//       let card = document.createElement('div');
+//       card.className = 'card';
+//       //add the image to the card
+//       let img = document.createElement('img');
+//       img.alt = product.title;
+//       img.src = imgPath + product.img;
+//       card.appendChild(img);
+//       //add the price
+//       let price = document.createElement('p');
+//       let cost = new Intl.NumberFormat('en-CA', 
+//                               {style:'currency', currency:'CAD'}).format(product.price);
+//       price.textContent = cost;
+//       price.className = 'price';
+//       card.appendChild(price);
       
-      //add the title to the card
-      let title = document.createElement('h2');
-      title.textContent = product.title;
-      card.appendChild(title);
-      //add the description to the card
-      let desc = document.createElement('p');
-      desc.textContent = product.desc;
-      card.appendChild(desc);
-      //add the button to the card
-      let btn = document.createElement('button');
-      btn.className = 'btn';
-      btn.textContent = 'Add Item';
-      btn.setAttribute('data-id', product.id);
-      btn.addEventListener('click', addItem);
-      card.appendChild(btn);
-      //add the card to the section
-      productSection.appendChild(card);
-  })
-}
+//       //add the title to the card
+//       let title = document.createElement('h2');
+//       title.textContent = product.title;
+//       card.appendChild(title);
+//       //add the description to the card
+//       let desc = document.createElement('p');
+//       desc.textContent = product.desc;
+//       card.appendChild(desc);
+//       //add the button to the card
+//       let btn = document.createElement('button');
+//       btn.className = 'btn';
+//       btn.textContent = 'Add Item';
+//       btn.setAttribute('data-id', product.id);
+//       btn.addEventListener('click', addItem);
+//       card.appendChild(btn);
+//       //add the card to the section
+//       productSection.appendChild(card);
+//   })
+// }
 
-function addItem(ev){
-  ev.preventDefault();
-  let id = parseInt(ev.target.getAttribute('data-id'));
-  console.log('add to cart item', id);
-  CART.add(id, 1);
-  showCart();
-}
+// function addItem(ev){
+//   ev.preventDefault();
+//   let id = parseInt(ev.target.getAttribute('data-id'));
+//   console.log('add to cart item', id);
+//   CART.add(id, 1);
+//   showCart();
+// }
 
-function errorMessage(err){
-  //display the error message to the user
-  console.error(err);
-}
+// function errorMessage(err){
+//   //display the error message to the user
+//   console.error(err);
+// }
+
+// -------------------------FullScreen API---------------------------
+
+// List of prefixed versions of props
+// https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API#Prefixing
+// onwebkitfullscreenchange-onfullscreenchange-onmozfullscreenchange-MSFullscreenChange
+
+// let h1 = document.querySelector('h1');
+// let vid = document.querySelector('#vid');
+// let aud = document.querySelector('#aud');
+
+// h1.addEventListener('click', goBig);
+// vid.addEventListener('click', goBig);
+// aud.addEventListener('click', goBig);
+
+// h1.addEventListener('dblclick', goHome);
+// vid.addEventListener('dblclick', goHome);
+// aud.addEventListener('dblclick', goHome);
+
+// // incase of user used esc btn instead of double click to trigger goHome function
+// document.addEventListener('webkitfullscreenchange', toggleFull);
+
+// function goBig(ev){
+//     let element = ev.currentTarget;
+//     // console.dir(element);
+//     if(! document.webkitFullscreenElement){
+//         if(element.webkitRequestFullscreen){
+//             element.webkitRequestFullscreen();
+//             element.classList.add('big');
+//         }else{
+//             console.log('element cannot be fullscreened');
+//         }
+//     }else{
+//         console.log(document.webkitFullscreenElement, 'is the full screen element');
+//     }
+// }
+
+// function goHome(ev){
+//     let element = ev.target;
+//     // console.log(element)
+//     element.classList.remove('big');
+//     if( document.webkitFullscreenEnabled){
+//         document.webkitExitFullscreen();
+//     }   
+// }
+
+// function toggleFull(ev){
+//     let element = document.webkitFullscreenElement;
+//     if(element){
+//         element.classList.add('big');
+//         console.log('big class added')
+//     }else{
+//         //remove it from the first element with it
+//         element = document.querySelector('h1.big, audio.big, video.big');
+//         element.classList.remove('big');
+//         //when people use esc instead of dblclick
+//     }
+// }
+
+// ----------------------------------Canvas------------------------------
+/* 
+The HTML <canvas> element is used to draw graphics, on the fly, via JavaScript.
+The <canvas> element is only a container for graphics. You must use JavaScript to actually draw the graphics.
+Canvas has several methods for drawing paths, boxes, circles, text, and adding images.
+
+- default display css style of canvas element is inline
+- it's better to add width and height in JS File no CSS File because in CSS 
+  will strectch the image and will destroy aspect ratio
+*/
+
+// ---------Eposide 1
+// let canvas, ctx;
+        
+// document.addEventListener('DOMContentLoaded', (ev)=>{
+//   canvas = document.getElementById('canvas');
+//   ctx = canvas.getContext('2d'); //webgl, webgl2
+//   canvas.width = 600;
+//   canvas.height = 400;
+  
+//   //drawRect();
+//   drawEllipse();
+//   drawRect();
+// });
+
+// // you have 2 options to draw 
+// // [1] define position and width and height using ctx.rect then use ctx.fill() and ctx.stroke() Methods
+// // [2] use directly ctx.fillRect(position and width and height) and ctx.strokeRect(position and width and height) in one step
+
+// const drawRect = function(){
+//   //position x,position y (positions related to canvas element), width, height  
+//   ctx.rect(300, 100, 100, 50); 
+    
+//   //define the stroke
+//   ctx.strokeStyle = `red`;
+//   ctx.lineWidth = 10; // width of line used as border 
+  
+//   //define the fill
+//   ctx.fillStyle = `skyblue`;
+  
+//   //fill and stroke 
+//   // ctx.fill(); // to fill the shape with color defined in ctx.fillStyle
+//   // ctx.stroke(); // to add border with color defined in ctx.strokeStyle
+//   // ctx.fill();
+  
+//   //draw a rect fill or stroke x, y, w, h
+//   ctx.fillRect(200, 300, 100, 50);
+//   ctx.strokeRect(100, 100, 100, 50);
+  
+//   //delete a rect
+//   //ctx.clearRect(x, y, width, height)
+//   ctx.clearRect(150, 50, 100, 500)
+// }
+
+// const drawEllipse = function(){
+//   ctx.beginPath();
+//   //ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlock);
+//   ctx.ellipse(200, 200, 100, 50, 0, 0, (Math.PI*2), false);
+//   ctx.fill();
+//   ctx.stroke();
+  
+//   // it's important to write ctx.beginPath() if not the darw line will start from
+//   // last circle like when you draw circle and you want to draw another circle you
+//   // are not move you hand up and draw 2nd circle then will be there a line between 2 circles
+//   ctx.beginPath();
+//   //ctx.arc(x, y, radius, startAngle, endAngle, anticlock);
+//   ctx.arc(400, 200, 50, 0, (Math.PI * 1.5), false);
+//   ctx.fill();
+//   ctx.stroke();
+// }
+
+// -------Eposide 2
+// let canvas, ctx, f,txt;
+// let oldTxt=""
+        
+// window.addEventListener('load', (ev)=>{
+//   canvas = document.getElementById('canvas');
+//   ctx = canvas.getContext('2d'); 
+//   canvas.width = 600;
+//   canvas.height = 400;
+  
+//   drawText();
+//   document.getElementById('msg').addEventListener('input', drawText);
+  
+//   // instead of importing front in CSS File using import @import url()
+//   // f = new FontFace('Allerta Stencil', 'url(https://fonts.gstatic.com/s/allertastencil/v8/HTx0L209KT-LmIE9N7OR6eiycOe1_Db29XP-vA.woff2)');
+//   // f.load()
+//   // .then(function(fnt) {
+//   //     console.log(`loaded ${fnt.family}`);
+//   // })
+//   // .catch(err=>{
+//   //     //error loading the font
+//   //     console.error('Failed to load the google font');
+//   // });
+// });
+
+// const drawText = function(){
+//   // normal, italic, bold
+//   // px pt cm in rem em
+//   // any installed or imported font
+//   let fontFamily = 'Allerta Stencil';
+//   // we imported front in CSS File using import @import url()
+//   ctx.font = `normal 20px xyz, ${fontFamily}, Helvetica, Arial, monospace`;
+//   ctx.fillStyle = 'cornflowerblue';
+//   ctx.strokeStyle = '#bada55';
+//   //textAlign center, left, right, end, start (end, start depends on direction ltr or rtl)
+//   ctx.textAlign = 'start';
+//   //textBaseline top, hanging, middle, bottom,ideographic, alphabetic
+//   ctx.textBaseline = 'alphabetic';
+//   //direction ltr, rtl, inherit
+//   ctx.direction = 'ltr';
+  
+//   txt = document.getElementById('msg').value;
+//   if( txt === '' ){
+//     txt = 'Please give me a message.';
+//     oldTxt = txt
+//   }
+//   let w1 = ctx.measureText(oldTxt).width; 
+//   let w2 = ctx.measureText(txt).width;
+//   if(w2 > w1){
+//     oldTxt = txt
+//   }
+//   // returns an object that contains the width of the specified text, in pixels.
+//   ctx.clearRect(50, 110, w1, -30);
+//   // difference between strokeText and fillText is stroke is border and fill is the fill inside charachters in words
+//   // ctx.strokeText(txt, 50, 100);
+//   ctx.fillText(txt, 50, 100);
+  
+  
+//   ctx.fillStyle = '#999';
+//   ctx.font = 'italic 20px Arial';
+//   let m = `Message is ${w1}px wide`;
+//   ctx.clearRect(50, 310, 500, -30);
+//   ctx.fillText(m, 50, 300);
+// }
+
