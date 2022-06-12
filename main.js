@@ -5717,6 +5717,14 @@ If the user clicks "OK" the box returns the input value.
 If the user clicks "Cancel" the box returns null.
 */
 
+/*
+to trigger callback function of event only one time you can remove the 
+EventListener once the callback function triggered
+ev.target.removeEventListener(ev.type, arguments.callee);
+It can be used to refer to the currently executing function inside the 
+function body of that function.
+*/
+
 /* -----------LocalStorage and SessionStorage------------
 * setItem
 * getItem
@@ -18626,7 +18634,7 @@ Canvas has several methods for drawing paths, boxes, circles, text, and adding i
   will strectch the image and will destroy aspect ratio
 */
 
-// ---------Eposide 1
+// ---------intro to Canvas
 // let canvas, ctx;
         
 // document.addEventListener('DOMContentLoaded', (ev)=>{
@@ -18670,15 +18678,18 @@ Canvas has several methods for drawing paths, boxes, circles, text, and adding i
 // }
 
 // const drawEllipse = function(){
+//   // it's important to write ctx.beginPath() if not the darw line will start from
+//   // last circle like when you draw circle and you want to draw another circle you
+//   // are not move you hand up and draw 2nd circle then will be there a line between 2 circles
+//  // difference between ellipse and arc is ellipse has radiusX, radiusY so you can draw 
+//  // oval shape and circle but arc only has radius so you can only draw perfect circle
+
 //   ctx.beginPath();
 //   //ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlock);
 //   ctx.ellipse(200, 200, 100, 50, 0, 0, (Math.PI*2), false);
 //   ctx.fill();
 //   ctx.stroke();
   
-//   // it's important to write ctx.beginPath() if not the darw line will start from
-//   // last circle like when you draw circle and you want to draw another circle you
-//   // are not move you hand up and draw 2nd circle then will be there a line between 2 circles
 //   ctx.beginPath();
 //   //ctx.arc(x, y, radius, startAngle, endAngle, anticlock);
 //   ctx.arc(400, 200, 50, 0, (Math.PI * 1.5), false);
@@ -18686,7 +18697,7 @@ Canvas has several methods for drawing paths, boxes, circles, text, and adding i
 //   ctx.stroke();
 // }
 
-// -------Eposide 2
+// -------Canvas Text
 // let canvas, ctx, f,txt;
 // let oldTxt=""
         
@@ -18751,3 +18762,462 @@ Canvas has several methods for drawing paths, boxes, circles, text, and adding i
 //   ctx.fillText(m, 50, 300);
 // }
 
+// -------Canvas Lines and Curves
+/* you can use lineTo() to draw straight line but if you want to draw curved line
+you have to use quadraticCurveTo or bezierCurveTo and using midpoints to make 
+line curved toward this midpoint
+
+[1] lineTo(endX , endY) accept only 2 param x & y of endpoint
+[2] quadraticCurveTo() accept 4 params x & y of midpoint and x & y of endpoint
+[3] bezierCurveTo() accept 6 params x & y of 2 midpoints and x & y of endpoint
+*/
+// let ctx;
+// let midx, midy, midx1, midy1, midx2, midy2;
+
+// document.addEventListener('DOMContentLoaded', (ev)=>{
+//     let canvas = document.getElementById('canvas');
+//     ctx = canvas.getContext('2d'); 
+//     canvas.width = 600;
+//     canvas.height = 400;
+
+//     canvas.addEventListener('mousedown', start);
+//     // canvas.addEventListener('mouseup', end);
+//     //canvas.addEventListener('mouseup', endQC);
+//     canvas.addEventListener('mouseup', endBC);
+    
+//     // shape and thickness of line
+//     ctx.lineCap = 'square'; //butt, round
+//     ctx.lineWidth = 10; // thickness of the line
+
+//     // midpoints positions
+//     midx = canvas.width/2;
+//     midy = canvas.height/2;
+    
+//     midx1 = canvas.width/4;
+//     midy1 = canvas.height/4;
+//     midx2 = canvas.width - midx1;
+//     midy2 = canvas.height - midy1;
+    
+//     // to draw circles of midpoint (just to show them only for demonestration)
+//     ctx.lineWidth = 5;
+//     ctx.beginPath();
+//     ctx.arc(midx, midy, 5, 0, 2 * Math.PI, false);
+//     ctx.strokeStyle = 'red';
+//     ctx.stroke();
+//     ctx.closePath()
+    
+//     ctx.beginPath();
+//     ctx.arc(midx1, midy1, 5, 0, 2 * Math.PI, false);
+//     ctx.strokeStyle = 'orange';
+//     ctx.stroke();
+//     ctx.closePath()
+    
+//     ctx.beginPath();
+//     ctx.arc(midx2, midy2, 5, 0, 2 * Math.PI, false);
+//     ctx.strokeStyle = 'skyblue';
+//     ctx.stroke();
+//     ctx.closePath()
+
+//     // this how to draw triangle 
+//     ctx.beginPath()
+//     ctx.moveTo(0,50)
+//     ctx.lineTo(50,0)
+//     ctx.lineTo(100,50)
+//     ctx.lineTo(0,50)
+//     ctx.fill()
+//     ctx.closePath()
+// });
+
+// let start = function(ev){
+//     ctx.beginPath();
+//     ctx.strokeStyle = '#bada55';
+//     console.log('from', ev.offsetX, ev.offsetY);
+//     ctx.moveTo(ev.offsetX, ev.offsetY);
+// }
+// let end = function(ev){
+//     //using lineTo(x, y)
+//     console.log('to', ev.offsetX, ev.offsetY);
+//     ctx.lineTo(ev.offsetX, ev.offsetY); // draw line to this position
+//     ctx.stroke();
+//     ctx.closePath()
+// }
+// let endQC = function(ev){
+//     //using quadraticCurveTo(midx, midy, endx, endy)
+//     console.log('to', ev.offsetX, ev.offsetY);
+//     let endx = ev.offsetX;
+//     let endy = ev.offsetY;
+//     ctx.quadraticCurveTo(midx, midy, endx, endy);
+//     ctx.stroke();
+//     ctx.closePath()
+// }
+// let endBC = function(ev){
+//     //using bezierCurveTo(midx1, midy1, midx2, midy2, endx, endy)
+//     console.log('to', ev.offsetX, ev.offsetY);
+//     let endx = ev.offsetX;
+//     let endy = ev.offsetY;
+//     ctx.bezierCurveTo(midx1, midy1, midx2, midy2, endx, endy);
+//     ctx.stroke();
+//     ctx.closePath()
+// }
+
+// -------Canvas images
+// let ctx;
+        
+// document.addEventListener('DOMContentLoaded', (ev)=>{
+//     let canvas = document.getElementById('canvas');
+//     ctx = canvas.getContext('2d'); 
+//     canvas.width = 600;
+//     canvas.height = 400;
+    
+//     let imgObj = new Image();
+//     imgObj.src = './videos/archer-bob.jpeg';
+
+//     imgObj.onload = function() {
+//         let w = canvas.width;
+//         let nw = imgObj.naturalWidth;   //1350
+//         let nh = imgObj.naturalHeight;  //900
+//         let aspect = nw / nh; // aspect ratio
+//         let h = w / aspect;
+//         canvas.height = h;
+//         // 0,0 image position inside canvas |  w , h width and height of image
+//         ctx.drawImage(imgObj, 0, 0, w, h); 
+        
+//         // you can crop part of image 350 , 180 posiotion of cropped part inside image
+//         // 100, 100 width and height of cropped part 
+//         // 0,0 image position inside canvas |  w , h width and height of image
+//         // ctx.drawImage(imgObj, 350, 180, 100, 100 , 0 , 0 , w, h);
+//     };
+
+//     //canvas.addEventListener('click', greyscale);
+//     canvas.addEventListener('click', colorChannel);
+// });
+
+// const greyscale = function(ev){
+//     imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+//     let arr = imgData.data;
+//     // i+4 because each color is one data and each pixel has 4 colors(red,blue,green,alpha) => 4 data
+//     for(let i=0; i<arr.length; i=i+4){ 
+//         let ttl = arr[i] + arr[i+1] + arr[i+2];
+//         let avg = parseInt(ttl/3);
+//         // if you set red , blue and green same value you will get grey shade
+//         arr[i] = avg;   //red
+//         arr[i+1] = avg; //green
+//         arr[i+2] = avg; //blue
+//     }
+//     imgData.data = arr;
+//     ctx.putImageData(imgData, 0, 0);
+// }
+
+// const colorChannel = function(ev){
+//     imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+//     let arr = imgData.data;
+//     for(let i=0; i<arr.length; i=i+4){
+//         //you can change value of each color and you know largest value for color is 256
+//         arr[i] = 0;     //R
+//         // arr[i+1] = 0;   //G
+//         // arr[i+2] = 0;   //B
+//     }
+//     imgData.data = arr;
+//     ctx.putImageData(imgData, 0, 0);
+    
+//     let img = canvas.toDataURL('image/jpeg', 1.0); // 1.0 means full resolution
+//     console.log(img); // base64
+//     document.querySelector('img').src = img;
+// }
+
+// -------Canvas Graph
+// let data = [
+//   {name:'Targaryen', troops:90200, color:"blue"},
+//   {name:'Tully', troops:15000, color:"green"},
+//   {name:'Stark', troops:50500, color:"red"},
+//   {name:'Lannister', troops:120800,color:"cornflowerblue"},
+//   {name:'Mormont', troops:16000,color:"pink"}
+// ];
+
+// // you can use random hex color or use colors in data object
+// const randomHexColorCode = () => {
+//   return "#" + Math.random().toString(16).slice(2, 8)
+// };
+
+// document.addEventListener('DOMContentLoaded', ()=>{
+//   let canvas = document.getElementById('c');
+//   let ctx = canvas.getContext('2d');
+//   canvas.width = 800;
+//   canvas.height = 600;
+//   let total = data.reduce( (ttl, house) => {
+//       return ttl + house.troops
+//   }, 0);
+//   let startAngle = 0; 
+//   let radius = 100;
+//   // centering the graph inside canvas element
+//   let cx = canvas.width/2;
+//   let cy = canvas.height/2;
+  
+//   data.forEach( house => {
+//       //set the styles before beginPath
+//       // ctx.fillStyle = randomHexColorCode(); // using random hex color
+//       ctx.fillStyle = house.color
+//       ctx.lineWidth = 1;
+//       ctx.strokeStyle = '#333';
+//       ctx.beginPath();
+
+//       // draw the pie wedges
+//       let endAngle = ((house.troops / total) * Math.PI * 2) + startAngle;
+//       ctx.moveTo(cx, cy);
+//       ctx.arc(cx, cy, radius, startAngle, endAngle, false);
+//       ctx.lineTo(cx, cy);
+//       ctx.fill();
+//       ctx.stroke();
+//       ctx.closePath();
+      
+//       // add the labels
+//       ctx.beginPath();
+//       ctx.font = '20px Helvetica, Calibri';
+//       ctx.textAlign = 'center';
+//       ctx.fillStyle = 'rebeccapurple';
+//       // midpoint between the two angles
+//       // 1.5 * radius is the length of the Hypotenuse
+//       let theta = (startAngle + endAngle) / 2;
+//       let deltaY = Math.sin(theta) * 1.5 * radius;
+//       let deltaX = Math.cos(theta) * 1.5 * radius;
+//       /***
+//       SOH  - sin(angle) = opposite / hypotenuse
+//                         = opposite / 1px
+//       CAH  - cos(angle) = adjacent / hypotenuse
+//                         = adjacent / 1px
+//       TOA
+      
+//       ***/
+//       ctx.fillText(house.name, deltaX+cx, deltaY+cy);
+//       ctx.closePath();
+
+//       // change startAngle every loop to make sure next element start from the end of last element
+//       startAngle = endAngle;
+//   })
+// });
+
+// --------canvas tansform
+// let ctx;
+
+// document.addEventListener('DOMContentLoaded', ()=>{
+//     let canvas = document.getElementById('canvas');
+//     ctx = canvas.getContext('2d');
+//     canvas.width = 600;
+//     canvas.height = 800;
+//     ctx.fillStyle = 'cornflowerblue';
+//     ctx.strokeStyle = '#ccc';
+//     ctx.lineWidth = 2;
+//     ctx.textAlign = 'start';
+//     ctx.font = 'normal 30px Arial';
+//     drawGrid(100);
+
+//     let x = 100;
+//     let y = 100;
+//     ctx.save();  //creates a save point
+//     ctx.beginPath();
+//     // now starting point(0,0) is 200 x direction and 200 y direction
+//     ctx.translate(200, 200); 
+//     ctx.fillText('translate', 10, 30);
+//     ctx.fill();
+//     ctx.closePath();
+//     ctx.restore(); //go back to the last save point
+
+//     // without ctx.save() and ctx.restore();
+//     // ctx.translate(200, 200); still make starting point(0,0) is 200 x direction and 200 y direction
+//     // with ctx.save() and ctx.restore(); 
+//     // we are deactivating ctx.translate(200, 200); and starting point return to (0,0)
+//     ctx.save();
+//     ctx.beginPath();
+//     ctx.arc(0, 0, 10, 0, Math.PI*2);
+//     ctx.rotate(Math.PI/4);        //3.14 radians 180 deg
+//     ctx.fillText('rotate', 300, 0);
+//     ctx.fill();
+//     ctx.closePath();
+//     ctx.restore();
+
+//     ctx.beginPath();
+//     ctx.translate(100, 500);
+//     ctx.scale(1, -1);
+//     ctx.fillText('scale', x, y);
+//     ctx.fill();
+//     ctx.closePath();
+
+    
+// });
+
+// function drawGrid(gap){
+//     ctx.beginPath();
+//     for(x=gap; x<canvas.width; x=x+gap){
+//         ctx.moveTo(x, 0);
+//         ctx.lineTo(x, canvas.height);
+//     }
+//     for(let y=gap; y<canvas.height; y=y+gap){
+//         ctx.moveTo(0, y);
+//         ctx.lineTo(canvas.height, y);
+//     }
+//     ctx.stroke();
+//     ctx.closePath();
+// }
+
+// ---------canvas video frames grab and image upload
+// const grabScreen = () =>{
+//   let player = document.getElementById('player')
+//   let canvas = document.getElementById('canvas');
+//   let ctx = canvas.getContext('2d');
+//   canvas.width = player.videoWidth;
+//   canvas.height = player.videoHeight;
+//   //grab a frame from the video
+//   ctx.drawImage(player, 0, 0);
+//   //convert to grayscale image
+//   //ONLY WORKS IF image is not tainted by CORS
+//   let imgdata = ctx.getImageData(0,0, canvas.width, canvas.height);
+//   let len = imgdata.data.length;
+//   for(let i=0; i<len; i=i+4){
+//       let red = imgdata.data[i];
+//       let green = imgdata.data[i+1];
+//       let blue = imgdata.data[i+2];
+//       //let lum = .2126 * red + .7152 * green + .0722 * blue;
+//       let lum = (red + green + blue)/3;
+//       imgdata.data[i] = lum;
+//       imgdata.data[i+1] = lum;
+//       imgdata.data[i+2] = lum;
+//   }
+//   //update what is displayed on the canvas.
+//   ctx.putImageData(imgdata, 0, 0);
+//   //export as image file to be uploaded or saved
+  
+//   let blob = canvas.toBlob((blob) => {
+//       //this code runs AFTER the Blob is extracted
+//       let fd = new FormData();
+//       fd.append('field-name', blob, 'image-filename.png');    
+//       let req = new Request('https://jsonplaceholder.typicode.com/posts', {
+//           method: 'POST',
+//           body: fd
+//       })
+//       fetch(req)
+//       .then(response=>response.json())
+//       .then(data=>{
+//           console.log('response from server after uploading the image');
+//       })
+//       .catch(err=>{
+//           console.log(err.message);
+//       });
+      
+//       //load the blob into the image tag
+//       let img = document.createElement('img');
+//       let url = URL.createObjectURL(blob);
+//       img.addEventListener('load', (ev)=>{
+//           console.log('image from createObjectURL loaded');
+//           //player.pause();  //stop the video playing if desired
+//           //let vid = document.createElement('video');
+//           //vid.poster = url;
+//           //document.body.appendChild(vid);
+          
+//           //clear memory used to create object url
+//           //this will make it impossible to download the image with a right click
+//           //window.URL.revokeObjectURL(url);
+//       })
+//       img.src = url; //use the canvas binary png blob
+//       document.getElementById('image').appendChild(img);
+  
+//   }, 'image/png'); //create binary png from canvas contents
+  
+// }
+
+// //MEDIA EVENTS
+// //https://developer.mozilla.org/en-US/docs/Web/Events#Media_events
+
+// document.addEventListener('DOMContentLoaded', ()=>{
+//   let player = document.getElementById('player');
+//   // canplay event means this video can be played
+//   player.addEventListener('canplay', (ev)=>{
+//       console.log('canplay', ev.target.videoWidth, ev.target.videoHeight);
+//       console.log(ev.target.clientWidth, ev.target.clientHeight);
+//       console.log(ev.target.currentSrc, ev.target.duration, ev.target.currentTime);
+//       player.addEventListener('click', (ev)=>{
+//           //click the video to grab a screenshot and display in the canvas
+//           grabScreen();
+//       })
+//   });
+  
+//   player.addEventListener('canplaythrough', (ev)=>{
+//       // canplaythrough event means this video buffered enough to start playing
+//       //this is our own autoplay
+//       console.log('Enough loaded to play through whole video');
+//       player.play();
+//   });
+  
+//   player.addEventListener('load', (ev)=>{
+//       //video has loaded entirely
+//       console.log('video loaded');
+//   });
+  
+//   player.addEventListener('error', (err)=>{
+//       console.log('Failed to load video', err.message);
+//   })
+// })
+
+// ------canvas 
+let canvas, ctx, img1, img2, img3;
+let images = [];
+
+document.addEventListener("DOMContentLoaded", () => {
+  canvas = document.getElementById("canvas");
+  ctx = canvas.getContext("2d");
+  canvas.width = 1200;
+  canvas.height = 600;
+  img1 = document.createElement("img");
+  img2 = document.createElement("img");
+  img3 = document.createElement("img");
+  img1.addEventListener("load", trackLoads);
+  img2.addEventListener("load", trackLoads);
+  img3.addEventListener("load", trackLoads);
+  img1.src = "./videos/archer-bob.jpeg";
+  img2.src = "./videos/archer-bob.jpeg";
+  img3.src = "./videos/archer-bob.jpeg";
+});
+
+function trackLoads(ev) {
+  let imgObj = {
+    sw: ev.target.naturalWidth,
+    sh: ev.target.naturalHeight * (3 / 4),
+    img: ev.target
+  };
+  images.push(imgObj);
+
+  console.log(imgObj);
+  if (images.length === 3) {
+    addThumbnails();
+  }
+}
+
+function addThumbnails() {
+  //image has been loaded to the document.
+  //add 12 copies of the images to the canvas 4 columns x 3 rows
+  //each thumbnail will be 300px wide by 200px high
+  //calculate the part of the image to use as the thumbnail
+  let dx = 0;
+  let dy = 0;
+  let imgCount = 0;
+  for (let r = 0; r < 3; r++) {
+    for (let c = 0; c < 4; c++) {
+      dx = c * 300; // 0, 300, 600, 900
+      dy = r * 200; // 0, 200, 400
+      let imgObj = images[Math.floor(imgCount % 3)]; //0, 1, 2
+      imgCount++;
+      // image 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3
+      ctx.drawImage(
+        imgObj.img,
+        0,
+        0,
+        imgObj.sw,
+        imgObj.sh,
+        dx,
+        dy,
+        300,
+        200
+      );
+      // ctx.drawImage( source, sx, sy, sw, sh, dx, dy, dw, dh)
+    }
+  }
+}
