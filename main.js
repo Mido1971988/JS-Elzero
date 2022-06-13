@@ -2144,7 +2144,7 @@ This feature is known as hoisting in JavaScript.
 // var hoist = 10;
 
 // give Error annot access before initialization
-// console.log(hoist) // here yoou are at stage called temporal deadzone (you are between hoisting and initializing)
+// console.log(hoist) // here you are at stage called temporal deadzone (you are between hoisting and initializing)
 // let hoist = 10;
 
 // output undefined
@@ -19158,66 +19158,617 @@ line curved toward this midpoint
 // })
 
 // ------canvas 
-let canvas, ctx, img1, img2, img3;
-let images = [];
+// let canvas, ctx, img1, img2, img3;
+// let images = [];
 
-document.addEventListener("DOMContentLoaded", () => {
-  canvas = document.getElementById("canvas");
-  ctx = canvas.getContext("2d");
-  canvas.width = 1200;
-  canvas.height = 600;
-  img1 = document.createElement("img");
-  img2 = document.createElement("img");
-  img3 = document.createElement("img");
-  img1.addEventListener("load", trackLoads);
-  img2.addEventListener("load", trackLoads);
-  img3.addEventListener("load", trackLoads);
-  img1.src = "./videos/archer-bob.jpeg";
-  img2.src = "./videos/archer-bob.jpeg";
-  img3.src = "./videos/archer-bob.jpeg";
-});
+// document.addEventListener("DOMContentLoaded", () => {
+//   canvas = document.getElementById("canvas");
+//   ctx = canvas.getContext("2d");
+//   canvas.width = 1200;
+//   canvas.height = 600;
+//   img1 = document.createElement("img");
+//   img2 = document.createElement("img");
+//   img3 = document.createElement("img");
+//   img1.addEventListener("load", trackLoads);
+//   img2.addEventListener("load", trackLoads);
+//   img3.addEventListener("load", trackLoads);
+//   img1.src = "./videos/archer-bob.jpeg";
+//   img2.src = "./videos/archer-bob.jpeg";
+//   img3.src = "./videos/archer-bob.jpeg";
+// });
 
-function trackLoads(ev) {
-  let imgObj = {
-    sw: ev.target.naturalWidth,
-    sh: ev.target.naturalHeight * (3 / 4),
-    img: ev.target
-  };
-  images.push(imgObj);
+// function trackLoads(ev) {
+//   let imgObj = {
+//     sw: ev.target.naturalWidth,
+//     sh: ev.target.naturalHeight * (3 / 4),
+//     img: ev.target
+//   };
+//   images.push(imgObj);
 
-  console.log(imgObj);
-  if (images.length === 3) {
-    addThumbnails();
-  }
-}
+//   console.log(imgObj);
+//   if (images.length === 3) {
+//     addThumbnails();
+//   }
+// }
 
-function addThumbnails() {
-  //image has been loaded to the document.
-  //add 12 copies of the images to the canvas 4 columns x 3 rows
-  //each thumbnail will be 300px wide by 200px high
-  //calculate the part of the image to use as the thumbnail
-  let dx = 0;
-  let dy = 0;
-  let imgCount = 0;
-  for (let r = 0; r < 3; r++) {
-    for (let c = 0; c < 4; c++) {
-      dx = c * 300; // 0, 300, 600, 900
-      dy = r * 200; // 0, 200, 400
-      let imgObj = images[Math.floor(imgCount % 3)]; //0, 1, 2
-      imgCount++;
-      // image 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3
-      ctx.drawImage(
-        imgObj.img,
-        0,
-        0,
-        imgObj.sw,
-        imgObj.sh,
-        dx,
-        dy,
-        300,
-        200
-      );
-      // ctx.drawImage( source, sx, sy, sw, sh, dx, dy, dw, dh)
-    }
-  }
-}
+// function addThumbnails() {
+//   //image has been loaded to the document.
+//   //add 12 copies of the images to the canvas 4 columns x 3 rows
+//   //each thumbnail will be 300px wide by 200px high
+//   //calculate the part of the image to use as the thumbnail
+//   let dx = 0;
+//   let dy = 0;
+//   let imgCount = 0;
+//   for (let r = 0; r < 3; r++) {
+//     for (let c = 0; c < 4; c++) {
+//       dx = c * 300; // 0, 300, 600, 900
+//       dy = r * 200; // 0, 200, 400
+//       let imgObj = images[Math.floor(imgCount % 3)]; //0, 1, 2
+//       imgCount++;
+//       // image 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3
+//       ctx.drawImage(
+//         imgObj.img,
+//         0,
+//         0,
+//         imgObj.sw,
+//         imgObj.sh,
+//         dx,
+//         dy,
+//         300,
+//         200
+//       );
+//       // ctx.drawImage( source, sx, sy, sw, sh, dx, dy, dw, dh)
+//     }
+//   }
+// }
+
+// ----------------Extracting Colour Values from Pixel Coordinates-------------
+// // this only a demo to understand how calculation of next tutorial
+// let grid = document.querySelector('.grid');
+// let cols = grid.getAttribute('data-cols');
+// let rows = grid.getAttribute('data-rows');
+// //display the grid info in the paragraph below the grid
+// document.getElementById('cols').textContent = cols;
+// document.getElementById('rows').textContent = rows;
+// //size the grid
+// grid.style.width = `${cols * 100 + 2}px`;
+// grid.style.height = `${rows * 100 + 2}px`;
+// //build the grid based on data-rows and data-cols attributes
+// for (let r = 0; r < rows; r++) {
+//   for (let c = 0; c < cols; c++) {
+//     let div = document.createElement('div');
+//     div.className = 'pixel';
+//     div.setAttribute('data-coord', `${c}, ${r}`);
+//     grid.append(div);
+//   }
+// }
+// //listen for mouse movement over the grid
+// document.querySelector('.grid').addEventListener('mousemove', getPixel);
+
+// function getPixel(ev) {
+//   let pixel = ev.target;
+//   //remove the old highlight class
+//   document.querySelector('.highlight')?.classList.remove('highlight');
+//   //add the highlist class to the current pixel div
+//   pixel.classList.add('highlight');
+//   let p1 = document.getElementById('coords');
+//   let p2 = document.getElementById('pixelPos');
+//   let p3 = document.getElementById('arrayPos');
+//   let p4 = document.getElementById('arraySize');
+
+//   let coords = pixel.getAttribute('data-coord');
+//   p1.textContent = `Selected pixel (${coords})`;
+
+//   let pixelPos = coords.split(', ');
+//   let col = Number(pixelPos[0]);
+//   let row = Number(pixelPos[1]);
+//   let pixelIndex = cols * row + col;
+//   p2.innerHTML = `Pixel INDEX<br/>Total columns * row + column<br/>${cols} * ${row} + ${col} = ${pixelIndex}`;
+
+//   let arrayPos = pixelIndex * 4;
+//   p3.innerHTML = `Pixel [r,g,b,a] values in array positions<br/>[ ${arrayPos}, ${
+//     arrayPos + 1
+//   }, ${arrayPos + 2}, ${arrayPos + 3} ]`;
+
+//   p4.innerHTML = `In the grid there are ${
+//     rows * cols
+//   } pixels.<br/>In the Array there are ${rows * cols * 4} elements.`;
+// }
+
+// ----------------Colour Extraction Tool using Canvas--------------
+// const APP = {
+//   canvas: null,
+//   ctx: null,
+//   data: [],
+//   img: null,
+//   init() {
+//     APP.canvas = document.querySelector('main canvas');
+//     APP.ctx = APP.canvas.getContext('2d');
+//     APP.canvas.width = 900;
+//     APP.canvas.style.width = 900;
+//     APP.canvas.height = 600;
+//     APP.canvas.style.height = 600;
+//     // we will not append img element to the page it will be saved im the memory then use it on drawImage method to draw it inside canvas element
+//     APP.img = document.createElement('img');
+//     APP.img.src = APP.canvas.getAttribute('data-src');
+//     //once the image is loaded, add it to the canvas
+//     APP.img.onload = (ev) => {
+//       APP.ctx.drawImage(APP.img, 0, 0);
+//       //call the context.getImageData method to get the array of [r,g,b,a] values
+//       let imgDataObj = APP.ctx.getImageData(
+//         0,
+//         0,
+//         APP.canvas.width,
+//         APP.canvas.height
+//       );
+//       APP.data = imgDataObj.data; //data prop is an array
+//       // console.log(APP.data.length, 900 * 600 * 4); //  has 2,160,000 elements
+//       APP.canvas.addEventListener('mousemove', APP.getPixel);
+//       APP.canvas.addEventListener('click', APP.addBox);
+//     };
+//   },
+//   getPixel(ev) {
+//     //as the mouse moves around the image
+//     // let canvas = ev.target;
+//     let cols = APP.canvas.width;
+//     // let rows = canvas.height;
+//     let { offsetX, offsetY } = ev;
+//     //call the method to get the r,g,b,a values for current pixel
+//     let c = APP.getPixelColor(cols, offsetY, offsetX);
+//     //build a colour string for css
+//     let clr = `rgb(${c.red}, ${c.green}, ${c.blue})`; //${c.alpha / 255}
+//     document.getElementById('pixelColor').style.backgroundColor = clr;
+//     //save the string to use elsewhere
+//     APP.pixel = clr;
+//     //now get the average of the surrounding pixel colours
+//     APP.getAverage(ev);
+//   },
+//   getAverage(ev) {
+//     //create a 41px by 41px average colour square
+//     //replace everything in the canvas with the original image
+//     // let canvas = ev.target;
+//     let cols = APP.canvas.width;
+//     let rows = APP.canvas.height;
+//     //remove the current contents of the canvas to draw the image and box again
+//     APP.ctx.clearRect(0, 0, cols, rows);
+//     //add the image from memory
+//     APP.ctx.drawImage(APP.img, 0, 0);
+//     let { offsetX, offsetY } = ev;
+//     const inset = 20;
+//     //inset by 20px as our workable range(to stop the box from exiting the canvas element)
+//     offsetX = Math.min(offsetX, cols - inset);
+//     offsetX = Math.max(inset, offsetX);
+//     offsetY = Math.min(offsetY, rows - inset);
+//     offsetY = Math.max(offsetY, inset);
+//     //create a 41 x 41 pixel square for the average
+//     let reds = 0; //total for all the red values in the 41x41 square
+//     let greens = 0;
+//     let blues = 0;
+//     //for anything in the range (x-20, y-20) to (x+20, y+20)
+//     for (let x = -1 * inset; x <= inset; x++) {
+//       for (let y = -1 * inset; y <= inset; y++) {
+//         let c = APP.getPixelColor(cols, offsetY + y, offsetX + x);
+//         reds += c.red;
+//         greens += c.green;
+//         blues += c.blue;
+//       }
+//     }
+//     let nums = 41 * 41; //total number of pixels in the box
+//     let red = Math.round(reds / nums);
+//     let green = Math.round(greens / nums);
+//     let blue = Math.round(blues / nums);
+//     //create a colour string for the average colour
+//     let clr = `rgb(${red}, ${green}, ${blue})`;
+//     //now draw an overlaying square of that colour
+//     //make the square twice as big as the sample area
+//     APP.ctx.fillStyle = clr;
+//     APP.ctx.strokeStyle = '#FFFFFF';
+//     APP.ctx.strokeWidth = 2;
+//     //save the average colour for later
+//     APP.average = clr;
+//     APP.ctx.strokeRect(offsetX - inset, offsetY - inset, 41, 41);
+//     APP.ctx.fillRect(offsetX - inset, offsetY - inset, 41, 41);
+//   },
+//   getPixelColor(cols, x, y) {
+//     //see grid.html as reference for this algorithm
+//     let pixel = cols * x + y;
+//     let arrayPos = pixel * 4;
+//     return {
+//       red: APP.data[arrayPos],
+//       green: APP.data[arrayPos + 1],
+//       blue: APP.data[arrayPos + 2],
+//       alpha: APP.data[arrayPos + 3],
+//     };
+//   },
+//   addBox(ev) {
+//     //user clicked. Let's add boxes below with the pixel and the average
+//     let colours = document.querySelector('.colours');
+//     let pixel = document.createElement('span');
+//     pixel.className = 'box';
+//     pixel.setAttribute('data-label', 'Exact pixel');
+//     pixel.setAttribute('data-color', APP.pixel);
+
+//     let average = document.createElement('span');
+//     average.className = 'box';
+//     average.setAttribute('data-label', 'Average');
+//     average.setAttribute('data-color', APP.average);
+
+//     pixel.style.backgroundColor = APP.pixel;
+//     average.style.backgroundColor = APP.average;
+//     colours.append(pixel, average);
+//   },
+// };
+
+// document.addEventListener('DOMContentLoaded', APP.init);
+
+// ------------------Debugger keyword------------
+// https://youtu.be/fs8PwQAx_Tw
+
+// let x = 1;
+// const doClick = (ev)=>{
+//     x = 4;
+//     debugger;
+//     console.log('the debugger is enabled');
+//     x = 7;
+// };
+
+// document.addEventListener('DOMContentLoaded', ()=>{
+//     document.body.addEventListener('click', doClick);
+// });
+
+
+// ------------------forms in js--------------------
+/*
+- if there is a button inside a form once you click it will submit the form even the button 
+type is not submit
+- you can add value attribute to input element in HTML File and this will be default value 
+of this input field and you can write anything inside input field to change it
+- to clear form you can use reset() method
+*/
+// let movies = [];
+// // example {id:1592304983049, title: 'Deadpool', year: 2015}
+// const addMovie = (ev)=>{
+//     ev.preventDefault();  //to stop the form submitting
+//     let movie = {
+//         id: Date.now(),
+//         title: document.getElementById('title').value,
+//         year: document.getElementById('yr').value
+//     }
+//     movies.push(movie);
+//     document.forms[0].reset(); // to clear the form for the next entries
+//     //document.querySelector('form').reset();
+
+//     //for display purposes only
+//     console.warn('added' , {movies} );
+//     let pre = document.querySelector('#msg pre');
+//     pre.textContent = '\n' + JSON.stringify(movies, '\t', 2);
+
+//     //saving to localStorage
+//     localStorage.setItem('MyMovieList', JSON.stringify(movies) );
+// }
+// document.addEventListener('DOMContentLoaded', ()=>{
+//     document.getElementById('btn').addEventListener('click', addMovie);
+// });
+
+// ----------------------MultiLingual----------------
+// //language data... could come from an external js/json file
+// let langdata = {
+//   "languages": {
+//       "en": {
+//           "strings": {
+//               "btn-yes": "yes",
+//               "btn-no": "no"
+//           }
+//       },
+//       "fr": {
+//           "strings": {
+//               "btn-yes": "oui",
+//               "btn-no": "non"
+//           }
+//       },
+//       "de": {
+//           "strings": {
+//               "btn-yes": "ja",
+//               "btn-no": "nein"
+//           }
+//       }
+//   }
+// }
+// //apply the language values to the content
+// document.addEventListener('DOMContentLoaded', () => {
+//   //skip the lang value in the HTML tag for this example
+//   let zones = document.querySelectorAll('html [lang]');
+//   applyStrings(zones);
+
+//   let lang = findLocaleMatch();
+//   let container = document.querySelector(`html [lang*=${lang}]`);
+//   container.className = 'lang-match';
+// });
+
+// function applyStrings(containers) {
+//   containers.forEach(container => {
+//       //find all the elements that have data-key
+//       let locale = container.getAttribute('lang');
+//       //console.log('looking inside of ', locale);
+//       container.querySelectorAll(`[data-key]`).forEach(element => {
+//           let key = element.getAttribute('data-key');
+//           //console.log(element);
+//           //console.log(key);
+//           let lang = locale.substr(0, 2); //first 2 characters
+//           if (key) {
+//               element.textContent = langdata.languages[lang].strings[key];
+//           }
+//       });
+//   })
+// }
+
+// function findLocaleMatch() {
+//   let keys = Object.keys(langdata.languages); //from our data
+//   let locales = Intl.getCanonicalLocales(keys); //from our data validated
+
+//   let lang = navigator.language; //from browser 
+//   let locale = Intl.getCanonicalLocales(lang); //from browser validated
+//   console.log('browser language', lang);
+//   console.log('locales from data file', locale);
+
+//   //find the match for locale inside locales
+//   let langMatch = document.documentElement.getAttribute('lang'); //default
+//   locales = locales.filter(l => locale == l);
+//   langMatch = (locales.length > 0) ? locales[0] : langMatch;
+//   return langMatch;
+// }
+
+// --------------------Google Map API  (needs KEY)-----------------------
+// let map;
+// document.addEventListener("DOMContentLoaded", () => {
+//     let s = document.createElement("script");
+//     document.head.appendChild(s);
+//     s.addEventListener("load", () => {
+//         //script has loaded
+//         console.log("script has loaded");
+//         // accept 2 arguments (the element that you will put the map inside it , options object)
+//         map = new google.maps.Map(document.getElementById("map"), {
+//             center: {
+//                 lat: 45.3496711,
+//                 lng: -75.7569551
+//             },
+//             zoom: 16, // zoom from 1 to 70
+//             mapTypeId: google.maps.MapTypeId.ROADMAP // type of map Road or satellite 
+//         });
+//     });
+//     // he created a js file with MAPKEY and added to HTML File <script src="./keys.js"></script> 
+//     s.src = `https://maps.googleapis.com/maps/api/js?key=${MAPKEY}`; 
+// });
+
+// ---------------------Google MAP controls (needs KEY)---------------
+// let map;
+// document.addEventListener("DOMContentLoaded", () => {
+//   let s = document.createElement("script");
+//   document.head.appendChild(s);
+//   s.addEventListener("load", () => {
+//       //script has loaded
+//       console.log("script has loaded. About to load the map");
+//       map = new google.maps.Map(document.getElementById("map"), {
+//           center: {
+//               lat: 45.4496711,
+//               lng: -75.6569551
+//           },
+//           zoom: 15,
+//           mapTypeId: google.maps.MapTypeId.ROADMAP,
+//           restriction: { // the area where user is allowed to move inside
+//               latLngBounds: {
+//                   north: 50.00,
+//                   south: 40.00,
+//                   west: -100.00,
+//                   east: -60.00,
+//               }
+//           },
+//           minZoom: 10,
+//           maxZoom: 17,
+//           disableDoubleClickZoom: false,
+//           clickableIcons: false,
+//           disableDefaultUI: true, //set of default controls when map loads => we can disable it and add what we want of controls
+//           zoomControl: true,
+//           zoomControlOptions: {
+//               position: google.maps.ControlPosition.RIGHT_CENTER
+//           },
+//           mapTypeControl: true, // to choose map type (roadmap, hybrid, satelite)
+//           mapTypeControlOptions: {
+//               style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+//               mapTypeIds: ["roadmap", "terrain", "satellite"],
+//               position: google.maps.ControlPosition.LEFT_TOP
+//           },
+//           fullscreenControl: true,
+//           fullscreenControlOptions: {
+//               position: google.maps.ControlPosition.RIGHT_TOP
+//           },
+//           scaleControl: false,
+//           streetViewControl: true,
+//           streetViewControlOptions: {
+//               position: google.maps.ControlPosition.RIGHT_BOTTOM
+//           },
+//           rotateControl: true
+//       });
+//   });
+//   s.src = `https://maps.googleapis.com/maps/api/js?key=${MAPKEY}`;
+// });
+
+
+// ------------------Google Maps Events and markers (needs KEY)--------------------
+// let app = {
+//   map: null,
+//   currentMarker: null,
+//   defaultPos: {
+//     coords: {
+//       latitude: 45.555,
+//       longitude: -75.555
+//     }
+//   }, //default location to use if geolocation fails
+//   init: function() {
+//     // deviceready on mobile -- on web use  DOMContentLoaded
+//     document.addEventListener("deviceready", app.ready);
+//   },
+//   ready: function() {
+//     //load the google map script
+//     let s = document.createElement("script");
+//     document.head.appendChild(s);
+//     s.addEventListener("load", app.mapScriptReady);
+//     s.src = `https://maps.googleapis.com/maps/api/js?key=${MAPKEY}`;
+//   },
+//   mapScriptReady: function() {
+//     //script has loaded. Now get the location
+//     if (navigator.geolocation) {
+//       let options = {
+//         enableHighAccuracy: true,
+//         timeout: 20000,
+//         maximumAge: 1000 * 60 * 60
+//       };
+//       navigator.geolocation.getCurrentPosition(
+//         app.gotPosition,
+//         app.failPosition,
+//         options
+//       );
+//     } else {
+//       //not supported
+//       //pass default location to gotPosition
+//       app.gotPosition(app.defaultPos);
+//     }
+//   },
+//   gotPosition: function(position) {
+//     console.log("gotPosition", position.coords);
+//     //build the map - we have deviceready, google script, and geolocation coords
+//     app.map = new google.maps.Map(document.getElementById("map"), {
+//       zoom: 12,
+//       center: {
+//         lat: position.coords.latitude,
+//         lng: position.coords.longitude
+//       },
+//       disableDoubleClickZoom: true
+//     });
+//     //add map event listeners
+//     app.addMapListeners();
+//   },
+//   addMapListeners: function() {
+//     console.log("addMapListeners");
+//     //add double click listener to the map object
+//     app.map.addListener("dblclick", app.addMarker);
+//   },
+//   addMarker: function(ev) {
+//     console.log("addMarker", ev);
+//     let marker = new google.maps.Marker({
+//       map: app.map,
+//       draggable: false,
+//       position: {
+//         lat: ev.latLng.lat(),
+//         lng: ev.latLng.lng()
+//       }
+//     });
+//     //add click listener to Marker
+//     marker.addListener("click", app.markerClick);
+//     //add double click listener to Marker
+//     marker.addListener("dblclick", app.markerDblClick);
+//   },
+//   markerClick: function(ev) {
+//     console.log("Click", ev);
+//     console.log(this);
+//     let marker = this; // to use the marker locally
+//     app.currentMarker = marker; //to use the marker globally
+//     app.map.panTo(marker.getPosition());
+//   },
+//   markerDblClick: function(ev) {
+//     console.log("Double Click", ev);
+//     console.log(this);
+//     let marker = this; //to use the marker locally
+//     //app.currentMarker = marker; //to use the marker globally
+//     //remove the marker from the map
+//     marker.setMap(null);
+//     app.currentMarker = null;
+//   },
+//   failPosition: function(err) {
+//     console.log("failPosition", err);
+//     //failed to get the user's location for whatever reason
+//     app.gotPosition(app.defaultPos);
+//   }
+// };
+
+// app.init();
+
+/**
+ * google.maps.Marker object can listen to:
+ * click
+ * dblclick
+ * mouseup
+ * mousedown
+ * mousemove
+ * mousecancel... and more
+ * See: https: //developers.google.com/maps/documentation/javascript/reference/#Marker
+ */
+
+
+// ------------------------formData-----------------------
+/*
+- formData is iterable
+- formData accept HTMLFormElement as parameter
+- when you append data will be added inside formData as array so you can say formData is an object of arrays
+- you can append (name , value ) or you can append blob and then send it to the server
+
+The special thing about FormData is that network methods, such as fetch, 
+can accept a FormData object as a body. It’s encoded and sent out with 
+Content-Type: multipart/form-data.
+From the server point of view, that looks like a usual form submission.
+*/
+// document.addEventListener('DOMContentLoaded', () => {
+//   let fd = new FormData();
+//   fd.append('name', 'Bubba');
+//   fd.append('id', 1234);
+//   fd.append('created_dt', Date.now());
+//   console.log(Array.from(fd));
+
+//   for (let obj of fd) {
+//       console.log(obj)
+//   }
+
+//   document.querySelector('#output pre').textContent = JSON.stringify(Array.from(fd), '\t', 2);
+//   // let url = 'http://www.example.com/';
+//   // let req = new Request({
+//   //     url: url,
+//   //     body: fd
+//   // })
+//   // fetch(req)
+//   // .then(response => response.json() )
+//   // .then( data => {})
+//   // .catch( err => {})
+
+// });
+
+// ---------------Use the FormData API to access form values in JavaScript------------- 
+// function handleSubmit(event) {
+//   event.preventDefault();
+
+//   const data = new FormData(event.target);
+
+//   const value = data.get('email');
+
+//   console.log({ value });
+// }
+
+// const form = document.querySelector('form');
+// form.addEventListener('submit', handleSubmit);
+
+// -------------Get multi-select values like checkboxes as JSON with the FormData API----------
+// function handleSubmit(event) {
+//   event.preventDefault();
+//   const data = new FormData(event.target);
+
+//   // The entries() method returns a new Array iterator object 
+//   // The Object.fromEntries(iterable) method transforms a list of key-value pairs into an object.
+//   const value = Object.fromEntries(data);
+
+//   value.topics = data.getAll("topics");
+
+//   console.log({ value });
+// }
+
+// const form = document.querySelector("form");
+// form.addEventListener("submit", handleSubmit);
+
