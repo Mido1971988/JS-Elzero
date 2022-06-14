@@ -16488,8 +16488,10 @@ JS :
 // let url3 = "https://api.github.com/search/repositories?q=user:Mido1971988"  
 // // API for list of files inside Repo
 // let url4 = "https://api.github.com/repos/Mido1971988/Private-Repo/git/trees/master?recursive=1"
-// // API to get file from Repo return metadata not raw content so you have to decode content first
+// // API to get file from private Repo return metadata not raw content so you have to decode content first
 // let url5 = "https://api.github.com/repos/Mido1971988/Private-Repo/contents/darksky-sample.json"
+// // API to get file from public Repo return metadata not raw content so you have to decode content first
+// let url6 = "https://api.github.com/repos/Mido1971988/Public-Repo/contents/slideshow.json"
 
 
 // // -----My Github Public API 
@@ -16500,21 +16502,20 @@ JS :
 // //   .catch(err => console.log(err)) 
 
 // // -----My Github Private API
-
-// let request = new Request (url5,{
+// let request = new Request (url6,{
 //   method : "GET",
 //   headers : {
-//     "Authorization" : "token " +"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",
+//     "Authorization" : "token " +"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", // token or Bearer
 //     "content-type": "application/json"
 //   },
 //   mode : "cors",
 //   cache : "default"
 // })
 
-// // fetch(request)
-// //   .then(response => (response).json())
-// //   .then(data => console.log(data))
-// //   .catch(err => console.log(err))
+// fetch(request)
+//   .then(response => (response).json())
+//   .then(data => console.log(data))
+//   .catch(err => console.log(err))
 
 // fetch(request)
 //   .then(response => (response).json())
@@ -19772,3 +19773,185 @@ From the server point of view, that looks like a usual form submission.
 // const form = document.querySelector("form");
 // form.addEventListener("submit", handleSubmit);
 
+// ------------------clientX - clientY - pageX - pageY - offsetX - offsetY------------
+/*
+- clientX ,  clientY => distance from visible area from page to the click
+- pageX , pageY => distnace from page to the click (not only the visible) so without scrolling client and page will be the same
+- screenX, screenY => distnace from screen of computer(not the browser) to the click
+- offsetX, offsetY => distnace from element edge to the click 
+ */
+// document.addEventListener('DOMContentLoaded', () => {
+//   document.addEventListener('click', f);
+// });
+
+// function f(ev) {
+//   console.log(ev.target.tagName, 'clicked');
+//   console.log('clientX', ev.clientX);
+//   console.log('pageX', ev.pageX);
+//   console.log('screenX', ev.screenX);
+//   console.log('offsetX', ev.offsetX);
+//   console.log('clientY', ev.clientY);
+//   console.log('pageY', ev.pageY);
+//   console.log('screenY', ev.screenY);
+//   console.log('offsetY', ev.offsetY);
+
+// }
+
+
+// -------------------Parent Element in DOM-----------
+// //walking up the DOM looking for a specific element
+// document.addEventListener('DOMContentLoaded', () => {
+//   let spans = document.querySelectorAll('span');
+//   spans.forEach(span => {
+//       span.addEventListener('click', findElement);
+//   });
+// });
+
+
+// function findElement(ev) {
+//   ev.preventDefault(); //to stop the link navigating
+//   let toFind = 'div'; // name of the tag we want to find.
+//   //this could also be a reference to another element
+//   //could be an id
+//   //could be a className
+
+//   let currentElement = ev.target;
+//   while (toFind !== currentElement.tagName.toLowerCase() &&
+//       currentElement.tagName.toLowerCase() !== 'html') {
+//       console.log('NOT', currentElement.tagName);
+//       currentElement = currentElement.parentElement;
+//   }
+//   console.log('STOPPED AT ', currentElement)
+// }
+
+
+// ---------------insertBefore and insertAdjacentElement------------   
+/*
+- difference between prepend and insertBefore:
+prepend will always insert new element node at the beginnig of target element
+insertBefore will insert new element node before specific child which you decide at 2nd param
+
+- difference between insertBefore and insertAdjacentElement :
+insertAdjacentElement you have 4 options => 'beforebegin', 'afterbegin', 'beforeend', 'afterend'
+so you cannot insert the new element before specific child
+ */
+
+//https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement
+// parentNode.insertBefore(newNode, referenceNode);
+//
+//https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore
+// targetElement.insertAdjacentElement(position, NewElement);
+// let count = 0;
+// document.addEventListener('DOMContentLoaded', () => {
+//   document.body.addEventListener('click', (ev) => {
+//       let main = document.querySelector('main');
+//       let originalPara = main.querySelector('.original');
+//       let p = document.createElement('p');
+//       count++;
+//       p.textContent = `This is paragraph ${count} created by insertBefore.`;
+//       main.insertBefore(p, originalPara);
+//       // main.prepend(p)
+//       //main.appendChild(p); - after originalPara as the last element in main
+//   });
+
+//   document.body.addEventListener('dblclick', (ev) => {
+//       let main = document.querySelector('main');
+//       let p = document.createElement('p');
+//       p.textContent = 'This is paragraph created by insertAdjacentElement.';
+//       main.insertAdjacentElement('beforeend', p);
+//       // 'beforebegin', 'afterbegin', 'beforeend', 'afterend'
+//   });
+
+// });
+
+//------------------------------------Cookies---------------------------
+/*  Cookies vs LocalStorage 
+- Cookies are primarily for reading server-side 
+- local storage can only be read by the client-side
+- I recommend using Cookie for sensitive data and Local Storage for non-sensitive data.
+
+----Cookies : 
+* is accessible by JavaScript so Cookie's data can be stolen by XSS attack
+(Cross Site Scripting attack) but setting HttpOnly flag to Cookie prevents the access 
+by JavaScript so Cookie's data is protected from XSS attack.
+
+* is vulnerable to CSRF(Cross Site Request Forgery) but setting SameSite flag with Lax 
+to Cookie mitigates CSRF and setting SameSite flag with Strict to Cookie prevents CSRF.
+
+* Storage 4kb
+
+* cookies are sent with every HTTP
+
+* Cookies Has expiration date.
+
+----LocalStorage: 
+* is accessible by JavaScript so Local Storage's data can be stolen by XSS attack
+(Cross Site Scripting attack) then, as logn as I researched, there are no easy preventions 
+for Local Storage from XSS attack.
+
+* is not vulnerable to CSRF(Cross Site Request Forgery).
+
+* Storage 5mb
+
+* Local storage Is not sent with every HTTP request If the server needs stored 
+client information you purposely have to send it.
+
+* LocalStorage does not Has expiration date.
+
+*/
+// document.addEventListener('DOMContentLoaded', () => {
+
+//   document.body.addEventListener('click', (ev) => {
+//       //display the current cookie and display it in the output div
+//       if (document.cookie) {
+//           document.getElementById('output').textContent = document.cookie;
+//           //this will output all the key=value pairs
+//       } else {
+//           document.getElementById('output').textContent = 'No cookies currently';
+//       }
+//       console.log(document.cookie.split(';'));
+//   });
+
+//   //you can only one cookie at a time
+//   document.getElementById('btnAdd').addEventListener('click', (ev) => {
+//       //set a cookie 
+//       let key = 'score';
+//        // we use encodeURIComponent incase of using special charachters inside value
+//       let value = encodeURIComponent('8745683465');
+//       let thirty = 60 * 60 * 24 * 30;
+//       document.cookie = `${key}=${value};path=/;max-age=${thirty};`;
+//       // theme=gold;   score=102923873;  trackingid=AB3453453DF;
+//       /**
+//       ;path= absolute path. current path by default.
+//       ;domain=sub.example.com current domain by default.
+//       => max-age and expires used to set expiry date to allow the browser to delete the cookie
+//       ;max-age= seconds  60*60*24*30  30 days 
+//       ;expires= UTC date. end of current session by default  
+//       ;secure=true 
+//       ;same-site=Strict | Lax => strict means only request accepted from same domain
+//       **/
+//   });
+
+//   // to delete cookie you have to set same path of cookie and set expiry to old date
+//   document.getElementById('btnDel').addEventListener('click', (ev) => {
+//       //delete a cookie
+//       let key = 'theme';
+//       document.cookie = `${key}=;path=/;expires=Thu, 01 Jan 1970T00:00:00Z;`;
+//   });
+
+//   document.getElementById('btnFind').addEventListener('click', (ev) => {
+//       //find if a cookie exist
+//       let key = 'hallo';
+//       let val = '';
+//       if (document.cookie.split(';').filter(item => item.trim().startsWith(`${key}=`))
+//           .length) {
+//           //cookie that starts with key= exists
+//           document.getElementById('output').textContent = `${key} key is found`;
+//       } else {
+//           document.getElementById('output').textContent = `${key} key is NOT found`;
+//       }
+//       ev.stopPropagation(); // to prevent event bubbling and not to trigger event that check document.cookie
+//   });
+// });
+
+// -------------------
