@@ -6628,6 +6628,14 @@ information or null on a mismatch.
 - replaceAll() : Executes a search for all matches in a string, and replaces the matched substrings with a replacement substring.
 - split() : Uses a regular expression or a fixed string to break a string into an array of substrings.
 
+** they give you same result => 
+
+-Method of RegExp : 
+reg[Symbol.match](txt) 
+is the same 
+-Method of String used with RegExp:
+txt.match(reg)
+
 ** Instance properties : 
 RegExp.prototype.flags : A string that contains the flags of the RegExp object.
 RegExp.prototype.dotAll : Whether . matches newlines or not.
@@ -16909,7 +16917,7 @@ will be false if width less than 601px
  * IntersectionObserver
 ******
 - all Constructors of 3 types accept callback function as parameters
-- all instance of 3 types accept html element as parameter
+- all instance of 3 types has method observe() whichs accept html element as parameter
 but : 
 - instance of MutationObserver accept configuration object as 2nd parameter
 - Constructor of IntersectionObserver accept options object as 2nd parameter
@@ -19955,3 +19963,84 @@ client information you purposely have to send it.
 // });
 
 // -------------------
+
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   document.body.addEventListener("click", getData);
+// });
+
+// function getData(ev) {
+//   ev.preventDefault();
+//   const url = "http://127.0.0.1:1234/api/requestHTML.js";
+//   // const url = "./html/snippet.html";
+//   let req = new Request(url, {
+//     method: "GET"
+//   });
+
+//   fetch(req)
+//     .then(response => response.text())
+//     .then(text => {
+//       console.log(text)
+//       let main = document.querySelector("main");
+//       //text will be the text contents of the file.
+//       //Version 1
+//       //main.innerHTML = text;
+
+//       //Version 2
+//       //new document created
+//       // let doc = new DOMParser().parseFromString(text, "text/html");
+//       // console.dir(doc);
+//       // let div = doc.body.firstElementChild; //the div from our file
+//       // main.appendChild(div);
+
+//       //Version 3
+//       let frag = document.createRange().createContextualFragment(text);
+//       // console.log(frag); //creates a document fragment
+//       main.appendChild(frag);
+//     })
+//     .catch(err => {
+//       console.warn("Fetch Failed:", err.message);
+//     });
+// }
+
+// ------------------Infinite Scroll | Lazy Load using IntersectionObserver API-------
+// const URL ="https://gist.githubusercontent.com/prof3ssorSt3v3/1944e7ba7ffb62fe771c51764f7977a4/raw/c58a342ab149fbbb9bb19c94e278d64702833270/infinite.json";
+// document.addEventListener("DOMContentLoaded", () => {
+// //set up the IntersectionObserver to load more images if the footer is visible.
+// //URL - https://gist.githubusercontent.com/prof3ssorSt3v3/1944e7ba7ffb62fe771c51764f7977a4/raw/c58a342ab149fbbb9bb19c94e278d64702833270/infinite.json
+// let options = {
+//   root: null,
+//   rootMargins: "0px",
+//   threshold: 0.5
+// };
+// const observer = new IntersectionObserver(handleIntersect, options);
+// observer.observe(document.querySelector("footer"));
+// //an initial load of some data
+// getData();
+// });
+// function handleIntersect(entries) {
+// if (entries[0].isIntersecting) {
+//   console.warn("something is intersecting with the viewport");
+//   getData();
+// }
+// }
+// function getData() {
+// let main = document.querySelector("main");
+// console.log("fetch some JSON data");
+// fetch(URL)
+//   .then(response => response.json())
+//   .then(data => {
+//     // data.items[].img, data.items[].name
+//     data.items.forEach(item => {
+//       let fig = document.createElement("figure");
+//       let fc = document.createElement("figcaption");
+//       let img = document.createElement("img");
+//       img.src = item.img;
+//       img.alt = item.name;
+//       fc.textContent = item.name;
+//       fig.appendChild(img);
+//       fig.appendChild(fc);
+//       main.appendChild(fig);
+//     });
+//   });
+// }
