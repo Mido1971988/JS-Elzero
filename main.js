@@ -20044,3 +20044,120 @@ client information you purposely have to send it.
 //     });
 //   });
 // }
+
+// ----------------closest and matches and querySelector-------------
+/*
+- querySelector => return first match
+- matches => return boolean if this element match these selectors
+- closest => return match element if not match search in parent chain but not brothers (if didn't find maych return null)
+*/
+// document.addEventListener("DOMContentLoaded", () => {
+//   let target1 = document.querySelector(".para");
+//   let target2 = document.querySelector("#second");
+//   target1.addEventListener("click", clicked);
+//   target2.addEventListener("click", clicked);
+// });
+// function clicked(ev) {
+//   ev.preventDefault();
+//   msg(ev.target + " " + ev.target.closest("#first"));
+//   let obj = ev.target.closest("#first");
+//   if (obj) {
+//     //not null
+//     obj.classList.add("active");
+//   }
+//   if (ev.target.matches("body main p#first")) {
+//     //if (ev.target === document.querySelector("#first")) {
+//     //msg("MATCHES", true);
+//   } else {
+//     //msg("NO MATCH", true);
+//   }
+// }
+// function msg(txt, append = false) {
+//   let out = document.querySelector(".output");
+//   if (append) {
+//     out.textContent += " " + txt;
+//   } else {
+//     out.textContent = txt;
+//   }
+// }
+
+// ---------------------------------Defer and Async--------------------------
+/*
+The difference between async and defer centers around when the script is executed. 
+Each async script executes at the first opportunity after it is finished downloading 
+and before the window’s load event. This means it’s possible (and likely) that async scripts 
+are not executed in the order in which they occur in the page. Whereas the defer scripts, 
+on the other hand, are guaranteed to be executed in the order they occur in the page. 
+That execution starts after parsing is completely finished, but before the document’s 
+DOMContentLoaded event.
+*/
+// document.addEventListener("DOMContentLoaded", () => {
+//   //runs after the DOMContentLoaded event ... if the script is loaded
+//   let h1 = document.querySelector("h1");
+//   for (let i = 0; i < 1000; i++) {
+//     h1.textContent += String.fromCharCode(Math.floor(Math.random() * 60) + 65);
+//   }
+// });
+
+// //this code is parse and run...
+// let str = "";
+// for (let i = 0; i < 50000; i++) {
+//   str += String.fromCharCode(Math.floor(Math.random() * 60) + 65);
+// }
+// console.log(str.substring(49500)); //last 500 characters
+
+// ------------------------Content-Security-Policy--------------------
+/*
+<meta http-equiv="Content-Security-Policy" 
+content="default-src 'self' data: gap: 'unsafe-eval' ws: ; 
+style-src 'self' 'unsafe-inline'; 
+script-src https: *.example.com ;
+script-src 'sha256-zDSuWEvMbUxpisGOj30WQX1RQac766zuqm2VKdc6sGA=';" // using SHA (Secure Hash Algorithm)
+media-src 'none'; 
+font-src *;
+connect-src *;
+img-src 'self' data: content:;">
+<!--
+Also
+base-uri /abc/; - limit to content in this folder  v2
+form-action ; - limit where forms can be sent  v2
+
+VALUES
+'self' - anything from the same origin
+data: - data-uri (base64 images)
+gap: - phonegap and cordova used by plugins on iOS
+ws: - web sockets
+* - anything except data: and blobs
+filesystem: - access things on the local filesystem
+blob: - allow Binary Large OBjects
+mediastream: - allow streamed media
+content: - used by Cordova
+'none' - prevent anything in the category
+https: - anything over https://
+*.example.com - anything from any subdomain of example.com
+'unsafe-inline' - allow inline source elements like style attribute, onclick, or script tags 
+'unsafe-eval' - allow javascript eval( ). 
+--></meta>
+*/
+
+// ----------------XSS and integrity attribute on script Tag----------------------
+/*
+to get SHA-256 open terminal and go to location of file and then type 
+( openssl dgst -sha256 -binary main.js | openssl base64 -A )
+*/
+// document.getElementById('btn').addEventListener('click', (ev)=>{
+//     ev.preventDefault();
+//     //this is the simulated response
+//     let url = 'http://127.0.0.1:5500/json/nefarious.json';
+//     fetch(url)
+//     .then(response => response.json() )
+//     .then( data => {
+//         let p = document.createElement('p');
+//         let content = decodeURIComponent(data.content);
+//         console.log(content);
+//         p.innerHTML = content;
+//         document.getElementById('output').appendChild(p);
+//     })
+//     console.log(document.cookie)
+// })
+

