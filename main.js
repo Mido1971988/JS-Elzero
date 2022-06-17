@@ -2206,6 +2206,26 @@ functions, and objects based on their physical location in the source code
 The way that JavaScript resolves a variable is by looking at it in its current scope,
 if it cannot find the variable, it goes up to the outer scope, which is called the scope chain.
 
+
+Scope refers to the part of a program where we can access a variable. 
+JavaScript allows us to nest scopes, and variables declared in outer scopes are accessible 
+from all inner ones. Variables can be globally-, local-, or block-scoped.
+Using lexical scope( static scope ) we can determine the scope of the variable 
+just by looking at the source code. Whereas in the case of dynamic scoping 
+the scope can’t be determined until the code is executed. (JS has Static Scope not Dynamic Scope)
+
+A new lexical environment is created for each lexical scope but only when the code in 
+that scope is executed. The lexical environment also has a reference to its outer lexical environment
+
+A new lexical environment is created only for let and const declarations, not var declarations.
+var declarations are added to the current lexical environment (global or function lexical environment).
+
+A closure is a function enclosed with references to the variables in its outer scope. 
+Closures allow functions to maintain connections with outer variables, 
+even outside the scope of the variables.
+closures do not just freeze the values of variables from a function’s outer scope 
+during creation. Instead, they maintain the references throughout the closure’s lifetime.
+
 use strict will prevent Global Variable leaks (The global scope also doesn’t have the counter variable, so the JavaScript engine creates the counter variable in the global scope.)
 'use strict'
 counter =10;
@@ -20161,3 +20181,89 @@ to get SHA-256 open terminal and go to location of file and then type
 //     console.log(document.cookie)
 // })
 
+
+// ----------------------SVG(Scalable Vector Graphics)----------------------------
+/*
+* Circle : r = radius / cx & cy =  position of the center of the circle 
+          fill = color of cirlce / stroke = color of border / stroke-width = width of border
+* rect   : rx & ry = round of corners / x & y = position of the start(point left 0 top 0) of the rectangle
+* line   : x1 , y1 = position of starting point of the line /  x2 , y2 = position of ending point of the line
+
+<svg width="250" height="250">
+  <circle r ="120" cx="125" cy="125" fill="none" stroke="red" stroke-width="10"/>
+  <circle r ="70" cx="125" cy="125" fill="none" stroke="red" stroke-width="10"/>
+  <rect rx="15" ry="15" x="25" y="25" height="200" width="200" fill="blue"/>
+  <line x1="10" y1="125" x2="225" y2="225" stroke="green" stroke-width="20"/>
+</svg>
+*/
+
+// -----------------------------------Pointer Event----------------------------
+/*
+- add in css File touch-action:none; because browser has a built in events
+like pull-down to refresh , two fingers to zoom in and out ,.... etc.
+and you should disable all of this ( like ev.preventDefault())
+
+- setPointerCapture : 
+to capture all pointer events at whole screen to timeline 
+(when you move mouse on time line you should not be at exact timeline area you can be up or down no problem)
+no need for setPointerCapture in mobile ( works without it )
+if you will use it then add if statment stop at 1--% percentage if you did not add this
+the timeline will continue to increase after mouse moving oustide the browser because 
+we are capture all pointer events at whole screen
+
+- getBoundingClientRect : 
+The getBoundingClientRect() method returns the size of an element and 
+its position relative to the viewport.
+The getBoundingClientRect() method returns a DOMRect object with eight 
+properties: left, top, right, bottom, x, y, width, height.
+*/
+
+// const video = document.querySelector(".video")
+// const timeline = document.querySelector(".timeline")
+
+// -----touch screen adn add dots 
+
+// video.addEventListener("pointerdown", e => {
+//   const dot = document.createElement("div")
+//   dot.classList.add("dot")
+//   dot.id = e.pointerId
+//   positionDot(e, dot)
+//   document.body.append(dot)
+// })
+
+// video.addEventListener("pointerup",e =>{
+//   const dot = document.getElementById(e.pointerId)
+//   if (dot == null) return 
+//   dot.remove()
+// })
+
+// video.addEventListener("pointermove",e =>{
+//   const dot = document.getElementById(e.pointerId)
+//   if (dot == null) return 
+//   positionDot(e, dot)
+// })
+
+// function positionDot(e, dot){
+//   dot.style.width = `${e.width}px`
+//   dot.style.height = `${e.height}px`
+//   dot.style.left = `${e.pageX}px`
+//   dot.style.top = `${e.pageY}px`
+// }
+
+// ---moving timeline by touch and move
+// timeline.addEventListener("pointerdown", e=>{
+//   // timeline.setPointerCapture(e.pointerId) 
+//   setTimelinePositon(e)
+//   timeline.addEventListener("pointermove",setTimelinePositon)
+//   timeline.addEventListener("pointerup",()=>{
+//     timeline.removeEventListener("pointermove",setTimelinePositon)
+//   },{once : true}) // to trigger function only one time
+// })
+
+// function setTimelinePositon(e){
+//   const rect = timeline.getBoundingClientRect()
+//   let percentage = e.clientX / rect.width * 100
+//   if(percentage <= 100){ // to stop at 100%
+//     timeline.style.setProperty("--handle-position",`${percentage}%`)
+//   }
+// }
