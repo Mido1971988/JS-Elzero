@@ -1722,6 +1722,9 @@ background-color: goldenrod !important;
 }
  */
 
+/* .svg{
+    border: 2px solid black;
+} */
 
 /* :root{
     --handle-position : 10%;
@@ -1776,3 +1779,23 @@ body{
     background-color: red;
     transform: translate(-50%, -50%);
 } */
+
+.dot{
+    background-color: red;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+}
+
+#top-half{
+    background-color: black;
+    height: 100vh;
+    width: 100%;
+    touch-action: none;
+}
+
+body{
+    margin: 0;
+}

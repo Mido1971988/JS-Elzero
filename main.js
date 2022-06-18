@@ -9173,7 +9173,7 @@ data.json() return a promise object also
 //   })
 //   .catch((err) => console.log(`Rejected From all Promise no.: ${err}`))
 
-// // race will return fastet resolve
+// // race will return fastet resolve or reject
 // Promise.race([p1,p2,p3,p4])
 //   .then((result) => {
 //     console.log(`Resolved from race ${result}`)
@@ -9254,6 +9254,18 @@ will give us also (Promise {<Pending>}) because it's inside normal function and 
 // // will print the resolved value after 5 sec because we used then and wait till Promise to be resolved
 // promFunc().then(doubleSeven => console.log(doubleSeven))
 
+/* ------Async function without await 
+it's like normal function but the difference is Async functions always return a promise. 
+If the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise.
+*/
+// async function promFunc3(){
+//   return 88
+// }
+// // return {<fulfilled>: 88} because always Async function return 
+// console.log(promFunc3())
+// // will print the resolved value immediatly because we used then
+// promFunc3().then(result => console.log(result))
+
 /* ----Async Function + await
 Async Function return here myProm (Promise {<Pending>}) and when we try to console.log(myProm) 
 will give us (77) because it's inside Async function and we add await before promise to pause the excution
@@ -9274,18 +9286,6 @@ until the promise resolved and take value of resolved promise and assign it to m
 // console.log(promFunc2())
 // // will print the resolved value after 5 sec because we used then and wait till Promise to be resolved
 // promFunc2().then(doubleSeven => console.log(doubleSeven))
-
-/* ------Async function without await 
-it's like normal function but the difference is Async functions always return a promise. 
-If the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise.
-*/
-// async function promFunc3(){
-//   return 88
-// }
-// // return {<fulfilled>: 88} because always Async function return 
-// console.log(promFunc3())
-// // will print the resolved value immediatly because we used then
-// promFunc3().then(result => console.log(result))
 
 // ---------async with fetch
 // [1] without Async - Await
@@ -9332,23 +9332,23 @@ If the return value of an async function is not explicitly a promise, it will be
 //     console.log("From Finally")
 //   })
 
-// -------then accept upto 2 arguments 1st calback func is for resolved 2nd for rejected--------------
+// -------then accept upto 2 arguments 1st callback func is for resolved and 2nd for rejected--------------
 
 // let p1 = new Promise((resolve , reject)=>{
 //   // resolve("Resolved")
-//   // reject("Rejected")
-//   throw Error("Error")
+//   reject("Rejected")
+//   // throw Error("Error")
 // })
 // p1 
 //   .then((result)=> {
 //     console.log(`1st then 1st func : ${result}`)
-//     throw Error("Error from 1st then 1st func")
-//     return "Value from 1st then 1st func"
+//     // throw Error("Error from 1st then 1st func")
+//     // return "Value from 1st then 1st func"
 //   },
 //   (result)=>{
 //     console.log(`1st then 2nd func: ${result}`)
-//     throw Error("Error from 1st then 2nd func")
-//     return "Value from 1st then 2nd func"
+//     // throw Error("Error from 1st then 2nd func")
+//     // return "Value from 1st then 2nd func"
 //   })
 //   .then((result)=>console.log(`2nd then : ${result}`))
 //   .catch((err)=>console.log(`Catch: ${err}`))
@@ -11612,7 +11612,8 @@ Math.random() give you random number from 0 to 0.99999999
 
 /* 
 AJAX' works with 'callbacks'; 'fetch' works with 'promises'.
-Use JSON.parse() to parse the response for AJAX. Use json() to parse the response for fetch.
+Use JSON.parse() to parse the response for AJAX (response from AJAX is already read to read). 
+Use json() to parse the response for fetch (response from fetch need asynchronous function json() to read ).
 
 Body.json() is asynchronous and returns a Promise object that resolves to a JavaScript object. 
 JSON.parse() is synchronous can parse a string and change the resulting returned JavaScript object.
@@ -18006,7 +18007,7 @@ Steps :
 [1] Create Video Stream Using getUserMedia Method
 [2] Record the Stream Using MediaRecorder Constructor
 [3] show it to the user and download it or upload it on the server 
- */
+*/
 
 // works on mobile phone also but should on https not http
 
@@ -20184,12 +20185,13 @@ to get SHA-256 open terminal and go to location of file and then type
 
 // ----------------------SVG(Scalable Vector Graphics)----------------------------
 /*
+* viewBox: 0 0 means position of viewbox / 250 250 means width 250px height250px => it's like box of zoom
 * Circle : r = radius / cx & cy =  position of the center of the circle 
           fill = color of cirlce / stroke = color of border / stroke-width = width of border
 * rect   : rx & ry = round of corners / x & y = position of the start(point left 0 top 0) of the rectangle
 * line   : x1 , y1 = position of starting point of the line /  x2 , y2 = position of ending point of the line
 
-<svg width="250" height="250">
+<svg width="250" height="250" class="svg" viewBox="0 0 250 250">
   <circle r ="120" cx="125" cy="125" fill="none" stroke="red" stroke-width="10"/>
   <circle r ="70" cx="125" cy="125" fill="none" stroke="red" stroke-width="10"/>
   <rect rx="15" ry="15" x="25" y="25" height="200" width="200" fill="blue"/>
@@ -20267,3 +20269,87 @@ properties: left, top, right, bottom, x, y, width, height.
 //     timeline.style.setProperty("--handle-position",`${percentage}%`)
 //   }
 // }
+
+// --------------------touch event--------------------
+/*
+- we have three important properties of touch event : 
+[1] touches : array of total touches inside whole screen
+[2] targetTouches : array of total touches inside target
+[3] changedTouches : array of new finger touch and cause the event and always length will be one 
+    because it's too difficult to add two fingers at same time 1 milisecond difference will consider 2 different touches
+they are touch list and don't have forEach method that's why he used spread operator
+
+To better understand what might be in these lists, let’s go over some examples quickly. They vary according to the following rules:
+* When I put a finger down, all three lists will have the same information. It will be in changedTouches because putting the finger down is what caused the event
+* When I put a second finger down, touches will have two items, one for each finger. targetTouches will have two items only if the finger was placed in the same node as the first finger. changedTouches will have the information related to the second finger, because it’s what caused the event
+* If I put two fingers down at exactly the same time, it’s possible to have two items in changedTouches, one for each finger
+* If I move my fingers, the only list that will change is changedTouches and will contain information related to as many fingers as have moved (at least one).
+* When I lift a finger, it will be removed from touches, targetTouches and will appear in changedTouches since it’s what caused the event
+* Removing my last finger will leave touches and targetTouches empty, and changedTouches will contain information for the last finger
+
+- add in css File touch-action:none; because browser has a built in events
+like pull-down to refresh , two fingers to zoom in and click also out ,.... etc.
+and you should disable all of this 
+or you can add ev.preventDefault() to specific element will not work on document directly
+
+- touchcancel : if for some reason ( bad connection, bad screen , 
+or move from browser to another) so you can cancel the fucntion of touch 
+because touchup didn't work
+*/
+let topHalf = document.getElementById("top-half")
+
+// topHalf.addEventListener("touchstart", e => {
+//   e.preventDefault();
+//   console.log("touches", e.touches.length)
+//   console.log("targetTouches", e.targetTouches.length)
+//   console.log("Changed", e.changedTouches.length)
+  
+// })
+let counter = -1;
+document.addEventListener("touchstart",e => {
+  // e.preventDefault(); //will not work should be on specific element
+  
+  // here we can not use touches list because when i touch with finger and 
+  // hold then touch with 2nd finger if we use touches list will add 
+  // two dots at 2nd time triggring the function but with changedTouches
+  // the list will be only the 2nd finger touch
+  [...e.changedTouches].forEach(touch => {
+    counter++
+    const dot = document.createElement("div")
+    dot.classList.add("dot")
+    dot.style.top = `${e.touches[counter].clientY}px`
+    dot.style.left = `${e.touches[counter].clientX}px`
+    dot.id = touch.identifier
+    document.body.append(dot)
+  })
+})
+
+// we used here touches instead of changedTouches because touches list is not
+// empty because we move while still holding
+document.addEventListener("touchmove",e => {
+  [...e.touches].forEach(touch => {
+    const dot = document.getElementById(touch.identifier)
+    dot.style.top = `${touch.clientY}px`
+    dot.style.left = `${touch.clientX}px`
+  })
+})
+
+// here we should use changedTouches because it's the only list that has information
+// of last touch after removing your finger 
+document.addEventListener("touchend",e => {
+  [...e.changedTouches].forEach(touch => {
+    const dot = document.getElementById(touch.identifier)
+    dot.remove()
+    counter--
+  })
+})
+
+document.addEventListener("touchcancel", e => {
+  [...e.changedTouches].forEach(touch => {
+    const dot = document.getElementById(touch.identifier)
+    dot.remove()
+  })
+})
+
+
+
