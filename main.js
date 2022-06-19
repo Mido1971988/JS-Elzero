@@ -20199,19 +20199,117 @@ to get SHA-256 open terminal and go to location of file and then type
 </svg>
 */
 
+// --------------------touch event--------------------
+/*
+- we have three important properties of touch event : 
+[1] touches : array of total touches inside whole screen
+[2] targetTouches : array of total touches inside target
+[3] changedTouches : array of new finger touch and cause the event and always length will be one 
+    because it's too difficult to add two fingers at same time 1 milisecond difference will consider 2 different touches
+they are touch list and don't have forEach method that's why he used spread operator
+
+To better understand what might be in these lists, let’s go over some examples quickly. They vary according to the following rules:
+* When I put a finger down, all three lists will have the same information. It will be in changedTouches because putting the finger down is what caused the event
+* When I put a second finger down, touches will have two items, one for each finger. targetTouches will have two items only if the finger was placed in the same node as the first finger. changedTouches will have the information related to the second finger, because it’s what caused the event
+* If I put two fingers down at exactly the same time, it’s possible to have two items in changedTouches, one for each finger
+* If I move my fingers, the only list that will change is changedTouches and will contain information related to as many fingers as have moved (at least one).
+* When I lift a finger, it will be removed from touches, targetTouches and will appear in changedTouches since it’s what caused the event
+* Removing my last finger will leave touches and targetTouches empty, and changedTouches will contain information for the last finger
+
+- add in css File touch-action:none; because browser has a built in events
+like pull-down to refresh , two fingers to zoom in and click also out ,.... etc.
+and you should disable all of this 
+or you can add ev.preventDefault() to specific element will not work on document directly
+
+- touchcancel : if for some reason ( bad connection, bad screen , 
+or move from browser to another) so you can cancel the fucntion of touch 
+because touchup didn't work
+*/
+// let topHalf = document.getElementById("top-half")
+
+// // topHalf.addEventListener("touchstart", e => {
+// //   e.preventDefault();
+// //   console.log("touches", e.touches.length)
+// //   console.log("targetTouches", e.targetTouches.length)
+// //   console.log("Changed", e.changedTouches.length)
+  
+// // })
+// let counter = -1;
+// document.addEventListener("touchstart",e => {
+//   // e.preventDefault(); //will not work should be on specific element
+  
+//   // here we can not use touches list because when i touch with finger and 
+//   // hold then touch with 2nd finger if we use touches list will add 
+//   // two dots at 2nd time triggring the function but with changedTouches
+//   // the list will be only the 2nd finger touch
+//   [...e.changedTouches].forEach(touch => {
+//     counter++
+//     const dot = document.createElement("div")
+//     dot.classList.add("dot")
+//     dot.style.top = `${e.touches[counter].clientY}px`
+//     dot.style.left = `${e.touches[counter].clientX}px`
+//     dot.id = touch.identifier
+//     document.body.append(dot)
+//   })
+// })
+
+
+// // we used here touches instead of changedTouches because touches list is not
+// // empty because we move while still holding
+// document.addEventListener("touchmove",e => {
+//   [...e.touches].forEach(touch => {
+//     const dot = document.getElementById(touch.identifier)
+//     dot.style.top = `${touch.clientY}px`
+//     dot.style.left = `${touch.clientX}px`
+//   })
+// })
+
+// // here we should use changedTouches because it's the only list that has information
+// // of last touch after removing your finger 
+// document.addEventListener("touchend",e => {
+//   [...e.changedTouches].forEach(touch => {
+//     const dot = document.getElementById(touch.identifier)
+//     dot.remove()
+//     counter--
+//   })
+// })
+
+// document.addEventListener("touchcancel", e => {
+//   [...e.changedTouches].forEach(touch => {
+//     const dot = document.getElementById(touch.identifier)
+//     dot.remove()
+//   })
+// })
+
 // -----------------------------------Pointer Event----------------------------
 /*
-- add in css File touch-action:none; because browser has a built in events
-like pull-down to refresh , two fingers to zoom in and out ,.... etc.
-and you should disable all of this ( like ev.preventDefault())
+-Pointer Event is combination of touch and click event 
+
+- They are designed to create a single DOM event model to handle pointing 
+input devices such as a mouse, pen/stylus or touch (such as one or more fingers).
+
+- The touch-action CSS property is used to specify whether or not the 
+browser should apply its default (native) touch behavior 
+(such as zooming or panning) to a region
+
+* auto means the browser is free to apply its default touch behavior
+
+* none disables the browser's default touch behavior for the region => like ev.preventDefault()
+
+* pan-x and pan-y, mean that touches that begin on the specified region are only for horizontal and vertical scrolling
+
+* manipulation means the browser may consider touches that begin on the element are only for scrolling and zooming.
+
 
 - setPointerCapture : 
-to capture all pointer events at whole screen to timeline 
-(when you move mouse on time line you should not be at exact timeline area you can be up or down no problem)
-no need for setPointerCapture in mobile ( works without it )
-if you will use it then add if statment stop at 1--% percentage if you did not add this
+This can be used to ensure that an element continues to receive pointer 
+events even if the pointer device's contact moves off the element (for example by scrolling).
+no need for setPointerCapture in mobile (has PointerCapture by default )
+if you will use it then add if statment stop at 100% percentage if you did not add this
 the timeline will continue to increase after mouse moving oustide the browser because 
 we are capture all pointer events at whole screen
+The browser does  releasePointerCapture  automatically when a pointerup 
+or pointercancel event occurs.
 
 - getBoundingClientRect : 
 The getBoundingClientRect() method returns the size of an element and 
@@ -20222,8 +20320,9 @@ properties: left, top, right, bottom, x, y, width, height.
 
 // const video = document.querySelector(".video")
 // const timeline = document.querySelector(".timeline")
+// let handle = document.querySelector(".handle")
 
-// -----touch screen adn add dots 
+// // -----touch screen adn add dots 
 
 // video.addEventListener("pointerdown", e => {
 //   const dot = document.createElement("div")
@@ -20254,13 +20353,15 @@ properties: left, top, right, bottom, x, y, width, height.
 
 // ---moving timeline by touch and move
 // timeline.addEventListener("pointerdown", e=>{
-//   // timeline.setPointerCapture(e.pointerId) 
 //   setTimelinePositon(e)
-//   timeline.addEventListener("pointermove",setTimelinePositon)
-//   timeline.addEventListener("pointerup",()=>{
-//     timeline.removeEventListener("pointermove",setTimelinePositon)
+//   handle.setPointerCapture(e.pointerId) 
+//   handle.addEventListener("pointermove",setTimelinePositon)
+//   handle.addEventListener("pointerup",()=>{
+//     handle.removeEventListener("pointermove",setTimelinePositon)
+//     handle.releasePointerCapture(e.pointerId) // automatic browser do it
 //   },{once : true}) // to trigger function only one time
 // })
+
 
 // function setTimelinePositon(e){
 //   const rect = timeline.getBoundingClientRect()
@@ -20270,86 +20371,83 @@ properties: left, top, right, bottom, x, y, width, height.
 //   }
 // }
 
-// --------------------touch event--------------------
-/*
-- we have three important properties of touch event : 
-[1] touches : array of total touches inside whole screen
-[2] targetTouches : array of total touches inside target
-[3] changedTouches : array of new finger touch and cause the event and always length will be one 
-    because it's too difficult to add two fingers at same time 1 milisecond difference will consider 2 different touches
-they are touch list and don't have forEach method that's why he used spread operator
+// ----another exp for pointer (slide Me)
+// function beginSliding(e) {
+//   slider.onpointermove = slide;
+//   slider.setPointerCapture(e.pointerId);
+// }
 
-To better understand what might be in these lists, let’s go over some examples quickly. They vary according to the following rules:
-* When I put a finger down, all three lists will have the same information. It will be in changedTouches because putting the finger down is what caused the event
-* When I put a second finger down, touches will have two items, one for each finger. targetTouches will have two items only if the finger was placed in the same node as the first finger. changedTouches will have the information related to the second finger, because it’s what caused the event
-* If I put two fingers down at exactly the same time, it’s possible to have two items in changedTouches, one for each finger
-* If I move my fingers, the only list that will change is changedTouches and will contain information related to as many fingers as have moved (at least one).
-* When I lift a finger, it will be removed from touches, targetTouches and will appear in changedTouches since it’s what caused the event
-* Removing my last finger will leave touches and targetTouches empty, and changedTouches will contain information for the last finger
+// function stopSliding(e) {
+//   slider.onpointermove = null;
+//   slider.releasePointerCapture(e.pointerId);
+// }
 
-- add in css File touch-action:none; because browser has a built in events
-like pull-down to refresh , two fingers to zoom in and click also out ,.... etc.
-and you should disable all of this 
-or you can add ev.preventDefault() to specific element will not work on document directly
+// function slide(e) {
+//   slider.style.transform = `translate(${e.clientX - 70}px)`;
+// }
 
-- touchcancel : if for some reason ( bad connection, bad screen , 
-or move from browser to another) so you can cancel the fucntion of touch 
-because touchup didn't work
+// const slider = document.getElementById('slider');
+
+// slider.onpointerdown = beginSliding;
+// slider.onpointerup = stopSliding;
+
+
+// ---- use of pointer-events: none; or pointer-events: all; in CSS File
+/* 
+pointer-events: auto; 
+for every thing => none, auto, all
+for SVG only => visiblePainted, visible, painted, visibleStroke, visibleFill, fill, stroke 
+
+pointer-events: none; => prevent all click or touch event on that element
+but the event still bubble up so will prevent only for this element so the 
+click event will work on parent (if parent has event listener ) even if they 
+has pointer-events: none;
 */
-let topHalf = document.getElementById("top-half")
 
-// topHalf.addEventListener("touchstart", e => {
-//   e.preventDefault();
-//   console.log("touches", e.touches.length)
-//   console.log("targetTouches", e.targetTouches.length)
-//   console.log("Changed", e.changedTouches.length)
-  
+// let container = document.querySelector(".container")
+// let child = document.querySelector(".child")
+// let grand = document.querySelector(".grand")
+
+// container.addEventListener("click",function(e){
+//   console.log(e.currentTarget)
 // })
-let counter = -1;
-document.addEventListener("touchstart",e => {
-  // e.preventDefault(); //will not work should be on specific element
-  
-  // here we can not use touches list because when i touch with finger and 
-  // hold then touch with 2nd finger if we use touches list will add 
-  // two dots at 2nd time triggring the function but with changedTouches
-  // the list will be only the 2nd finger touch
-  [...e.changedTouches].forEach(touch => {
-    counter++
-    const dot = document.createElement("div")
-    dot.classList.add("dot")
-    dot.style.top = `${e.touches[counter].clientY}px`
-    dot.style.left = `${e.touches[counter].clientX}px`
-    dot.id = touch.identifier
-    document.body.append(dot)
+// child.addEventListener("click",function(e){
+//   console.log(e.currentTarget)
+// })
+// grand.addEventListener("click",function(e){
+//   console.log(e.currentTarget)
+// })
+
+
+let btn = document.getElementById("btn")
+let slide = document.getElementById("slide")
+let lock = document.getElementById("lock")
+
+btn.addEventListener("pointerdown",function(e){
+  moveBtn(e)
+  btn.setPointerCapture(e.pointerId)
+  btn.addEventListener("pointermove",moveBtn)
+  btn.addEventListener("pointerup",function(e){
+    btn.removeEventListener("pointermove",moveBtn)
+    btn.releasePointerCapture(e.pointerId)
   })
 })
 
-// we used here touches instead of changedTouches because touches list is not
-// empty because we move while still holding
-document.addEventListener("touchmove",e => {
-  [...e.touches].forEach(touch => {
-    const dot = document.getElementById(touch.identifier)
-    dot.style.top = `${touch.clientY}px`
-    dot.style.left = `${touch.clientX}px`
+function moveBtn(e){
+  let slideWidth = slide.getBoundingClientRect().width
+  let slideLeft = slide.getBoundingClientRect().left
+  btn.style.left = `${e.clientX - slideLeft - 45}px`
+  if((e.clientX - slideLeft + 70) > (slideLeft + slideWidth)){
+    lock.style.display = "none"
+  }
+}
+
+let nums = document.querySelectorAll("#pass div")
+let arr = []
+
+nums.forEach(num => {
+  num.addEventListener("pointerdown", e => {
+    let numValue = +num.id.match(/\d/ig)
+    arr.push(numValue)
   })
 })
-
-// here we should use changedTouches because it's the only list that has information
-// of last touch after removing your finger 
-document.addEventListener("touchend",e => {
-  [...e.changedTouches].forEach(touch => {
-    const dot = document.getElementById(touch.identifier)
-    dot.remove()
-    counter--
-  })
-})
-
-document.addEventListener("touchcancel", e => {
-  [...e.changedTouches].forEach(touch => {
-    const dot = document.getElementById(touch.identifier)
-    dot.remove()
-  })
-})
-
-
-
