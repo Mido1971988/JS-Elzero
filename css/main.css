@@ -1843,7 +1843,7 @@ body{
 } */
 
 
-*{
+/* *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -1910,4 +1910,159 @@ body{
     width: 70px;
     background-color: #777;
     border-radius: 50%;
+} */
+
+/* main,
+header {
+    padding: 1rem;
+    margin: 1rem;
 }
+body.clicked {
+    background-color: cornflowerblue;
+}
+main.clicked,
+header.clicked {
+    background-color: crimson;
+}
+p.clicked,
+h1.clicked {
+    background-color: lemonchiffon;
+} */
+
+/* p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 2rem;
+    line-height: 1.7;
+    color: #9933cc;
+} */
+
+/* header, main{
+    padding: 2rem;
+}
+
+p{
+    padding: 0.5rem 0;
+}
+
+@media (max-width :600px){
+    p{
+        color: #bada55;
+    }
+}
+@media(min-width: 601px){
+    p{
+        color: rebeccapurple;
+        font-size: 2rem;
+    }
+} */
+
+/* html {
+    font-size: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    line-height: 1.6;
+}
+.header {
+background-color: hsl(220, 50%, 40%);
+color: #fff;
+position: relative;
+z-index: 100;
+box-shadow: 0 2px 4px #333;
+}
+.header h1 {
+font-size: 2rem;
+line-height: 1;
+padding: 0.5rem 1rem;
+margin: 0;
+}
+main {
+padding: 2rem;
+}
+main h2 {
+margin: 0;
+}
+p {
+color: #555;
+padding: 0;
+margin: 2rem 0;
+}
+
+.main-nav {
+display: none;
+flex-direction: row;
+flex-wrap: nowrap;
+justify-content: space-between;
+align-items: center;
+background-color: hsl(30, 30%, 90%);
+}
+.expanded .main-nav {
+display: flex;
+}
+.main-nav a {
+color: #333;
+flex-basis: 25%;
+text-align: center;
+width: 100%;
+padding: 2rem 0;
+font-size: 1.2rem;
+line-height: 1;
+}
+
+.burger {
+position: absolute;
+top: 26px;
+right: 20px;
+height: 4px;
+line-height: 0;
+width: 44px;
+background-color: white;
+border: 0;
+border-radius: 1px;
+padding: 0;
+margin: 0;
+cursor: pointer;
+transition: all 0.3s linear;
+}
+.burger:active {
+outline: 0;
+}
+.burger::before,
+.burger::after {
+content: "";
+display: block;
+position: absolute;
+left: 0;
+width: 40px;
+height: 0;
+border: 2px solid white;
+border-radius: 1px;
+padding: 0;
+margin: 0;
+transition: all 0.3s linear;
+}
+.burger::before {
+top: 0;
+transform-origin: left center;
+transform: translate(0, -16px) rotate(0deg);
+}
+.burger::after {
+bottom: 0px;
+transform-origin: right center;
+transform: translate(0, 16px) rotate(0deg);
+}
+.expanded .burger {
+background-color: transparent;
+border-radius: 4px;
+}
+.expanded .burger::before {
+transform: translate(6px, 16px) rotate(-45deg);
+border-radius: 4px;
+}
+.expanded .burger::after {
+transform: translate(-6px, 16px) rotate(45deg);
+border-radius: 4px;
+}
+
+@media(min-width: 700px){
+} */

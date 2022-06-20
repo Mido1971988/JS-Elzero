@@ -20418,36 +20418,338 @@ has pointer-events: none;
 //   console.log(e.currentTarget)
 // })
 
+// ------ my exp. slide to unlock and password
+// let btn = document.getElementById("btn")
+// let slide = document.getElementById("slide")
+// let lock = document.getElementById("lock")
 
-let btn = document.getElementById("btn")
-let slide = document.getElementById("slide")
-let lock = document.getElementById("lock")
+// btn.addEventListener("pointerdown",function(e){
+//   moveBtn(e)
+//   btn.setPointerCapture(e.pointerId)
+//   btn.addEventListener("pointermove",moveBtn)
+//   btn.addEventListener("pointerup",function(e){
+//     btn.removeEventListener("pointermove",moveBtn)
+//     btn.releasePointerCapture(e.pointerId)
+//   })
+// })
 
-btn.addEventListener("pointerdown",function(e){
-  moveBtn(e)
-  btn.setPointerCapture(e.pointerId)
-  btn.addEventListener("pointermove",moveBtn)
-  btn.addEventListener("pointerup",function(e){
-    btn.removeEventListener("pointermove",moveBtn)
-    btn.releasePointerCapture(e.pointerId)
-  })
-})
+// function moveBtn(e){
+//   let slideWidth = slide.getBoundingClientRect().width
+//   let slideLeft = slide.getBoundingClientRect().left
+//   btn.style.left = `${e.clientX - slideLeft - 45}px`
+//   if((e.clientX - slideLeft + 70) > (slideLeft + slideWidth)){
+//     lock.style.display = "none"
+//   }
+// }
 
-function moveBtn(e){
-  let slideWidth = slide.getBoundingClientRect().width
-  let slideLeft = slide.getBoundingClientRect().left
-  btn.style.left = `${e.clientX - slideLeft - 45}px`
-  if((e.clientX - slideLeft + 70) > (slideLeft + slideWidth)){
-    lock.style.display = "none"
-  }
-}
+// let nums = document.querySelectorAll("#pass div")
+// let arr = []
 
-let nums = document.querySelectorAll("#pass div")
-let arr = []
+// nums.forEach(num => {
+//   num.addEventListener("pointerdown", e => {
+//     let numValue = +num.id.match(/\d/ig)
+//     arr.push(numValue)
+//   })
+// })
 
-nums.forEach(num => {
-  num.addEventListener("pointerdown", e => {
-    let numValue = +num.id.match(/\d/ig)
-    arr.push(numValue)
-  })
-})
+// -----------------------intl.ListFormat----------------
+// const main = document.querySelector("main");
+// let staff = [
+//   "Pam",
+//   "Michael",
+//   "Dwight",
+//   "Toby",
+//   "Phyliss",
+//   "Jim",
+//   "Stanley"
+// ];
+// let stuff = ["5 au", "7 mm", "16 mg", "42 km", "24 ml"];
+// /**
+//  * style :
+//   - long  => look at conjunction
+//   - short => comma between items inside array / and look at conjunction
+//   - narrow => a space between items inside array
+//  * type = 
+//   - conjunction => will add before last item & (incase of short) or and (incase of long) or nothing (incase of narrow)
+//   - disjunction => will add before last item or
+//   - unit (will ignore long)
+//  **/
+// // accept two optional parameters : language format and options object
+// const formatter = new Intl.ListFormat("en", {
+//   style: "short",
+//   type: "unit"
+// }); //
+// main.innerHTML += "<p>" + formatter.format(staff) + "</p>";
+
+// --------------TextNode splitText() normalize() Methods-------------
+
+/*
+splitText() method of textNode => split the textnode and accept position of splitting as parameter
+normalize() method of any node => search for splitted textnodes and merge then together
+*/
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   let ps = document.querySelectorAll("p");
+//   ps.forEach(p => {
+//     document.addEventListener("click", clicked);
+//     document.addEventListener("dblclick", fix);
+//   });
+// });
+// function clicked(ev) {
+//   let p = ev.target;
+//   let txt = p.firstChild;
+//   // console.log(
+//   //   txt instanceof Text,
+//   //   txt instanceof Node,
+//   //   txt instanceof Element
+//   // );
+//   let len = txt.length;
+//   let rand = Math.floor(Math.random() * len);
+//   //console.log(len, rand);
+//   txt.splitText(rand);
+// }
+// function fix(ev) {
+//   let p = ev.target;
+//   p.normalize();
+// }
+
+
+// ------------------------elementFromPoint , elementsFromPoint , caretPositionFromPoint----------
+/*
+elementFromPoint => clicked element only
+elementsFromPoint => clicked element and it's parents in parent chain
+caretPositionFromPoint => object has 2 properties (offsetNode , offset)
+  - offsetNode => textNode
+  -  offset => position inside textNode
+
+-all of them accept two parameters x,y positions
+*/
+// document.addEventListener("DOMContentLoaded", () => {
+//   let elems = document.querySelectorAll("main p, header h1");
+//   elems.forEach(el => {
+//     el.addEventListener("click", clicked);
+//   });
+// });
+// function clicked(ev) {
+//   console.log(ev.clientX, ev.x, ev.pageX, ev.screenX); //clientX and x are the same
+//   console.log(ev.clientY, ev.y, ev.pageY, ev.screenY); //clientY and y are the same
+
+//   clearHighlight();
+
+//   // let elem = document.elementFromPoint(ev.x, ev.y);
+//   // elem.classList.add("clicked");
+
+//   // let elems = document.elementsFromPoint(ev.x, ev.y);
+//   // elems.forEach(el => {
+//   //   el.classList.add("clicked");
+//   // });
+  
+//   // let caretPosition = document.caretPositionFromPoint(ev.x, ev.y); //Firefox and Safari only
+//   // let el = caretPosition.offsetNode;
+//   // if (el.nodeType == 3) { // 3 means textNode so we need to get it's parent to add class
+//   //   el = el.parentElement;
+//   // }
+//   // el.classList.add("clicked");
+//   // console.log(caretPosition.offset); 
+// }
+
+// function clearHighlight() {
+//   let clickedElements = document.querySelectorAll(".clicked");
+//   clickedElements.forEach(el => {
+//     el.classList.remove("clicked");
+//   });
+// }
+
+// -------------------Injecting Strings into DOM as HTML------------
+/**
+  - [1] innerHTML => method only for html element and will convert string to html element
+  - [2] new DocumentFragment() => will not convert string to html it will append it as string
+    you have to append html element to document fragment not just string
+  - [3] new DOMParser() => accepts 2 parameters 1st param is string 2nd param is mime type
+    but return a document element (whole HTML Document) not just one element node
+  - [4] range.createContextualFragment() => you have to select range first 
+    you can leave range empty .createRange() or  choose postion of range like 
+    range.setStart(main, 1); 1 means start from child no.1
+    range.setEnd(main, 2); 2 means end to child no. 2
+  - [5] insertAdjacentHTML(position, htmlString); =>  
+    positions options => 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend'
+ */
+
+
+// let main = document.querySelector("main");
+
+// let strHTML1 = '<p>1. This is the <a href="#">String</a> with HTML.</p>';
+// let strHTML2 = '<p>2. This is the <a href="#">String</a> with HTML.</p>';
+// let strHTML3 = '<p>3. This is the <a href="#">String</a> with HTML.</p>';
+// let strHTML4 = '<p>4. This is the <a href="#">String</a> with HTML.</p>';
+// let strHTML5 = '<p>5. This is the <a href="#">String</a> with HTML.</p>';
+// let strHTML6 = '<p>6. This is the <a href="#">String</a> with HTML.</p>';
+
+// //version 1 - innerHTML
+// main.innerHTML = strHTML1;
+
+// //version 2a - document.createDocumentFragment()
+// //version 2b - new DocumentFragment()
+// let frag = new DocumentFragment();
+// frag.append(strHTML2); //will keep it as the same string
+// // innerHTML not available on a document fragment
+// // need to create actual DOM nodes to append...
+// // so we can do pattern matching on the string can create the nodes
+// // or use the DOMParser below to convert and then append
+// //console.log(frag);
+// //GREAT INSIDE A LOOP. DO THE APPEND AFTER THE LOOP
+// //main.appendChild(frag);
+
+// //version 3 - new DomParser()
+// let parser = new DOMParser();
+// let doc = parser.parseFromString(strHTML3, "text/html");
+// //doc.documentElement - whole HTML Document
+// console.log(doc.documentElement);
+// main.appendChild(doc.body.firstChild);
+
+// //version 4a - range.createContextualFragment()
+// let frag2 = document.createRange().createContextualFragment(strHTML4);
+// main.appendChild(frag2);
+
+// //version 4b - range.createContextualFragment()
+// let range = document.createRange();
+// range.setStart(main, 1); //after the one added with innerHTML
+// range.setEnd(main, 2);
+// let frag3 = range.createContextualFragment(strHTML5);
+// range.insertNode(frag3);
+
+// //version 5 - insertAdjacentHTML()
+// main.insertAdjacentHTML("afterbegin", strHTML6);
+
+// --------------------------Google Maps GeoCoding-------------------------
+// const KEY = "AIzaSyD8LFh53VddzDevOC6A5Jhln9KgpmpoExg"; // i need a different KEY
+// const LAT = 50.1;
+// const LNG = -97.3;
+// let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${LAT},${LNG}&key=${KEY}`;
+// fetch(url)
+// .then(response => response.json())
+// .then(data => {
+//   console.log(data);
+//   let parts = data.results[0].address_components;
+//   document.body.insertAdjacentHTML(
+//     "beforeend",
+//     `<p>Formatted: ${data.results[0].formatted_address}</p>`
+//   );
+//   parts.forEach(part => {
+//     if (part.types.includes("country")) {
+//       //we found "country" inside the data.results[0].address_components[x].types array
+//       document.body.insertAdjacentHTML(
+//         "beforeend",
+//         `<p>COUNTRY: ${part.long_name}</p>`
+//       );
+//     }
+//     if (part.types.includes("administrative_area_level_1")) {
+//       document.body.insertAdjacentHTML(
+//         "beforeend",
+//         `<p>PROVINCE: ${part.long_name}</p>`
+//       );
+//     }
+//     if (part.types.includes("administrative_area_level_3")) {
+//       document.body.insertAdjacentHTML(
+//         "beforeend",
+//         `<p>LEVEL 3: ${part.long_name}</p>`
+//       );
+//     }
+//   });
+// })
+// .catch(err => console.warn(err.message));
+
+// -------------------Combining async await with fetch--------------------
+
+// (async function f() {
+//   let badurl = "http://";
+//   let goodurl = "http://jsonplaceholder.typicode.com/users";
+//   let url = Math.round(Math.random()) ? badurl : goodurl;
+//   // here we use await before fetch and this will return response object 
+//   // and used another await because .json() also asynchrnous and return promise so we need await to get data
+//   let data = await (await fetch(url).catch(handleErr)).json();
+//   if (data.code && data.code == 400) {
+//     //problem
+//     return;
+//   }
+//   console.log(data);
+// })();
+
+// function handleErr(err) {
+//   // we need to return a reponse object because we are using .json() which works only on response objects
+//   let resp = new Response(
+//     JSON.stringify({
+//       code: 400,
+//       message: "Stupid network Error"
+//     })
+//   );
+//   return resp;
+// }
+
+// -------------------------MatchMedia-------------
+// // return mediaQueryList and has property called matches (true or false)
+// document.addEventListener("DOMContentLoaded",init)
+// window.addEventListener("resize", init) // to make dynamic 
+
+// function init(){
+//   let query = window.matchMedia("(min-width: 601px)")
+//   if(query.matches){
+//     document.querySelector("h1").style.display = "block"
+//     document.querySelector("h1").style.color = "red"
+//   }else{
+//     document.querySelector("h1").style.display = "none"
+//   }
+// }
+
+// ------------------------Animated Hamburger menu-------------
+
+// let ISEXPANDED = true;
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   //handle click event
+//   let body = document.body;
+//   body.addEventListener("click", ev => {
+//     console.log("toggle expanded on header");
+//     ev.currentTarget.classList.toggle(
+//       "expanded"
+//     ); /* showing the menu and the X */
+//   });
+
+//   //handle media query when the page loads for the default state onload
+//   let query = window.matchMedia("(min-width:700px)");
+//   if (query.matches) {
+//     body.classList.add("expanded");
+//     ISEXPANDED = true;
+//   } else {
+//     body.classList.remove("expanded");
+//     ISEXPANDED = false;
+//   }
+
+//   // to handle as the page size change you have two options : [1] ResizeObserver or [2] resize event
+
+//   // // using [1] ResizeObserver
+//   const resizeObserver = new ResizeObserver(entries => {
+//     for (let entry of entries) {
+//       if (entry.contentRect.width > 700 && !ISEXPANDED) {
+//         body.classList.add("expanded");
+//         ISEXPANDED = true;
+//       } else if (entry.contentRect.width < 700 && ISEXPANDED) {
+//         body.classList.remove("expanded");
+//         ISEXPANDED = false;
+//       }
+//     }
+//   });
+//   resizeObserver.observe(body);
+
+//   // // using [2] Resize event ( resize event works on window object not body)
+//   // window.addEventListener("resize", function(){
+//   //   let query = window.matchMedia("(min-width:700px)");
+//   //   if (query.matches) {
+//   //     body.classList.add("expanded");
+//   //     ISEXPANDED = true;
+//   //   } else {
+//   //     body.classList.remove("expanded");
+//   //     ISEXPANDED = false;
+//   //   }
+//   // })
+// });
