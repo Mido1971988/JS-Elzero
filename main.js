@@ -1475,6 +1475,7 @@ Steps of for loop
 // * Can not be used as constructors.
 // * Can not use yield, within its body.
 // * Can not return object because JS will be confused between {} of function and {} of object
+// * Does not have arguments object
 
 // to solve last limitation add parenthesis
 // const sayName = () => ({
@@ -1929,7 +1930,7 @@ Steps of for loop
 
 
 
-// ------------------------ Deep to JS Engine-----------------------------
+// ------------------------Deep to JS Engine-----------------------------
 
 /* 
 JavaScript is an interpreted language, not a compiled language.
@@ -3085,9 +3086,10 @@ This means that functions are simply a value and are just another type of object
 
 // ------------------------------This -------------------------
 // This is all about where a function is invoked ( in window object or specific object)
-
+// “this” is a regular argument provided at the time your function is invoked 
+// Under the hood will be like this function.call(window object or specific object)
 // In an object method, this refers to the object
-// Alone, this refers to the global object (window).
+// Alone, this refers to the global object (window) but in strict mode will be undefined
 // In a function, this refers to the global object. (because if function does not belong to any Object will belong to global Object) (myFunction() === window.myFunction())
 // In an Arrow functions this refer to global Object ( even if it's belong to specific Object) beacuse it do not have own this binding
 // In a function, in strict mode, this is undefined.
@@ -3303,6 +3305,137 @@ take this from lexical context and this of lexcial context is btn from addEventL
 //   }
 // }
 // obj.func()
+
+// -----------------difference between regular and arrow function-------------
+/*
+- The arrow function doesn't define its own execution context.
+- The arrow function cannot be used as Constructor (this is inherited from the enclosing (lexical) scope)
+- The arrow functions are this-less, arguments-less, new.target-less and super-less.
+ */
+
+// [1] this in an arrow function is inherited from the enclosing (lexical) scope.
+
+// // ----arrow Function
+// const myObject = {
+//   myMethod() {
+//     console.log(this); // logs myObject
+//     const callback = () => {
+//       console.log(this); // logs myObject
+//     };
+//     callback()
+//   }
+// };
+// myObject.myMethod(); 
+
+// // ----Regular Function
+// const myObject2 = {
+//   myMethod() {
+//     console.log(this); // logs myObject
+//     const callback = function (){
+//       console.log(this); // logs window object
+//     };
+//     callback()
+//   }
+// };
+// myObject2.myMethod(); 
+
+// [2] arrow function cannot be used as Constructor
+
+// // -----arrow Function
+// const Car = (color) => {
+//   this.color = color;
+// };
+// const redCar = new Car('red'); // TypeError: Car is not a constructor
+
+// // ----- regular Function
+// const Car2 = function (color){
+//   this.color = color;
+// };
+// const redCar2 = new Car2('red'); // TypeError: Car is not a constructor
+
+// [3] arrow function does not have arguments special keyword
+
+// // ---arrow Function ( but you can use rest parameters to get array of arguments)
+// let arr = (...args) => {
+//   console.log(args)
+// }
+// arr(1,2)
+
+// // -----regular Function
+
+// let arr2 = function (a,b){
+//   console.log(arguments)
+// }
+// arr2(1,2)
+
+// [4] method inside object invoked as callback function (here arrow function is better)
+
+// ----arrow Function
+// class Hero {
+//   constructor(heroName) {
+//     this.heroName = heroName;
+//   }
+//   logName = () => {
+//     console.log(this.heroName);
+//   }
+// }
+// const batman = new Hero('Batman');
+// setTimeout(batman.logName,1000) // batman
+
+// ----regular Function
+
+/*
+You might think that setTimeout(batman2.logName, 1000) will call the 
+batman2.logName(), which should log the information about batman2 object.
+Unfortunately the method is separated from its object when passed as a parameter or to variable: 
+setTimout(batman2.logName,1000).
+
+setTimout(batman2.logName);
+is equivalent to:
+const extractedlogName = batman2.logName;
+setTimout(extractedlogName) // undefined.heroName => error (this will be undefined)
+ */
+// class Hero2 {
+//   constructor(heroName) {
+//     this.heroName = heroName;
+//   }
+//   logName = function() {
+//     console.log(this);
+//   }
+//   // logName = function() {
+//   //   console.log(this.heroName);
+//   // }.bind(this)
+// }
+// const batman2 = new Hero2('Batman');
+// setTimeout(batman2.logName,1000) 
+// // to solve this problem add bind here or inside consructor
+// setTimeout(batman2.logName.bind(batman2),1000) 
+
+// **** note : If a function has been used as a high order function (passed as an argument) 
+// or passed to variable the scope of this gets lost.
+
+// function Hero2(heroName) {
+//   this.heroName = heroName;
+// }
+// Hero2.prototype.logName = function() {
+//   console.log(this);
+// }
+// batman2 = new Hero2("Batman")
+// let seperated2 = batman2.logName
+// seperated2() // this here is window Object
+
+// class Hero2 {
+//   constructor(heroName) {
+//     this.heroName = heroName;
+//   }
+//   logName = function() {
+//     console.log(this);
+//   }
+// }
+// const batman2 = new Hero2('Batman');
+// let seperated2 = batman2.logName
+// seperated2() // this here is undefined (all the code inside a class automatically executes in the strict mode and this in strict mode will be undefined not window object)
+
 // ------------------------------Call Method----------------------------------
 // Call (thisArg, arg1,arg2,....) takes arguments separately
 // The example below calls person1.fullName function with person2 as an argument,
@@ -20753,3 +20886,60 @@ caretPositionFromPoint => object has 2 properties (offsetNode , offset)
 //   //   }
 //   // })
 // });
+
+
+// let foo = function (a,b) {
+//   console.log(this.x)
+//   console.log(arguments)
+// }
+
+// let obj = {
+//   x : 10
+// }
+
+
+
+// -------------------encodeURI vs encodeURIComponent-----------------
+/**
+encodeURI => keep URI as it is and can be used as href
+encodeURIComponent => encode URI to send it to server with Base-64 data
+
+encodeURIComponent - encodes all characters except:
+  A-Z a-z 0-9 - _ . ! ~ * ' ( )
+Encode everything. When you want to send some data that is encoded. 
+Useful for Base-64 data A-Z a-z 0-9 + /
+
+encodeURI - encodes  all characters except the previous list AND
+  ; , / ? : @ & = + $ #
+Keeps the URL as a usable URL.
+
+Sample text
+http://user@pass:www.example.com:5000/path/file?name=value&name2=value2#someId
+
+😀 😁 😂 🤣 😃 😄 😅
+**/
+// document.addEventListener("DOMContentLoaded", () => {
+//   document
+//     .getElementById("btnEncode")
+//     .addEventListener("click", doEncode);
+//   document
+//     .getElementById("btnDecode")
+//     .addEventListener("click", doDecode);
+// });
+// function doEncode() {
+//   let txt = document.getElementById("start").value;
+//   let areaEncoded = document.getElementById("encoded");
+//   let areaEncodedComp = document.getElementById("encodedComp");
+//   areaEncoded.value = encodeURI(txt);
+//   areaEncodedComp.value = encodeURIComponent(txt);
+
+//   let lnk = document.getElementById("lnk");
+//   lnk.href = encodeURI(txt);
+// }
+// function doDecode() {
+//   let txt = document.getElementById("start").value;
+//   let areaEncoded = document.getElementById("encoded");
+//   let areaEncodedComp = document.getElementById("encodedComp");
+//   areaEncoded.value = decodeURI(txt);
+//   areaEncodedComp.value = decodeURIComponent(txt);
+// }
