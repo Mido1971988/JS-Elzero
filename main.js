@@ -20943,3 +20943,158 @@ http://user@pass:www.example.com:5000/path/file?name=value&name2=value2#someId
 //   areaEncoded.value = decodeURI(txt);
 //   areaEncodedComp.value = decodeURIComponent(txt);
 // }
+
+
+// ------------------------------Scroll Methods-----------------------------
+/*
+scrollTo => Move the top left point to the provided coordinates.
+scrollBy => Move the top left point of the element by the horizontal and vertical values provided.
+scrollIntoView => The Boolean indicates whether or not to align top of element to top of the screen.
+
+- scrollTo & scrollBy only for scrollable element (only the page it self document.documentElement)
+- scrollIntoView for any element
+
+- Options object version not supported in IE, Edge, or Safari:
+Element.scrollIntoView({
+    behaviour: "smooth" 
+    block: "start",
+    inline: "nearest"
+});
+* block and inline can effect flex direction! be carefull
+=> block => vertical alignment 
+=> online => horizontal alignment
+values of block or inline => "start", "nearest", "center", or "end"
+* start => align top of block to top of the page
+* center => align center of block to center of the page
+* end => align end of block to end of the page
+* nearest => align nearest edge of block to nearest edge of the page
+
+*/
+// let to = document.getElementById('scroll-to');
+// let by = document.getElementById('scroll-by');
+// let into = document.getElementById('scroll-into-view');
+// to.addEventListener('click', (ev)=>{
+//   document.documentElement.scrollTo(0, 250); // to position 0, 250
+// });
+// by.addEventListener('click', (ev)=>{
+//   document.documentElement.scrollBy(0, 0); //250px down from current position
+// });
+// into.addEventListener('click', (ev)=>{
+//   // by.scrollIntoView(true); //show the scroll-by element into view
+//   by.scrollIntoView({
+//     behavior: 'smooth',
+//     block: 'center',
+//     inline: "start"
+//   })
+// });
+
+// -----------------------------Shrinking Header--------------------
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   window.addEventListener("scroll", debounce(rollup));
+// });
+
+// function rollup(ev) {
+//   console.log(window.scrollY);
+//   if (window.scrollY > 60) {
+//     document.body.classList.add("up");
+//   } else {
+//     document.body.classList.remove("up");
+//   }
+// }
+
+// //use debounce for better performance
+// const debounce = func => {
+//   let timer;
+//   return event => {
+//     if (timer) {
+//       clearTimeout(timer);
+//     }
+//     //100ms is the current delay being used
+//     timer = setTimeout(func, 100, event);
+//   };
+// };
+
+
+// --------------------Removing Elements and optional chaining----------------
+/*
+the concept of removal basically means breaking the relationship between a child 
+and its parent. It's just a detachment.
+
+remove only needs a reference to the child. 
+removeChild needs a reference both to the parent and the child. The result is identical.
+
+after remving element it is not removed from the memory and you can append it again
+if you want to remove it from memory you can do this : element = null;
+*/
+// document.addEventListener('DOMContentLoaded', () => {
+//   document.querySelector('main').addEventListener('click', removePara);
+// });
+// function removePara(ev) {
+//   //remove the paragraph that was clicked.
+//   //get the correct element
+//   console.log(ev.target, ev.currentTarget);
+//   // (main, p.para, span ) vs main
+//   // target was the first element clicked
+//   // currentTarget is the element that owns the eventListener
+//   let main = ev.currentTarget;
+//   let p = ev.target.closest('.para');
+//   p?.parentElement.removeChild(p); // optional chaining
+//   // if (p) {
+//   //   main.removeChild(p);
+//   // }
+//   //p?.remove(); // optional chaining
+//   // if (p) {
+//   //   p.remove();
+//   // }
+// }
+
+// ------------------------------------Using FormData to ParseForms--------------------------
+// do not forget to add name attribute to each input if not not data will sent to server
+document.addEventListener('DOMContentLoaded', () => {
+  document
+    .getElementById('myForm')
+    .addEventListener('submit', handleForm);
+});
+
+function handleForm(ev) {
+  ev.preventDefault(); //stop the page reloading
+  //console.dir(ev.target);
+  let myForm = ev.target;
+  let fd = new FormData(myForm);
+
+  //add more things that were not in the form
+  fd.append('api-key', 'myApiKey');
+
+  //look at all the contents
+  for (let key of fd.keys()) {
+    console.log(key, fd.get(key));
+  }
+  let json = convertFD2JSON(fd);
+
+  //send the request with the formdata
+  let url = 'http://localhost:1234/';
+
+  let req = new Request(url, {
+    // body : fd,
+    body: json, // if you want to send it as json
+    method: 'POST',
+    mode: 'cors'
+  });
+  //console.log(req);
+  fetch(req)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log('Response from server');
+      console.log(data);
+    })
+    .catch(console.warn);
+}
+
+function convertFD2JSON(formData) {
+  let obj = {};
+  for (let key of formData.keys()) {
+    obj[key] = formData.get(key);
+  }
+  return JSON.stringify(obj);
+}
