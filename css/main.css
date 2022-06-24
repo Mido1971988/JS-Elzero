@@ -2230,7 +2230,7 @@ h2 {
     font-weight: 600;
 } */
 
-html {
+/* html {
     font-size: 20px;
     font-family: 'Monserrat', sans-serif;
     line-height: 1.7;
@@ -2281,4 +2281,47 @@ legend {
 margin: 0 4rem;
 padding: 0 1rem;
 color: #4caf50;
+} */
+
+/* figure img {
+        max-width: 300px;
+        height: auto;
+} */
+
+/* :root {
+    --dark-bg: #333;
+    --dark-color: #eee;
+    --light-bg: #eee;
+    --light-color: #333;
 }
+html {
+font-size: 20px;
+font-weight: 100;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+line-height: 1.7;
+}
+html,
+body {
+background-color: #333;
+color: #eee;
+}
+@media screen and (prefers-color-scheme: dark) {
+html,
+body {
+    background-color: var(--dark-bg);
+    color: var(--dark-color);
+}
+}
+@media screen and (prefers-color-scheme: light) {
+html,
+body {
+    background-color: var(--light-bg);
+    color: var(--light-color);
+}
+}
+
+h2 {
+font-weight: 100;
+letter-spacing: 1ch;
+} */

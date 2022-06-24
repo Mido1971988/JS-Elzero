@@ -21050,51 +21050,225 @@ if you want to remove it from memory you can do this : element = null;
 // }
 
 // ------------------------------------Using FormData to ParseForms--------------------------
-// do not forget to add name attribute to each input if not not data will sent to server
-document.addEventListener('DOMContentLoaded', () => {
-  document
-    .getElementById('myForm')
-    .addEventListener('submit', handleForm);
-});
+// do not forget to add name attribute to each input if not no data will sent to server
+// document.addEventListener('DOMContentLoaded', () => {
+//   document
+//     .getElementById('myForm')
+//     .addEventListener('submit', handleForm);
+// });
 
-function handleForm(ev) {
-  ev.preventDefault(); //stop the page reloading
-  //console.dir(ev.target);
-  let myForm = ev.target;
-  let fd = new FormData(myForm);
+// function handleForm(ev) {
+//   ev.preventDefault(); //stop the page reloading
+//   //console.dir(ev.target);
+//   let myForm = ev.target;
+//   let fd = new FormData(myForm);
 
-  //add more things that were not in the form
-  fd.append('api-key', 'myApiKey');
+//   //add more things that were not in the form
+//   fd.append('api-key', 'myApiKey');
 
-  //look at all the contents
-  for (let key of fd.keys()) {
-    console.log(key, fd.get(key));
-  }
-  let json = convertFD2JSON(fd);
+//   //look at all the contents
+//   for (let key of fd.keys()) {
+//     console.log(key, fd.get(key));
+//   }
+//   let json = convertFD2JSON(fd);
 
-  //send the request with the formdata
-  let url = 'http://localhost:1234/';
+//   //send the request with the formdata
+//   let url = 'http://localhost:1234/';
 
-  let req = new Request(url, {
-    // body : fd,
-    body: json, // if you want to send it as json
-    method: 'POST',
-    mode: 'cors'
-  });
-  //console.log(req);
-  fetch(req)
-    .then((res) => res.json())
-    .then((data) => {
-      console.log('Response from server');
-      console.log(data);
-    })
-    .catch(console.warn);
-}
+//   let req = new Request(url, {
+//     // body : fd,
+//     body: json, // if you want to send it as json
+//     method: 'POST',
+//     mode: 'cors'
+//   });
+//   //console.log(req);
+//   fetch(req)
+//     .then((res) => res.json())
+//     .then((data) => {
+//       console.log('Response from server');
+//       console.log(data);
+//     })
+//     .catch(console.warn);
+// }
 
-function convertFD2JSON(formData) {
-  let obj = {};
-  for (let key of formData.keys()) {
-    obj[key] = formData.get(key);
-  }
-  return JSON.stringify(obj);
-}
+// function convertFD2JSON(formData) {
+//   let obj = {};
+//   for (let key of formData.keys()) {
+//     obj[key] = formData.get(key);
+//   }
+//   return JSON.stringify(obj);
+// }
+
+// ---------------------------------Ternary operator------------------------
+// //FALSEY - 0, null, undefined, false, "", NaN
+
+// //basic
+// let age = 42;
+// //age < 50 ? console.log('ok zoomer') : console.log('ok boomer');
+
+// //assignment
+// let num = Math.floor(Math.random() * 20);
+// let result = num % 2 == 0 ? 'even' : 'odd';
+// //console.log(result, num);
+
+// //nested
+// let salary = 60_000; //numeric separator: https://www.youtube.com/watch?v=IU9_26x5N5A
+// let taxrate = salary <= 20_000 ? 0 : salary > 100_000 ? 30 : 20;
+// console.log(taxrate);
+
+// //html
+// let side = document.querySelector('.side');
+// side = side ? side : document.body;
+// side.className = 'hey';
+
+// -----------------------------URL object----------------------
+/*
+URL properties
+hash - The part that starts with `#` and refers to an id
+host - Same as hostname except a specified port would be included
+hostname - the domain part without the http://
+href - the full url. Same as using .toString() method
+origin - Same as host prefixed with the protocol
+password - https://username:password@www.example.com
+pathname - after the domain. Folder and file name
+port - :80  :443
+protocol - http or https usually
+search - Begins with `?`. The query string
+searchParams - An object built from the parsed query string
+username - https://username:password@www.example.com
+*/
+// document.addEventListener('DOMContentLoaded', () => {
+//   let a = document.getElementById('link');
+//   let img = a.querySelector('img');
+//   let aHref = a.href;
+//   let imgHref = img.src;
+//   console.log(typeof aHref, aHref);
+//   console.log(typeof imgHref, imgHref);
+
+//   let aURL = new URL(aHref);
+//   // let iURL = new URL(imgHref);
+//   console.log(aURL);
+//   // console.log(iURL);
+
+//   aURL.searchParams.forEach((val, name) => {
+//     console.log(name, '::', val);
+//   });
+
+//   let val = aURL.searchParams.get('ikwid');
+//   console.log(val);
+// });
+
+// ------------------------event options object------------------
+/*
+- passive: <boolean> 
+Every time you scroll by touching the screen or the wheel of your mouse, 
+the browser needs to check that your code won’t cancel the default actions (even if you didn't add ev.preventDefault()). 
+This means it’ll wait a certain amount of time, just in case, resulting in poor performance.
+By marking a touch or wheel listener as passive : true, 
+the developer is promising the handler won't call preventDefault to disable scrolling
+
+
+* document.body is by default passive:true so if you add touch event to it with ev.preventDefault()
+will warn you ([Intervention] Unable to preventDefault inside passive event listener targer being treated as passive)
+
+* false => with ev.preventDefault() and touch event to disable 
+default behaviour of browser like zoom or scroll or drag down to refreash 
+
+* true => with ev.preventDefault() and touch event will warn you (Unable to preventDefault inside passive event listener invocation) 
+used to improve performance 
+
+* doesn't work with pointer event beacuse ev.preventDefault() not working with pointer events
+because Pointer events will receive a pointercancel event when the browser starts 
+handling a touch gesture.
+use instead touch-action inside CSS File
+
+- once: <boolean> true => triggered only one time then remove the event listener
+- capture: <boolean> false(default) => bubble up / true => bubble down
+
+*/
+// document.addEventListener('DOMContentLoaded', () => {
+//   //add listeners  - useCapture
+//   document
+//     .querySelector('main p')
+//     .addEventListener('click', f1, { capture: false, once: true });
+
+//   document.body.addEventListener('touchstart', f2, {
+//     capture: false,
+//     // passive: false,
+//   });
+
+//   document
+//     .querySelector('p:nth-child(2)')
+//     .addEventListener('touchstart', f3, {
+//       capture: false,
+//       // passive: false,
+//     });
+// });
+
+// function f1(ev) {
+//   let num = Math.random().toString(16).substr(2, 6);
+//   console.log(num);
+//   ev.target.style.backgroundColor = `#${num}`;
+// }
+
+// function f2(ev) {
+//   ev.preventDefault();
+//   console.log('touchstart on body');
+// }
+
+// function f3(ev) {
+//   ev.preventDefault();
+//   console.log('touchstart on p 2');
+// }
+
+// -------------------------------------dark mode----------------------
+/*
+- look at css media queries
+- window.matchMedia("(prefers-color-scheme:light)").addEventListener("change",function(){})
+  window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change",function(){})
+  both will trigger at same time it does not matter which mode or changing to which mode 
+  so i add only 1 addEventListener and add checkMode() function to check the mode
+*/
+
+// let h2 = document.createElement("h2");
+// document.querySelector("header").appendChild(h2);
+
+// window.matchMedia("(prefers-color-scheme:light)").addEventListener("change",function(){
+//   checkMode()
+// })
+
+// checkMode()
+
+// function changeToLight(){
+//   document.querySelector("h1").textContent = "Browser Light Mode";
+//   h2.textContent = "Come to the darkside";
+// }
+// function changeToDark(){
+//   document.querySelector("h1").textContent = "Browser dark Mode";
+//   h2.textContent = "Come to the lightside";
+// }
+
+// function checkMode(){
+//   let light = window.matchMedia("(prefers-color-scheme:light)").matches 
+//   let mode = light ? "light" : "dark"
+//   if(mode === "light"){
+//     changeToLight()
+//   }else if(mode === "dark"){
+//     changeToDark()
+//   }
+// }
+
+// let link = document.querySelector("a")
+// let testing = document.getElementById("test")
+// document.body.addEventListener('touchstart', function(ev){
+//   console.log(ev)
+// });
+
+// link.addEventListener("pointerdown",function(ev){
+//   if(ev.pointerType === "touch"){
+//     window.alert(ev.defaultPrevented)
+//   }
+// })
+
+
+
