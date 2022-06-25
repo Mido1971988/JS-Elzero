@@ -21270,5 +21270,166 @@ use instead touch-action inside CSS File
 //   }
 // })
 
+// --------------------------------Long Press event--------------------------
+// document.addEventListener('DOMContentLoaded', () => {
+//   addClickTouch();
+// });
 
+// let timmy = null;
+// let timmyLong = null;
+// const delay = 800; //ms delay to be considered a long press
+
+// function addClickTouch() {
+//   //stop the longpress delay if it has started because clearTimeout cancel the setTimeout and stop it's callback function
+//   clearTimeout(timmy); 
+  
+//   // [1] chech if the device accept touch or click
+//   // if ('ontouchstart' in document.body) {
+//   //   document.querySelectorAll('[data-long]').forEach((btn) => {
+//   //     btn.addEventListener('touchstart', start, {
+//   //       once: true,
+//   //     });
+//   //   });
+//   // } else {
+//   //   document.querySelectorAll('[data-long]').forEach((btn) => {
+//   //     btn.addEventListener('mousedown', start, {
+//   //       once: true,
+//   //     });
+//   //   });
+//   // }
+
+// // [2] using pointer no need to check if the device accept touch or click
+//   document.querySelectorAll('[data-long]').forEach((btn) => {
+//     btn.addEventListener('pointerdown', start, {
+//       once: true,
+//     });
+//   });
+
+// }
+
+// function start(ev) {
+//   //[1] to prevent the touchstart context menu and select text (only when using touch or click event)
+//   // ev.preventDefault();
+
+//   // [2] to prevent the context menu and select text (only when using pointer event)
+//   // adding touch-action:none; and user-select:none; in CSS File and oncontextmenu="return false;" in HTML
+
+//   let btn = ev.target.closest('[data-long]');
+//   btn.innerHTML = '👍'; //remove the other buttons
+
+//   timmy = setTimeout(longPress.bind(btn), delay); // the LONG PRESS
+  
+//   // [1] using touch or mouse click events
+//   // btn.addEventListener('mouseup', addClickTouch);
+//   // btn.addEventListener('touchcancel', addClickTouch);
+  
+//   // [2] using pointer events
+//   btn.addEventListener('pointerup', addClickTouch);
+//   btn.addEventListener('pointercancel', addClickTouch);
+// }
+
+// function longPress() {
+//   let btn = this;
+//   // [1] using touch or mouse click events
+//   // btn.removeEventListener('mouseup', addClickTouch);
+//   // btn.removeEventListener('touchcancel', addClickTouch);
+
+//   // [2] using pointer events
+//   btn.removeEventListener('pointerup', addClickTouch);
+
+//   //remove all the flyout buttons after delay if no interaction for 3 seconds
+//   timmyLong = setTimeout(resetButtons.bind(btn), 3000);
+
+//   let template = document.getElementById('emojis');
+//   let content = template.content.cloneNode(true);
+//   btn.appendChild(content);
+//   btn.querySelectorAll('button').forEach((b) => {
+
+//     // [1] using touch or mouse click events
+//     // if ('ontouchstart' in document.body) {
+//     //   b.addEventListener('touchend', selected, {
+//     //     capture: false,
+//     //     once: true,
+//     //   });
+//     // } else {
+//     //   b.addEventListener('mouseup', selected, {
+//     //     capture: false,
+//     //     once: true,
+//     //   });
+//     // }
+
+//     // [2] using pointer events
+//     b.addEventListener('pointerup', selected, {
+//           capture: false,
+//           once: true,
+//         });
+//     // to wait tell buttons added inside main btn then add class go if we added directly without
+//     // setTimeout will add move move directly without animation
+//     setTimeout(function () {
+//       b.classList.add('go');
+//     }, 0);
+//   });
+// }
+
+// function resetButtons() {
+//   this.innerHTML = '👍';
+//   addClickTouch();
+// }
+
+// function selected(ev) {
+//   ev.stopImmediatePropagation(); //stop bubble up => don't send the click to the main button
+//   console.log('selected', ev.target);
+//   clearTimeout(timmyLong); //we have interacted...
+//   let b = ev.target; // <button class="top happy go">
+//   let arr = Array.from(b.classList).filter(
+//     (cls) =>
+//       cls != 'go' &&
+//       cls != 'top' &&
+//       cls != 'right' &&
+//       cls != 'bottom' &&
+//       cls != 'left'
+//   );
+//   let match = arr[0]; //the selected class
+//   document.querySelector('header h2').textContent = `You are ${match}`;
+//   let btn = ev.target.parentElement;
+//   btn.querySelectorAll('button').forEach((item) => {
+//     //loop through the 4 child buttons
+//     if (item.classList.contains(match)) {
+//       setTimeout(
+//         function (item) {
+//           item.remove();
+//           resetButtons.call(this);
+//         }.bind(btn, item),
+//         delay
+//       );
+//       //delay removing the selected one same length as the long press
+//     } else {
+//       item.remove();
+//       //remove all the flyout buttons except the selected ones
+//     }
+//   });
+// }
+
+
+// ------------------difference between EventHandlers and addEventListener------------------
+
+/*
+- if you add two event handlers for the same button click, the second event handler 
+will overwrite the first and only that event will trigger
+
+- you can only have one event handler per event type, 
+but you can have multiple event listeners
+*/
+
+// let google = document.querySelector("a")
+
+// // this will override the default click and will not go to google.com
+// google.onclick = function(){
+//   return false
+// }
+
+// // this will create a new event and will not prevent default click and will go to google.com
+// google.addEventListener("click",function(){
+//   return false
+// })
 
