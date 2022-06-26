@@ -17644,7 +17644,11 @@ and if i cut , copy , paste will trigger the events here in JS File */
 //     });
 // });
 
-// // should be in the webpage input element and focused and selected to copy the text inside input element
+// // you can select any text and press btnCopy to copy text to clipboard or 
+// // you can add in the webpage input element and take textContent from element
+// // then add it to the input element then focus() and select() content on input
+// // then copy it from input element to clipboard 
+// // (you can not select text on regular element only you can focus and select text inside input element)
 // document.getElementById('btnCopy').addEventListener('click', (ev)=>{
 //     let pre = document.querySelector('pre');
 //     let text = pre.textContent;
@@ -18041,6 +18045,12 @@ TypeError - audio: false, video: false
 
 note : we need to use chunks incase of using timeInterval with mediaRecorder.start(200)
 because we need an array to hold small videos reach  200 miliseconds 
+
+navigator.mediaDevices.getUserMedia + MediaRecorder create WEBM files without 
+duration metadata.
+This library appends missing metadata section right to the file blob.
+https://github.com/yusitnikov/fix-webm-duration
+
 */
 
 // (((((Options Object contains audio and video options ))))) => will be passed as argument to getUserMedia Method 
@@ -21433,3 +21443,181 @@ but you can have multiple event listeners
 //   return false
 // })
 
+// ------------------------------Composed Path event--------------------
+// document.addEventListener('DOMContentLoaded', () => {
+//   //add click listeners to ALL elements inside main
+//   document.querySelectorAll('main *').forEach(addClick);
+// });
+
+// function addClick(tag) {
+//   //add a click listener to the tag
+//   tag.addEventListener('click', (ev) => {
+//     ev.preventDefault(); //just to stop the anchor
+//     ev.stopPropagation();
+//     console.log(ev.target.tagName);
+//     console.log(ev.composedPath()); // Array
+//   });
+// }
+
+// -----------------------Copy and Paste Events---------------------
+
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   document.addEventListener('copy', doCopy);
+//   document.addEventListener('paste', doPaste);
+//   document.querySelector('h1').addEventListener('click', autoCopy);
+// });
+
+// function doCopy(ev) {
+//   //ev is a ClipBoardEvent
+//   // if you didn't preventDefault will copy the text as default without any changes (UPPERCASE)
+//   ev.preventDefault();
+//   // what has the user selected (return selection object and you can get the text by using toString())
+//   // get the actual selected text if you want to make changes to it
+//   let selection = document.getSelection(); 
+//   selection = selection.toString().toUpperCase();
+//   console.log(selection); //UPPERCASE
+//   // setData method for copy event and getData method for paste event
+//   ev.clipboardData.setData('text/plain', selection);
+// }
+
+// function doPaste(ev) {
+//   // ev.clipboardData - is a DataTransfer object
+//   let data = ev.clipboardData.getData('text/plain');
+//   let txtNode = document.createTextNode(data)
+//   //data is the content we copied above
+//   console.log(data);
+
+//   // let txt = document.createTextNode(data);
+
+//   let span = document.createElement('span');
+//   span.textContent = data;
+//   // to know which element i selected to do the paste (one of two <p> that has attribute contenteditable="true") 
+//   // selection object has property called parentElement 
+//   // if you just click on the element text will be "" if you select text the text will be selected text
+//   let selection = document.getSelection();
+//   // to make a sure that is a valid selection
+//   if (!selection.rangeCount) return false;
+//   //remove the old content that was selected (its the default behaviour of browser to remove
+//   // selected text and paste the new text above but because we preventDefault we disable 
+//   // this default behavior and we need to delete selected text manually)
+//   selection.deleteFromDocument();
+//   //inserts before the selected area (you can add text node or element node and add css to this element(red color for exp.))
+//   selection.getRangeAt(0).insertNode(txtNode);
+//   // selection.getRangeAt(0).insertNode(span);
+// }
+
+// function autoCopy(ev) {
+//   let h1 = ev.target;
+//   let select = document.getSelection();
+//   console.log(select)
+//   // remove all ranges to create a new one (selecting multiple ranges not supported in all browsers)
+//   select.removeAllRanges();
+//   let range = document.createRange();
+//   // select the h1.firstChild => text node
+//   range.selectNode(h1.firstChild); 
+//   //highlight the whole selection
+//   select.addRange(range);
+//   //then tell the browser to do a copy ( this will trigger the doCopy function )
+//   document.execCommand('copy');
+// }
+
+
+// --------------------------visibilitychange event----------------------
+/*
+- The visibilitychange event is fired at the document when the contents of its tab have 
+become visible or have been hidden.
+
+- This event fires with a visibilityState of hidden when a user navigates to a new page, 
+switches tabs, closes the tab, minimizes or closes the browser, or, on mobile, switches 
+from the browser to a different app. 
+
+- Examples:
+
+[1] Pausing music on transitioning to hidden
+This example begins playing a music track when the document becomes visible, 
+and pauses the music when the document is no longer visible.
+
+document.addEventListener("visibilitychange", function() {
+  if (document.visibilityState === 'visible') {
+    backgroundMusic.play();
+  } else {
+    backgroundMusic.pause();
+  }
+});
+
+[2] Sending end-of-session analytics on transitioning to hidden
+This example treats the transition to hidden as the end of the user's session, 
+and sends the appropriate analytics using the Navigator.sendBeacon() API:
+
+document.onvisibilitychange = function() {
+  if (document.visibilityState === 'hidden') {
+    navigator.sendBeacon('/log', analyticsData);
+  }
+};
+*/
+// document.onvisibilitychange = function() {
+//   if (document.visibilityState === 'hidden') {
+//     console.log("why you left me!")
+//   }
+// };
+
+// -----------------------------------pagehide event----------------------
+/*
+The pagehide event is sent to a Window when the browser hides the current page in the process
+of presenting a different page from the session's history.
+For example, when the user clicks the browser's Back button, 
+the current page receives a pagehide event before the previous page is shown.
+
+The persisted property returns a Boolean value that indicates if the webpage is 
+loaded directly from the server, or if the page is cached, when an onpageshow or onpagehide 
+event occurs.
+
+window.onpagehide = function(ev) {
+  let txt = JSON.stringify(ev.persisted)
+  window.localStorage.setItem("pagehide",txt)
+};
+*/
+
+// ------------------------beforeunload and unload event---------------------------
+/* 
+- add the event to the window object
+- Or assign an event to the onunload attribute of the <body> element in HTML file
+
+[1] beforeunload
+if you want to warn the user that there is some promises or fetching still working
+you can create set then add promises to that set and make if statment to know if it's empty or not
+
+or you can create a variable and assign it to false if(!variable) ev.returnValue = "still waiting?"
+
+const pendingPromises = new Set()
+const cleanup = () => pendingPromises.delete(promise);
+
+function updatePage(){
+  // promises
+  const promise = fetch("")
+  
+  // add promises to Set
+  pendingPromises.add(promise)
+
+  // remove promise after success or faliure
+  promise.then(cleanup).catch(cleanup)
+}
+window.addEventListener("beforeunload", function(ev){
+  if(pendingPromises.size){
+    ev.returnValue = "still waiting?"
+  }
+})
+
+[2] unload
+
+*/
+
+
+// window.addEventListener("unload", function(ev){
+//   window.localStorage.setItem("unload", "fine")
+// })
+
+document.onfreeze = function(ev) {
+  window.localStorage.setItem("resume","resumed")
+};

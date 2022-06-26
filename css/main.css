@@ -2394,3 +2394,11 @@ opacity: 1;
 transform: translate(-42px, 0);
 opacity: 1;
 } */
+
+/* p span {
+    font-style: italic;
+    font-weight: 100;
+}
+[contenteditable] span {
+color: red;
+} */
