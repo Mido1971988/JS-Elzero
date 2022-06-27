@@ -4965,6 +4965,18 @@ console.log(htmlDivs) // HTMLCollection // 3 divs because HTMLcolletion is live
 let div = document.querySelector("div")
 console.log(div.children) // return HTMLCollection (Elements only)
 console.log(div.childNodes) // return NodeList ( all types of nodes )
+
+- NodeList is not an array, it is possible to
+iterate over it with
+forEach ( ) . It has its own forEach() method."
+
+- HTMLCollection is array-like but you cannot iterate over its
+elements using forEach()
+if you need to use forEach() on HTMLCollection you can use call and add HTMLCollection as thisArg :
+[].forEach.call(HTMLCollection, function(element){
+  console.log(element)
+})
+
 */
 
 // let df = new DocumentFragment()
@@ -21522,8 +21534,64 @@ but you can have multiple event listeners
 //   document.execCommand('copy');
 // }
 
+// ------------------------------Page Lifecycle API---------------------------
+/*
+*** page has 6 visibility states : 
+[1] Active 
+[2] Passive  
+[3] Hidden  
+[4] Frozen 
+[5] Terminated 
+[6] Discarded
 
-// --------------------------visibilitychange event----------------------
+In the active, passive, and hidden states, it's possible to run JavaScript code that 
+determines the current Page Lifecycle state from existing web platform APIs.
+
+const getState = () => {
+  if (document.visibilityState === 'hidden') {
+    return 'hidden';
+  }
+  if (document.hasFocus()) {
+    return 'active';
+  }
+  return 'passive';
+};
+
+The frozen and terminated states, on the other hand, can only be detected in their 
+respective event listener (freeze and pagehide) as the state is changing.
+
+the document object also now includes a wasDiscarded property. 
+To determine whether a page was discarded while in a hidden tab, you can inspect 
+the value of this property at page load time (note: discarded pages must be reloaded to use again).
+
+developers can now observe when a hidden tab is frozen and unfrozen by listening for the freeze and resume events on document.
+
+Not all Page Lifecycle events have the same target. pagehide, and pageshow are fired on 
+window; visibilitychange, freeze, and resume are fired on document, and focus and blur are 
+fired on their respective DOM elements.
+
+* bfcache (back forward cache)
+bfcache is an in-memory cache that stores a complete snapshot of a page 
+(including the JavaScript heap) as the user is navigating away. With the entire page 
+in memory, the browser can quickly and easily restore it if the user decides to return.
+How many times have you visited a website and clicked a link to go to another page, only 
+to realize it's not what you wanted and click the back button? In that moment, bfcache can 
+make a big difference in how fast the previous page loads:
+
+** there are events in Page lifeCycle : 
+[1] pageshow
+[2] focus
+[3] blur
+[4] visibilitychange
+[5] freeze
+[6] resume
+[7] beforeunload
+[8] pagehide
+[9] unload
+
+*/
+
+// --[4]visibilitychange event
 /*
 - The visibilitychange event is fired at the document when the contents of its tab have 
 become visible or have been hidden.
@@ -21562,29 +21630,22 @@ document.onvisibilitychange = function() {
 //   }
 // };
 
-// -----------------------------------pagehide event----------------------
-/*
-The pagehide event is sent to a Window when the browser hides the current page in the process
-of presenting a different page from the session's history.
-For example, when the user clicks the browser's Back button, 
-the current page receives a pagehide event before the previous page is shown.
-
-The persisted property returns a Boolean value that indicates if the webpage is 
-loaded directly from the server, or if the page is cached, when an onpageshow or onpagehide 
-event occurs.
-
-window.onpagehide = function(ev) {
-  let txt = JSON.stringify(ev.persisted)
-  window.localStorage.setItem("pagehide",txt)
-};
-*/
-
-// ------------------------beforeunload and unload event---------------------------
+// ----[7]beforeunload
 /* 
-- add the event to the window object
-- Or assign an event to the onunload attribute of the <body> element in HTML file
+Never add a beforeunload listener unconditionally or use it as an end-of-session signal. 
+Only add it when a user has unsaved work, and remove it as soon as that work has been saved.
 
-[1] beforeunload
+but using it prevents pages from being added to the Back-Forward Cache, 
+it's recommended that you only add beforeunload listeners when a user has unsaved 
+changes and then remove them immediately after the unsaved changes are saved.
+
+onAllChangesSaved(() => {
+  removeEventListener('beforeunload', beforeUnloadListener, {capture: true});
+});
+
+- add the event to the window object
+- Or assign an event to the onbeforeunload attribute of the <body> element in HTML file
+
 if you want to warn the user that there is some promises or fetching still working
 you can create set then add promises to that set and make if statment to know if it's empty or not
 
@@ -21608,16 +21669,124 @@ window.addEventListener("beforeunload", function(ev){
     ev.returnValue = "still waiting?"
   }
 })
-
-[2] unload
-
 */
 
+// ---[8] pagehide event
+/*
+The pagehide event is sent to a Window when the browser hides the current page in the process
+of presenting a different page from the session's history.
+For example, when the user clicks the browser's Back button, 
+the current page receives a pagehide event before the previous page is shown.
 
-// window.addEventListener("unload", function(ev){
-//   window.localStorage.setItem("unload", "fine")
-// })
+The persisted property returns a Boolean value that indicates if the webpage is 
+loaded directly from the server, or if the page is cached, when an onpageshow or onpagehide 
+event occurs.
 
-document.onfreeze = function(ev) {
-  window.localStorage.setItem("resume","resumed")
+window.onpagehide = function(ev) {
+  let txt = JSON.stringify(ev.persisted)
+  window.localStorage.setItem("pagehide",txt)
 };
+*/
+
+// ---[9]unload
+/*
+Never use the unload event on modern browsers.
+
+Many developers treat the unload event as a guaranteed callback and use it as an 
+end-of-session signal to save state and send analytics data, but doing this is extremely 
+unreliable, especially on mobile! The unload event does not fire in many typical unload 
+situations, including closing a tab from the tab switcher on mobile or closing the browser 
+app from the app switcher.
+For this reason, it's always better to rely on the visibilitychange event to determine when 
+a session ends, and consider the hidden state the last reliable time to save app and user data.
+
+Furthermore, the mere presence of a registered unload event handler (via either onunload or 
+  addEventListener()) can prevent browsers from being able to put pages in the Back-Forward 
+  Cache for faster back and forward loads.
+In all modern browsers (including IE11), it's recommended to always use the pagehide event 
+to detect possible page unloads (a.k.a the terminated state) rather than the unload event. 
+If you need to support Internet Explorer versions 10 and lower, you should feature detect 
+the pagehide event and only use unload if the browser doesn't support pagehide:
+*/
+
+// ----------------------------------sendBeacon()------------------------------
+/*
+if you want to make fetch request or any request to server when leaving the page you can not use unload
+or beforeunload event because these requests will be rejected
+but with navigatior.sendBeacon() you can send request to the server but you will not get respnse
+*/
+
+// beforeunload or unload
+// window.addEventListener('unload', (ev) => {
+//   console.log(ev);
+//   // fetchVersion(ev); // will not work
+//   beaconVersion(ev);
+// });
+
+// function fetchVersion(ev) {
+//   let url = 'http://127.0.0.1:3333/analytics';
+//   fetch(url)
+//     .then((res) => res.json())
+//     .then((content) => {
+//       localStorage.setItem('departed', JSON.stringify(content));
+//     })
+//     .catch((err) => console.error);
+// }
+
+// function beaconVersion(ev) {
+//   let url = 'http://127.0.0.1:3333/analytics';
+//   let data = JSON.stringify({ departure: Date.now() });
+//   //Always POST
+//   //status of request will always be pending because we will not get response
+//   //ArrayBuffer, ArrayBufferView, Blob, DOMString, FormData,
+//   // or URLSearchParams object containing the data to send.
+//   navigator.sendBeacon(url, data); 
+//   console.log(data);
+// }
+
+// -----------------------------requestAnimationFrame()-----------------------
+/*
+The window.requestAnimationFrame() method tells the browser that you wish to perform 
+an animation and requests that the browser calls a specified function to update an 
+animation before the next repaint. The method takes a callback as an argument to be 
+invoked before the repaint.
+
+If you go to another tab on browser (visibilitystate hidden ) the browser will pause 
+the requestAnimationFrame
+But setInterval will still running in background
+
+The callback method is passed a single argument, 
+a DOMHighResTimeStamp, which indicates the current time 
+(based on the number of milliseconds since time origin => first requestAnimationFrame call)
+DOMHighResTimeStamp value will change according to the refresh rate of screen
+*/
+
+// let output = document.getElementById('output');
+// let box = document.getElementById('box');
+// let number = 0;
+// let xpos = 0;
+// function paint() {
+//   number++;
+//   output.textContent = number;
+
+//   if (number < 300) {
+//     requestAnimationFrame(paint);
+//   }
+// }
+
+// function move(timmy) {
+//   if (timmy) {
+//     let diff = timmy - number;
+//     console.log('frame', diff);
+//     number = timmy; //DOMHighResTimeStamp
+//   }
+//   xpos = xpos + 5;
+//   box.style.transform = `translateX(${xpos}px)`;
+//   let ww = document.body.clientWidth - 100;
+//   if (xpos < ww) {
+//     requestAnimationFrame(move);
+//   }
+// }
+
+// window.requestAnimationFrame(move);
+
