@@ -3743,6 +3743,10 @@ console.log(newUser.func())
 //   x = 2;
 // })();
 
+// without strict mode you can access x outside the function (var , let & const are function scope)
+// but here (without strict mode) js will search for variable x inside function if not found
+// search in global scope not found then will add x to global object
+
 // 2- Using an object, without declaring it, is not allowed:
 
 // (function() {
@@ -11892,13 +11896,27 @@ Default behavior of find return found value or if not found return undefined
 
 // let find =" "
 // let replace = ""
-// // while(lorem.indexOf(" ") > -1){
-// //   lorem = lorem.replace(find,replace)
-// // }
-// // or you can use replaceAll
-// lorem = lorem.replaceAll(find,replace)
+// while(lorem.indexOf(" ") > -1){
+//   lorem = lorem.replace(find,replace)
+// }
+// or you can use replaceAll
+// to check if replaceAll supported in browser
+// if("replaceAll" in String.prototype){
+//   lorem = lorem.replaceAll(find,replace)
+// }else{
+//   // using regular Expression
+//   let reg = new RegExp(" ","g")
+//   lorem = lorem.replace(reg,"-")
+// }
 // console.log(lorem)
 
+// note : if replaceAll not supported in browser you can add it to String.ProtoType manually
+// String.prototype.replaceAll = function(find,replace){
+//   let reg = new RegExp(find,"g")
+//   return this.replace(reg,replace)
+// }
+// lorem = lorem.replaceAll(" ", "-")
+// console.log(lorem)
 
 
 // -------------Object.create(null)--------------
@@ -21790,3 +21808,174 @@ DOMHighResTimeStamp value will change according to the refresh rate of screen
 
 // window.requestAnimationFrame(move);
 
+// ---------------------alert , confirm & prompt------------------
+// document.addEventListener('DOMContentLoaded', () => {
+//   document.querySelector('p.a').addEventListener('click', handleClickA);
+//   document.querySelector('p.c').addEventListener('click', handleClickC);
+//   document.querySelector('p.p').addEventListener('click', handleClickP);
+//   if ('document' in window) {
+//     console.log('doc');
+//   }
+// });
+
+// function handleClickA(ev) {
+//   //alert
+//   let answer = alert('this is a message');
+//   console.log(answer); //undefined
+// }
+// function handleClickC(ev) {
+//   //confirm
+//   let answer = confirm('Are you sure?');
+//   console.log(answer); //true false
+// }
+// function handleClickP(ev) {
+//   //prompt
+//   let answer = prompt('This is my question', 'default answer');
+//   console.log(answer); //answer null
+// }
+
+// ----------------------------------window.open()---------------------------
+/*
+* target attribute : 
+[1] _blank => open in new tab or window ( depend on features)
+[2] _self => open at the same tab (doesn't depend on features)
+[3] frame name => open at iframe with attribute name ="frame name"
+[4] _parent => open in the parent frame (if the link inside iframe)
+[5] _top => value opens the page in the top frame which always is the full browser tab/window.
+*/
+
+// let other = null; //will be our window reference
+// let features =
+//   'menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes';
+// //,height=400,width=400
+
+// document.getElementById('btnGoogle').addEventListener('click', (ev) => {
+//   //open google in a new tab or window
+//   let url = 'https://google.com/';
+//   // _blank is the default is open in new tab if you need to open in new window 
+//   // you can change some features then window can not open two tabs with different features so open it in a new window
+//   let other = window.open(url, '_blank', features);
+// });
+// document.getElementById('btnSelf').addEventListener('click', (ev) => {
+//   //open google in current tab
+//   let url = 'https://google.com/';
+//   window.open(url, '_self');
+// });
+// document.getElementById('btnTwo').addEventListener('click', (ev) => {
+//   //open local page in a new tab
+//   let url = 'http://127.0.0.1:5500/index.html';
+//   let other = window.open(url, '_blank');
+//   // we should add setTimeout because the window.open() will take time to open and we need to wait
+//   // before add style to it
+//   setTimeout(() => {
+//     other.document.body.style.backgroundColor = 'cornflowerblue';
+//   }, 1000);
+// });
+// document.getElementById('btnFrame').addEventListener('click', (ev) => {
+//   //open local page in the iFrame
+//   let url = 'http://127.0.0.1:5500/index.html';
+//   let other = window.open(url, 'myFrame');
+//   setTimeout(() => {
+//     other.document.body.style.backgroundColor = 'cornflowerblue';
+//   }, 1000);
+// });
+// document.getElementById('btnColor').addEventListener('click', (ev) => {
+//   //set a random background colour in the iframe's document
+//   let clr = `#${Math.random().toString(16).substring(2, 8)}`;
+//   let fr = document.querySelector('iframe');
+//   fr.contentDocument.body.style.backgroundColor = clr;
+//   fr.contentWindow.document.body.style.backgroundColor = clr;
+// });
+
+// ---------------------select between HTML and JS------------------------
+/*
+Selecting multiple options vary in different operating systems and browsers:
+* For windows: Hold down the control (ctrl) button to select multiple options
+* For Mac: Hold down the command button to select multiple options
+
+Because of the different ways of doing this, and because you have to inform the user that 
+multiple selection is available, it is more user-friendly to use checkboxes instead.
+*/
+// document.addEventListener('DOMContentLoaded', () => {
+//   document
+//     .getElementById('flavours')
+//     .addEventListener('input', handleSelect);
+//   document.getElementById('thing').addEventListener('input', handleData);
+// });
+
+// function handleSelect(ev) {
+//   //document.getElementById('flavours'); is the same because select element has 
+//   // property called value (the value selected) but give you only 1st selection so we need to do loop 
+//   //  incase of multiple selection
+//   let select = ev.target; 
+//   console.log(select.value);
+//   let choices = [];
+//   // for (let i = 0; i < select.selectedOptions.length; i++) {
+//   //   choices.push(select.selectedOptions[i].value);
+//   // }
+//   choices = [].map.call(select.selectedOptions, (option) => option.value);
+//   console.log(choices);
+// }
+// function handleData(ev) {
+//   let theInput = ev.target;
+//   console.log(theInput.value, typeof theInput.value);
+// }
+
+// -----------------------Console is more than just log---------------------
+/*
+console.trace() => show you the call path taken to reach the point at which you call console.trace()
+1st anonymous means global scope
+any other anonymous functions without names
+*/
+// let log = console.log;
+// let str = 'Hello';
+// let num = 123;
+// let bool = true;
+// const data = {
+//   prop1: 'hello',
+//   prop2: [
+//     { id: 1, name: 'Marshall', actor: 'Jason' },
+//     { id: 2, name: 'Barney', actor: 'Neil' },
+//     { id: 3, name: 'Robin', actor: 'Cobie' },
+//     { id: 4, name: 'Lily', actor: 'Alyson' },
+//     { id: 5, name: 'Ted', actor: 'Josh' },
+//   ],
+// };
+// const funcs = {
+//   f1() {
+//     log('inside f1');
+//     funcs.f2();
+//   },
+//   f2() {
+//     log('inside f2');
+//     funcs.f3();
+//   },
+//   f3() {
+//     log('inside f3');
+//     funcs.f4();
+//   },
+//   f4() {
+//     console.trace('inside f4'); // give you entire stack
+//     // done the chain
+//   },
+// };
+
+// // log('1st: ', str, num, bool);
+// // log('2nd: ' + str + ' ' + num);
+
+// // log('3rd: ' + data);
+// // log('4th:', data);
+// // log({ data });
+
+// // console.table(data);
+// // console.table(data.prop2);
+
+// // funcs.f1();
+// // funcs.f4();
+// setTimeout(function bob() {
+//   funcs.f4(); 
+// }, 1000);
+
+// console.error('hello');
+// console.warn('hello');
+// console.info('hello');
