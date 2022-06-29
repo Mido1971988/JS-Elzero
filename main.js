@@ -21979,3 +21979,193 @@ any other anonymous functions without names
 // console.error('hello');
 // console.warn('hello');
 // console.info('hello');
+
+// -------------------------------monitorEvents-------------------
+/*
+only on console on Browser to track any keydown or mousedown 
+monitorEvents(document.body, 'keydown');
+// to remove the event
+unmonitorEvents(document.body, "keydown")
+*/
+
+// --------------------------practical EXP. LocalStorage--------------
+// const APP = {
+//   keybase: 'Steve-Shows-App-',
+//   keys: [],
+//   init() {
+//     //start the app
+//     document.getElementById('btnSave').addEventListener('click', APP.saveChar);
+//     document.querySelector('header').addEventListener('click', APP.loadChar);
+//     APP.loadShows();
+//   },
+//   saveChar(ev) {
+//     ev.preventDefault();
+//     let show = document.getElementById('show').value.trim();
+//     let char = document.getElementById('char').value.trim();
+//     if (show && char) {
+//       //if both a show and character are provided
+//       let key = APP.keybase + show.toLowerCase();
+//       let storage = localStorage.getItem(key);
+//       let chars = [];
+//       if (storage) {
+//         chars = JSON.parse(storage);
+//       }
+//       chars.push(char);
+//       chars = Array.from(new Set(chars));
+//       localStorage.setItem(key, JSON.stringify(chars));
+//       document.getElementById('show').value = '';
+//       document.getElementById('char').value = '';
+
+//       APP.loadShows();
+//     }
+//   },
+//   loadShows() {
+//     //go to localstorage and retrieve all the keys that start with APP.keybase
+//     let num = localStorage.length;
+//     if (num) {
+//       APP.keys = []; //reset the keys array
+//       for (let i = 0; i < num; i++) {
+//         let key = localStorage.key(i);
+//         if (key.startsWith(APP.keybase)) {
+//           APP.keys.push(key);
+//         }
+//       }
+//       APP.keys.sort();
+//       APP.buildNav();
+//     }
+//   },
+//   buildNav() {
+//     let nav = document.querySelector('header');
+//     nav.innerHTML = '';
+//     let foot = document.querySelector('footer');
+//     foot.innerHTML = '';
+//     let df = document.createDocumentFragment();
+//     APP.keys.forEach((key) => {
+//       //create a new anchor in the header for each show
+//       let a = document.createElement('a');
+//       a.className = 'show';
+//       a.textContent = key.replace(APP.keybase, '');
+//       df.append(a);
+//     });
+//     nav.append(df);
+//   },
+//   loadChar(ev) {
+//     if (ev.target.tagName === 'A') {
+//       //put the show name into the input field
+//       let show = ev.target.textContent.toLowerCase();
+//       document.getElementById('show').value = show;
+//       //remove old active show class
+//       //set current active class
+//       let oldactive = document.querySelector('header a.active');
+//       if (oldactive) {
+//         oldactive.classList.remove('active');
+//       }
+//       ev.target.classList.add('active');
+//       //get the characters for the show and build the footer
+//       let key = APP.keybase + show;
+//       let storage = localStorage.getItem(key);
+//       if (storage) {
+//         let chars = JSON.parse(storage);
+//         APP.buildChars(chars);
+//       }
+//     }
+//   },
+//   buildChars(chars) {
+//     let foot = document.querySelector('footer');
+//     foot.innerHTML = '';
+//     let df = document.createDocumentFragment();
+//     chars.forEach((char) => {
+//       //build the spans in the footer
+//       let span = document.createElement('span');
+//       span.className = 'char';
+//       span.textContent = char;
+//       df.append(span);
+//     });
+//     foot.append(df);
+//   },
+// };
+
+// document.addEventListener('DOMContentLoaded', APP.init);
+
+// ---------------------------form Events----------------------
+
+//blur or change: can be used for validation when pattern needed
+//input: better for validation than change in most cases
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   //add event listeners to form elements
+//   //name email phone pass lang btnSend
+//   let name = document.getElementById('name');
+//   let email = document.getElementById('email');
+//   let phone = document.getElementById('phone');
+//   let pass = document.getElementById('pass');
+//   let lang = document.getElementById('lang');
+//   let btn = document.getElementById('btnSend');
+//   // form has attribute name and you can get this form by it's name
+//   let form = document.sampleForm;
+
+//   // KeyBoard Events
+//   ['keypress','keydown','keyup'].forEach(function(event){
+//     name.addEventListener(event,handleKey)
+//   });
+//   // Mouse Events
+//   ['click','mousedown','mouseup'].forEach(function(event){
+//     name.addEventListener(event,handleMouse)
+//   });
+//    // Focus Event
+//   [name,email,phone,pass,lang].forEach(function(element){
+//     element.addEventListener("focus",handleFocus)
+//   });
+//   // Blur Event
+//   [name,email,phone,pass,lang].forEach(function(element){
+//     element.addEventListener("blur",handleBlur)
+//   });
+//   // Change Event
+//   [name,email,phone,pass,lang].forEach(function(element){
+//     element.addEventListener("change",handleChange)
+//   });
+//   // Input Event
+//   [name,email,phone,pass,lang].forEach(function(element){
+//     element.addEventListener("input",handleInput)
+//   });
+
+//   //handle form submission
+//   form.addEventListener('submit', handleSend);
+//   btn.addEventListener('click', handleSend);
+//   //even with enter key
+//   document.addEventListener('keypress', (ev) => {
+//     console.log({ ev });
+//   });
+// });
+
+// function handleChange(ev) {
+//   console.log(ev.type.toUpperCase(), ev.target.id, ev.target.value);
+// }
+// function handleInput(ev) {
+//   console.log(ev.type.toUpperCase(), ev.target.id, ev.target.value);
+// }
+
+// function handleFocus(ev) {
+//   console.log(ev.type.toUpperCase(), ev.target.id, ev.target.value);
+// }
+// function handleBlur(ev) {
+//   console.log(ev.type.toUpperCase(), ev.target.id, ev.target.value);
+// }
+
+// function handleMouse(ev) {
+//   console.log(ev.type.toUpperCase(), ev.target.id, ev.target.value);
+// }
+// function handleKey(ev) {
+//   console.log(ev.type.toUpperCase(), ev.target.id, ev.target.value);
+//   let code = ev.keyCode || ev.which;
+//   if (code == 10 || code == 13) {
+//     //return or enter key
+//     handleSend(ev);
+//   }
+// }
+
+// function handleSend(ev) {
+//   ev.preventDefault();
+//   //stop the form from submitting and reloading the page
+//   console.log(ev.type.toUpperCase(), 'Submitting the Form');
+// }
