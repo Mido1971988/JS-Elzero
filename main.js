@@ -7049,7 +7049,7 @@ both without using g flag return Array of information with first match
 // let specials = /[^a-zA-Z0-9]/g
 // let specials2 = /[^a-z^A-Z0-9]/g
 
-// console.log(myString.match(specials2 ));
+// console.log(myString.match(notCapitalAndSmall ));
 
 // let email = "O@@@g...com O@g.com O@g.net A@Y.com O-g.com o@s.org 1@1.com";
 // let dot = /./g;
@@ -22169,3 +22169,284 @@ unmonitorEvents(document.body, "keydown")
 //   //stop the form from submitting and reloading the page
 //   console.log(ev.type.toUpperCase(), 'Submitting the Form');
 // }
+
+// ------------------------exp. of module and destructuring------------------
+/*
+benifits of destructuring here is :
+[1] we should not pass argument at same order of submit function inside user.js (inside module folder)
+[2] we can add more parameters to submit function without effecting our code here
+*/
+
+// import { USER } from './Module/user.js';
+// import { NetworkError } from './Module/error.js';
+
+// const APP = {
+//   init() {
+//     //add event listeners to form elements
+//     APP.addListeners();
+//   },
+//   addListeners() {
+//     let form = document.sampleForm;
+//     form.addEventListener('keypress', (ev) => {
+//       let key = ev.keyCode || ev.which;
+//       if (key === 10 || key === 13) {
+//         APP.send(ev);
+//       }
+//     });
+//     form.addEventListener('submit', APP.send);
+//     let btn = document.getElementById('btnSend');
+//     btn.addEventListener('click', APP.send);
+//   },
+//   send(ev) {
+//     ev.preventDefault();
+//     ev.stopPropagation();
+//     let em = document.getElementById('email');
+//     let password = document.getElementById('pass');
+//     let language = document.getElementById('lang');
+//     let endpoint = '/register';
+//     // destructuring 
+//     let obj = {
+//       email : em,
+//       password,
+//       language,
+//       endpoint
+//     }
+//     USER.submit(obj)
+//       .then((response) => {
+//         if (response.status >= 200 && response.status <= 299) {
+//           return response.json();
+//         } else {
+//           throw new NetworkError(`${response.statusText} ${response.status}`);
+//         }
+//       })
+//       .then((info) => {
+//         console.log(info);
+//       })
+//       .catch((err) => {
+//         switch (err.name) {
+//           case 'ValidationError':
+//             //deal with form errors
+//             console.warn(`Form validation error with ${err.field}.`);
+//             document.getElementById(err.field).classList.add('error');
+//             break;
+//           case 'NetworkError':
+//             //unable to complete the fetch
+//             console.warn('unable to complete the fetch');
+//           default:
+//             console.warn({ err });
+//         }
+//       });
+//   },
+// };
+// document.addEventListener('DOMContentLoaded', APP.init);
+
+// ------------------------------Form Validation Part 1 (CSS & HTML)-------------------------
+/*
+[1] Form elements' attributes in HTML : 
+id
+name
+type
+value
+checked
+selected
+inputmode => ="numeric" for numbers / ="text" default / ="tel" / ="decimal" / ="url" / ="search" / ="email"
+enterkeyhint
+autocomplete
+placeholder
+required => when you submit the browser will warn you you should write input here
+readonly => you can not add input or change placeholder
+disabled => style of input field will change (dark color like it's off now) and you can't add anything to this input field
+min => for numbers
+max => for numbers
+step => for numbers (add arrows up and down) and you can add step="2" to add 2 each click
+minlength 
+maxlength
+pattern => here add regular expression (you have to add required attribute wihout it will accept if you didn't add input)
+novalidate => only for form element (specifies that the form-data (input) should not be validated when submitted)
+
+[2] selectors in CSS :
+input:focus
+input:read-only
+input:read-write => default doesn't have read-only attribute
+input:disabled
+input:required
+input:optional => default doesn't have required attribute
+::placeholder => style for the text
+:placeholder-shown => style for the filed itseld that has text placeholder
+input:valid
+input:invalid 
+:in-range => you have to add value attribute if you want to show style at the beginning
+:out-of-range => you have to add value attribute if you want to show style at the beginning
+*/
+
+// ------------------------------Form Validation Part 2 (JS)-------------------------
+
+/****
+ * References
+ * https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation
+ * https://developer.mozilla.org/en-US/docs/Web/API/ValidityState
+ * https://regexr.com/ - Tool by Grant Skinner for testing Regular Expressions
+ *
+
+-validity readonly prop - a ValidityState object
+
+-ValidityState object props: (Boolean values)
+badInput, customError, patternMismatch, rangeOverflow, rangeUnderflow
+stepMismatch, tooLong, tooShort, typeMismatch, valid, valueMissing
+
+-willValidate readonly prop - boolean willValidate is a property that says whether ]
+or not an input can be validated, not if it is valid or not. The only time that willValidate 
+is false is if the input element is disabled or the like.
+
+-validationMessage - readonly prop from browser validation
+                    or setCustomValidity( ) method
+
+-checkValidity() checks element, returns boolean,
+                fires the invalid event
+
+-setCustomValidity(msg) if called with non-empty string it
+                    will change the value of validity.valid
+                    to false and validity.customError to true
+
+-reportValidity() checks AND reports result
+                  this shows the browser tooltip with warning
+                  can be called at any point to show message
+                  fires the invalid event
+
+*difference between checkValidity() and ValidityState.valid : 
+So the main difference is that checkValidity() will also fire an "invalid" event.
+If you just want to know whether the value is valid, use ValidityState.valid. 
+But if you want to change the form state to invalid, use checkValidity().
+
+
+*/
+
+// const APP = {
+//   init() {
+//     APP.addListeners();
+//   },
+//   addListeners() {
+//     let form = document.sampleForm;
+//     let fullname = document.getElementById('fullname');
+//     let email = document.getElementById('email');
+//     let pass = document.getElementById('pass');
+//     let cell = document.getElementById('cell');
+//     let regcode = document.getElementById('regcode');
+//     let pets = document.getElementById('pets');
+//     //after changing the whole value
+//     fullname.addEventListener('change', APP.testName);
+//     email.addEventListener('change', APP.testEmail);
+//     pass.addEventListener('change', APP.checkPasswordRequirements)
+
+//     //while typing
+//     regcode.addEventListener('input', APP.formatCode);
+//     cell.addEventListener('input', APP.formatPhone);
+
+//     //what to do if something went wrong during validation
+//     fullname.addEventListener('invalid', APP.fail);
+//     email.addEventListener('invalid', APP.fail);
+
+//     //when the form gets submitted
+//     form.addEventListener('submit', APP.validate);
+//   },
+//   validate(ev) {
+//     ev.preventDefault();
+//     let form = ev.target;
+
+//     let email = document.getElementById('email');
+//     console.log('willValidate', email.willValidate);
+//     //run validation on the whole form when submitting...
+
+//     // form controls have the following
+//     // invalid event
+//     console.log(email.validity);
+//   },
+//   testName(ev) {
+//     let fullname = ev.target;
+//     fullname.setCustomValidity(''); //clear old message
+//     //built-in test for error based on type, pattern, and other attrs
+//     let currently = fullname.checkValidity();
+//   },
+//   testEmail(ev) {
+//     let email = ev.target;
+//     console.log(email.validity);
+//     console.log('willValidate2', email.willValidate);
+//     email.setCustomValidity(''); //clear old message
+//     //built-in test for error based on type, pattern, and other attrs
+//     let currently = email.checkValidity();
+//     console.log('currently', currently);
+//     if (currently) {
+//       let emReg = new RegExp('@gmail.com$', 'i');
+//       if (emReg.test(email.value) === false) {
+//         //not a gmail address
+//         // email.setCustomValidity('NOT a gmail address.');
+//         console.log(email.validationMessage); // 'NOT a gmail address'
+//         email.reportValidity(); //show the custom message, trigger invalid event
+//       }
+//     }
+//   },
+//   formatCode(ev) {
+//     let regcode = ev.target;
+//     let val = regcode.value;
+//     val = val.toUpperCase();
+//     regcode.value = val; //converts anything typed to uppercase
+//     //check for i and o used instead of 1 or 0...
+//     regcode.setCustomValidity('');
+//     if (/(I|O)/.test(val)) {
+//       regcode.setCustomValidity(
+//         'There are no letters i or o in the codes. Should this be a one or a zero?'
+//       );
+//       regcode.reportValidity(); //display the message and trigger invalid event
+//     }
+//   },
+//   formatPhone(ev) {
+//     //format and correct the phone number as user is typing?
+//     //eg: +1 (555) 555-1212
+//     //restrict to numbers, parentheses, hyphens, and + as typing?
+//   },
+//   checkPasswordRequirements(ev) {
+//     //check password requirements as user types
+//     // uppercase, lowercase, numeric, length >= 10
+//     // Allowed: [! @ # $ % ^ & * ( ) . , ? ; : ~]
+//     let response = {
+//       upper: false,
+//       lower: false,
+//       num: false,
+//       len: false,
+//       matches: null,
+//       valid: true,
+//     };
+//     let txt = ev.target.value.trim();
+//     response.upper = /[A-Z]/.test(txt);
+//     response.lower = /[a-z]/.test(txt);
+//     response.num = /[0-9]/.test(txt);
+//     response.len = ev.target.value.trim().length >= 10;
+//     response.matches = txt.match(/[^A-Za-z0-9_!@#$%^&*().,?;:~]/);
+//     if (response.matches && response.matches.length > 0) {
+//       response.valid = false;
+//     }
+//     Object.entries(response).forEach(array => {
+//       if(array[1] === false){
+//         document.querySelector(`.${array[0]} .unchecked`).classList.add("show")
+//         document.querySelector(`.${array[0]} .checked`).classList.remove("show")
+//       }else if(array[1] === true){
+//         document.querySelector(`.${array[0]} .checked`).classList.add("show")
+//         document.querySelector(`.${array[0]} .unchecked`).classList.remove("show")
+//       }
+//     })
+//     return response;
+//   },
+//   fail(ev) {
+//     let field = ev.target;
+//     // the invalid event fired
+//     console.log('INVALID');
+//     //standard display change for any element
+//     switch (field.id) {
+//       case 'email':
+//         let span = field.parentElement.querySelector('.errMessage');
+//         span.textContent = 'Must be a valid Gmail address.';
+//         break;
+//     }
+//   },
+// };
+// document.addEventListener('DOMContentLoaded', APP.init);

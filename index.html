@@ -1920,7 +1920,260 @@
         </p>
     </form>
     </main> -->
-    <script src="main.js" type="text/javascript"></script>  
+    <!-- <header>
+        <h1>Efficient Scripts</h1>
+        <h2>That Help Your Fellow Developers</h2>
+    </header>
+    <main>
+    <form name="sampleForm" action="#" method="POST" autocomplete="off">
+        <p>
+        <label for="email">Email</label>
+        <input
+            type="email"
+            inputmode="email"
+            id="email"
+            enterkeyhint="next"
+            placeholder=""
+            autocomplete="off"
+            required
+            aria-required="true"
+        />
+        </p>
+        <p>
+        <label for="pass">Password</label>
+        <input
+            type="password"
+            id="pass"
+            enterkeyhint="send"
+            autocomplete="off"
+            required
+            aria-required="true"
+        />
+        </p>
+        <p>
+        <label for="lang">Language</label>
+        <select id="lang" autocomplete="off">
+            <option value="en" lang="en">English</option>
+            <option value="sv" lang="sv">Svensk</option>
+            <option value="ru" lang="ru" selected>Русский</option>
+            <option value="de" lang="de">Deutsch</option>
+            <option value="es" lang="es">Español</option>
+            <option value="fr" lang="fr">Français</option>
+        </select>
+        </p>
+        <p>
+        <button id="btnSend">Send</button>
+        </p>
+    </form>
+    </main> -->
+    <!-- <header>
+        <h1>Form Validation Part I</h1>
+        <h2>The HTML and CSS</h2>
+    </header>
+    <main>
+    <form name="sampleForm" action="#" method="POST" autocomplete="off">
+        <p>
+        <label for="fullname">Full Name</label>
+        <input
+            type="text"
+            inputmode="text"
+            id="fullname"
+            name="fullname"
+            enterkeyhint="next"
+            autocomplete="off"
+            placeholder="Enter your full name"
+            required
+        />
+        <span class="instructions"><span class="errMessage"></span></span>
+        </p>
+        <p>
+        <label for="email">Email</label>
+        <input
+            type="email"
+            inputmode="email"
+            id="email"
+            name="email"
+            enterkeyhint="next"
+            autocomplete="off"
+            placeholder="Enter your email address"
+            required
+        />
+        <span class="instructions"><span class="errMessage"></span></span>
+        </p>
+        <p>
+        <label for="pass">Password</label>
+        <input
+            type="password"
+            id="pass"
+            name="pass"
+            enterkeyhint="send"
+            autocomplete="off"
+            maxlength="20"
+            minlength="8"
+            required
+        />
+        <span class="instructions"
+            ><span class="errMessage"></span>
+            <span class="upper">At least ONE uppercase letter</span>
+            <span class="lower">At least ONE lowercase letter</span>
+            <span class="num">At least ONE number</span>
+            <span class="len">At least 10 characters long</span>
+            <span class="invalid"
+            >Only allowed special characters are ! @ # $ % ^ & * ( ) . , ? ; :
+            ~
+            </span>
+        </span>
+        </p>
+        <p>
+        <label for="cell">Cellphone</label>
+        <input
+            type="text"
+            inputmode="numeric"
+            id="cell"
+            name="cell"
+            enterkeyhint="next"
+            autocomplete="off"
+            pattern="[\d]{7,14}"
+            required
+        />
+        <span class="instructions"><span class="errMessage"></span></span>
+        </p>
+        <p>
+        <label for="lang">Language</label>
+        <select id="lang" autocomplete="off">
+            <option value="">Choose a Language</option>
+            <option value="en" lang="en">English</option>
+            <option value="sv" lang="sv">Svensk</option>
+            <option value="ru" lang="ru">Русский</option>
+            <option value="de" lang="de">Deutsch</option>
+            <option value="es" lang="es">Español</option>
+            <option value="fr" lang="fr">Français</option>
+        </select>
+        <span class="instructions"><span class="errMessage"></span></span>
+        </p>
+        <p>
+        <label for="pets">Number of Pets</label>
+        <input
+            type="number"
+            inputmode="numeric"
+            id="pets"
+            name="pets"
+            enterkeyhint="next"
+            autocomplete="off"
+            required
+            min="5"
+            max="50"
+            step="2"
+            value="5"
+        />
+        <span class="instructions"><span class="errMessage"></span></span>
+        </p>
+        <p>
+        <button id="btnSend">Send</button>
+        </p>
+    </form>
+    </main> -->
+    <!-- <main>
+        <form name="sampleForm" action="#" method="POST" autocomplete="off" >
+        <p>
+        <label for="fullname">Full Name</label>
+        <input
+            type="text"
+            inputmode="text"
+            id="fullname"
+            name="fullname"
+            enterkeyhint="next"
+            autocomplete="off"
+            placeholder="Enter your full name"
+            
+        />
+        <span class="instructions"><span class="errMessage"></span></span>
+        </p>
+        <p>
+        <label for="email">Email</label>
+        <input
+            type="email"
+            inputmode="email"
+            id="email"
+            name="email"
+            enterkeyhint="next"
+            autocomplete="off"
+            required
+            placeholder="Enter your email address"
+        />
+        <span class="instructions"><span class="errMessage"></span></span>
+        </p>
+        <p>
+        <label for="pass">Password</label>
+        <input
+            type="password"
+            id="pass"
+            name="pass"
+            enterkeyhint="send"
+            autocomplete="off"
+            maxlength="20"
+            minlength="8"
+            
+        />
+        <span class="instructions">
+            <span class="errMessage"></span>
+            <span class="upper">At least ONE uppercase letter <span class="checked">&#10003;</span><span class="unchecked">x</span></span>
+            <span class="lower">At least ONE lowercase letter <span class="checked">&#10003;</span><span class="unchecked">x</span></span>
+            <span class="num">At least ONE number <span class="checked">&#10003;</span><span class="unchecked">x</span></span>
+            <span class="len">At least 10 characters long <span class="checked">&#10003;</span><span class="unchecked">x</span></span>
+            <span class="valid">Only allowed special characters are ! @ # $ % ^ & * . , ? ; : <span class="checked">&#10003;</span><span class="unchecked">x</span></span>
+        </span>
+        </p>
+        <p>
+        <label for="cell">Cellphone</label>
+        <input
+            type="text"
+            inputmode="numeric"
+            id="cell"
+            name="cell"
+            enterkeyhint="next"
+            autocomplete="off"
+            placeholder="include your area code"
+            pattern="[\d]{7,14}"
+        />
+        <span class="instructions"><span class="errMessage"></span></span>
+        </p>
+        <p>
+        <label for="regcode">One-time-code</label>
+        <input
+            id="regcode"
+            autocomplete="off"
+            type="text"
+            enterkeyhint="next"
+            
+            minlength="8"
+            maxlength="8"
+            title="Enter your one time code here"
+        />
+        <span class="instructions"><span class="errMessage"></span></span>
+        </p>
+        <p>
+        <label for="pets">Number of Pets</label>
+        <input
+            type="number"
+            inputmode="numeric"
+            id="pets"
+            name="pets"
+            enterkeyhint="next"
+            autocomplete="off"
+            min="0"
+            max="50"
+            step="2"
+        />
+        <span class="instructions"><span class="errMessage"></span></span>
+        </p>
+        <p>
+        <button id="btnSend">Send</button>
+        </p>
+    </form>
+    </main> -->
+    <script src="main.js" type="text/javascript"></script> 
+    <!-- <script src="main.js" type="module"></script>  -->
     <!-- <script src="main.js" type="text/javascript" integrity="sha256-zDSuWEvMbUxpisGOj30WQX1RQac766zuqm2VKdc6sGA="></script>   -->
     <!-- <script src="main.js" async></script> you can write script tag at the beginning of html file but you have to add async attribute -->
     <!-- <script src="main.js" type="module"></script>
