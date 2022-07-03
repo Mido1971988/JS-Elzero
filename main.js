@@ -15161,6 +15161,8 @@ https://www.youtube.com/watch?v=8FYJfEHOuY0
 // console.log(location.search) // QueryString ?name=Soliman&age=33
 // location.replace(new url) // will replace current page to new one
 // location.reload() // will reload current page
+// window.location.reload() if you pass true, then the browser loads a fresh page, 
+// but if false, then the cache version is loaded...
 
 // history.go(3) // go forward 3 steps 
 // history.go(-3) // go backward 3 steps 
@@ -22450,3 +22452,490 @@ But if you want to change the form state to invalid, use checkValidity().
 //   },
 // };
 // document.addEventListener('DOMContentLoaded', APP.init);
+
+// ------------------history pushState() and replaceState()----------
+/*
+history.replaceState(data, title, url)
+history.pushState(data, title, url)
+
+- data => you can pass data and then get it by history.state
+- title => most of browsers ignore it so better to use document.title = 'new string';
+- url => will change url only at browser but not got to this link you have to refresh 
+
+* difference between pushState & replaceState :
+  - replaceState only change url at browser
+  - pushState change url at browser and add it to history array
+*/
+// document.addEventListener('DOMContentLoaded', () => {
+//   document.getElementById('l1').addEventListener('click', goOne);
+//   document.getElementById('l2').addEventListener('click', goTwo);
+//   document.getElementById('l3').addEventListener('click', goThree);
+//   console.log(history.state);
+// });
+// function goOne(ev) {
+//   ev.stopPropagation();
+//   history.replaceState({ id: 1 }, '', 'http://127.0.0.1:5500/hello');
+//   document.title = 'new string';
+// }
+// function goTwo(ev) {
+//   ev.preventDefault();
+//   history.pushState({ id: 234 }, '', 'another.html');
+// }
+// function goThree(ev) {
+//   ev.preventDefault();
+//   let num = Math.floor(Math.random() * 10000);
+//   history.pushState({ id: num }, '', `#${num}`);
+// }
+
+// -------------------popstate , hashchange & events---------------
+/*
+- popstate =>  is fired when the active history entry changes while the user navigates the session history
+    history.pushState() or history.replaceState() won't trigger a popstate event. 
+    The popstate event will be triggered by doing a browser action such as a 
+    click on the back or forward button (or calling history.back() or history.forward() in JavaScript).
+
+- hashchange => is fired when the fragment identifier of the URL has changed 
+    (the part of the URL beginning with and following the # symbol).
+    not fired by istory.pushState() or history.replaceState()
+
+- queryString => fresh reload of the page
+*/
+// const APP = {
+//   init() {
+//     //when the page loads
+//     //check the state or hash value or both
+//     APP.checkState(); //when the page loads
+//     //add listeners for nav bar
+//     //add listeners for popstate OR hashchange
+//     APP.addListeners();
+
+//     //APP.updateLayout('earth');
+//   },
+//   addListeners() {
+//     document.querySelector('nav').addEventListener('click', APP.nav);
+
+//     window.addEventListener('popstate', APP.checkState);
+//     //when the user clicks back or forward
+//     // window.addEventListener('hashchange', APP.tempHC);
+//     // window.addEventListener('popstate', APP.tempPop);
+//   },
+//   // tempPop(ev) {
+//   //   console.log('popstate');
+//   //   console.log(history.state);
+//   // },
+//   // tempHC(ev) {
+//   //   console.log('hashchange');
+//   //   console.log(history.state);
+//   // },
+//   checkState() {
+//     //do we want to drive our app by state or fragment-identifier(hash) or query?
+//     //called when page loads AND after a popstate event
+//     console.log(location);
+//     console.log(history);
+//     if (!location.hash) {
+//       //default first load
+//       history.replaceState(
+//         { home: 'Earth', name: 'James Holden' },
+//         '',
+//         '#earth'
+//       );
+//       document.title = 'Earth';
+//       APP.updateLayout('earth');
+//     } else {
+//       let hash = location.hash.replace('#', '');
+//       APP.updateLayout(hash);
+//       document.title = hash; //first letter to uppercase needed
+//     }
+//   },
+//   nav(ev) {
+//     ev.preventDefault();
+//     let anchor = ev.target;
+//     let home = anchor.getAttribute('data-home');
+//     let name = anchor.getAttribute('data-name');
+//     let state = {
+//       home,
+//       name,
+//     };
+//     let hash = `#${home.toLowerCase()}`;
+//     history.pushState(state, '', hash);
+//     document.title = home;
+//     // if you don't to add them to history array
+//     // history.replaceState(state, '', hash);
+//     APP.updateLayout(home.toLowerCase());
+//   },
+//   updateLayout(place) {
+//     //accept a className and update the interface based on that
+//     let main = document.querySelector('main');
+//     main.className = place;
+//   },
+// };
+
+// document.addEventListener('DOMContentLoaded', APP.init);
+
+// --------------------------------------Storage Event-------------------
+/*
+localStorage stores key-value pairs that are origin (domain) specific so if you have 2 pages (html file) at 
+same domain and change localStorage from 1st page and you need the 2nd page to know that
+there is a changes in localStorage you can use Storage Event which is triggered once any changes
+happend in localStorage
+
+we are using here another html called other (look at html file)
+ */
+// const APP = {
+//   list: null,
+//   names: [],
+//   key: null,
+//   storage: null,
+//   init(key) {
+//     //script runs on every page that links to main.js
+//     APP.key = key;
+//     APP.storage = window.localStorage;
+//     return APP;
+//   },
+//   getStorage() {
+//     //load the key item from localStorage into our names array
+//     let ref = APP.storage.getItem(APP.key);
+//     if (!ref) {
+//       APP.storage.setItem(APP.key, JSON.stringify([]));
+//     }
+//     APP.names = JSON.parse(ref);
+//     return APP;
+//   },
+//   addName(nm, list) {
+//     //add a name to the names array and then update localstorage
+//     let obj = {
+//       id: Date.now(),
+//       name: nm,
+//     };
+//     APP.names.push(obj);
+//     APP.saveNames();
+//     if (list) {
+//       APP.buildList(list);
+//     }
+//   },
+//   removeName(nm) {
+//     //remove a name from the names array and then update localstorage
+//     APP.names = APP.names.filter((obj) => obj.name !== nm);
+//     APP.saveNames();
+//   },
+//   updateName(oldName, newName) {
+//     //update the names array and then localStorage
+//     APP.names = APP.names.map((obj) => {
+//       if (obj.name === oldName) {
+//         return {
+//           id: obj.id,
+//           name: newName,
+//         };
+//       }
+//       return obj;
+//     });
+//     APP.saveNames();
+//   },
+//   saveNames() {
+//     //save the updated names array in localStorage
+//     APP.storage.setItem(APP.key, JSON.stringify(APP.names));
+//   },
+//   clearNames() {
+//     //remove all names from localStorage and empty the names array
+//     APP.names = [];
+//     APP.storage.clear();
+//   },
+//   buildList(element) {
+//     //update the list element based on the names array
+//     if (!APP.names) {
+//       APP.names = [];
+//     }
+//     element.innerHTML = APP.names
+//       .map((obj) => {
+//         return `<li data-key="${obj.id}">${obj.name}</li>`;
+//       })
+//       .join('\n');
+//   },
+// };
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   //script specific to THIS page
+//   let list = document.querySelector('#names');
+//   //set up storage
+//   let key = 'somewhat-shared-names-of-the-day';
+//   APP.init(key).getStorage();
+//   //populate data
+//   APP.buildList(list);
+//   //add listeners
+//   document.AddForm.addEventListener('submit', addName);
+//   window.addEventListener('storage', (ev) => {
+//     console.log({ ev });
+//     let targetURL = new URL(ev.url);
+//     if (location.pathname != targetURL.pathname) {
+//       //came from another page
+//       APP.getStorage().buildList(list);
+//     }
+//   });
+// });
+
+// function addName(ev) {
+//   ev.preventDefault();
+//   let nm = document.getElementById('name').value.trim();
+//   let list = document.getElementById('names');
+//   if (nm && list) {
+//     APP.addName(nm, list);
+//     document.getElementById('name').value = '';
+//   }
+// }
+
+// --------------------------------IndexedDB---------------------------------
+/*
+* IndexedDB like localStorage is origin (domain) specific.
+
+Using idb-keyval library version 5
+This example is using Jake Archibald's idb-keyval library for indexedDB.
+
+IndexedDB can be treated like Local / SessionStorage with key values pairs.
+
+The big differences between localStorage and IndexedDB are:
+
+[1] IndexedDB does not need to use the JSON.parse or JSON.stringify methods.
+[2] IndexedDB can be used from a webpage OR Service Worker.
+[3] IndexedDB can store BLOBs (binary data).
+[4] The idb-keyval library does not:
+  ...allow for multiple stores/collections per database.
+  ...have cursors.
+  ...expose transactions.
+*/
+// import {
+//   get,
+//   set,
+//   getMany,
+//   setMany,
+//   update,
+//   del,
+//   clear,
+//   keys,
+//   values,
+//   entries,
+//   createStore,
+// } from 'https://cdn.jsdelivr.net/npm/idb-keyval@5.0.6/dist/esm/index.js'; // you can import from file online or download it and add it to your folder
+// //methods return Promises
+// //default DB name is 'keyval-store' (like a document DB)
+// //default store name is 'keyval'    (like a Collection in the DB)
+
+// (function init() {
+//   //app is running now
+//   //console.log(get);
+//   let st = createStore('myDB', 'myStore');
+
+//   set('user_id', Date.now())
+//     .then(() => {
+//       console.log('saved the user_id');
+//       //overwrites old values for the same key
+//     })
+//     .catch(console.warn);
+
+//   let myobj = {
+//     id: 123,
+//     name: 'steve',
+//     email: 'steve@work.org',
+//   };
+
+//   //3rd parameter is which idb you want to set or get data from it (default or custom created idb)
+//   set('info', myobj, st) 
+//     .then(() => {
+//       console.log('saved the info');
+//     })
+//     .catch(console.warn);
+
+//   let pup = [{ type: 'Boxer' }, { type: 'Great Pyrenees' }];
+//   const blob = new Blob([JSON.stringify(pup, null, 2)], {
+//     type: 'application/json',
+//   });
+
+//   set('puppies', blob, st);
+
+//   get('info',st)
+//     .then((data) => {
+//       console.log(data.id, data.email);
+//     })
+//     .catch(console.warn);
+
+//   // 2nd parameter of update method is function which is accept the value of key ('user_id') as argument
+//   update('user_id', (val) => {
+//     return val - 10000;
+//   })
+//     .then((data) => {
+//       console.log('update complete');
+//     })
+//     .catch(console.warn);
+
+//   set('nope', 567);
+
+//   del('nope')
+//     .then(() => {
+//       console.log('successfully deleted.');
+//     })
+//     .catch(console.warn);
+
+//   keys().then((resp) => {
+//     console.log('keys');
+//     console.log(resp);
+//   });
+
+//   values().then((resp) => {
+//     console.log('values');
+//     console.log(resp);
+//   });
+
+//   entries().then((resp) => {
+//     console.log(resp.length);
+//     console.log(resp[0]);
+//     //items from the store by index
+//   });
+// })();
+
+// --------------------------catching error or rejected inside then---------------
+/*
+then can accept two function as parameters 
+1st function is for resolve / 2nd function is for reject or error from last then or fetch istself
+
+for exp. : 
+2nd function in 1st then will catch error from fetch (failed to fetch)
+2nd function in 2nd then will catch error from reading (response.json())
+
+** fetch only goes into .catch handler when it fails to make the request for example 
+when the network is not available or the domain does not exist.
+But 404(not found) error will not go to .catch Handler
+*/
+//standard fetch
+// let url = 'https://jsonplaceholder.typicode.com/todos/12';
+
+// fetch(url)
+//   .then((response) => response.json())
+//   .then((data) => {
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.warn(err.message);
+//   });
+
+// promise
+// let p = new Promise((resolve, reject) => {
+//   //this function represents the async task
+//   //resolve();
+//   reject('bad');
+// })
+//   .then(
+//     (response) => {
+//       //resolved
+//       console.log('resolve');
+//     },
+//     (err) => {
+//       console.log(err);
+//     }
+//   )
+//   .catch((err) => {
+//     //handle any errors
+//     console.log('error catch');
+//   });
+
+// fetch(url)
+//   .then(
+//     (resp) => {
+//       if (!resp.ok) {
+//         // this will no go directly to .catch because of interrupt in 2nd then 
+//         // it will go to (err) in 2nd then and you can throw another Error there to go to catch
+//         // but in this case we will not know if the Error from !resp.ok or from resp.json() failure
+//         throw new Error(resp.statusText)
+//       }
+//       return resp.json();
+//     },
+//     (err) => {
+//       //first interrupt
+//       //the fetch failing
+//       console.log('Network Error');
+//       console.log(err)
+//       //talk to the indexedDB to get cached data
+//     }
+//   )
+//   .then(
+//     (data) => {
+//       console.log(data);
+//     },
+//     (err) => {
+//       //failed to run resp.json()
+//       // throw new Error()
+//     }
+//   )
+//   .catch((err) => {
+//     console.warn('NOT resp.ok');
+//   });
+
+// after checking response.ok you can throw an Error or return Promise.reject(response) to go to .catch handler
+// fetch('https://jsonplaceholder.typicode.com/todos/434234234') 
+//   .then((response) => {
+//     if (response.ok) { 
+//       return response.json();
+//     }
+//     return Promise.reject(response); 
+//   })
+//   .then((result) => { 
+//     console.log(result); 
+//   })
+//   .catch((error) => {
+//     console.log('Something went wrong.', error); 
+//   });
+
+// --------------------------------
+// let url = 'http://127.0.0.1:5500/videos/Eloquent.jpeg';
+
+// let options = {
+// method: 'GET',
+// };
+
+// fetch(url, options)
+// .then(async (resp) => {
+//   if (!resp.ok) throw resp.statusText;
+//   console.log({ resp });
+//   console.log(resp.headers.get('content-type'));
+//   // headers methods : 
+//   //append() delete() get()  has() values() keys() entries() set()
+//   for (let h of resp.headers) {
+//     console.log(h);
+//   }
+//   let type = resp.headers.get('content-type');
+//   let obj = {
+//     html: null,
+//     json: null,
+//     blob: null,
+//   };
+//   // we used async and await because .text() .json() asynchrnous
+//   if (type.startsWith('text/html')) {
+//     obj.html = await resp.text();
+//   } else if (type.startsWith('application/json')) {
+//     obj.json = await resp.json();
+//   } else if (type.startsWith('image/')) {
+//     obj.blob = await resp.blob();
+//   }
+//   return obj;
+// })
+// .then(({ html, json, blob }) => {
+//   //handle the contents of the file
+//   if (html) {
+//     const doc = new DOMParser().parseFromString(html, 'text/html');
+//     // console.log(doc.body);
+//     let h1 = doc.querySelector('h1');
+//     console.log(h1.textContent);
+//   }
+//   if (json) {
+//     //js object
+//     console.log(json)
+//   }
+//   if (blob) {
+//     //image
+//     let img = document.createElement('img');
+//     let url = URL.createObjectURL(blob);
+//     img.src = url;
+//     document.body.append(img);
+//   }
+// })
+// .catch((err) => {
+//   console.warn(err.message);
+// });
