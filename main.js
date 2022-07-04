@@ -22939,3 +22939,235 @@ But 404(not found) error will not go to .catch Handler
 // .catch((err) => {
 //   console.warn(err.message);
 // });
+
+// ------------------------------image size without downloading---------------------
+// let base = 'http://127.0.0.1:5500/videos/';
+// let smallURL = `${base}237-400x300.jpeg`;
+// let mediumURL = `${base}237-800x600.jpeg`;
+// let largeURL = `${base}237-1600x1200.jpeg`;
+// let options = {
+//   // method : "GET" // if you want to download the file
+//   method: 'HEAD', //only fetch the headers
+// };
+// let files = {};
+// //one file
+// fetch(mediumURL, options)
+//   .then((resp) => {
+//     if (!resp.ok) throw resp.statusText;
+//     // to download the file
+//     //return resp.blob();
+//     //how big? to know only the size
+//     console.log(resp.headers.get('content-length'));
+//   })
+//   .then((blob) => {
+//     //convert blob to url
+//   })
+//   .catch((err) => {
+//     console.warn(err.message);
+//   });
+
+// //list of files
+// Promise.all([
+//   fetch(smallURL, options),
+//   fetch(mediumURL, options),
+//   fetch(largeURL, options),
+// ])
+//   .then((responses) => { // will return array of responses responses = [resp1,resp2,resp3]
+//     // console.log(new URL(respSM.url).pathname);
+//     // console.log('small', respSM.headers.get('content-length'));
+//     // console.log('med', respMD.headers.get('content-length'));
+//     // console.log('lg', respLG.headers.get('content-length'));
+
+//     for (let resp of responses) {
+//       files[new URL(resp.url).pathname] = resp.headers.get(
+//         'content-length'
+//       );
+//     }
+//     // files[new URL(respSM.url).pathname] = respSM.headers.get(
+//     //   'content-length'
+//     // );
+//     // files[new URL(respMD.url).pathname] = respMD.headers.get(
+//     //   'content-length'
+//     // );
+//     // files[new URL(respLG.url).pathname] = respLG.headers.get(
+//     //   'content-length'
+//     // );
+//     console.log({ files });
+//   })
+//   .catch((err) => {
+//     console.warn(err.message);
+//   });
+
+// -------------------------------custom protocol--------------------
+// const APP = {
+//   init() {
+//     //Register the custom protocol handler `web+bob`
+//     //Requires HTTPS in Chrome
+//     //http works in Firefox for localhost
+//     //forget about Safari...
+
+//     // `web+bob:louise` would become
+//     // `http://127.0.0.1:3003/character.html?char=louise`
+//     navigator.registerProtocolHandler(
+//       `web+bob`,
+//       `http://127.0.0.1:5500/html/charachters.html?char=%s`, // %s means web+bob: + string written in href
+//       `Title`
+//     );
+
+//     //check if we are on the character page and handle the link
+//     APP.checkCustom();
+//   },
+//   checkCustom() {
+//     //are we on the character page?
+//     if (location.pathname.indexOf('/html/charachters.html') > -1) {
+//       //Do we have a name in the queryString
+//       let params = new URL(location).searchParams;
+//       if (params.has('char')) {
+//         let value = params.get('char').split("web+bob:")[1];
+//         let h2 = document.querySelector('header h2');
+//         if (h2) {
+//           h2.textContent = value.toUpperCase();
+//         }
+//       }
+//     }
+//   },
+// };
+// document.addEventListener('DOMContentLoaded', APP.init);
+
+// -------------------------image lazy loading------------------
+/*
+- eager : 
+The default behavior, eager tells the browser to load the image as soon as 
+the <img> element is processed.
+
+- lazy :
+Tells the user agent to hold off on loading the image until the browser estimates 
+that it will be needed imminently. For instance, if the user is scrolling through 
+the document, a value of lazy will cause the image to only be loaded shortly before 
+it will appear in the window's visual viewport.
+*/
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   //when the HTML has finished loading
+//   console.log('got the HTML');
+//   let images = document.querySelectorAll('p img');
+//   images.forEach((img) => {
+//     img.addEventListener('load', (ev) => {
+//       console.log(`loaded ${ev.target.src}`);
+//     });
+//   });
+// });
+
+// window.addEventListener('load', () => {
+//   //when the HTML, css, js, fonts,
+//   //and images that are NOT lazy are finished loading
+//   console.log('loaded the page and assets, NOT counting lazy images');
+//   //start getting more images...
+//   let main = document.querySelector('main');
+//   let section = document.createElement('section');
+//   let lorem = `Architecto, asperiores, ipsum modi unde iusto sunt reprehenderit
+//           aliquam quo labore provident laboriosam obcaecati fugiat doloribus
+//           vero quisquam odit cum perferendis sequi nostrum assumenda iste
+//           aliquid sapiente expedita nobis! Nulla.`;
+//   for (let i = 5; i <= 6; i++) {
+//     let p = document.createElement('p');
+//     p.append(createImage(i), lorem);
+//     section.append(p);
+//   }
+//   main.append(section); //repaint
+// });
+
+// function createImage(num) {
+//   let img = document.createElement('img');
+//   img.loading = 'lazy';
+//   img.addEventListener('load', (ev) => {
+//     let url = new URL(ev.target.src);
+//     console.log(`Finished loading ${url.pathname}`);
+//   });
+//   img.addEventListener('error', (ev) => {
+//     let url = new URL(ev.target.src);
+//     console.log(`Failed to load ${url.pathname}`);
+//   });
+//   img.src = `./videos/pexels-${num}.jpeg`;
+//   return img;
+// }
+
+// ------------------------decode attribute & decode() method on images-------------
+/*
+- decode attribute :
+* sync : Decode the image synchronously for atomic presentation with other content.
+* async : Decode the image asynchronously to reduce delay in presenting other content.
+* auto : Default mode, which indicates no preference for the decoding mode. The browser decides what is best for the user.
+
+- decode() method : 
+One potential use case for decode(): when loading very large images 
+, you can present a low resolution thumbnail image initially and then 
+replace that image with the full-resolution image by instantiating a 
+new HTMLImageElement, setting its source to the full-resolution image's 
+URL, then using decode() to get a promise which is resolved once the 
+full-resolution image is ready for use.
+*/
+document.addEventListener('DOMContentLoaded', () => {
+  //when the HTML has finished loading
+  console.log('got the HTML');
+  // let images = document.querySelectorAll('img[decode="async"]');
+  // images.forEach(function (img) {
+  //   img.addEventListener('load', (ev) => {
+  //     console.log(`Finished loading the LOW RES ${ev.target.src}`);
+  //     ev.target.setAttribute('data-loaded', 'low');
+  //     //low res versions are:
+  //     //<img loading="lazy" decode="async"/>
+  //     //go decode the real one asynchronously
+  //     //wait for decode() promise to be resolved
+  //     //listen for the load event for the real one
+  //     let i = new Image(); // like document.createElement('img')
+  //     i.src = img.src.replace('-low-', '-');
+  //     i.decode().then(() => {       
+  //       let url = new URL(i.src);
+  //       console.log(`ASYNC: Finished decoding REAL ${url.pathname}`);
+  //       img.replaceWith(i); // method to replace node element with another one
+  //       i.setAttribute('data-loaded', 'high-decoded');
+  //     });
+  //   });
+  // });
+
+  // my way to solve Error 
+  let images = document.querySelectorAll('img[decode="async"]');
+  let notBusy = true;
+  for(let img of images){
+    img.addEventListener('load', function(){
+      let intervalID = setInterval(function (img) {
+        if(notBusy){
+          notBusy = false
+          let i = new Image(); // like document.createElement('img')
+          i.src = img.src.replace('-low-', '-');
+          i.decode().then(() => {       
+            let url = new URL(i.src);
+            console.log(`ASYNC: Finished decoding REAL ${url.pathname}`);
+            img.replaceWith(i); // method to replace node element with another one
+            i.setAttribute('data-loaded', 'high-decoded');
+            clearInterval(intervalID)
+            notBusy = true;
+          });
+        }
+      },100,img)
+    });
+  }
+});
+
+window.addEventListener('load', () => {
+  //when the HTML, css, js, fonts,
+  //and images that are NOT lazy are finished loading
+  console.log('loaded the page and assets, NOT counting lazy images');
+});
+
+// -----how to pause a loop
+// const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+
+// const loop = async () => {
+//   for (const a of [1, 2, 3]) {
+//     console.log(a)
+//     await wait(2000)
+//   }
+// }
+// loop()
