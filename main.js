@@ -23107,59 +23107,59 @@ new HTMLImageElement, setting its source to the full-resolution image's
 URL, then using decode() to get a promise which is resolved once the 
 full-resolution image is ready for use.
 */
-document.addEventListener('DOMContentLoaded', () => {
-  //when the HTML has finished loading
-  console.log('got the HTML');
-  // let images = document.querySelectorAll('img[decode="async"]');
-  // images.forEach(function (img) {
-  //   img.addEventListener('load', (ev) => {
-  //     console.log(`Finished loading the LOW RES ${ev.target.src}`);
-  //     ev.target.setAttribute('data-loaded', 'low');
-  //     //low res versions are:
-  //     //<img loading="lazy" decode="async"/>
-  //     //go decode the real one asynchronously
-  //     //wait for decode() promise to be resolved
-  //     //listen for the load event for the real one
-  //     let i = new Image(); // like document.createElement('img')
-  //     i.src = img.src.replace('-low-', '-');
-  //     i.decode().then(() => {       
-  //       let url = new URL(i.src);
-  //       console.log(`ASYNC: Finished decoding REAL ${url.pathname}`);
-  //       img.replaceWith(i); // method to replace node element with another one
-  //       i.setAttribute('data-loaded', 'high-decoded');
-  //     });
-  //   });
-  // });
+// document.addEventListener('DOMContentLoaded', () => {
+//   //when the HTML has finished loading
+//   console.log('got the HTML');
+//   // let images = document.querySelectorAll('img[decode="async"]');
+//   // images.forEach(function (img) {
+//   //   img.addEventListener('load', (ev) => {
+//   //     console.log(`Finished loading the LOW RES ${ev.target.src}`);
+//   //     ev.target.setAttribute('data-loaded', 'low');
+//   //     //low res versions are:
+//   //     //<img loading="lazy" decode="async"/>
+//   //     //go decode the real one asynchronously
+//   //     //wait for decode() promise to be resolved
+//   //     //listen for the load event for the real one
+//   //     let i = new Image(); // like document.createElement('img')
+//   //     i.src = img.src.replace('-low-', '-');
+//   //     i.decode().then(() => {       
+//   //       let url = new URL(i.src);
+//   //       console.log(`ASYNC: Finished decoding REAL ${url.pathname}`);
+//   //       img.replaceWith(i); // method to replace node element with another one
+//   //       i.setAttribute('data-loaded', 'high-decoded');
+//   //     });
+//   //   });
+//   // });
 
-  // my way to solve Error 
-  let images = document.querySelectorAll('img[decode="async"]');
-  let notBusy = true;
-  for(let img of images){
-    img.addEventListener('load', function(){
-      let intervalID = setInterval(function (img) {
-        if(notBusy){
-          notBusy = false
-          let i = new Image(); // like document.createElement('img')
-          i.src = img.src.replace('-low-', '-');
-          i.decode().then(() => {       
-            let url = new URL(i.src);
-            console.log(`ASYNC: Finished decoding REAL ${url.pathname}`);
-            img.replaceWith(i); // method to replace node element with another one
-            i.setAttribute('data-loaded', 'high-decoded');
-            clearInterval(intervalID)
-            notBusy = true;
-          });
-        }
-      },100,img)
-    });
-  }
-});
+//   // my way to solve Error 
+//   let images = document.querySelectorAll('img[decode="async"]');
+//   let notBusy = true;
+//   for(let img of images){
+//     img.addEventListener('load', function(){
+//       let intervalID = setInterval(function (img) {
+//         if(notBusy){
+//           notBusy = false
+//           let i = new Image(); // like document.createElement('img')
+//           i.src = img.src.replace('-low-', '-');
+//           i.decode().then(() => {       
+//             let url = new URL(i.src);
+//             console.log(`ASYNC: Finished decoding REAL ${url.pathname}`);
+//             img.replaceWith(i); // method to replace node element with another one
+//             i.setAttribute('data-loaded', 'high-decoded');
+//             clearInterval(intervalID)
+//             notBusy = true;
+//           });
+//         }
+//       },100,img)
+//     });
+//   }
+// });
 
-window.addEventListener('load', () => {
-  //when the HTML, css, js, fonts,
-  //and images that are NOT lazy are finished loading
-  console.log('loaded the page and assets, NOT counting lazy images');
-});
+// window.addEventListener('load', () => {
+//   //when the HTML, css, js, fonts,
+//   //and images that are NOT lazy are finished loading
+//   console.log('loaded the page and assets, NOT counting lazy images');
+// });
 
 // -----how to pause a loop
 // const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms))
@@ -23171,3 +23171,60 @@ window.addEventListener('load', () => {
 //   }
 // }
 // loop()
+
+// ------------------------------add variable to CSS from JS--------------
+// let root = document.documentElement
+// root.style.setProperty("--mainColor", "red")
+
+// ------------------link datalist element to input element using list attribute---------------
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   let country = document.getElementById("country");
+//   country.addEventListener("input", countrySelected);
+// });
+
+// function countrySelected(ev) {
+//   console.log(ev.target.value);
+//   let countryName = ev.target.value.toLowerCase();
+//   if (!document.getElementById(countryName)) return;
+
+//   let state = document.getElementById("state");
+//   state.setAttribute("list", countryName);
+//   state.focus();
+//   state.value = "";
+// }
+
+// ------------------------import method from JS-------------------
+/*
+- instead of import { default as rand, colour } from './Module/utils.js';
+  you can use import method in JS and will return a promise
+
+- with import method you don't need to add type="module" attribute
+
+*/
+
+// const allowImport = true;
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   let main = document.querySelector('main');
+
+//   if (allowImport) {
+//     import('./Module/utils.js')
+//       .then(({ default: r, colour: clr }) => {
+//         let pn = document.createElement('p');
+//         let today = new Date().getDate();
+//         pn.textContent = `Today's number is ${r(today)}.`;
+//         main.append(pn);
+
+//         let pc = document.createElement('p');
+//         let c = clr();
+//         pc.style.color = c;
+//         pc.textContent = `Today's colour is ${c}`;
+//         main.append(pc);
+//       })
+//       .catch((err) => {
+//         console.error('Failed to load the utils functions');
+//       });
+//   }
+// });
+
