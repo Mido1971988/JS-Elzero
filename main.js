@@ -23228,3 +23228,285 @@ full-resolution image is ready for use.
 //   }
 // });
 
+// --------------------------convert callback hell to promise-----------------
+
+// const delayCallback = (func, seconds = 2) => {
+//   let timmy = setTimeout(func, seconds * 1000);
+//   return timmy;
+// };
+
+// const delayPromise = (seconds = 2) => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+// document.addEventListener('DOMContentLoaded', () => {
+//   //HTML has loaded, add click listener
+//   document.getElementById('btnDelay').addEventListener('click', wait);
+// });
+
+// const changeBtnColor = () => {
+//   let color = `#${Math.random().toString(16).substr(2, 6)}`;
+//   let element = document.getElementById('btnDelay');
+//   element.style.backgroundColor = color;
+//   console.log(`Button is now ${color}`);
+//   return Math.floor(Math.random() * 4) + 1;
+// };
+
+// const wait = (ev) => {
+//   //callback version
+//   let delay1 = 3;
+
+//   // delayCallback(() => {
+//   //   let delay2 = changeBtnColor();
+//   //   delayCallback(() => {
+//   //     let delay3 = changeBtnColor();
+//   //     delayCallback(() => {
+//   //       let delay4 = changeBtnColor();
+//   //     }, delay3);
+//   //   }, delay2);
+//   // }, delay1);
+
+//   //change the button colour after delay
+//   delayPromise(delay1)
+//     .then(changeBtnColor) //return value gets passed to the next then()
+//     .then(delayPromise)
+//     .then(changeBtnColor)
+//     .then(delayPromise)
+//     .then(changeBtnColor)
+//     .catch((err) => console.error);
+// };
+
+// -------------------------------------CSS clamp---------------
+/*
+[1] if browser support -webkit-line-clamp : 
+  add those 4 lines to CSS File
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+
+[2] if not supported do our JS simulated support :
+watch this video (https://youtu.be/GxpUp0FecEw) to understand
+
+
+*/
+// const LINES = 2;
+// let lineHeight = 1;
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   //HTML loaded
+//   // to check if browser support -webkit-line-clamp 
+//   if (
+//     CSS.supports("-webkit-line-clamp", LINES) &&
+//     window.getComputedStyle(document.querySelector("main p"))[
+//       "-webkit-line-clamp"
+//     ] !== "none"
+//   ) {
+//     // -webkit-line-clamp is supported...
+//     // and there is a value set for -webkit-line-clamp in the CSS
+//     console.log("CSS is doing the work for us.");
+//     console.log(
+//       window.getComputedStyle(document.querySelector("main p"))[
+//         "-webkit-line-clamp"
+//       ],
+//       "lines for clamping"
+//     );
+//   } else {
+//     // No -webkit-line-clamp support...
+//     //let's do our JS simulated support
+
+//     //one time when we first load, get the p line-height, save the original text, do clamping
+//     document.querySelectorAll("main > p").forEach((p) => {
+//       lineHeight = parseFloat(window.getComputedStyle(p).lineHeight);
+//       p.setAttribute("data-text", p.textContent); //save the original text
+//       clampIt(p);
+//     });
+
+//     //when the page gets resized repeat the clamping
+//     //could use resizeObservers on the paragraphs instead
+//     //this would be a good place to use debouncing to reduce the number of calls
+//     window.addEventListener("resize", () => {
+//       document.querySelectorAll("main > p").forEach((p) => {
+//         clampIt(p);
+//       });
+//     });
+//   }
+// });
+
+// function clampIt(p) {
+//   let originalText = p.getAttribute("data-text");
+//   let totalChars = originalText.length; //number of characters in the original text
+
+//   let bounds = p.getBoundingClientRect();
+//   console.log({ bounds }); //dimensions of the current paragraph - width and height
+
+//   let lineCount = bounds.height / lineHeight;
+//   console.log({ lineCount }); //number of lines that could be displayed
+
+//   let totalAvailLength = lineCount * bounds.width; //width if that many lines were on one.
+//   let avgCharWidth = Math.round(totalAvailLength / p.textContent.length);
+//   console.log({ avgCharWidth }); //total width divided by current number of characters
+//   // to estimate an average width per character
+
+//   let charsPerLine = bounds.width / avgCharWidth;
+//   console.log({ charsPerLine }); //how many characters can be shown per line, estimated.
+
+//   let targetChars = Math.ceil(charsPerLine * LINES);
+//   console.log({ targetChars }); //our estimate of how many characters to show in the paragraph
+
+//   if (targetChars < totalChars) {
+//     let nextSpace = originalText.indexOf(" ", targetChars - 5);
+//     if (nextSpace > -1) {
+//       //found a space near the target length
+//       //display the substring of the right number of characters
+//       p.textContent = originalText.substr(0, nextSpace).concat("\u2026"); //add ellipsis
+//     } else {
+//       //no space after this point in the text
+//       //display the substring of the right number of characters
+//       p.textContent = originalText.substr(0, targetChars - 1).concat("\u2026"); //add ellipsis
+//     }
+//   } else {
+//     //not enough chars to fill the lines, so show it all
+//     p.textContent = originalText;
+//   }
+// }
+
+/* how clampIt function works
+1. Find the average character width for the Element
+  a. take the height of the element divided by the line-height to get the total number of current lines
+  b. multiply the lines by the width of the element to get the total length
+  c. divide total length by number of chars in current text
+
+2. Find the number of characters can be held in requested number of lines
+  a. requested lines multiplied by element width
+  b. divide that length by the average character width
+
+3. Truncate the original text under different conditions
+  a. enough room to hold all the original text - show all of it
+  b. not enough room - find the next <space> and truncate then add an ellipsis
+  c. not enough room but no <space> truncate there and add an ellipsis
+  
+*/
+
+// -------------------------------drag and drop-----------------------
+// let imgElement = new Image();
+// let dragElement = document.createElement('span');
+// let myData = {
+//   id: 123,
+//   tag: 'p',
+//   text: 'Just a paragraph',
+//   timestamp: 0,
+//   url: '',
+// };
+
+// document.addEventListener('DOMContentLoaded', () => {
+  
+//   //required event listeners
+//   document.body.addEventListener('dragstart', handleDragStart); //for draggable
+//   document.body.addEventListener('drop', handleDrop); //for dropzone
+//   document.body.addEventListener('dragover', handleOver); //for dropzone
+  
+//   //optional but useful events
+//   document.body.addEventListener('mousedown', handleCursorGrab);
+//   document.body.addEventListener('dragenter', handleEnter);
+//   document.body.addEventListener('dragleave', handleLeave);
+  
+//   //set up draggable things (non-ios)
+//   imgElement.src = './videos/pexels-3.jpeg';
+//   document.querySelector('footer>p').appendChild(imgElement);
+//   dragElement.textContent = 'Wheeeee';
+//   dragElement.classList.add('wheeeee');
+//   document.querySelector('footer>p').appendChild(dragElement);
+// });
+
+// function handleDragStart(ev) {
+//   //user started to drag a draggable from the webpage
+//   let obj = ev.target;
+//   if (!obj.closest('.draggable')) return;
+//   if(obj.classList.contains('draggable')){
+//     obj = obj.firstElementChild;
+//   }
+//   // console.log('DRAGSTART');
+//   // ev.dataTransfer.setDragImage(dragElement, 50, 50);
+//   // ev.dataTransfer.setDragImage(imgElement, 50, 50);
+//   // ev.dataTransfer.setData('text/plain', ' No MORE DATA ');
+  
+//   myData.tag = obj.tagName;
+//   myData.text = obj.textContent?obj.textContent:obj.alt?obj.alt:'';
+//   myData.url = obj.href?obj.href: obj.src? obj.src:'';
+//   myData.timestamp = Date.now();
+//   let data = JSON.stringify(myData);
+//   ev.dataTransfer.setData('application/json', data);
+//   obj.setAttribute('data-ts', myData.timestamp);
+  
+//   let dataList = ev.dataTransfer.items;
+//   for(let i=0; i<ev.dataTransfer.items.length; i++){
+//     let item = ev.dataTransfer.items[i];
+//     // console.log(i, item.kind, item.type);
+//   }
+  
+// }
+// function handleDrop(ev) {
+//   let dropzone = ev.target;
+//   if (!dropzone.classList.contains('dropzone')) return;
+
+//   ev.preventDefault();
+//   // console.log('DROP', ev.dataTransfer);
+//   // let data = ev.dataTransfer.getData('text/plain');
+//   let data = JSON.parse(ev.dataTransfer.getData('application/json'));
+//   let draggable = document.querySelector(`[data-ts="${data.timestamp}"]`);
+//   let clone = draggable.cloneNode(true);
+//   dropzone.append(clone);
+//   draggable.remove();
+  
+//   // dropzone.textContent += data;
+//   dropzone.classList.remove('over');
+  
+//   let len = ev.dataTransfer.items.length;
+//   for(let i = 0; i < len; i++){
+//     let item = ev.dataTransfer.items[i];
+//     if(item.kind === 'string' && item.type.match('^text/html')){
+//       //i got an html element
+//     }
+//     if(item.kind==='string' && item.type.match('^application/json')){
+//       //same as before... except the method getAsString (Asynchronous function)
+//       item.getAsString((json)=>{ 
+//         let data = JSON.parse(json);
+//         console.log('timestamp was', data.timestamp);
+//       })
+//     }
+//   }
+  
+  
+// }
+// function handleOver(ev) {
+//   //fires continually
+//   let dropzone = ev.target;
+//   if (!dropzone.classList.contains('dropzone')) return;
+//   ev.preventDefault();
+//   // dropzone.classList.add('over'); //can do this in handleEnter
+//   // console.log('dragover dropzone');
+// }
+
+// //optional but useful visual stuff...
+// function handleCursorGrab(ev) {
+//   let obj = ev.target;
+//   if (!obj.closest('.draggable')) return;
+//   obj.style.cursor = 'grabbing'; //close the hand
+// }
+// function handleEnter(ev) {
+//   //fires once
+//   let dropzone = ev.target;
+//   if (!dropzone.classList.contains('dropzone')) return;
+//   ev.preventDefault();
+//   dropzone.classList.add('over');
+//   // console.log('dragenter dropzone')
+// }
+// function handleLeave(ev) {
+//   let dropzone = ev.target;
+//   if (!dropzone.classList.contains('dropzone')) return;
+//   ev.preventDefault();
+//   dropzone.classList.remove('over');
+//   // console.log('dragleave dropzone');
+// }
