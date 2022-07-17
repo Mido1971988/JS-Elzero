@@ -8507,6 +8507,8 @@ export * from …;
 export { name1, name2, …, nameN } from …;
 export { import1 as name1, import2 as name2, …, nameN } from …;
 export { default } from …;
+
+note: if you need to use module with node not with browser just change file name from .js to .mjs
 */
 
 // import{myRank, myArray as arr , sayName } from '/Module/Module.js'; //(as is alias )
@@ -23510,3 +23512,136 @@ watch this video (https://youtu.be/GxpUp0FecEw) to understand
 //   dropzone.classList.remove('over');
 //   // console.log('dragleave dropzone');
 // }
+
+// ---------------------------location iq API-----------------------------
+/*
+Documentation : 
+https://locationiq.com/docs-html/index.html?javascript#static-maps
+*/
+
+// const APP = {
+//   TOKEN: 'pk.6b6005e44e04badf378e7b27d15d962e',
+//   SEARCHURL: `https://us1.locationiq.com/v1/search.php?format=json&`,
+//   REVERSEURL: `https://us1.locationiq.com/v1/reverse.php?format=json&`,
+//   MAPURL: `https://maps.locationiq.com/v3/staticmap?`,
+//   data: null,
+//   init: () => {
+//     document
+//       .getElementById('btnSearch')
+//       .addEventListener('click', APP.doSearch);
+//     document
+//       .getElementById('btnReverse')
+//       .addEventListener('click', APP.doReverse);
+//     document.getElementById('btnMap').addEventListener('click', APP.getMap);
+//   },
+//   doSearch: (ev) => {
+//     ev.preventDefault();
+//     //use forward geocoding
+//     let q = document.getElementById('keyword').value.trim();
+//     if (!q) return false;
+//     let url = `${APP.SEARCHURL}key=${APP.TOKEN}&q=${q}`;
+//     //call the API and do a forward geocoding search
+//     //save the results in a global location
+//     fetch(url)
+//       .then((resp) => {
+//         if (!resp.ok) throw new Error(resp.statusText);
+//         return resp.json();
+//       })
+//       .then((data) => {
+//         APP.data = data[0];
+//         APP.showSearchResults();
+//       })
+//       .catch((err) => {
+//         console.error(err);
+//       });
+//   },
+//   showSearchResults: () => {
+//     //display the results of the search
+//     console.log(APP.data);
+//     let section = document.querySelector('.results');
+//     let pre = section.querySelector('pre');
+//     if (!pre) {
+//       pre = document.createElement('pre');
+//       section.append(pre);
+//     }
+//     //just dump the data response into the <pre> element
+//     //just the first result from the array
+//     pre.textContent = JSON.stringify(APP.data, null, 2);
+//   },
+//   doReverse: (ev) => {
+//     ev.preventDefault();
+//     let q = document.getElementById('keyword').value.trim();
+//     //validation
+//     if (!q) return false; //exit if empty
+//     if (q.indexOf(',') < 0) return false; //exit if no comma
+//     let parts = q.split(','); //make array with 2 parts
+//     if (parts.length !== 2 || isNaN(parts[0]) || isNaN(parts[1])) return false;
+//     //exit if not number lat or lon, not two values
+//     //build url
+//     let url = `${APP.REVERSEURL}key=${APP.TOKEN}&lat=${parts[0]}&lon=${parts[1]}`;
+//     //do a reverse geocoding call
+//     //save the results in a global location
+//     fetch(url)
+//       .then((resp) => {
+//         if (!resp.ok) throw new Error(resp.statusText);
+//         return resp.json();
+//       })
+//       .then((data) => {
+//         console.log(data);
+//         APP.data = data; //no [0]
+//         APP.showSearchResults();
+//       })
+//       .catch((err) => {
+//         console.error(err);
+//       });
+//   },
+//   getMap: (ev) => {
+//     ev.preventDefault();
+//     if (!APP.data) return false; //make sure there is data
+//     let lon = APP.data.lon; //get the longitude from the last retrieved
+//     let lat = APP.data.lat; //get the longitude from the last retrieved
+//     //build the URL with center, zoom, size, format
+//     let url = `${APP.MAPURL}key=${APP.TOKEN}&center=${lat},${lon}&zoom=9&size=400x600&format=png`;
+//     //display the static map
+//     APP.showMap(url);
+//   },
+//   showMap: (url) => {
+//     let section = document.querySelector('.map');
+//     let img = section.querySelector('img');
+//     if (!img) {
+//       img = document.createElement('img');
+//       section.append(img);
+//     }
+//     img.alt = APP.data.display_name; // get the display_name from the data
+//     // put some ref into an attribute
+//     img.setAttribute('data-place-id', APP.data.place_id);
+//     // set the src with the url param
+//     img.src = url;
+//   },
+// };
+
+// document.addEventListener('DOMContentLoaded', APP.init);
+
+// -------------------controlling CSS (element's styles and css variables) from Js-------------
+// window.addEventListener("load", function(){
+//   let body = document.body
+//   let root = document.querySelector(":root")
+//   // CSSStyleDeclaration object (key : number , value : style name)
+//   console.log(getComputedStyle(body)) 
+//   // CSSStyleDeclaration object (key : style name , value : value) but only value added by js file not css
+//   console.log(body.style) 
+//   // if you need to get value added bu css file use get
+//   console.log(getComputedStyle(body).getPropertyValue("color")) // green in rgb
+//   // to be able to use body.style.color you should add it by js file
+//   console.log(body.style.color) // empty not green (in CSS file)
+//   body.style.color = "red"
+//   console.log(body.style.color) // red
+//   // you can setProperty and access it by getPropertyValue or body.style.color
+//   body.style.setProperty("color","blue")
+//   console.log(getComputedStyle(body).getPropertyValue("color")) //blue in rgb
+//   console.log(body.style.color) // blue
+//   // you can access also CSS Variable from JS
+//   console.log(getComputedStyle(root).getPropertyValue("--mainColor")) // blue
+//   root.style.setProperty("--mainColor","purple")
+//   console.log(getComputedStyle(root).getPropertyValue("--mainColor")) // purple
+// })
