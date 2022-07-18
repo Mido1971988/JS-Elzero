@@ -13215,6 +13215,10 @@ Int32Array - like Int8Array but 32 bits in length
 Uint32Array - like Uint8Array but 32 bits in length
 0 to 4294967295
 
+unsigned means non-negative int
+
+clamped means (If you are trying to set one element to a clamped array to any value outside of the range 0-255, it will simply default to 0 or 255 (depending on whether the value is smaller or larger))
+
 Float32Array - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array
 1.2x10-38 to 3.4x10 38
 
@@ -23645,3 +23649,211 @@ https://locationiq.com/docs-html/index.html?javascript#static-maps
 //   root.style.setProperty("--mainColor","purple")
 //   console.log(getComputedStyle(root).getPropertyValue("--mainColor")) // purple
 // })
+
+// --------------------------import CSS file or JSON file-------------------
+/*
+This is my app.js module, which means
+it can import other JS modules.
+...and now, CSS and JSON too
+Chrome 91 added support for JSON Modules
+and Chrome 93 added CSS imports.
+Edge and Opera have these too.
+Support in Firefox is under development.
+
+**instead of using fetch
+*/
+
+//-----[1]JSON
+//static import
+// import data from './json/slideshow.json' assert { type: 'json' };
+// console.log(data.items);
+
+//dynamic import ( using import method)
+// import('./json/slideshow.json', { assert: { type: 'json' } })
+//   .then((mod) => {
+//     //mod is my module
+//     console.log(mod.default.items);
+//   })
+
+//-------[2]CSS
+// import sheet from './css/main.css' assert { type: 'css' };
+// document.adoptedStyleSheets = [sheet];
+
+// ----------------------------import maps---------------
+/*
+in node you can write from 'luxon' and node will search for luxon automatically
+but in browser you have to write full path so if you want to write only from 'luxon'
+you shoud add script tage in HTML file  :
+<script type="importmap">
+  {
+      "imports": {
+      "luxon": "./node_modules/luxon/src/luxon.js"
+      }
+  }
+</script>
+
+npm init -y => to install package.json with defaults
+npm i luxon => to install luxon liberary
+
+npm documentation (https://www.javascripttutorial.net/nodejs-tutorial/what-is-npm/)
+luxon video (https://youtu.be/vAuUzEwTbck)
+*/
+
+// import * as luxon from 'luxon'; 
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   console.log('page is ready');
+//   let output = document.querySelector('.output');
+//   let DateTime = luxon.DateTime;
+//   let today = DateTime.local();
+//   let f = { month: 'long', day: '2-digit' };
+//   let newDt = today.set({ month: 12 });
+//   output.textContent = newDt.setLocale('fr-CA').toLocaleString(f);
+// });
+
+// --------------------------file object and fileList (and using fetch)---------------------------
+/*
+in HTML file you can write what are the accepted files types inside accept attribute: 
+  text/html,.html,text/xml,.xml
+  text/css,.css
+  application/json,.json,text/json
+  image/*,.png,.jpg,.gif,.webp,image/jpeg,image/gif,image/webp,image/png  
+
+
+*/
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   document.getElementById('inputFile').addEventListener('change', filesPicked);
+
+//   document.getElementById('btnToggle').addEventListener('click', toggleInput);
+//   document.getElementById('btnPick').addEventListener('click', askForFiles);
+//   document.getElementById('btnInfo').addEventListener('click', showFileInfo);
+// });
+
+// function filesPicked(ev) {
+//   //any time one or more files are picked in the file picker dialog
+//   let input = ev.target;
+//   let files = input.files;
+//   console.log({ files });
+//   if (files.length > 0) {
+//     showFileInfo(ev);
+//     //upload a file or file(s) to a web server/api
+//     let url = 'https://jsonplaceholder.typicode.com/users';
+//     // let h = new Headers();
+//     // h.append('content-type', files[0].type);
+//     // h.append('content-length', files[0].size);
+
+//     // if you want to select mutliple files yoy can not add header put you can use FormData and 
+//     // the browser will create "Content-disposition": "Multipart/Form-Data" by default and 
+//     // create a boundary also (a seperating text between selected files )
+//     //  "Content-disposition": "Multipart/Form-Data;boundary=--asdlkasj(random string created by browser)"
+//     let fd = new FormData();
+//     fd.append('name', 'Steve');
+//     for (let i = 0, len = files.length; i < len; i++) {
+//      // FormData append accept 3 parameters (name , value, file name )
+//       fd.append(`files-${i}`, files[i], files[i].name);
+//     }
+//     let request = new Request(url, {
+//       body: fd,
+//       // headers: h,
+//       mode: 'no-cors',
+//       method: 'POST',
+//     });
+//     fetch(request)
+//       .then((response) => {
+//         console.log(response.status, response.statusText);
+//       })
+//       .catch(console.warn);
+//   }
+// }
+
+// function toggleInput(ev) {
+//   //hide or show the <input type="file">
+//   ev.preventDefault();
+//   let control = document.getElementById('inputFile').parentElement;
+//   //we want to apply this class to the parent
+//   control.classList.toggle('hidden');
+// }
+
+// function askForFiles(ev) {
+//   //open the file picker dialog
+//   ev.preventDefault();
+//   let control = document.getElementById('inputFile');
+//   control.click();
+// }
+
+// function showFileInfo(ev) {
+//   if (ev.type == 'click') ev.preventDefault();
+//   //loop through all the files in the filelist
+//   //and display the name, size, type, and lastModified date
+//   let files = document.getElementById('inputFile').files;
+//   let len = files.length;
+//   for (let i = 0; i < len; i++) {
+//     console.group();
+//     console.log(files[i].name);
+//     console.log(files[i].size);
+//     console.log(files[i].type);
+//     console.log(files[i].lastModified);
+//     console.groupEnd();
+//   }
+// }
+
+// ------------------Files, Blobs, ArrayBuffers, TypedArrays, DataViews-------------
+
+/*
+new Blob([ data ], {type:"text/plain", endings: "transparent"||"native"}) // ending => for  
+
+new File([ data ], filename, {type:"text/plain", lastModified: Date.now()})
+
+(data - Blob, ArrayBuffer, TypedArray, DataView, String (utf-8 string), a mixture)
+File is a sub-class of Blob. Can often be used interchangeably. 
+Once you have a Blob/File then you can use it:
+- upload via fetch as a file or stream
+- save it in the cache
+- add a link in a webpage to the file
+- display it as an image (if image)
+- read the text contents (json, txt, html...) and:
+  - display on page
+  - parse the html, xml, json, etc
+  - save in localStorage or cookie
+
+ArrayBuffer - raw data as a fixed-length string of bytes. It is NOT an Array.
+
+DataView - an interpretation of some raw bytes expressed as 8-bit, 16-bit, 32-bit,
+  or 64-bit integers. Used to add or edit data in an ArrayBuffer. Like a wrapper 
+  for ArrayBuffers if you need to edit them. It is a View of the Data from the ArrayBuffer
+
+TypedArray - It is an Array-like view of raw bytes stored as 
+  8-bit, 16-bit, 32-bit or 64-bit  integers, clamped integers, 
+  signed and unsigned integers, or floats. 
+
+ArrayBuffer can be passed as parameter to DataView to edit it (for get and set methods)
+ArrayBuffer can be passed as parameter to TypedArray because TypedArray have most of array methods
+*/
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   document.getElementById('btnGo').addEventListener('click', createBlob);
+// });
+
+// function createBlob(ev) {
+//   ev.preventDefault();
+//   let ab = new ArrayBuffer(2); //2 bytes / 1 byte = 8 bits 0 - 255
+//   let dataview = new DataView(ab);
+//   dataview.setInt8(0, 104); //h
+//   dataview.setInt8(1, 105); //i
+//   console.log(new Uint8Array(ab).toString());
+
+//   let b = new Blob([ab]);
+//   console.log(b);
+
+//   let f = new File([ab], 'myinfo.txt', { type: 'text/plain' });
+//   console.log(f);
+
+//   let url = URL.createObjectURL(f);
+//   let a = document.createElement('a');
+//   a.href = url;
+//   a.download = f.name;
+//   a.textContent = `Download ${f.name}`;
+//   document.querySelector('main').append(a);
+// }
+

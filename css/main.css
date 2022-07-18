@@ -3888,3 +3888,147 @@ button {
 body{
     color : green;
 } */
+
+/* *,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 20px;
+  font-weight: 300;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+}
+body {
+  min-height: 100vh;
+  background-color: #333;
+  color: #eee;
+}
+header,
+main,
+footer {
+  width: 80vw;
+  padding: 1rem 2rem;
+  margin: 0 auto;
+}
+header h1 {
+  color: orange;
+}
+header h2 {
+  color: orangered;
+}
+p {
+  line-height: 1.7;
+  margin: 1.5rem 0;
+} */
+
+/* *,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 20px;
+  font-weight: 300;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+}
+body {
+  min-height: 100vh;
+  background-color: #333;
+  color: #eee;
+}
+header,
+main,
+footer {
+  width: 80vw;
+  padding: 1rem 2rem;
+  margin: 0 auto;
+}
+header h1 {
+  color: orange;
+}
+header h2 {
+  color: orangered;
+}
+p {
+  line-height: 1.7;
+  margin: 1.5rem 0;
+} */
+
+/* * {
+    box-sizing: border-box;
+    font: inherit;
+}
+html {
+    font-size: 20px;
+    font-family: sans-serif;
+    margin: 0;
+}
+body {
+    margin: 0;
+}
+header {
+    padding: 1rem 3rem;
+    background-color: coral;
+    color: white;
+    border-bottom: 1px solid #000;
+}
+:is(main, footer) {
+    padding: 1rem 3rem;
+}
+header h1 {
+    font-size: 2rem;
+}
+form {
+    padding: 0 4rem;
+}
+.hidden {
+    opacity: 0;
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+footer img {
+    width: 300px;
+} */
+
+/* * {
+    box-sizing: border-box;
+    font: inherit;
+}
+html {
+font-size: 20px;
+font-family: sans-serif;
+margin: 0;
+}
+body {
+margin: 0;
+}
+header {
+padding: 1rem 3rem;
+background-color: coral;
+color: white;
+border-bottom: 1px solid #000;
+}
+:is(main, footer) {
+padding: 1rem 3rem;
+}
+header h1 {
+font-size: 2rem;
+}
+h2 {
+font-size: 2rem;
+}
+p {
+font-size: 1rem;
+} */
