@@ -23801,7 +23801,7 @@ in HTML file you can write what are the accepted files types inside accept attri
 // ------------------Files, Blobs, ArrayBuffers, TypedArrays, DataViews-------------
 
 /*
-new Blob([ data ], {type:"text/plain", endings: "transparent"||"native"}) // ending => for  
+new Blob([ data ], {type:"text/plain", endings: "transparent"||"native"}) // ending => for carriage return or new line characters  
 
 new File([ data ], filename, {type:"text/plain", lastModified: Date.now()})
 
@@ -23857,3 +23857,325 @@ ArrayBuffer can be passed as parameter to TypedArray because TypedArray have mos
 //   document.querySelector('main').append(a);
 // }
 
+// -----------------------------custom HTTP request---------------
+
+/*
+new Response(body, {
+  status: 200,
+  statusText: 'All good',
+  headers: {
+    'x-my-header': 'some value',
+  }
+});
+
+body - Blob, File, ArrayBuffer, TypedArray, DataView,
+  FormData, String, ReadableStream, URLSearchParams
+*/
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   //when the page is ready...
+//   createJSONResponse();
+
+//   createImageResponse();
+// });
+
+// async function createJSONResponse() {
+//   //create an object, convert to JSON and create a file in a Response
+//   const myobj = {
+//     id: 123,
+//     name: 'Sheldon',
+//   };
+//   let json = JSON.stringify(myobj);
+//   let file = new File([json], 'mydata.json', { type: 'application/json' });
+//   console.log(file);
+//   const response = new Response(file, {
+//     status: 200,
+//     statusText: 'All good',
+//     headers: {
+//       'x-my-header': 'some value',
+//       'content-type': file.type,
+//       'content-length': file.size,
+//     },
+//   });
+//   console.log(response);
+//   const copy = response.clone();
+//   console.log(copy);
+//   let contents = await copy.json(); // async function
+//   console.log({ contents });
+// }
+
+// function createImageResponse() {
+//   //load a local image and put it in a Response
+//   let input = document.createElement('input');
+//   input.type = 'file';
+//   input.accept = 'image/*';
+//   input.addEventListener('change', async (ev) => {
+//     let input = ev.target;
+//     let file = input.files[0];
+//     let response = new Response(file, {
+//       status: 200,
+//       statusText: 'ok',
+//       headers: {
+//         'content-type': file.type,
+//         'content-length': file.size,
+//       },
+//     });
+//     let copy = response.clone();
+//     console.log(copy);
+//     //get image from response
+//     let blob = await copy.blob(); // async function
+//     //add to <a href>
+//     let url = URL.createObjectURL(blob);
+//     console.log(url);
+//   });
+//   document.body.addEventListener('click', (ev) => {
+//     input.click();
+//   });
+// }
+
+// ----------------------------------File Handling for web App--------------
+// const APP = {
+//   file: null,
+//   response: null,
+//   cacheName: 'samplecache-v1',
+//   cache: null,
+//   canvas: null,
+//   ctx: null,
+//   init: () => {
+//     APP.addListeners();
+//     APP.drawCircleOnCanvas();
+//   },
+//   addListeners: () => {
+//     //input type="file" select image or json file
+//     document
+//       .getElementById('inputImage')
+//       .addEventListener('change', APP.pickLocalFile);
+//     document
+//       .getElementById('inputJSON')
+//       .addEventListener('change', APP.pickLocalFile);
+//     //add the current file to a Response object
+//     document
+//       .getElementById('btnResponse')
+//       .addEventListener('click', APP.createResponseObject);
+//     //save the response in the Cache
+//     document
+//       .getElementById('btnCache')
+//       .addEventListener('click', APP.saveInCache);
+//     //display current local file on the webpage
+//     document
+//       .getElementById('btnDisplayLocal')
+//       .addEventListener('click', APP.displayLocal);
+//     //display the last item from the cache on the page
+//     document
+//       .getElementById('btnDisplayCache')
+//       .addEventListener('click', APP.displayCache);
+//     //extract the image from the canvas and display on the page
+//     document
+//       .getElementById('btnDisplayCanvas')
+//       .addEventListener('click', APP.saveAndDisplayCanvas);
+//     //generate a JSON(text) file and prompt the user to download and save the file
+//     document
+//       .getElementById('btnGenAndSave')
+//       .addEventListener('click', APP.genAndSave);
+//   },
+//   ///////////////////////////////////////////////////////
+//   drawCircleOnCanvas: () => {
+//     //draw a blue circle and pink background on the canvas
+//     APP.canvas = document.getElementById('canvas');
+//     APP.ctx = canvas.getContext('2d');
+
+//     APP.ctx.beginPath();
+//     APP.ctx.fillStyle = 'lightpink';
+//     APP.ctx.rect(0, 0, 200, 200);
+//     APP.ctx.fill();
+
+//     APP.ctx.beginPath();
+//     APP.ctx.fillStyle = 'cornflowerblue';
+//     APP.ctx.ellipse(100, 100, 50, 50, 0, 0, Math.PI * 2, false);
+//     APP.ctx.fill();
+//   },
+//   ///////////////////////////////////////////////////////
+//   pickLocalFile: (ev) => {
+//     //take a file from the local file system clicked on the pickImage or pickJSON button
+//     console.log('pick local file');
+//     let input = ev.target;
+//     let files = input.files; //array of selected file(s)
+//     console.log(files.length);
+//     APP.file = files[0];
+//     console.log(APP.file);
+//     document.querySelector('span.title').textContent = files[0].name;
+//     console.log(
+//       'A File object can be added as Request body for a fetch call or Response body for Cache or Service Worker.'
+//     );
+//   },
+//   ///////////////////////////////////////////////////////
+//   createResponseObject: (ev) => {
+//     if (APP.file) {
+//       //take the current file and save it in a Response object
+//       APP.response = new Response(APP.file, {
+//         status: 200,
+//         statusText: 'Ok',
+//         headers: {
+//           'content-type': APP.file.type,
+//           'content-length': APP.file.size,
+//           'X-file': APP.file.name,
+//         },
+//       });
+//       console.log(APP.response);
+//       console.log(APP.file.name, 'saved in a Response object');
+//     } else {
+//       console.log('Pick a local file first');
+//     }
+//   },
+//   ///////////////////////////////////////////////////////
+//   saveInCache: (ev) => {
+//     if (APP.response) {
+//       //save the current Response object in the Cache using the Cache API
+//       // caches.open() is Async function 
+//       caches.open(APP.cacheName).then((cache) => {
+//         APP.cache = cache;
+//         let name = APP.response.headers.get('X-file');
+//         let url = new URL(`/${Date.now()}/${name}`, location.origin);
+//         cache.put(url, APP.response);
+//         console.log(url, 'response saved in cache');
+//       });
+//     }
+//   },
+//   ///////////////////////////////////////////////////////
+//   displayLocal: (ev) => {
+//     //display APP.file on the webpage
+//     console.log(APP.file);
+//     if (APP.file) {
+//       let type = APP.file.type;
+//       if (type == 'application/json') {
+//         //json
+//         APP.file.arrayBuffer().then((buffer) => {
+//           let txt = new TextDecoder('utf-8').decode(buffer);// same concept of fetch(url).then(response=> response.text()).then(txt=>{})
+//           document.getElementById('outputJSON').textContent = txt;
+//         });
+//       } else if (type.startsWith('image/')) {
+//         //image
+//         let url = URL.createObjectURL(APP.file); // URL.createObjectURL is a pointer to the location of file in memory
+//         document.getElementById(
+//           'outputIMG'
+//         ).innerHTML = `<img src="${url}" alt="image from ..."/>`;
+//       } else {
+//         //not a type we handle
+//       }
+//     } else {
+//       console.log('no APP.file');
+//     }
+//   },
+//   ///////////////////////////////////////////////////////
+//   displayCache: async (ev) => {
+//     //display last item from cache
+//     if (!APP.cache) {
+//       APP.cache = await caches.open(APP.cacheName);
+//     }
+//     let keys = await APP.cache.keys(); // cacheKey (request object)
+//     //if there is something in the cache, get the last one, check the type, add to the page
+//     if (keys.length > 0) {
+//       let url = keys[keys.length - 1].url;
+//       let response = await APP.cache.match(url);
+//       let type = response.headers.get('content-type');
+//       if (type == 'application/json') {
+//         //json
+//         let txt = await response.text();
+//         document.getElementById('outputJSON').textContent = txt;
+//       } else if (type.startsWith('image/')) {
+//         //image
+//         let blob = await response.blob();
+//         let url = URL.createObjectURL(blob);
+//         document.getElementById(
+//           'outputIMG'
+//         ).innerHTML = `<img src="${url}" alt="image from ..."/>`;
+//       } else {
+//         //we don't want this
+//       }
+//     }
+//   },
+//   ///////////////////////////////////////////////////////
+//   saveAndDisplayCanvas: (ev) => {
+//     //extract the image from the Canvas, save it in the cache
+//     //and display it on the screen
+//     APP.canvas.toBlob(
+//       async (buffer) => {
+//         //handle the buffer from the canvas
+//         let file = new File([buffer], 'canvasImage.jpg', {
+//           type: 'image/jpeg',
+//         });
+//         let response = new Response(file, {
+//           status: 200,
+//           statusText: 'ok',
+//           headers: {
+//             'content-type': file.type,
+//             'content-length': file.size,
+//             'X-file': file.name,
+//           },
+//         });
+//         let url = new URL(`/${Date.now()}/${file.name}`, location.origin);
+//         if (!APP.cache) {
+//           APP.cache = await caches.open(APP.cacheName);
+//         }
+//         APP.cache.put(url, response);
+//         let blobUrl = URL.createObjectURL(file);
+//         document.getElementById(
+//           'outputIMG'
+//         ).innerHTML = `<img src="${blobUrl}" alt="image from ..."/>`;
+//       },
+//       'image/jpeg',
+//       1 // 1 means 100% quality
+//     );
+//   },
+//   ///////////////////////////////////////////////////////
+//   genAndSave: (ev) => {
+//     let numbers = {
+//       one: Date.now(),
+//       two: Math.floor(Math.random() * Date.now()),
+//       three: Math.floor(Math.random() * Date.now()),
+//     };
+//     let str = JSON.stringify(numbers);
+//     //turn the string into a file and prompt the user to download the file
+//     let file = new File([str], 'numbers.json', { type: 'application/json' });
+//     let url = URL.createObjectURL(file);
+//     let a = document.createElement('a');
+//     //a.download = file.name;
+//     a.setAttribute('download', file.name);
+//     a.href = url;
+//     a.click();
+//   },
+// };
+
+// document.addEventListener('DOMContentLoaded', APP.init);
+
+// ------------------------CSS.registerProperty---------------------
+/*
+https://drafts.css-houdini.org/css-properties-values-api/#at-property-rule
+
+values in syntax :
+  * - any value read as a string
+  <length> - number plus unit - absolute units work. Relative fail(rem). (for font-size, width , height)
+  <length>+ - space separated list of length values
+  <number> - numbers with or without decimals
+  <integer> - only integers
+  <percentage> - 45%
+  <length-percentage> - any length or percentage or calc value 
+  <color> - any valid colour value
+  <image> - an image url
+  <url> - a url
+  <angle> - number plus deg or rad or turn
+  <time> - number plus ms or s
+  <frequency>
+  <position>
+  <ratio>
+  <resolution> - any valid resolution value like 500dpi
+  <transform-list> - a list of transform functions
+  <transform-function> - like scale, translate, rotate, matrix, etc
+  <custom-ident> (a custom identifier string)
+*/
+// CSS.registerProperty({
+//   name: '--somesize',
+//   syntax: '<length>',
+//   inherits: true,
+//   initialValue: '60mm', // you can use px also
+// });
