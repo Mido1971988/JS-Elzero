@@ -14230,15 +14230,18 @@ you the result saved in memo object
 
 // --------------------?? nullish coalescing operator--------------------
 // // in ternanry operator if truthy value => Yes if falsy value => No
-// let result1 = null ? "Yes" : "No" 
-// // in nullish coalescing operator if null or undefined return value after ?? if not null or 
+// // in nullish coalescing operator if null or undefined(not all falsy value) return value after ?? if not null or 
 // // undefined return that value
+// let result1 = null ? "Yes" : "No" 
 // let result2 = null  ?? "Yes" 
 // let x = 10;
 // let result3 = x ?? "Yes"
+// x = NaN
+// let result4 = x ?? "Yes"
 // console.log(result1) // No
 // console.log(result2) // Yes
 // console.log(result3) // 10
+// console.log(result4) // NaN because x is NaN (falsy but not null or undefined)
 
 // // exp. of using nullish coalescing operator inside function
 // let current;
@@ -24179,3 +24182,131 @@ values in syntax :
 //   inherits: true,
 //   initialValue: '60mm', // you can use px also
 // });
+
+// ---------------------------at method-------------------------------
+/*
+difference between [] and at method on arrays that at method accept negative no.
+*/
+// let names = ["Mohamed","Ahmed","Soliman","Hussein"]
+// console.log(names[2])
+// console.log(names.at(2))
+// console.log(names[names.length - 1] ) // to get last item in array
+// console.log(names.at(-1)) // to get last item in array
+
+
+// ----------------------------JS Interview Question----------------------
+//----------Video no. 1
+// console.log("a")
+// let timmy = setTimeout(function(){
+//   console.log("b")
+// },1)
+// let timothy = setTimeout(function(){
+//   console.log("c")
+// },10)
+// let timer = setTimeout(function(){
+//   console.log("d")
+// },0)
+// console.log("e")
+// order of input ? a , e, b , d , c
+
+/* b before d because it's only 1 milisecond and setTimeout (timmy) will be finished and go 
+to callback function queue before reaching line of setTimeout (timer)*/
+
+//----------Video no. 2
+// let num = 0;
+// async function increment(){
+//   num += await 2; // Promise.resolve(2)
+//   console.log(num)
+// }
+// increment();
+// num += 1;
+// console.log(num)
+
+// output => 2,3 / 1,3 / 1,2 / 2,1 => 1,2
+// from me you can get 1,3 by using setTimeout setTimeout(increment,0)
+
+//----------Video no. 3
+// // turn this object literal into a mmodule that only exposes the render method
+// let myModule = {
+//   data : [],
+//   render : () => {
+//     console.log("Render Method")
+//   },
+//   add : () => {
+//     console.log("Add Method")
+//   },
+//   remove : () => {
+//     console.log("Remove Method")
+//   },
+// }
+// myModule.render()
+
+// // my solution
+
+// class myModule2 {
+//   static data = 10;
+//   constructor(){
+//     this.data = myModule2.data;
+//   }
+//   render() {
+//     console.log("Render Method")
+//   }
+//   #add () {
+//     console.log("Add Method")
+//   }
+//   #remove() {
+//     console.log("Remove Method")
+//   }
+// }
+// let myInst = new myModule2()
+// myInst.render()
+
+// // steve's solution
+
+// let myModule3 = (function(){
+//   let render = ()=> {
+//     console.log("Render Method")
+//   }
+//   let add = ()=> {
+//     console.log("Add Method")
+//   }
+//   let remove = ()=> {
+//     console.log("Remove Method")
+//   }
+//   return {
+//     render
+//   }
+// })();
+
+// myModule3.render()
+
+
+//----------Video no. 4
+// how to check if arguments same no. of parametes
+// my solution 
+// let f = function(a,b){
+//   if(arguments.length === arguments.callee.length) console.log(`no of arguments = no of params`)
+// }
+
+// //steve's solution 
+// let f2 = function(a,b){
+//   if(arguments.length === f2.length) console.log(`no of arguments = no of params`)
+// }
+
+
+// f(1)
+// f(1,2)
+// f(1,2,3)
+
+// f2(1)
+// f2(1,2)
+// f2(1,2,3)
+
+//----------Video no. 5
+
+let a = {a : 123};
+
+[...(a.a).toString().split("")].forEach(function(x){
+  console.log(x)
+})
+
