@@ -24303,10 +24303,148 @@ to callback function queue before reaching line of setTimeout (timer)*/
 // f2(1,2,3)
 
 //----------Video no. 5
+/* the problem here is ; if not add the js will see this as one line of code an search for 
+property a inside object {a:123} */
+// let a = {a : 123}
+// [a].forEach(function(x){
+//   console.log(x)
+// })
 
-let a = {a : 123};
+//----------Video no. 6
+// we need here to create 2 instances reference to same object
 
-[...(a.a).toString().split("")].forEach(function(x){
-  console.log(x)
-})
+// let obj = (function(){
+//   let objIntsance;
+//   function create(){
+//     if(!objIntsance) objIntsance = {name : "Soliman"}
+//     return objIntsance;
+//   }
+//   return {
+//     getInstance : create
+//   }
+// })();
 
+// let obj1 = obj.getInstance();
+// let obj2 = obj.getInstance();
+
+// console.log(obj1)
+// console.log(obj2)
+// console.log(obj1 === obj2)
+
+//----------Video no. 7
+// function f(){
+//   for(var i = 0; i < 3; i++){
+//     setTimeout(function(i){
+//       console.log(i)
+//     },1000 * i)
+//   }
+// }
+// f()
+
+/* you have 4 options to solve this 
+- use let
+- use bind
+- pass i argument to setTimeout
+- use IIFE
+
+search here for 4 options to find topic of this problem
+*/
+
+
+//----------Video no. 8
+// create array of five random numbers :
+
+// my answer : 
+// let a1  = [];
+// let a2  = [];
+// for(let i =0; i < 5; i++){
+//   a1.push(Math.floor(Math.random() * 10))
+//   a2.push(Math.floor(Math.random() * 10))
+// }
+// console.log(a1)
+// console.log(a2)
+
+// steve's answers:
+
+// let a1 = Array.from({length : 5} , () => Math.floor(Math.random() * 10)) // second param is map
+// let a2 = new Array(5).fill(null).map(() => Math.floor(Math.random() * 10))
+// console.log(a1)
+// console.log(a2)
+
+//----------Video no. 9
+// var and let hoisting
+
+//----------Video no. 10
+// create random hex color values
+
+// // my answer : 
+// function color(){
+//   let rand =`#${Math.floor(Math.random() * 10e6).toString(16)}` 
+//   if(rand.length === 7) {
+//     console.log(rand) 
+//   }else{
+//     console.log("One More Time")
+//     color()
+//   }
+// }
+// color()
+
+// // steve's answer:
+// function color2(){
+//   let rand =`#${Math.random().toString(16).substring(2,8)}` 
+//   console.log(rand)
+// }
+// color2()
+
+//----------Video no. 11
+/*
+parseInt is often used with one argument, but takes two.
+The first is an expression and the second is the radix.
+To the callback function, Array.prototype.map passes 3 arguments to parseInt: the element, the index, the array.
+The third argument is ignored by parseInt, but not the second one, hence the possible confusion.
+*/
+// let result = ["1","7","11"].map(parseInt)
+// console.log(result)
+
+// let arr = ["1","7","11"]
+// let x = arr.map((num) => parseInt(num))
+// console.log(parseInt("11",2))
+
+//----------Video no. 12
+
+// Differences between dot notation and square bracket syntax
+
+// let sam = {
+//   castiel: "mary"
+// }
+// let dean = {
+//   john: "crowley",
+//   mary: "chuck"
+// }
+
+// //which, if any, of these three log statements will work?
+// console.log(dean[sam.castiel]); // ok
+// console.log(dean.sam.castiel); // ERORR
+// console.log(dean[sam['castiel']]); // Ok
+// console.log(dean[sam[castiel]]); // ERORR
+
+//----------Video no. 13
+// Using `this` inside an object
+// The object has functions created three different ways 
+// What will be the result of the three log statements?
+
+// const circle = {
+//   radius: 10,
+//   circumference: function () {
+//       return (this.radius * 2);
+//   },
+//   diameter() {
+//       return (this.radius * 2);
+//   },
+//   area: () => {
+//       return (this.radius * 2);
+//   }
+// }
+// console.log(circle.circumference()); // 20
+// console.log(circle.diameter()); // 20
+// console.log(circle.area()); // NaN
