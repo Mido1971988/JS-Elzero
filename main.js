@@ -24448,3 +24448,54 @@ The third argument is ignored by parseInt, but not the second one, hence the pos
 // console.log(circle.circumference()); // 20
 // console.log(circle.diameter()); // 20
 // console.log(circle.area()); // NaN
+
+//----------Video no. 14
+/**
+ * Write a function to determine if a number is an integer
+ */
+
+// my answer
+// let isInt = function (num) {
+//   return Number.isInteger(num)
+// }
+
+// steve's answer
+// let isInt = function (num) {
+//   return (!isNaN(num) && parseInt(num) === num)
+// }
+
+// console.log(3, isInt(3));
+// console.log(3.5, isInt(3.5));
+// console.log(1.00000, isInt(1.00000));
+
+//----------Video no. 15
+/**
+ * Write a function to determine if one String is 
+ * a case-insensitive anagram of another String
+ * anagram means => two strings with same length and same letters but can be different order
+ */
+
+// my answer
+// let isAnagram = function (str1, str2) {
+//   let check = true;
+//   str1.split("").map(char =>{
+//     if(!str2.split("").includes(char)){
+//       check = false;
+//     }
+//   })
+//   if(str1.length === str2.length && check ){
+//     return true
+//   }else{
+//     return false
+//   }
+// }
+
+//  steve's answer
+// let isAnagram = function (str1, str2) {
+//   let sorted1 = str1.split("").sort().join("").toLowerCase()
+//   let sorted2 = str2.split("").sort().join("").toLowerCase()
+//   return (sorted1 === sorted2)
+// }
+
+// console.log(isAnagram('hello', 'jello'));
+// console.log(isAnagram('hello', 'loelh'));
