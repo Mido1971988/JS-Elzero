@@ -24499,3 +24499,57 @@ The third argument is ignored by parseInt, but not the second one, hence the pos
 
 // console.log(isAnagram('hello', 'jello'));
 // console.log(isAnagram('hello', 'loelh'));
+
+//----------Video no. 16
+/**
+ * Write a function to determine the largest difference 
+ * between any two numbers in an array of numbers
+ */
+
+// let numbers = [12, 2, 6, 5, 9, 10, 33];
+
+// my answer
+// let difference = (function (arr) {
+//   let sortedNum = arr.sort((num1,num2) => num1 > num2 ? 1 : -1)
+//   return sortedNum.at(-1) - sortedNum.at(0)
+// })(numbers);
+
+// steve's answer
+// let difference = (function (arr) {
+//   let sortedNum = Array.from(new Set(arr)).sort((num1,num2) => (num2 - num1))
+//   return sortedNum[0] - sortedNum[arr.length-1]
+// })(numbers);
+
+// console.log(difference);
+
+//----------Video no. 16
+
+/*
+ * Write a function to determine if the supplied string is a palindrome
+ * Eg:  radar,  racecar, kayak, and redder are all palidromes
+ * They are the spelled same backwards and forwards
+ */
+
+// my answer
+// let palindrome = function (word) {
+//   let num = 1;
+//   let check = true;
+//   word.split("").forEach((char,index,arr) =>{
+//     if(char !== arr.at(-num)) check = false;
+//     num++
+//   })
+//   return check
+// }
+
+// steve's answer
+// let palindrome = function (word) {
+//   let len = word.length;
+//   let start = word.substring(0,Math.floor(len/2)).toLowerCase();
+//   let end = word.substring(len - Math.floor(len/2)).toLowerCase();
+//   let flip = end.split("").reverse().join("");
+//   return (start === flip)
+// }
+
+// console.log(palindrome('radar')); //true
+// console.log(palindrome('redder')); //true
+// console.log(palindrome('window')); //false
