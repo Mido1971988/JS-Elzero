@@ -24522,7 +24522,7 @@ The third argument is ignored by parseInt, but not the second one, hence the pos
 
 // console.log(difference);
 
-//----------Video no. 16
+//----------Video no. 17
 
 /*
  * Write a function to determine if the supplied string is a palindrome
@@ -24550,6 +24550,92 @@ The third argument is ignored by parseInt, but not the second one, hence the pos
 //   return (start === flip)
 // }
 
+// youtube's comment
+// let palindrome = function (word) {
+//   let reverse = word.split("").reverse().join("")
+//   return reverse === word
+// }
+
 // console.log(palindrome('radar')); //true
 // console.log(palindrome('redder')); //true
 // console.log(palindrome('window')); //false
+
+//----------Video no. 18
+
+// //what are the values for a, b, x, y, j, k, r, s in the global scope?
+// // y , s , z (without var or let ) because js will search for variable inside function if not found
+// // search in global scope not found then will add x to global object
+
+// (function f1() {
+//   var a = 1, b = 1;
+//   var x = y = 2;
+// })();
+// (function f2() {
+//   let j = 1, k = 1;
+//   let r = s = 2;
+//   var h = 10
+//   z = 10
+// })();
+
+// console.log(window.a); // undefined
+// console.log(window.b); // undefined
+// console.log(window.x); // undefined
+// console.log(window.y); // 2
+// console.log(window.j); // undefined
+// console.log(window.k); // undefined
+// console.log(window.r); // undefined
+// console.log(window.s); // 2
+// console.log(window.h); // undefined
+// console.log(window.z); // 10
+
+//----------Video no. 19
+/**
+ * Write a script to determine the brightness of the 
+ * background colour and set the text colour as 
+ * either white or black.
+ * 30% of red +  60% of green + 10% of blue = intensity 
+ */
+// let log = console.log;
+
+// let textColor = (bg) => {
+//     bg = bg.replace('#', '');
+//     //check length of string length of string should be 6
+//     // you can use bitwise or substring
+//     let red = parseInt(bg, 16) >>> 16; // parseInt(bg.substring(0,2), 16);
+//     let green = (parseInt(bg, 16) >>> 8) & 255; // parseInt(bg.substring(2,4), 16)
+//     let blue = parseInt(bg, 16) & 255; // parseInt(bg.slice(4,6), 16);
+//     let intensity = (red * 0.299) + (green * 0.587) + (blue * 0.114); 
+//     if (intensity > 186) {
+//         return '#000000'; //black
+//     } else {
+//         return '#ffffff'; //white
+//     }
+// }
+
+//  log(textColor('#BADA55')); //a bright green
+//  log(textColor('#F0E68C')); //khaki
+//  log(textColor('#990000')); //rebeccapurple
+//  log(textColor('#6495ED')); //cornflowerblue
+
+//----------Video no. 20
+let process = word => {
+  let vowels = ["a","e","i","o","u"];
+  let vowelsInWord = [];
+  let wordArr = word.split("")
+  wordArr.forEach((char,index)=>{
+    if(vowels.includes(char)){
+      vowelsInWord.push([index ,char])
+    }
+  })
+  let oddNum = vowelsInWord.length % 2;
+  if(oddNum) vowelsInWord.splice(Math.floor(vowelsInWord.length / 2),1);
+  let indx = 1;
+  vowelsInWord.forEach((char,index,arr)=>{
+    wordArr.splice(char[0],1,arr.at(-indx)[1])
+    indx++
+  })
+  return wordArr.join("")
+}
+
+console.log(process("javascript"))
+console.log(process("hello"))
