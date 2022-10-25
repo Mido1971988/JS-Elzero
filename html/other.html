@@ -57,7 +57,7 @@
             console.log({ ev });
             let targetURL = new URL(ev.url);
             if (location.pathname != targetURL.pathname) {
-                //came from another page
+                //came from another page but same Domain
                 APP.getStorage().buildList(list);
             }
             });

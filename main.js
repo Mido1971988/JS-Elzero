@@ -8,7 +8,7 @@ comment */
 // if you want to write scipt tag at the Head you show add 
 // document.addEventListener("DomContentLoaded", function)
 
-/* ---------Data Type in JavaScript
+/* ----------------------------Data Type in JavaScript-------------------------------
 
 [1] Primitive Value  ( passed by value)
   Boolean, null, undefined, String, Number, bigint, symbol
@@ -17,7 +17,19 @@ comment */
   Object , Array , Function , ....
 */
 
-// --------BigInt
+// console.log(typeof "mohamed") // string
+// console.log(typeof 5000) // number
+// console.log(typeof 5000.99) // number
+// console.log(typeof [10, 15, 17]) // object
+// console.log(typeof ["Mo", "ha", "med"]) // Object
+// console.log(typeof {name:"osama", Age:17, country:"Egypt"}) // object
+// console.log(typeof true) // boolean
+// console.log(typeof false) // boolean
+// console.log(typeof undefined) //undefined
+// console.log(typeof null) // object
+// console.log(typeof 1n)//bigint
+
+// * BigInt
 /* 
 The BigInt type is a numeric primitive in JavaScript that can represent integers 
 with arbitrary precision. With BigInts, you can safely store and operate on large integers 
@@ -26,6 +38,9 @@ even beyond the safe integer limit for Numbers.
 // BigInt
 const x = BigInt(Number.MAX_SAFE_INTEGER); 
 console.log(x)//9007199254740991n
+console.log(typeof 1n)//bigint
+console.log(1n == 1)//true
+console.log(1n === 1)//false
 console.log(x + 1n)//9007199254740992n
 console.log(x + 2n)//9007199254740993n
 console.log(x + 1n === x + 2n) // false
@@ -36,59 +51,45 @@ console.log(Number.MAX_SAFE_INTEGER + 2) //9007199254740992
 console.log(Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2) // true
 */
 
+// -----------------------------console is Web API------------------------
 
-// window.alert("hello from JS file");
-// document.write("<h1> Hello from document.write </h1>");
-// document.createElement()
-// console.log("hello to console");
-// console.error("404");
-// console.table(["osama", "ahmed", "mohamed"]);
-// %c called directive write it before what you want to style
+/* API stands for Application Programming Interface. API is actually some kind of interface which is having a set of functions.
+These set of functions will allow programmers to acquire some specific features or the data of an application.*/
+
+/* 
+console.log("hello to console");
+console.error("404");
+console.table(["osama", "ahmed", "mohamed"]);
+%c called directive write it before what you want to style
 /*console.log(
   "Hello from %cjs %cfile",
   "color:red; font-size:40px;",
   "color:blue; font-size:40px;"
-);*/
+);
 
-// console is from Web API
-/*API stands for Application Programming Interface. API is actually some kind of interface which is having a set of functions.
-These set of functions will allow programmers to acquire some specific features or the data of an application.*/
+you can add single quote inside double quot or vice versa but you can't add double inside double or single inside single
+console.log('Elzero web "school"');
+if you want to ignore that you can add \ ( Charachter Escape Sequences)
+console.log("Elzero Web \"School\"");
+console.log("\\");
+if you want to line continue  you can add \
+console.log("Elzero \
+web \
+School")
+// if you want new line  you can add \n
+// console.log("Elzero \n Web \n School" )
 
-/* Data Type
-String
-number
-object ( Array )
-object
-boolean
-undefined
+\n => new line
+\t => horizontal tab
+\v => vertical tab
+\r => carriage return (like \n in old Mac)
 */
 
-/* console.log("mohamed")
-console.log(typeof "mohamed")
-console.log(typeof 5000)
-console.log(typeof 5000.99)
-console.log(typeof [10, 15, 17])
-console.log(typeof ["Mo", "ha", "med"]) // Object
-console.log(typeof {name:"osama", Age:17, country:"Egypt"})
-console.log(typeof true)
-console.log(typeof false)
-console.log(typeof undefined) //undefined
-console.log(typeof null) // object */
-
-// variable
+//--------------------------------variable-------------------------------------
 // = called assignment operator
 // == equality operator (check only the value) // 100 = "100" // true
 // === strict equality (check value and data type) // 100 = "100" // false 
-// you can write var or not
-/* var user = "osama";
-user = "ahmed";
-var age = 37; */
-// you can group var
-/* var user2 = "ahmed",
-  age2 = 30;
-console.log(user);
-console.log(age);
-console.log(user2, age2); */
+// you can't start varibale name with no. or special characters
 
 // when you create Element in HTML files and give it an ID this ID is considered as Variable in JS
 /* window.onload = function () {
@@ -97,17 +98,6 @@ console.log(user2, age2); */
 // console.log(hello)
 // to change content of html
 // hello.innerHTML = "option"
-
-/* loosely typed when you don’t have to explicitly specify types of variables and objects.
-A strongly typed language on the contrary wants types specified. */
-
-// JavaScript is loosely type that means you dont have to say this is int or this is num 
-// for example python will give you Error you can not concatenate int to string but JS no you can
-// let x = 20;
-// let z = x + "dot"
-// console.log(z)
-
-// you can't start var name with no. or special characters
 
 /*  
 var 
@@ -135,7 +125,7 @@ Const
 const a = 2;
 console.log(a) */
 
-// Access Before Declare with variable will give you undefined Error but with let and Const will give Error ( cannot access 'a' before intialization)
+// Access Before Declare with variable will give you undefined but with let and Const will give Error ( cannot access 'a' before intialization)
 /* console.log(a)
 let a = 2; */
 
@@ -145,7 +135,8 @@ let a = 2; */
 
 
 // difference between let and const that with const you can not assign a new value for variable
-// let x = 10; x= 100; //ok | const x =10; x = 100; // Error
+// let x = 10; x= 100; //ok 
+// const x =10; x = 100; // Error
 
 /*
 Function Scope: When a variable is declared inside a function,
@@ -157,17 +148,29 @@ are accessible within that particular condition or loop.
 To be consise the variables declared inside the curly braces are called as within block scope.
 */
 
+// redeclaring var will not lose it's value because of hoisting
+// var x ; 
+// x = 10;
+// var x ;
+// console.log(x)
+// beacuse of hoisting will be like this 
+// var x ; 
+// var x ;
+// x = 10;
+// console.log(x)
+
 // Hint difference between declaring variable inside loop with let and var
-// for (let i = 0; i < 3; i++){
+
 // declaring variable here with var without value every cycle will not change it's value to undefined like let
+// for (let i = 0; i < 3; i++){
 //     var index;
 //     console.log(index)
 //     index = 5;
 //     console.log(index)
 // }
 
+// here we cant use let because every cycle let index declare new variable each loop because it's block scope
 // for (let i = 0; i < 3; i++){
-//     // here we cant use let because every cycle let index should give you Error but in loop update index value with undefined
 //     let index;
 //     console.log(index)
 //     index = 5;
@@ -176,26 +179,8 @@ To be consise the variables declared inside the curly braces are called as withi
 
 // you can create you own global object ( myGlobals = {} | myGlobals.variableName = 10;)
 
-// you can add single quote inside double quot or vice versa but you can't add double inside double or single inside single
-// console.log('Elzero web "school"');
-// if you want to ignore that you can add \ ( Charachter Escape Sequences)
-// console.log("Elzero Web \"School\"");
-// console.log("\\");
-// if you want to line continue  you can add \
-/* console.log("Elzero \
-web \
-School") */
-// if you want new line  you can add \n
-// console.log("Elzero \n Web \n School" )
 
-/* 
-\n => new line
-\t => horizontal tab
-\v => vertical tab
-\r => carriage return (like \n in old Mac)
-*/
-
-// Concatenation +
+// -------------------------------document.write / console.log /  Template Literals----------------
 
 // let a = "We Love"
 // let b = "JavaScript"
@@ -211,8 +196,9 @@ let b = "JavaScript";
 let c = "And";
 let d = "Programming"; */
 
-/* console.log(a + " " + b + "\n" + c + " " + d ) */
+// console.log(a + " " + b + "\n" + c + " " + d )
 // console.log( a , b + "\n" + c , d )
+
 // this from ES6 `` called Template Literals
 // here no need for Escpaing you can write "" or '' but \ you should write \\
 /* console.log(`${a} ${b} ${c} ${d}`)
@@ -234,6 +220,16 @@ let Template = `
 `
 document.write(Template) */
 
+// ---------------------------loosely typed vs strongly typed language-----------------
+/* loosely typed when you don’t have to explicitly specify types of variables and objects.
+A strongly typed language on the contrary wants types specified. */
+
+// JavaScript is loosely type that means you dont have to say this is int or this is num 
+// for example python will give you Error you can not concatenate int to string but JS no you can
+// let x = 20;
+// let z = x + "dot"
+// console.log(z)
+
 // ------Challenge---------
 
 /* let title_zero = "Elzero" , description_zero = "Elzero Web School" , date_zero = "30/01" 
@@ -251,18 +247,17 @@ let html = `
 
 // ------End Challenge---------
 
-/* console.log(10 + 20);
-console.log(10 + "osama");
-console.log(10 - 20);
-//Error NaN (not a number)
-console.log(10 - "osama");
-console.log(typeof NaN); //number
-console.log(10 * 20);
-console.log(10 / 20);
-console.log(10 / 3);
-// % called Modulus 
-console.log(10 % 3);
-console.log(2 ** 4); */
+// -----------------------------number--------------------------------
+// console.log(10 + 20);
+// console.log(10 - 20);
+// console.log(10 - "osama");
+// console.log(typeof NaN); //number
+// console.log(10 * 20);
+// console.log(10 / 20);
+// console.log(10 / 3);
+// // % called Modulus 
+// console.log(10 % 3);
+// console.log(2 ** 4);
 
 // // NaN !== NaN
 // console.log(isNaN(2)) //false
@@ -273,7 +268,7 @@ console.log(2 ** 4); */
 // var num = 1;
 // pre increment ++num (in console and in browser will add 1 then will print variable)
 // Post increment num++ ( in console and in browser will print variable then add 1)
-// pre decrement --num (in console and in browser will remove 1 the will print vaiable)
+// pre decrement --num (in console and in browser will remove 1 then will print vaiable)
 // Post decrement num-- ( in console and in browser will print variable then remove 1)
 
 // unary plus ( return Number if it's not number)
@@ -284,7 +279,7 @@ console.log(2 ** 4); */
 // console.log(+null)
 // console.log(+false)
 // console.log(+true)
-// console.log(+"Osama") //NAN
+// console.log(+"Osama") //NaN
 
 // unary Negation
 // console.log(-100)
@@ -295,21 +290,53 @@ console.log(2 ** 4); */
 // console.log(-null)
 // console.log(-false)
 // console.log(-true)
-// console.log(-"Osama")
+// console.log(-"Osama") // NaN
 
 /* console.log(Number("100"))
 a = "100"
 a = Number ("100")
 console.log(typeof a) */
 
-// // Type coercion
+// --------------Type coercion (implicit ) vs  Type conversion ( explicit)----------
+
+// [1]  -----------Type coercion (implicit )
+
+// [a] + operator
+/* 
+Js Engine has two options convert 1 to "1" or "2" to 2 
+because with + you can concatenate strings or numbers 
+but under the hood Js will automatically convert 1 to "1" using toString() Method
+*/
+// console.log( 1 + "2") // 12
+// under the Hood
+// console.log((1).toString() + "2") // 12
+
+// [b] * operator
+/* 
+Js Engine has only one option convert "2" to 2 
+because with * you can only multiply numbers not string
+but under the Hood Js will automatically convert "2" to 2 using Number() ( ia m not sure which method will be used)
+*/
+// console.log( 1 * "2") //2
+// // under the Hood
+// console.log( 1 * Number(2)) //2 
+
+// [2] -------Type conversion ( explicit) 
+/* 
+Explicit means change data type by yourself not automatically by JS Engine
+*/
+// console.log(Number("2"))
+// console.log(String(1))
+
+//**exp. of Type coercion
+
 // let a = "10";
 // let b = 20;
 // let c = true;
 // let d = "osama";
 // console.log(a + b);
 // console.log(a - b);
-// // Type cating (Type coercion) (a + b) will give 1020  + here has two meanings concatinate or plus
+// // Type casting (Type coercion) (a + b) will give 1020  + here has two meanings concatinate or plus
 // // and a is string , b is number so will give you 1020
 // // but - has only one meaning minus so will consider "10" as number
 // console.log(+a + b);
@@ -321,8 +348,8 @@ console.log(typeof a) */
 // console.log(false - 2)
 // console.log(false - true)
 // // here Type coercion convert true to string because we added a + b and a is string
-// console.log( a + b + c)
-// console.log( +a + b + c)
+// console.log( a + b + c) //1020true
+// console.log( +a + b + c)  31
 // // here Type coercion convert true to number
 // console.log( b + c) // 21
 // console.log( a + c) // 10true
@@ -356,6 +383,7 @@ console.log(typeof a) */
 
 // ------End Challenge---------
 
+// ---------------------------------Number Methods-----------------------
 // console.log(1000000);
 // console.log(1_000_000); //Js ignore _ between number ( this called syntactic sugar)
 // console.log(1e6); // e = number of zeros
@@ -389,10 +417,15 @@ console.log(typeof a) */
 // console.log(Number.isInteger("100"));
 // console.log(Number.isInteger(100.5));
 // console.log(Number.isInteger(100));
-// console.log(Number.isNaN("osama")); //"osama" is string not NAN
 // console.log(Number.isNaN("osama" / 2));
 // console.log(Number.isNaN(100));
 // console.log(isNaN(100));
+
+// **difference between Number.isNaN() and isNaN()
+// Global isNaN() function first converts the argument to a number, and then returns true if the resulting value is NaN;
+// Number.isNaN() returns true if and only if the argument is of type Number and the value equals to NaN.
+// console.log(Number.isNaN("osama")); // false
+// console.log(isNaN("osama")); // true
 
 // console.log(Math.round(99.4)); //99
 // console.log(Math.round(99.5)); //100
@@ -457,6 +490,8 @@ console.log(typeof a) */
 // console.log(Math.abs(-5)) // output 5
 
 // ------End Challenge---------
+
+// -------------------------------string-------------------------
 
 // let theName = "  Ahmed  ";
 // console.log(theName);
@@ -535,6 +570,7 @@ console.log(typeof a) */
 
 // ------End Challenge---------
 
+// -----------------------------------Operators------------------------------------------
 
 // = assignment operator
 // == Equal operator
@@ -609,7 +645,7 @@ console.log(typeof a) */
 //   console.log("Mrs");
 // }
 
-// Ternary Condition Operator
+// ------------------------------Ternary Condition Operator----------------------------
 // //  condition ? if true : if false
 
 // theGender === "Male" ? console.log("Mr") : console.log("Mrs");
@@ -631,10 +667,11 @@ console.log(typeof a) */
 //   : console.log("unknown");
 
 // let price = 0;
-// //  || logical or
+//----------------------------logical or || and Nullish Coalescing Operator ??-------------------------------
+
 // //  will return value after || if value ( undefined or null or empty string "" or false or falsy value like 0)
 // console.log(`The Price IS ${price || 200}`);
-// // Nullish Coalescing Operator ??
+
 // //  will return value after ?? if value ( undefined or null )but not (false or falsy value like 0)
 // console.log(`The Price IS ${price ?? 200}`);
 
@@ -648,10 +685,11 @@ console.log(typeof a) */
 // console.log(Boolean(undefined))
 // console.log(Boolean(0n))
 
-
 // with && falsy value will return and ignore anything after it but true value will return after &&
 // console.log( false && "dog") // false
+// console.log("dog" &&  false) // false
 // console.log( true && "dog") // dog
+// console.log("dog" &&  true  )  // true
 // console.log( 0 && "dog") // 0
 // console.log( 1 && "dog") // dog
 
@@ -700,6 +738,8 @@ console.log(typeof a) */
 
 // ------End Challenge---------
 
+// ------------------------------if conditions and switch--------------------------
+
 // let day = 2;
 
 // // variable and case should be same type and same value (compare by identical operator === )
@@ -726,7 +766,9 @@ console.log(typeof a) */
 // in switch you can't combine between two condition like (typeof num = "number" && Number.isInteger(num)) 
 // in switch you can use two variable like ( switch (var1 && var2) or | or many other characters but , will not work ) 
 // if you want to put default at begining you should write break inside if you didn't it will give the next value no matter if it match case or not
+
 // switch (true) (from assignments)
+
 // function calculate(firstNum, secondNum, operation) {
 //   switch(true) {
 //       case firstNum === undefined:
@@ -736,7 +778,7 @@ console.log(typeof a) */
 //           console.log("Second Number Not Found")
 //           break
 //       case operation === undefined:
-//           console.log(firstNum + secondNum)
+//           console.log("operation Not Found")
 //           break
 //       case operation === "add" :
 //           console.log(firstNum + secondNum)
@@ -758,6 +800,7 @@ console.log(typeof a) */
 // calculate(20,10,"multiply")
 
 // default like else in if condition (From Assignments )
+
 // function ageInTime(age){
 //   switch(true) {
 //       case age > 110:
@@ -848,7 +891,8 @@ console.log(typeof a) */
 // } else {
 //   money = "NO MONEY";
 //   console.log(`My Money is ${money}`);
-// }
+
+// ----------------------------------array-----------------------------------------
 
 // let myFriends = ["Mohamed", "Ahmed", "Soliman", ["Marwan", "Ali"]];
 // let me = "soliman"
@@ -910,12 +954,13 @@ console.log(typeof a) */
 // console.log(myFriends);
 // // if there is more than one "Ahmed" in the Array will give you index of first one only (also in string)
 // console.log(myFriends.indexOf("Ahmed"));
-// // 2nd value is start point of searching (default value array.length -1), if there is no "Ahmed" will give you -1
+// // 2nd value is start point of searching (default value 0), if there is no "Ahmed" will give you -1
 // console.log(myFriends.indexOf("Ahmed", 2));
 // // lastIndexOf will search from the end (opposite direction) of Array so he will find the 2nd"Ahmed"
 // // meaning of opposite direction is if you start search from index 0 will give you -1 because
 // // it will search in opposite direction and will not find anything
 // console.log(myFriends.lastIndexOf("Ahmed"));
+// // 2nd value is start point of searching (default value array.length -1)
 // // 2nd value is start point of searching it's negative because we will search from the End or positive value no problem but in string does not accept negative value
 // console.log(myFriends.lastIndexOf("Ahmed", -2));
 // // difference between includes and indexOf : includes return true or false but indexOf give you index no. (also in string)
@@ -1040,6 +1085,7 @@ console.log(typeof a) */
 
 // --------End Challenge----------
 
+// ---------------------------------------for loop----------------------------
 /* 
 Steps of for loop 
 [1] initialExpression => let i =0; 
@@ -1194,9 +1240,9 @@ Steps of for loop
 //   i++
 // }
 
-// Do-While
+// --------------------------------Do-While loop----------------------------
 
-// will print 0 because do will print 0 then check the condition on while
+// will print only 0 because do will print 0 then check the condition on while
 // let i = 0;
 // do {
 //   console.log(i);
@@ -1247,6 +1293,7 @@ Steps of for loop
 
 // ------End Challenge------
 
+// -------------------------------------function--------------------------------------------
 // function sayHello(userName , age) {
 //   if (age < 18) {
 //     console.log(`App is Not Suitable For You`)
@@ -1403,7 +1450,7 @@ Steps of for loop
 
 // --------End Challenge--------
 
-// you can create function after console.log no problem
+// you can create function after console.log no problem because of hoisting
 // But with Anonymous Function(Without name) ( console.log should be after it) 
 // because we declare Anonymous Function with variable and you can access variable before intialization
 
@@ -1464,7 +1511,7 @@ Steps of for loop
 
 // console.log(sayMessage("Mohamed", "solimnan"));
 
-// // Arrow Function
+//-----------------------------------------Arrow Function---------------------------------
 // you can remove () if you have only one parameters if more than one parameter or no parameters you need ()
 // you need {} and return if you have more than one line of processing inside function
 
@@ -1474,8 +1521,8 @@ Steps of for loop
 // * Not suitable for call, apply and bind methods, which generally rely on establishing a scope.
 // * Can not be used as constructors.
 // * Can not use yield, within its body.
-// * Can not return object because JS will be confused between {} of function and {} of object
 // * Does not have arguments object
+// * Can not return object because JS will be confused between {} of function and {} of object
 
 // to solve last limitation add parenthesis
 // const sayName = () => ({
@@ -1529,7 +1576,7 @@ Steps of for loop
 // let print = (num1, num2) => num1 + num2;
 // console.log(print(2, 5))
 
-// Currying Function Technique :
+// -------------------------------Currying Function Technique :
 // Currying is when you break down a function that takes multiple arguments
 // into a series of functions that each take only one argument.
 
@@ -1546,8 +1593,8 @@ Steps of for loop
 //   console.log(checker("Osama")("Available")(4000)); // My Salary Is 4000
 //   console.log(checker("Ahmed")("Not Available")()); // Iam Not Avaialble
 
-  // Partial Function:
-  // is when a function has been given some, but not all, of its arguments
+// -----------------------------Partial Function:
+// is when a function has been given some, but not all, of its arguments
 
 // let obj = {
 //   theName : "Soliman"
@@ -1568,7 +1615,7 @@ Steps of for loop
 // bindSum(10)
 
 
-// Scope ( Global And Local Scope)
+// ------------------------------Scope ( Global And Local Scope)-----------------------------
 
 // var a = 1;
 // let b = 2;
@@ -1588,8 +1635,8 @@ Steps of for loop
 
 
 // var is not Block scope ( the value change globally )
-// with statments or loops var will be global and you can access it from outside but function not
-// let is Block Scope
+// with statments or loops var will be global and you can access it from outside but function not (because var is function scope not block scope)
+// let is Block Scope and function scope
 // with statments or loops or function you can't access let or const
 // var x = 10;
 // let x = 10;
@@ -1689,36 +1736,43 @@ Steps of for loop
 
 // ------End My Challenge---------------
 
-// Higher Order Functions
+//----------------------------------------Higher Order Functions----------------------------------
 
-// Higher-Order Functions:
-// which take another function as an argument or return a function
+// Higher-Order Functions vs Currying Function Technique:
 
-// Currying Function Technique :
-// Currying is when you break down a function that takes multiple arguments
-// into a series of functions that each take only one argument. 
-// All curry functions is higher order functions but curry accept only one argument for each function
+/* 
+* Higher-Order Functions : which take another function as an argument or return a function
+
+* Currying Function Technique: is when you break down a function that takes multiple arguments
+into a series of functions that each take only one argument. 
+All curry functions is higher order functions but curry accept only one argument for each function 
+*/
 
 
-// Callback Functions
-// In JavaScript, a callback function is a function that is passed into another function
-//  as an argument. This function can then be invoked 
-//  during the execution of that higher order function (that it is an argument of).
-// use cases of callback functions are setTimeout() , setInterval(), waiting for files and higher order function
-// However, there are some cases that code runs (or must run) after something else happens 
-// and also not sequentially. This is called asynchronous programming.
-// https://www.w3schools.com/js/js_asynchronous.asp
+// ---------------------------------------Callback Functions----------------------------
+
+/*
+In JavaScript, a callback function is a function that is passed into another function
+as an argument. This function can then be invoked 
+during the execution of that higher order function (that it is an argument of).
+use cases of callback functions are setTimeout() , setInterval(), waiting for files and higher order function
+However, there are some cases that code runs (or must run) after something else happens 
+and also not sequentially. This is called asynchronous programming.
+https://www.w3schools.com/js/js_asynchronous.asp
+*/
 
 // CallBackFunction in for loop and higher order function
+
 // let arr = [0,1,2,3]
 // for ( let i =0; i < arr.length; i++) {
 //   (function callback(){
 //     console.log(arr[i])
 //   })()
 // }
+
 // arr.map((el)=> console.log(el))
 
-// they are Array Methods
+// Higher Order Functions like Array Methods
 // Map => return a new Array
 // Filter => return a New Array ( only with element that have true condition from the callBackFunction)
 // reduce => return only one value
@@ -1740,6 +1794,7 @@ Steps of for loop
 // }
 // console.log(newArray)
 
+// -------------map() Method
 // Same Idea with Map ( Map Create New Array)
 // Syntax map (callBackFunction(Element, Index, Array) {}, thisArg)
 // -Element => The current element being processed in the array
@@ -1761,15 +1816,15 @@ Steps of for loop
 
 // console.log(newMapArray);
 
-// to change string to Array
+// ---------to change string to Array
 // 1 - Array.from("string")
 // 2 - "string".split("")
 // 3 - [..."string"]
 
-// to change Array to String
-// 1 - ["s", "t", "r", "i", "n", "g"].join("") without comma
-// 3- .reduce((acc, current) => `${acc}${current}`) without comma
+// ---------to change Array to String
+// 1 - ["s", "t", "r", "i", "n", "g"].join("") without comma or .join() with comma
 // 2 - ["s", "t", "r", "i", "n", "g"].toString() with comma , 
+// 3- .reduce((acc, current) => `${acc}${current}`) without comma
 
 // let swappingCases = "elZERo";
 
@@ -1793,6 +1848,7 @@ Steps of for loop
 // let ignum = ignorenumbers.split("").map((ele) => isNaN(ele) === true  ? ele : "").join("")
 // let ignum = ignorenumbers.split("").map((ele) => isNaN(parseInt(ele)) ? ele : "").join("")
 
+// ----------------filter() Method
 // easy way to use filter | filter like map but return new Array with only element that have true value
 // let ignum = ignorenumbers.split("").filter((ele) => isNaN(ele) ).join("")
 // console.log(ignum)
@@ -1819,6 +1875,7 @@ Steps of for loop
 // let doubleMix = filterMix.split("").map((el) => el*el).join("")
 // console.log(doubleMix)
 
+// -------------reduce() Method
 // Reduce ((callBackFunction(Accumulator , Current Element, Current Index, Source Array)), intial Value)
 // Acculator => the accumulated value previously returned in the last invocation
 // Current Val => The Current element being processed in the array
@@ -1832,6 +1889,12 @@ Steps of for loop
 //with initial Value accumulator is 5 -- current is 10 -- index of current 0 
 // let nums = [10, 20, 15, 30];
 // let add = nums.reduce((acc,current,index,arr) => acc + current , 5)
+// let add = nums.reduce((acc,current,index,arr) => {
+//   console.log(`acc : ${acc}`)
+//   console.log(`Current : ${current}`)
+//   console.log(`index : ${index}`)
+//   return acc + current
+// }, 5)
 // console.log(add)
 
 // let theBiggest = ["Bla", "Propaganda", "other", "AAA", "Battery", "Test"];
@@ -1847,21 +1910,36 @@ Steps of for loop
 // let filterChars = removeChars.filter((el) => el !== "@" ).reduce((acc, current) => `${acc}${current}`)
 // console.log(filterChars)
 
+// ------------------forEach() Method
 // ForEach ( does not return Anything [undefined]) (Break will not Break the Loop if you want to break use every())
 // Syntax ForEach (callBackFunction(Element, Index, Array) {}, thisArg)
 // -Element => The current element being processed in the array
 // -Index => The index of the current element being processed in the array
 // -Array => the Current Array
 
+// let allLis = document.querySelectorAll("ul li");
+// let allDivs = document.querySelectorAll(".content div")
+
+// allLis.forEach((el) => el.onclick = function () {
+//   // Remove Active from All Elements
+//   allLis.forEach((el) => el.classList.remove("active"))
+//   // Add Active to This Element
+//   this.classList.add("active")
+//   // Hide all Divs
+//   allDivs.forEach((el) => el.style.display = "none")
+// })
+
+
+// ------------------every() Method
 // you can not break forEach but you can break every() return false like break
 // let arr = [1,2,3,4];
-// let foreach = arr.forEach((el) => console.log(el))
+// // let foreach = arr.forEach((el) => console.log(el))
 // let every = arr.every((el) => {
 //   if( el > 3) {
 //     return false
 //   }else {
 //     console.log(el)
-//     // you should return true
+//     // you should return true if not will exit the function
 //     return true
 //   }
 // } )
@@ -1871,6 +1949,7 @@ Steps of for loop
 // ignoreEl.forEach(el => console.log(el))
 
 // another way to break forEach ( using Local variable)
+/*but not real break it will continue looping but will not excute console.log(el) beacuse of anything after return will not work */
 // let breakForeach = false;
 // arr.forEach((el) => {
 //   if (breakForeach) {
@@ -1885,52 +1964,123 @@ Steps of for loop
 // })
 
 
-
-// let allLis = document.querySelectorAll("ul li");
-// let allDivs = document.querySelectorAll(".content div")
-
-// allLis.forEach((el) => el.onclick = function () {
-//   // Remove Active from All Elements
-//   allLis.forEach((el) => el.classList.remove("active"))
-//   // Add Active to This Element
-//   this.classList.add("active")
-//   // Hide all Divs
-//   allDivs.forEach((el) => el.style.display = "none")
-// })
-
-// Sort
+// ----------------Sort() Method
 // The Default sort order is ascending
 
 // let nums = [9,8,7,6,5,4,3,2,1]
 // The Default sort order is ascending
 // let sortedNum = nums.sort()
-// 1 > 0 sort num2 before num1 | -1 < 0 sort num1 before num2 | === 0 keep original order
+// > 0 sort num2 before num1 | < 0 sort num1 before num2 | === 0 keep original order
 // let sortedNum = nums.sort((num1,num2) => num1 > num2 ? 1 : -1)
-// > 0 sort num2 before num1 |  < 0 sort num1 before num2 | === 0 keep original order
 // let sortedNum = nums.sort((num1,num2) => num1 - num2)
 
 // console.log(sortedNum)
 
-// Find() Method
+// -------------Find() Method
 // let arr = [1,2,3,4]
-// console.log(arr.find((el) => el > 3))
+// console.log(arr.find((el) => el > 3)) // return the element
 
-// Some() Method
+// -------------Some() Method
 // let arr = [1,2,3,4]
-// console.log(arr.some((el) => el > 3))
-// console.log(arr.some((el) => el > 4))
+// console.log(arr.some((el) => el > 3)) // return true 
+// console.log(arr.some((el) => el > 4)) // return false
 
 
 // ------------diference between forEach and map
 // const arr = ["A", "B", "C", "D", , "F"]
-// let newArr = arr.map((ele,index) => ele.toLowerCase() ) // 4 will not show up
+// let newArr1 = arr.map((ele,index) => ele.toLowerCase() ) // 4 will not show up
 // let newArr2 = arr.forEach((ele,index) => ele.toLowerCase() ) // 4 will not show up
 // console.log(newArr1) // return new Array
 // console.log(newArr2) // undefined (forEach does not return anything)
 
+// ---------------Filter vs some vs find vs findIndex----------------
+/*
+* Filter will return found element or array of found elements and will continue the loop till end of array
 
+* Find will return found element only of first match not array of found elements 
+not like Filter will return an array of all matches and will not continues the loop till the end
 
-// ------------------------Deep to JS Engine-----------------------------
+*FindIndex will return the index of first Match if not found return -1 like indexOf method
+
+* Some will return true once found first match and will not continue the loop till the end
+*/
+// let names = ["Mohamed","Ahmed","Soliman","Hussein"]
+// console.log(names.indexOf("Ahmed")) // 1
+// let arrOfObjs = [
+//   {id : 1 , name : "Mohamed"},
+//   {id : 2 , name : "Ahmed"},
+//   {id : 3 , name : "Soliman"},
+//   {id : 4 , name : "Hussein"}
+// ]
+// //  will return -1 because this object is not the same object inside arrOfObjs (assigned be reference)
+// let toBeFound = {id : 2 , name : "Ahmed"}
+// console.log(arrOfObjs.indexOf(toBeFound)) 
+// let obj = {
+//   lastName : "Hussein"
+// }
+
+// // to solve this problem you can use filter or some or find or findIndex
+
+// [1] Filter
+// let count = 0;
+// let filterFound = arrOfObjs.filter(ele => {
+//   count++
+//   if(toBeFound.id === ele.id){
+//     return true
+//   }else{
+//     return false
+//   }
+// })
+// console.log(filterFound,"After Looping", count,"Times") // 4 times
+
+// [2] Some
+// count = 0;
+// let someFound = arrOfObjs.some((ele,index) =>{
+//   count++;
+//   if(toBeFound.id === ele.id){
+//     console.log(arrOfObjs[index],'After Looping',count,'Times') // 2 times
+//     return true
+//   }else{
+//     return false
+//   }
+// })
+// console.log(arrOfObjs[count-1],'After Looping',count,'Times') // 2 times
+
+// [3] Find
+// count = 0;
+// let findFound = arrOfObjs.find((ele) =>{
+//   count++;
+//   if(toBeFound.id === ele.id){
+//     return true
+//   }else{
+//     return false
+//   }
+// })
+// console.log(findFound,'After Looping',count,'Times') // 2 times
+
+// [4] findIndex
+// count = 0;
+// let findIndexFound = arrOfObjs.findIndex((ele,index) =>{
+//   count++;
+//   if(toBeFound.id === ele.id){
+//     return true
+//   }else{
+//     return false
+//   }
+// })
+// console.log(arrOfObjs[findIndexFound],'After Looping',count,'Times') // 2 times
+
+// ---note : you can use thisArg with filter ,find, some, findIndex
+// let filterFound = arrOfObjs.filter(function(ele) {
+//   if(this.lastName === ele.name){
+//     return true
+//   }else{
+//     return false
+//   }
+// },obj)
+// console.log(filterFound)
+
+// ---------------------------------------------Deep to JS Engine-----------------------------
 
 /* 
 JavaScript is an interpreted language, not a compiled language.
@@ -1951,6 +2101,37 @@ For Example, the V8 engine, the engine that runs Google Chrome and NodeJS, compi
 V8 increases performance by compiling JavaScript to native machine code before executing it, versus executing bytecode or interpreting it.
 Also, Rhino and TraceMonkey use compilation as part of their process
 */
+
+// to understand memory heap and call stack 
+// https://medium.com/@allansendagi/javascript-fundamentals-call-stack-and-memory-heap-401eb8713204
+
+/* ------------JS Engine 
+* JS : Call stack & Excution environment and Memory heap 
+* Call Stack : is a last-in-first-out data structure used to store and keep track of running functions, or processes.
+* Excution environment : the execution environment of a JavaScript script describes where the code runs 
+* Excution Context : consists of lexical environment (memory component) and Code component
+* lexical environment : environment record (variable environment) and reference to the outer environment 
+
+* -------------JS Memory 
+JavaScript engines have two places where they can store data: The memory heap and stack.
+
+A stack is a data structure that JavaScript uses to store static data. Static data is data where the engine knows the size at compile time. 
+In JavaScript, this includes primitive values (strings, numbers, booleans, undefined, and null) and references, which point to objects and functions.
+
+Since the engine knows that the size won't change, it will allocate a fixed amount of memory for each value.
+
+The process of allocating memory right before execution is known as static memory allocation.
+
+Heap: Dynamic memory allocation
+The heap is a different space for storing data where JavaScript stores objects and functions.
+Unlike the stack, the engine doesn't allocate a fixed amount of memory for these objects. Instead, more space will be allocated as needed.
+Allocating memory this way is also called dynamic memory allocation.
+
+https://felixgerschau.com/javascript-memory-management/
+*/
+
+// to understand Excution environment 
+// https://medium.com/@bdov_/javascript-typescript-execution-vs-lexical-vs-variable-environment-37ff3f264831
 
 // to understand this read about Closures , Lexical Environment and Excecution Context (link below)
 // https://blog.bitsrc.io/a-beginners-guide-to-closures-in-javascript-97d372284dda
@@ -2095,7 +2276,11 @@ Web APIs are basically a large number of powerful functions and interfaces expos
 * 		Screen Capture
 * 		Location
 * 		setTimeout and Timer
-* 		And even console.log is also part of console web API
+* 		And even console.log is also part of console web API 
+
+console.log is web API But there is no call back involved here i.e after the console log is offloaded to the browser, 
+it directly gets logged to the browser console and doesn't come back to the JS engine. 
+So, we can't observe the asynchronous nature.
 
 The Web API calls are added to the Web API Container from the Call Stack. 
 These Web API calls remain inside the Web API Container until an action is triggered. 
@@ -2105,21 +2290,33 @@ Then their callBack Functions will be added to callCack queue
 /* ------------Task queue vs  Render queue vs Microtask queue------------
 All will go to call Stack once the Call Stack is empty
 * Task queue (Callback Queue): Here the tasks are executed one at a time and new ones are added. 
-  There is not rule that all the tasks here should be finished before moving.
 
 * Render queue: Once the event loop comes to the render queue, 
   it will finish everything which was existing at the beginning, 
   and if something is added after the event loop starts here, 
   they are deferred to the next render cycle.
+  Rendering never happens while the engine executes a task. 
+  It doesn’t matter if the task takes a long time. Changes to the DOM are painted only after the task is complete.
 
 * Microtask queue: This queue is executed until it is exhausted. 
   So, if you run an infinite recursion of promises, 
   you will block the main thread as shown above.
 
-https://felixgerschau.com/javascript-memory-management/
-https://lightmap.dev/how-does-javascript-even-work-part-2#heading-render-queue
+----------------------difference between Task Queue and MicroTask Queue
+There is no rule that all the tasks in Task Queue should be finished before moving means JS engine will jump 
+from Task queue to microTask queue and then jump back to task Queue 
+but in microTask queue JS engine will remain in microTask queue till finish all tasks that's why microTask queue 
+can block main thread incase of infinite recursion of promises
+The callback queue is handled by the JavaScript engine after it has executed all tasks in the microtask queue
 
-// Promise will go to call stack before setTimeout becaue Promise in microtask Queue and setTimeout in task Queue
+* Microtask queue is processed in a separate event loop. The Callback queue is processed in the same event loop.
+Microtask queue is processed in a separate event loop which means that if the main thread is blocked, the microtask queue will still be processed.
+
+One of the advantages of a callback queue over a microtask queue is that the callback queue is processed in the same event 
+loop as the main thread. This means that if the main thread is blocked, the callback queue will not be processed.
+
+* Microtask Queue is like the Callback Queue, but Microtask Queue has higher priority.
+Promise will go to call stack before setTimeout becaue Promise in microtask Queue and setTimeout in task Queue
 
 // SetTimeout is web Api and will be in task Queue
 setTimeout(function(){
@@ -2131,6 +2328,8 @@ let p1 = new Promise((resolve, reject)=> {
   resolve("from Promise")
 })
 p1.then((resolve) => console.log(resolve))
+
+https://lightmap.dev/how-does-javascript-even-work-part-2#heading-render-queue
 */
 
 /* JS Hoisting 
@@ -2203,7 +2402,7 @@ Block Scope : not just inside a function, but around any curly brackets like if 
 * A lexical scope or static scope in JavaScript refers to the accessibility of the variables,
 functions, and objects based on their physical location in the source code
 
-* Block Chain :
+* Scope Chain :
 The way that JavaScript resolves a variable is by looking at it in its current scope,
 if it cannot find the variable, it goes up to the outer scope, which is called the scope chain.
 
@@ -2268,7 +2467,7 @@ foo();
 
 /* Values Vs References in JS
 
-* Javascript has 5 data types that are passed by value: Boolean, null, undefined, String, and Number.
+* Javascript has 7 data types that are passed by value: Boolean, null, undefined, String, Number, bigint, symbol.
 We’ll call these primitive types.
 
 
@@ -2282,7 +2481,7 @@ Objects are created at some location in your computer’s memory.
 When we write arr = [], we’ve created an array in memory.
 What the variable arr receives is the address, the location, of that array.
 
-* Assigning by value vs Assigning by Value :
+* Assigning by value vs Assigning by reference :
 
 Assign by Value (value type variable) :
 here x = y but when we change value of y will not change value of x because each x and y has a different copy of it's value
@@ -2475,7 +2674,7 @@ for the same arguments. This means that the function cannot depend on any mutabl
 A referentially transparent function is one which only depends on its input.
 
 Side-effect free: The function cannot cause any side effects. 
-Side effects may include I/O (e.g., writing to the console or a log file), 
+Side effects may include I/O (input/output)(e.g., writing to the console or a log file), 
 modifying a mutable object, reassigning a variable, etc.
 
 // Exp. for Referential transparency ( depend only on argument)
@@ -2501,7 +2700,7 @@ console.log(x) // 20
 
 pure function ( will not effect the outer variables) :
 when you pass agument to parameter it will assign it by =
-here arguments x = a and y = b and because there are value type variable will not change each others
+here arguments a = x and b = y and because there are value type variable will not change each others
 let x = 10;
 let y = 20;
 function pure(a , b) {
@@ -2512,7 +2711,7 @@ function pure(a , b) {
 pure(x,y)
 
 impure function (will effect outer variables that's called side effect) :
-here we assign obj with objArg and both now has smae address of same object so any change of that 
+here we assign obj with objArg and both now has same address of same object so any change of that 
 object will changed no both obj and objArg
 
 let obj = {
@@ -2592,8 +2791,10 @@ console.log(obj.x)
 * instead of array.pop() use array.slice(0,-1)
 * instead of array.shift() use array.slice(1)
 * instead of array.unshift() use [].concat(array)
-* instead of array.sort(callBackFunction) use const newArray = R.sort(callBackFunction, array)
-* instead of array.reverse() use const newArray = R.reverse()
+* instead of array.sort(callBackFunction) use const newArray = R.sort(callBackFunction, array) (R is Ramda)
+* instead of array.sort(callBackFunction) use const newArray = [...array].sort(callBackFunction)
+* instead of array.reverse() use const newArray = R.reverse() (R is Ramda)
+* instead of array.reverse() use const newArray = [...array].reverse()
 * you can almost use spread operator and slice compination to transfere mutable method to immutable
 
 *you can use also spread operator : 
@@ -2886,7 +3087,8 @@ This means that functions are simply a value and are just another type of object
 // we will use invoke, because a JavaScript function can be invoked without being called.
 // The difference is semantic and subtle.
 // When you call a function, you are directly telling it to run.
-// When you invoke a function, you are letting something run it.
+// When you invoke a function, you are letting something run it or call it indirectly like fn.call() or fn.apply() 
+// or passing this function as argument to another function func1(func){func()}.
 
 // there is 2 main functions Regular and Arrow
 
@@ -2908,26 +3110,186 @@ This means that functions are simply a value and are just another type of object
 // let hello = () => console.log("Hello")
 // // hello()
 
-// ------------Arrow functions --------------
-// reference (https://www.section.io/engineering-education/how-to-use-javascript-arrow-functions-and-this-keyword/)
-// Using the arrow function, curly braces, parenthesis, function,
-// and return keywords become optional.
-// Arrow functions do not have their own this binding. (but can be usefull look example below )
-// Instead, they go up to the next level of execution.
-// const whoAmI = {
-//   name: 'Leslie Knope',
-//   regularFunction: function() {
-//     console.log(this.name)
-//   },
-//   arrowFunction: () => {
-//     console.log(this.name)
-//   },
+
+// --------------------------------Arrow functions ---------------------------------------
+/*
+- reference (https://www.section.io/engineering-education/how-to-use-javascript-arrow-functions-and-this-keyword/)
+- Using the arrow function, curly braces, parenthesis, function, and return keywords become optional.
+
+const whoAmI = {
+  name: 'Leslie Knope',
+  regularFunction: function() {
+    console.log(this.name)
+  },
+  arrowFunction: () => {
+    console.log(this.name)
+  },
+}
+
+whoAmI.regularFunction() // "Leslie Knope"
+whoAmI.arrowFunction() // undefined
+*/
+// -------difference between regular and arrow function
+/*
+https://dmitripavlutin.com/differences-between-arrow-and-regular-functions/
+
+- The arrow function doesn't define its own execution context that's why doesn't have it's own this.
+- The arrow function cannot be used as Constructor (this is inherited from the enclosing (lexical) scope)
+- The arrow functions are this-less, arguments-less, new.target-less and super-less.
+ */
+
+// [1] this in an arrow function is inherited from the enclosing (lexical) scope.
+
+// // ----arrow Function
+// const myObject = {
+//   myMethod() {
+//     console.log(this); // logs myObject
+//     const callback = () => {
+//       console.log(this); // logs myObject
+//     };
+//     callback()
+//   }
+// };
+// myObject.myMethod(); 
+
+// // ----Regular Function
+// const myObject2 = {
+//   myMethod() {
+//     console.log(this); // logs myObject
+//     const callback = function (){
+//       console.log(this); // logs window object
+//     };
+//     callback()
+//   }
+// };
+// myObject2.myMethod(); 
+
+// [2] arrow function cannot be used as Constructor
+
+// // -----arrow Function
+// const Car = (color) => {
+//   this.color = color;
+// };
+// const redCar = new Car('red'); // TypeError: Car is not a constructor
+
+// // ----- regular Function
+// const Car2 = function (color){
+//   this.color = color;
+// };
+// const redCar2 = new Car2('red'); // no Error
+
+// [3] arrow function does not have arguments special keyword
+
+// // ---arrow Function ( but you can use rest parameters to get array of arguments)
+// let arr = (...args) => {
+//   console.log(args)
 // }
+// arr(1,2)
 
-// whoAmI.regularFunction() // "Leslie Knope"
-// whoAmI.arrowFunction() // undefined
+// // -----regular Function
 
-// --------Example below
+// let arr2 = function (a,b){
+//   console.log(arguments)
+// }
+// arr2(1,2)
+
+// [4] method inside object invoked as callback function (here arrow function is better)
+/*
+- in regular Function will output undefined because we use setTimeout which invoke method outside 
+class instance and this keyword will be global or window 
+
+- in Arrow Function will output Batman because arrow function get this lexically from class instance
+No matter how or where being executed, this value inside of an arrow function 
+always equals this value from the outer function. 
+In other words, the arrow function resolves this lexically.
+ */
+
+// ----arrow Function
+// class Hero {
+//   constructor(heroName) {
+//     this.heroName = heroName;
+//   }
+//   logName = () => {
+//     console.log(this.heroName);
+//   }
+// }
+// const batman = new Hero('Batman');
+// setTimeout(batman.logName,1000) // batman
+
+// ----regular Function
+
+// class Hero2 {
+//   constructor(heroName) {
+//     this.heroName = heroName;
+//   }
+//   logName = function() {
+//     console.log(this);
+//   }
+//   // logName = function() {
+//   //   console.log(this.heroName);
+//   // }.bind(this)
+// }
+// const batman2 = new Hero2('Batman');
+// setTimeout(batman2.logName,1000) 
+// // to solve this problem add bind here or inside consructor
+// setTimeout(batman2.logName.bind(batman2),1000) 
+
+// **** note : If a function has been used as a high order function (passed as an argument) 
+// or passed to variable the scope of this gets lost.
+
+// function Hero2(heroName) {
+//   this.heroName = heroName;
+// }
+// Hero2.prototype.logName = function() {
+//   console.log(this);
+// }
+// batman2 = new Hero2("Batman")
+// let seperated2 = batman2.logName
+// seperated2() // this here is window Object
+
+// class Hero2 {
+//   constructor(heroName) {
+//     this.heroName = heroName;
+//   }
+//   logName = function() {
+//     console.log(this);
+//   }
+// }
+// const batman2 = new Hero2('Batman');
+// let seperated2 = batman2.logName
+// seperated2() // this here is undefined (all the code inside a class automatically executes in the strict mode and this in strict mode will be undefined not window object)
+
+// [5] indirect invocation 
+/*
+Contrary to a regular function, the indirect invocation of an arrow function using 
+myArrowFunc.call(thisVal) or myArrowFunc.apply(thisVal) doesn't change the value of 
+this: the context value is always resolved lexically.
+*/
+
+// ----------this of arrow function inside ( object - constructor - class)
+// // arrow function inside Object ( this in window)
+// let obj = {
+//   arrowFunc : _ => this
+// }
+// console.log(obj.arrowFunc())
+
+// // arrow function inside constructor (this is instance of Obj)
+// function Obj(){
+//   this.arrowFunc = _ => this;
+// }
+// let instObj = new Obj()
+// console.log(instObj.arrowFunc())
+
+// // arrow function inside class (syntactical sugar of constructor that's why this is instance of Obj2  )
+// class Obj2 {
+//   constructor(){
+//     this.arrowFunc = _ => this
+//   }
+// }
+// let instObj2 = new Obj2()
+// console.log(instObj2.arrowFunc())
+
+// --------this of arrow function inside addEventListener inside class
 // const button = document.createElement('button')
 // button.textContent = 'Click me'
 // document.body.append(button)
@@ -2935,55 +3297,24 @@ This means that functions are simply a value and are just another type of object
 // class Display {
 //   constructor() {
 //     this.buttonText = 'New text'
+    
+//     // button.addEventListener('click', function(event) {
+//     //   // regular function this will be button
+//     //   event.target.textContent = this.buttonText
+//     //   console.log(this) // button
+//     // })
 
 //     button.addEventListener('click', event => {
-//       // we used arrow function because we want this to refer to "new text" not to event.target
+//       // we used arrow function because we want this to refer to class instance not to button
 //       event.target.textContent = this.buttonText
+//       console.log(this) // class instance
 //     })
+
 //   }
 // }
 // new Display()
 
-// if callBackFunction inside Higher Order function is Arrow Function (this will refer to Object a) and Farr to bind or add this Arg
-// no need to bind this because arrow function has not it's own this and inherit it from prarent function ( where this refer to object a )
-// a = {
-//   foo: 'bar',
-//   things: [1, 2, 3],
-//   showFooForEach: function() {
-//     this.things.map((thing) => {
-//       console.log(this.foo, thing);
-//     });
-//   }
-// }
-
-// a.showFooForEach();
-
-//if callBackFunction inside Higher Order function is normal Function (this will refer to object a but you must bind this or add this Arg)
-// because normal function has it's own this and you need to bind this of object to function
-// a = {
-//   foo: 'bar',
-//   things: [1, 2, 3],
-//   showFooForEach: function() {
-//     this.things.map(function(thing) {
-//       console.log(this.foo, thing);
-//     }.bind(this));
-//   }
-// }
-
-// a.showFooForEach();
-
-// here this in function will refer to object a
-// a = {
-//   foo: 'bar',
-//   things: [1, 2, 3],
-//   showFooForEach: function() {
-//     console.log(this)
-//   }
-// }
-
-// a.showFooForEach();
-
-//IIFE (immediately Invoked Function Expression):
+//--------------------IIFE (immediately Invoked Function Expression)------------------
 
 // (function f(a=3 ,b=2 ) {
 //   console.log(a + b);
@@ -3004,10 +3335,11 @@ This means that functions are simply a value and are just another type of object
 // let a = 10;
 // console.log(a)
 
-// A closure 
+// ----------------closure 
 // closure is the inner function that has access to its outer function scope
-// even after the outer function has returned(because of Reference to the parent lexical environment). This means a closure can remember
-// and access variables and arguments of its outer function even after the function returned
+// even after the outer function has returned(because of Reference to the parent lexical environment). 
+// This means a closure can remember and access variables and arguments of its outer 
+// function even after the function returned
 
 // function person() {
 //   let name = 'Peter';
@@ -3032,13 +3364,14 @@ This means that functions are simply a value and are just another type of object
 //     return counter++
 //   }
 // }
+// let result = count()
 
 // here no closure function and will reset variable counter to 0 each time we invoke the function
 // function count2() {
 //   let counter = 0;
 //   return counter++
 // }
-// let result = count()
+
 
 // console.log(result()) // 0
 // console.log(result()) // 1
@@ -3091,15 +3424,17 @@ This means that functions are simply a value and are just another type of object
 // In an object method, this refers to the object
 // Alone, this refers to the global object (window) but in strict mode will be undefined
 // In a function, this refers to the global object. (because if function does not belong to any Object will belong to global Object) (myFunction() === window.myFunction())
-// In an Arrow functions this refer to global Object ( even if it's belong to specific Object) beacuse it do not have own this binding
+// In an Arrow functions this refer to global Object ( even if it's belong to specific Object) beacuse it do not have it's Excution context so doesn't have own this
 // In a function, in strict mode, this is undefined.
-// In an event, this refers to the element that received the event.
-// Methods like call(), apply(), and bind() can refer this to any object.
+// In an event, this refers to the element that received the event but in arrow function to window object.
+// Methods like call(), apply(), and bind() can refer this to any object but in arrow function this can not be changed by call,bind or apply.
 // for nested function ( inner function inside outer function inside object ) this refer to window object ( to solve this problem use arrow function or bind() or apply() or bind)
+
+// in event (regular and arrow functions)
 
 
 // refernece (https://gist.github.com/zcaceres/2a4ac91f9f42ec0ef9cd0d18e4e71262)
-// ---- refer to Person Object
+// [1] This inside Object :  refer to Person Object
 // const person = {
 //   firstName: "John",
 //   lastName : "Doe",
@@ -3110,17 +3445,22 @@ This means that functions are simply a value and are just another type of object
 //   };
 // console.log(person.fullName())
 
-// ---refer to element that received the event
-// allLis.forEach((el) => el.onclick = function () { this.classList.add("active") }
+// [2] This inside Event : refer to element that received the event but in arrow refer to window
+// const button = document.createElement('button')
+// button.textContent = 'Click me'
+// document.body.append(button)
 
-// --- refer to object from nested inner function
+// button.addEventListener("click",(event)=> console.log(this)) // window
+// button.addEventListener("click",function (event){console.log(this)}) // button
+
+// [3] This inside nested function
 // let obj = {
 //   theName : "Soliman",
 //   age : 33, 
 //   fun : function getThis () {
-//     console.log( ` This from outer function is ${this}`);
+//     console.log( ` This from outer function is ${this}`); // obj
 //     function getThisInner() {
-//       console.log(` This from inner function is ${this}`)
+//       console.log(` This from inner function is ${this}`) // window
 //     }
 //     getThisInner()
 //   }
@@ -3134,15 +3474,28 @@ This means that functions are simply a value and are just another type of object
 //   theName : "Soliman",
 //   age : 33, 
 //   fun : function getThis () {
-//     console.log( ` This from outer function is ${this}`);
-//     let arrow = _ => console.log(` This from inner function is ${this}`)
+//     console.log( ` This from outer function is ${this}`); // obj
+//     let arrow = _ => console.log(` This from inner function is ${this}`) // obj
 //     arrow()
 //   }
 // }
 
 // obj.fun()
 
-// Arrow function inside constructor
+// [4] This inside Arrow function inside constructor
+/* 
+*** My Explanation : 
+new keyword will bind this to instance object and this now inside Constructor function
+with new Excution context (new Scope) and arrow function inside Constructor Function
+will resolve this Lexically 
+
+*** internet Explanation : 
+Why this inside Arrow function inside constructor refer to created Object?
+Instance Objects are powerful because they are derived from a function, 
+they provide private scope when they are created, and expressions can be executed on instantiation.
+But A JavaScript object literal does not, by nature, provide private scope.
+*/
+
 // function User(fName,lName,age){
 //   this.fName = fName;
 //   this.lName = lName;
@@ -3150,19 +3503,15 @@ This means that functions are simply a value and are just another type of object
 //   this.country = "EGYPT"
 //   this.fullName = _ => `Full Name: ${this.fName} ${this.lName}`
 // }
+// let inst = new User("Mohamed","Hussein",34)
+// console.log(inst.fullName())
 
-/* 
-Why this inside Arrow function inside constructor refer to created Object?
-Instance Objects are powerful because they are derived from a function, 
-they provide private scope when they are created, and expressions can be executed on instantiation.
-But A JavaScript object literal does not, by nature, provide private scope.
-*/
-
-// -----this in IIFE----------
+// [5] This inside IIFE
 // let myObj = {
 //   name : "Soliman",
 //   func: (function parent(){
-//     let child = () => console.log(this.name)
+//     console.log(this) // window
+//     let child = () => console.log(this.name) // this resolved lexically (window)
 //     child()
 //   })()
 // }
@@ -3186,7 +3535,7 @@ console.log(window.name)
 console.log(myObj.name)
 */
 
-/* ------------this with setTimeout and addEventListener-----------
+/* [6] This inside setTimeout and addEventListener
 setTimeout is web api and will go to callback queue once call stack is empty will go to call stack 
 and will be excuted in global context.
 
@@ -3196,10 +3545,10 @@ in global context once call stack is empty
 in second exp. 1st this refer to btn - 2nd this refer to window same reasone of first exp.
 
 in third exp. 1st this refer to btn - 2nd this refer to btn also because arrow function
-take this from lexical context and this of lexcial context is btn from addEventListener 
-
+doesn't have own Excution Context and take this from lexical context and 
+this of lexcial context is btn from addEventListener 
 */
-// let btn = document.querySelector(".btn")
+
 // let obj = {
 //   name : "Soliman",
 //   func : function getThis(){
@@ -3212,23 +3561,25 @@ take this from lexical context and this of lexcial context is btn from addEventL
 // obj.func() //output obj - window
 
 
+// let btn = document.querySelector(".btn")
 // let getThis = function (){
-//   console.log(this)
+//   console.log(this) // window
 //   setTimeout(function(){
-//     console.log(this)
+//     console.log(this) // window
 //   },1000)
 // }
+
 // let getThisArrow = function (){
 //   console.log(this)
 //   setTimeout(() => {
 //     console.log(this)
 //   },1000)
 // }
-// // btn.addEventListener("click", getThis) // output btn - window
+// btn.addEventListener("click", getThis) // output btn - window
 // btn.addEventListener("click", getThisArrow) // output btn  - btn
 
 
-// in Explicit Binding this refer to object passed in apply , call or bind (objFun.apply(obj))
+// [6] This with Explicit Binding: this refer to object passed in apply , call or bind (objFun.apply(obj))
 // let obj = {
 //   theName : "Soliman",
 //   age : 33,
@@ -3282,21 +3633,10 @@ take this from lexical context and this of lexcial context is btn from addEventL
 // }
 // obj.fun()
 
-// Implicit Binding (function inside object or use constructor to create new Object and this refer to new object)
+// [6] This with Implicit Binding : Implicit Binding (function inside object or use constructor to create new Object and this refer to new object)
 // with implicit this will refer to object before dot ( obj.doStuff , obj.func)
-// var MyObject = function (){
-//   this.name = 'MyObjectName';
-//   this.myProperty = 'property';
-// };
 
-// MyObject.prototype.doStuff = function (action) {
-//   console.log(this.name + ' is ' + action + '!');
-// }
-
-// var obj = new MyObject();
-
-// obj.doStuff('awesome');
-
+// [a] inside function
 // let obj = {
 //   theName : "Soliman",
 //   age : 33,
@@ -3306,354 +3646,24 @@ take this from lexical context and this of lexcial context is btn from addEventL
 // }
 // obj.func()
 
-// -----------------difference between regular and arrow function-------------
-/*
-- The arrow function doesn't define its own execution context.
-- The arrow function cannot be used as Constructor (this is inherited from the enclosing (lexical) scope)
-- The arrow functions are this-less, arguments-less, new.target-less and super-less.
- */
-
-// [1] this in an arrow function is inherited from the enclosing (lexical) scope.
-
-// // ----arrow Function
-// const myObject = {
-//   myMethod() {
-//     console.log(this); // logs myObject
-//     const callback = () => {
-//       console.log(this); // logs myObject
-//     };
-//     callback()
-//   }
-// };
-// myObject.myMethod(); 
-
-// // ----Regular Function
-// const myObject2 = {
-//   myMethod() {
-//     console.log(this); // logs myObject
-//     const callback = function (){
-//       console.log(this); // logs window object
-//     };
-//     callback()
-//   }
-// };
-// myObject2.myMethod(); 
-
-// [2] arrow function cannot be used as Constructor
-
-// // -----arrow Function
-// const Car = (color) => {
-//   this.color = color;
-// };
-// const redCar = new Car('red'); // TypeError: Car is not a constructor
-
-// // ----- regular Function
-// const Car2 = function (color){
-//   this.color = color;
-// };
-// const redCar2 = new Car2('red'); // TypeError: Car is not a constructor
-
-// [3] arrow function does not have arguments special keyword
-
-// // ---arrow Function ( but you can use rest parameters to get array of arguments)
-// let arr = (...args) => {
-//   console.log(args)
-// }
-// arr(1,2)
-
-// // -----regular Function
-
-// let arr2 = function (a,b){
-//   console.log(arguments)
-// }
-// arr2(1,2)
-
-// [4] method inside object invoked as callback function (here arrow function is better)
-
-// ----arrow Function
-// class Hero {
-//   constructor(heroName) {
-//     this.heroName = heroName;
-//   }
-//   logName = () => {
-//     console.log(this.heroName);
-//   }
-// }
-// const batman = new Hero('Batman');
-// setTimeout(batman.logName,1000) // batman
-
-// ----regular Function
-
-/*
-You might think that setTimeout(batman2.logName, 1000) will call the 
-batman2.logName(), which should log the information about batman2 object.
-Unfortunately the method is separated from its object when passed as a parameter or to variable: 
-setTimout(batman2.logName,1000).
-
-setTimout(batman2.logName);
-is equivalent to:
-const extractedlogName = batman2.logName;
-setTimout(extractedlogName) // undefined.heroName => error (this will be undefined)
- */
-// class Hero2 {
-//   constructor(heroName) {
-//     this.heroName = heroName;
-//   }
-//   logName = function() {
-//     console.log(this);
-//   }
-//   // logName = function() {
-//   //   console.log(this.heroName);
-//   // }.bind(this)
-// }
-// const batman2 = new Hero2('Batman');
-// setTimeout(batman2.logName,1000) 
-// // to solve this problem add bind here or inside consructor
-// setTimeout(batman2.logName.bind(batman2),1000) 
-
-// **** note : If a function has been used as a high order function (passed as an argument) 
-// or passed to variable the scope of this gets lost.
-
-// function Hero2(heroName) {
-//   this.heroName = heroName;
-// }
-// Hero2.prototype.logName = function() {
-//   console.log(this);
-// }
-// batman2 = new Hero2("Batman")
-// let seperated2 = batman2.logName
-// seperated2() // this here is window Object
-
-// class Hero2 {
-//   constructor(heroName) {
-//     this.heroName = heroName;
-//   }
-//   logName = function() {
-//     console.log(this);
-//   }
-// }
-// const batman2 = new Hero2('Batman');
-// let seperated2 = batman2.logName
-// seperated2() // this here is undefined (all the code inside a class automatically executes in the strict mode and this in strict mode will be undefined not window object)
-
-// ------------------------------Call Method----------------------------------
-// Call (thisArg, arg1,arg2,....) takes arguments separately
-// The example below calls person1.fullName function with person2 as an argument,
-//  this refers to person2, even if fullName is a method of person1:
-// call force person1.fullName() to accept person2 (object) as an argument
-
-// const person1 = {
-//   fullName: function() {
-//     return this.firstName + " " + this.lastName;
-//   }
-// }
-
-// const person2 = {
-//   firstName:"John",
-//   lastName: "Doe",
-// }
-
-// console.log(person1.fullName.call(person2))
-
-// ---- adding function print to each object inside array animals using Call()
-// const animals = [
-//   { species: 'Lion', name: 'King' },
-//   { species: 'Whale', name: 'Fail' }
-// ];
-
-// for (let i = 0; i < animals.length; i++) {
-//   (function(i) {
-//     this.print = function() {
-//       console.log('#' + i + ' ' + this.species
-//                   + ': ' + this.name);
-//     }
-//     this.print();
-//   }).call(animals[i], i);
-// }
-// console.log(animals[0])
-// console.log(animals[1])
-
-// -----Using call() to invoke a function and without specifying the first argument
-// In the example below, we invoke the display function without passing the first argument. 
-// If the first argument is not passed, the value of this is bound to the global object.
-
-// var sData = 'Wisen';
-// function display() {
-//   console.log('sData value is %s ', this.sData);
-// }
-// display.call();  // sData value is Wisen
-// note : in strict mode this will not refer to global object -this will undefined
-
-// ----------------------------bind Method-------------------------
-// bind(thisArg, arg1,arg2,...)
-// The bind() function creates a new bound function
-// With the bind() method, an object can borrow a method from another object.
-// This example creates 2 objects (person and member).
-// The member object borrows the fullname method from the person object:
-
-// const person = {
-//   firstName:"John",
-//   lastName: "Doe",
-//   fullName: function () {
-//     return this.firstName + " " + this.lastName;
-//   }
-// }
-
-// const member = {
-//   firstName:"Hege",
-//   lastName: "Nilsen",
-// }
-
-// here we already invoked the function and save the return value of that function in variable
-// let fullName = person.fullName.call(member);
-// console.log(fullName)
-
-// here you borrow the function it self and you named the function fullName
-// let fullName = person.fullName.bind(member);
-// console.log(fullName())
-
-// Bind only works once
-// function f() {
-//   return this.a
-// }
-
-// let g = f.bind({a: "Mohamed"})
-// let h = g.bind({a: "Soliman"})
-
-// console.log(g()) //Mohamed
-
-// ----bound function
-// should be var x = 10 not let x = 10; because we want x to be added to global object
-// var x = 10;
-// let obj = {
-//   x : 20,
-//   getX : function(){
-//     return this.x
-//   }
-// }
-// console.log(obj.getX()) // 20
-// let globalX = obj.getX;
-// console.log(globalX()) // 10 because excuted in global object and this.x and this refer to global object
-// // to solve this problem use bind()
-// let objX = obj.getX.bind(obj)
-// console.log(objX()) // 20
-//---partial applied function 
-// you can use bind() and bound function to add 3rd parameters to pre-specified no. of arguments in function
-// function sum(param1, param2){
-//   return param1 + param2
-// }
-// console.log(sum(2,3,20)) // 5 because it accept only 2 arguments
-// let sumResult = sum.bind(null,20)
-// console.log(sumResult(5)) // 25 by passing old parameters to bound function (2,3) = 5
-
-// -----apply vs concat
-/* 
-Concat does not append to the existing array—it instead creates and returns a new array.
-Push.apply() append to the existing array
-let arr = [1,2,3]
-let extra = [4,5]
-console.log(arr.concat(extra)) // [1,2,3,4,5]
-console.log(arr) // [1,2,3]
-arr.push.apply(arr,extra)
-console.log(arr) // [1,2,3,4,5]
-*/
-
-// -------The difference between Call and apply
-// The call(thisArg, arg1,arg1,....) method takes arguments separately.
-// The apply(thisArg, argArray) method takes arguments as an array or array like object.
-// const person = {
-//     fullName: function(city, country) {
-//       return this.firstName + " " + this.lastName + "," + city + "," + country;
-//     }
-//   }
-  
-//   const person1 = {
-//     firstName:"John",
-//     lastName: "Doe"
-//   }
-//   // apply accept argument as Array
-// console.log(person.fullName.apply(person1, ["Oslo", "Norway"]))
-//   // call accept argument separatly
-// console.log(person.fullName.call(person1, "Oslo", "Norway"))
-
-// -------- diference between call and bind
-// When called on a function,
-// .bind() sets a this context and returns a new function 
-// of the same name with a bound this context.
-
-// call attaches this into function and executes the function immediately:
-// var person = {  
-//   name: "James Smith",
-//   hello: function(thing) {
-//     console.log(this.name + " says hello " + thing);
-//   }
-// }
-
-// person.hello("world");  // output: "James Smith says hello world"
-// person.hello.call({ name: "Jim Smith" }, "world"); // output: "Jim Smith says hello world"
-
-// bind attaches this into function and it needs to be invoked separately like this:
-// var person = {  
-//   name: "James Smith",
-//   hello: function(thing) {
-//     console.log(this.name + " says hello " + thing);
-//   }
-// }
-
-// person.hello("world");  // output: "James Smith says hello world"
-// var helloFunc = person.hello.bind({ name: "Jim Smith" });
-// helloFunc("world");  // output: Jim Smith says hello world"
-// or like this:
-// ...    
-// var helloFunc = person.hello.bind({ name: "Jim Smith" }, "world");
-// helloFunc();  // output: Jim Smith says hello world"
-
-// use case of bind()
-
-// **** using bind to callBack function
+// [b] inside constructor
 // var MyObject = function (){
 //   this.name = 'MyObjectName';
 //   this.myProperty = 'property';
 // };
+
 // MyObject.prototype.doStuff = function (action) {
 //   console.log(this.name + ' is ' + action + '!');
 // }
+
 // var obj = new MyObject();
-// // here we are calling setTimeout and after delay 1 second there is no this.name 
-// setTimeout(obj.doStuff, 1000, 'awesome');
-// // here we are calling callBack function immedialtly 
-// setTimeout(obj.doStuff.call(obj,'awesome'), 1000); 
-// // here we bind this (which refer to obj) to function and ready once setTimeout invoke callBack function
-// setTimeout(obj.doStuff.bind(obj), 1000, 'awesome'); 
+// obj.doStuff('awesome');
 
-// reference (https://gist.github.com/zcaceres/2a4ac91f9f42ec0ef9cd0d18e4e71262)
-
-// **** using bind with addEventListener 
-// let obj = {
-//   theName : "soliman",
-//   age : 33,
-//   func : function () {
-//     console.log(`my Name is ${this.theName} and my age is ${this.age}`)
-//   }
-// }
-// let btn = document.getElementById("bind")
-// // here we used bind beacuse now this refer to element that recive click and we want this to refer to obj
-// btn.addEventListener('click',obj.func.bind(obj) )
-// // if you use call or apply function will invoked immedialtly and give you output before clicking on element
-// btn.addEventListener('click',obj.func.call(obj) )
-
-// let arr = [1,2,3,4]
-// let obj = {
-//   theName : "Soliman",
-//   age: 33
-// }
-// arr.map(function(el) {console.log(this)},obj)
-
-// setTimeout
+// -------------------------------setTimeout--------------------------------
 /*The specified amount of time (or the delay) is not the guaranteed time to execution,
 but rather the minimum time to execution.
-The callbacks you pass to these functions cannot run 
-until the stack on the main thread is empty.
+The callbacks you pass to these functions go to callback queue after delay and 
+will go to main stack only when the stack on the main thread is empty.
 As a consequence, code like setTimeout(fn, 0) will execute as soon as the stack is empty,
 not immediately. If you execute code like setTimeout(fn, 0) 
 but then immediately after run a loop that counts from 1 to 10 billion,
@@ -3670,7 +3680,7 @@ your callback will be executed after a few seconds. */
 // myArray.myMethod(1); // prints "one"
 // setTimeout(myArray.myMethod, 1000); // prints "[object Window]" after 1 second
 // setTimeout(myArray.myMethod, 1000, "1"); // prints "undefined" after 1 second
-// setTimeout(myArray.myMethod.bind(myArray), 1000); // prints "zero,one,two"
+// setTimeout(myArray.myMethod.bind(myArray), 1000); // prints myArray
 // setTimeout(myArray.myMethod.bind(myArray), 1000, "1"); // prints "one"
 
 // ------------------Constructor ---------------
@@ -3691,7 +3701,8 @@ newObject = function () {
   console.log(this)
 }
 newObject() // window object because a constructor not called yet
-let obj = new newObject // newObject because a constructor gets called when an object is created using the new keyword.
+let obj = new newObject // newObject instance because a constructor gets called when an object is created using the new keyword.
+console.log(obj instanceof newObject) // true
 
 Constructor with Parameters
 A constructor can also have parameters:
@@ -3708,7 +3719,7 @@ console.log(user2.age)
 Object Prototype
 Properties and methods can be added to a constructor using a prototype:
 *add properity
-function User (name, age) {
+
 function User () {
   this.thename = "solimaaan";
 }
@@ -3727,7 +3738,6 @@ User.prototype.func = function () {
 let newUser = new User
 console.log(newUser.func())
 */
-
 
 // ---------------Strict Mode------
 // Strict mode makes it easier to write "secure" JavaScript.
@@ -3758,13 +3768,17 @@ console.log(newUser.func())
 // 3- Deleting a variable (or object) (or function) is not allowed.
 // delete operator is used only to delete Object properites
 
+// in both cases will not delete variable 
+// (delete operator is used only to delete Object properites not variabels) 
+// but with strict mode will throw an Error
 // (function(){
 //   "use strict";
-//   let x = 3.14;
+//   let x = 10;
 //   delete x;
 //   console.log(x)
-// })()
+// })();
 
+// in both cases undefined (will delete property)
 // (function f(){
 //   "use strict";
 //   let x = {
@@ -3773,11 +3787,8 @@ console.log(newUser.func())
 //   }
 //   delete x.a;
 //   console.log(x.a)
-// })()
-// (function() {
-//   "use strict";
-//   delete f;
-// })
+// })();
+
 
 // 4- Duplicate Parameter name is not allowed:
 
@@ -3818,7 +3829,6 @@ console.log(newUser.func())
 // (function() {
 //   "use strict";
 //   const obj = {get x() {return 0} };
-
 //   obj.x = 3.14;
 // })();
 
@@ -3843,14 +3853,10 @@ console.log(newUser.func())
 //   let arguments = 3.14;
 // })();
 
-// 12- The with statement is not allowed:
-
-// (function() {
-//   "use strict";
-//   with (Math){x = cos(2)};
-// })();
+// 12- The with statement (deprecated) is not allowed:
 
 // Allows properties of an object to be treated as local variables within a statement.
+// "use strict";
 // var obj = {a: 1,b: 2, c: 3};
 // // more "tedious" to repeat "obj"
 // obj.a = 2;
@@ -3862,6 +3868,7 @@ console.log(newUser.func())
 //     b = 4;
 //     c = 5;
 // }
+// console.log(obj.a)
 
 // 13- For security reasons, eval() is not allowed to create variables in the scope from which it was called:
 
@@ -4004,19 +4011,22 @@ Jump like Break , continue , return , throw
 
 // reference link (https://medium.com/launch-school/javascript-expressions-and-statements-4d32ac9c0e74)
 
-// ------------functional Programming -------
+// ------------------------------function composition----------------------
 /* 
 
-* Pure Function ( we dicussed it before)
-* Function composition 
-* Avoid Shared State
-* Avoid Mutating state
-* Avoid Side Effects
-
----function composition
 Function composition is the process of combining two or more functions 
 to produce a new function. Composing functions together is like snapping together 
 a series of pipes for our data to flow through.
+
+const double = x => x * 2
+const square = x => x * x
+// Tradition 
+var output1 = double(2);
+var output2 = square(output1);
+console.log(output2);
+// composition
+var output_final = square(double(2));
+console.log(output_final);
 
 */
 // -----------------Strong reference and weak reference----------------
@@ -4041,7 +4051,6 @@ weak.set(myName, "OK")
 console.log(weak)
 myName = null
 console.log(weak) // should return weakMap(0) but garbage collecter not work immediatly
-
  */
 
 
@@ -4074,8 +4083,8 @@ console.log(weak) // should return weakMap(0) but garbage collecter not work imm
 * ES6 Classes
 */
 
-// -----constructor 
-// [1] built in Object constructor function
+// [1] constructor 
+// [a] built in Object constructor function
 // let user = new Object({
 //   age : 20,
 // }) 
@@ -4087,18 +4096,18 @@ console.log(weak) // should return weakMap(0) but garbage collecter not work imm
 //   return `Hello`
 // }
 // console.log(user.sayHello())
-// [2] user defined constructor function 
-// function userName() {
+// [b] user defined constructor function 
+// function UserName() {
 //   this.lname = "soliman";
 //   this.age = 33;
 // }
-// let user = new userName();
-// let user2 = new userName();
+// let user = new UserName();
+// let user2 = new UserName();
 // user2.age = 34;
 // console.log(user.age) // 33
 // console.log(user2.age) //34
 
-// -----literal
+// [2] literal
 // let userName = {
 //   lname : "soliman",
 //   age : 33
@@ -4166,11 +4175,7 @@ console.log(weak) // should return weakMap(0) but garbage collecter not work imm
 // console.log(user.checkAv());
 // console.log(user.fullName());
 
-
-// This
-// This if it is inside function it will refer to window Object but if it's inside function inside specific Object this will refer to ( specific Object)
-
-//-----Create Object with Object.create()
+// [3] Create Object with Object.create()
 // The Object.create() method creates a new object, 
 // using an existing object as the prototype of the newly created object.
 // when you use Object.create() the new object does not have same reference to original object
@@ -4190,14 +4195,16 @@ console.log(weak) // should return weakMap(0) but garbage collecter not work imm
 // let obj = Object.create({})
 // console.log(obj)
 
-// with Create Method you can use another Object as a Model like creating new object from constractor
+// with Create Method you can use another Object as a Model (prototype) like creating new object from constractor
 // let objUser = Object.create(user)
 // objUser.age =  30;
 // console.log(objUser);
+// console.log(objUser.__proto__); // user
 // console.log(objUser.age);
 // console.log(objUser.doubleAge());
 
-//----Create Object with Object.assign()
+// [4] Create Object with Object.assign()
+// like concat in array not adding prototype like Object.create()
 
 // let obj1 = {
 //   prop1: 1,
@@ -4223,13 +4230,14 @@ console.log(weak) // should return weakMap(0) but garbage collecter not work imm
 // finalObject.prop1 = 200;
 
 // console.log(finalObject);
+// console.log(finalObject.__proto__); // Object
 
 // // you can add {} empty object as target and yoou can add properties also like { prop4: 4 }
 // let newObject = Object.assign({}, obj1, obj2, { prop4: 4 });
 
 // console.log(newObject);
 
-// ---Create Object using ES6 Classes
+// [5] Create Object using ES6 Classes
 // class Person {
 //   constructor(fname, lname) {
 //     this.firstName = fname;
@@ -4311,7 +4319,6 @@ forEach() | filter() | map() | reduce()
 // }
 
 
-
 // -------Array like Object------------ 
 /* [1] to transfer Object to Array like object ( keys should be like index 0,1,2 and write length)
 let myObj = {
@@ -4353,9 +4360,17 @@ console.log(li)
 slice will iterate over the array and the array is the value of this keyword 
 and with array like object you can bind it to make it the value of this then slice will
 iterate over it (array like object have index and length so slice will consider it as array)
+
+we used Array.prototype.slice.call because array like object doesn't have slice method
 */
 
-//---------------iterators and Generators
+// -----------convert string Object to string using valueOf() or toString()----------
+// let strObj = new String("Soliman")
+// console.log(strObj)
+// console.log(strObj.valueOf())
+// console.log(strObj.toString())
+
+//------------------------------------iterators and Generators-----------------
 
 // -------------iterator ([Symbol.iterator])
 
@@ -4394,6 +4409,7 @@ myObj = {
   three : "C",
   [Symbol.iterator]() {
     this.current = Object.keys(this).indexOf(Object.keys(this)[0])
+    this.current = 0
     return this;
   },
   next() {
@@ -4455,14 +4471,27 @@ let arrObj = Array.from(myObj)
 console.log(arrObj)
 */
 
-// -------------------------Generator----------------------------------
+// --------Symbol.iterator how it works--------------
+/* The Symbol.iterator is a function that returns a next() function.
+
+The Symbol.iterator method is called automatically by for..of.
+
+The spread operator and for...of statements call the iterable protocol of an object. Some objects, like Array, String, Set and Map have built in iterable protocols. That means that they have the Symbol.iterator method.
+
+1. When for..of starts, it calls that method once (or errors if not found). The method must return an iterator – an object with the method next.
+2. Onward, for..of works only with that returned object.
+3. When for..of wants the next value, it calls next() on that object.
+4. The result of next() must have the form {done: Boolean, value: any}, where done=true means that the iteration is finished, otherwise value is the next value.
+*/
+
+// -------------------------Generator (also at ES6)----------------------------------
 /* difference between generator and normal function
 
 * Normal Function once you invoke it you can not pause it ... it will finish then other codes will run after it
 
 * Generator you can pause it and other codes will run then you can resume it from the point you paused it
 ES6 generator functions are "cooperative" in their concurrency behavior. 
-Inside the generator function body, you use the new yield keyword to pause the function 
+Inside the generator function body, you use yield keyword to pause the function 
 from inside itself. Nothing can pause a generator from the outside; 
 it pauses itself when it comes across a yield.
 However, once a generator has yield-paused itself, 
@@ -4471,6 +4500,7 @@ With normal functions, you get parameters at the beginning and a return value at
 With generator functions, you send messages out with each yield, 
 and you send messages back in with each restart.
 
+* they return a special type of iterator, called a Generator 
 * generator is iterable
 
 * step by step how generator works :
@@ -4547,129 +4577,132 @@ for (var v of foo()) {
 will not print 6 because last next() of return will be like
 { value:6, done:true } not done:false like using yield
 
-*/
 
-// Generators are functions that you can use to control the iterator.
-// They can be suspended and later resumed at any time.
-
-// for (let i = 0; i < 3; i++ ) {
-//   console.log(i)
-// }
+** Generator can suspend for loop 
+for (let i = 0; i < 3; i++ ) {
+  console.log(i)
+}
 
 
-// suspend for loop
-// function* loopGenerator () {
-//   for (let i = 0; i < 3; i++ ) {
-//     yield (i)
-//     // return (i)
-//   }
-// }
+suspend for loop
+function* loopGenerator () {
+  for (let i = 0; i < 3; i++ ) {
+    yield (i)
+    // return (i)
+  }
+}
 
-// let startGenerator = loopGenerator();
-// console.log(startGenerator.next())
-// console.log(startGenerator.next())
-// console.log(startGenerator.next())
-// console.log(startGenerator.next())
+let startGenerator = loopGenerator();
+console.log(startGenerator.next())
+console.log(startGenerator.next())
+console.log(startGenerator.next())
+console.log(startGenerator.next())
 
-// useCase of generators is 
-// make infinite loop but will not freeze you pc because it's suspended and only works once you ask by .next()
+** Generator can use infinite loop 
+make infinite loop but will not freeze you pc because it's suspended and only works once you ask by .next()
 
+function* generateId() {
+  let id = 1;
+  while(true) {
+    yield id
+    id++
+  }
+}
 
-// function* generateId() {
-//   let id = 1;
-//   while(true) {
-//     yield id
-//     id++
-//   }
-// }
+let genId = generateId()
+console.log(genId.next())
+console.log(genId.next())
+console.log(genId.next())
+console.log(genId.next())
+console.log(genId.next())
 
-// let genId = generateId()
-// console.log(genId.next())
-// console.log(genId.next())
-// console.log(genId.next())
-// console.log(genId.next())
-// console.log(genId.next())
-// // when you declare a new variable you get new object and will not affect the 1st generator
-// let genId2 = generateId();
-// console.log(genId2.next())//1
-// console.log(genId2.next())//2
-// console.log(genId2.next())//3
-// // will not affect the 1st generator
-// console.log(genId.next()) //6
-// console.log(genId2.next())//4
-// console.log(genId2.next())//5
+* when you declare a new variable you get new object and will not affect the 1st generator
+let genId2 = generateId();
+console.log(genId2.next())//1
+console.log(genId2.next())//2
+console.log(genId2.next())//3
+// will not affect the 1st generator
+console.log(genId.next()) //6
+console.log(genId2.next())//4
+console.log(genId2.next())//5
 
 // you can pass argument to next() and this will be yield inside generator
-// function* generateId() {
-//   let id = 1;
-//   while(true) {
-//     const increment = yield id
-//     console.log("hi")
-//     // null == undefined => true | null === undefined => false
-//     if (increment != null) {
-//       id += increment
-//     } else {
-//       id++
-//     }
-//   }
-// }
+function* generateId() {
+  let id = 1;
+  while(true) {
+    const increment = yield id
+    console.log("hi")
+    // null == undefined => true | null === undefined => false
+    if (increment != null) {
+      id += increment
+    } else {
+      id++
+    }
+  }
+}
 
-// let genId = generateId();
+let genId = generateId();
 
-// // Will not work on first next() beacuse yield is not exist yet
-// // you have to trigger generator by next() then yield will be available
+// Will not work on first next() beacuse yield is not exist yet
+// you have to trigger generator by next() then yield will be available
 // At this point you have an yield at your disposal and you can push your value via genId.next()
-// console.log(genId.next())
-// console.log(genId.next())
-// console.log(genId.next())
-// console.log(genId.next())
+console.log(genId.next()) // {value: 1, done: false} // you can't add argument here
+console.log(genId.next(5)) // {value: 6, done: false}
+console.log(genId.next()) // {value: 7, done: false}
+console.log(genId.next()) // {value: 8, done: false}
 // // if you want to exist the generator just write return
-// console.log(genId.return(10))
+console.log(genId.return(10)) // {value: 10, done: false}
 // // throw() to give error
-// console.log(genId.throw("ERROR 404"))
+console.log(genId.throw("ERROR 404"))
 
+**generator with Array 
 
-// generator with Array 
+function* arrayGenerator (array) {
+  for ( i = 0 ; i < array.length; i++) {
+    yield array[i]
+  }
+}
 
-// function* arrayGenerator (array) {
-//   for ( i = 0 ; i < array.length; i++) {
-//     yield array[i]
-//   }
-// }
+let arrGen = arrayGenerator([1,2,3]);
 
-// let arrGen = arrayGenerator([1,2,3]);
+console.log(arrGen.next())
+console.log(arrGen.next())
+console.log(arrGen.next())
+console.log(arrGen.next())
+*/
 
-// console.log(arrGen.next())
-// console.log(arrGen.next())
-// console.log(arrGen.next())
-// console.log(arrGen.next())
+// ----------------------------return vs yield---------------------------
+/*
+It’s a bit like return, but not. Return simply returns the value after the function call,
+and it will not allow you to do anything else after the return statement.
 
+if you use return with generator it will stop generator after 1st return
 
+Yield with asterisk can delegate it’s work to another generator. 
+This way you can chain as many generators as you want. (look exp. below)
 
+function* func1() {
+  yield 42;
+}
 
-// return vs yield
+function* func2() {
+  yield* func1();
+}
 
-// It’s a bit like return, but not. Return simply returns the value after the function call,
-// and it will not allow you to do anything else after the return statement.
+const iterator = func2();
 
-// if you use return with generator it will stop generator after 1st return ( look exp. above)
+console.log(iterator.next().value);
+// expected output: 42
+*/
 
-// Yield with asterisk can delegate it’s work to another generator. 
-// This way you can chain as many generators as you want. (look exp. below)
-
-// convert string Object to string using valueOf()
-// let strObj = new String("Soliman")
-// console.log(strObj)
-// console.log(strObj.valueOf())
-
-// ----------for... of loop--------------
+// -------------------------------for... of loop----------------------------
 /* For...of loop works only on :
 [1] Built-in (symbol.iterator) like Array , String , Map , Set , ...
 [2] Array Like Objects like Arguments , NodeList , HTMLCollection , ...
 [3] User defined Object ( that we add [symbol.iterator] and next() manually)
 */
 
-//----------for...in loop----------
+//--------------------------------for...in loop---------------------------
 /* The for...in iterates over all enumerable properties of an object. 
 It doesn’t iterate over a collection such as Array, Map or Set.
 Unlike the for...in loop, the for...of iterates a collection, 
@@ -4677,7 +4710,7 @@ rather than an object. In fact, the for...of iterates over elements
 of any collection that has the [Symbol.iterator] property.
 */
 
-// for...of loop vs for...in loop and iterable vs enumerable
+// --------------for...of loop vs for...in loop and iterable vs enumerable-----------
 /*
 if enumerable: false this property will not show in for...in loop
 if enumerable: true this property will show in for...in loop
@@ -4689,30 +4722,28 @@ for(x in obj) {
   console.log(x)
 }
 
-you can also do it with array and properties will be the index of array
 let arr = [1,2,3,4]
 arr[4] = 5 // will show on for...of because property name no. like index
-// arr.four = 5 // will not show on for...of because property name is not a no. like index
-// will show on for...of because property name no. like index
-Object.defineProperty(arr , 5 , { value : 6 , enumerable: true})
-// will not show on for...of because property name is not a no. like index
-// Object.defineProperty(arr , 5 , { value : 6 , enumerable: true})
-// will return properties ( index)
+arr.five = 6 // will not show on for...of because property name is not a no. like index
+Object.defineProperty(arr , 5 , { value : 7 , enumerable: true}) // will show in for..of if property name is no. / will show in for..in because enumerable: true
+
 for (x in arr) {
-  console.log(x)
+  console.log(x) // 0,1,2,3,4,5,five (indexes (keys))
 }
-// will return values because array is iterable
 for (x of arr) {
-  console.log(x) // 1 2 3 4 5 6
+  console.log(x) // 1,2,3,4,5,7 not 6  (values)
 }
 
-------for...in loop vs hasOwnProperty -----
+------------------------------for...in loop vs hasOwnProperty --------------------
 The hasOwnProperty() method returns true if the specified property is a direct property of the object — 
 even if the value is null or undefined. The method returns false if the property is inherited, 
 or has not been declared at all. Unlike the in operator, 
 this method does not check for the specified property in the object's prototype chain.
 */
-// ------Object Property Descriptor-------
+
+// ----------------------------Object Property Descriptor----------------------
+
+
 /* 
 Descriptor Groups : 
 * DATA
@@ -4734,59 +4765,58 @@ Object.defineProperty(obj , "lastName", {
 obj.lastName = "Soliman"
 console.log(obj.lastName) // Hussein if writable is false | Soliman if writable is true
 
-// using get and set
-// let obj = {
-//   firstName : "Mohamed",
-//   age : 33
-// }
-// Object.defineProperty(obj , "lastName", {
-//   // this here refers to window object
-//   // get : () => this.lastName,
-//   // set : (val) => {
-//   //   this.lastName = val + " from setter method"
-//   // },
-//   // this here refers to obj
-//   get : function () {
-//     return this.lastName = value
-//   },
-//   set : function (val) {
-//     return value = val + "!"
-//   },
-//   configurable : true, 
-//   enumerable : true
-// })
-// obj.lastName = "Hussein"
-// console.log(obj)
-// console.log(Object.defineProperties(obj, { 
-  property1 : {
-    ......
+using get and set
+let obj = {
+  firstName : "Mohamed",
+  age : 33
+}
+Object.defineProperty(obj , "lastName", {
+  // this here refers to window object
+  // get : () => this.lastName,
+  // set : (val) => {
+  //   console.log(this) // window
+  //   return this.lastName = val + " from setter method" // so we are adding here lastName variable to window object
+  // },
+  // this here refers to obj
+  get : function () {
+    return this.lastName = value
   },
-  property2 : {
-    .......
-  }
-}))
+  set : function (val) {
+    console.log(this) // obj
+    return value = val + "!"
+  },
+  configurable : true, 
+  enumerable : true
+})
+obj.lastName = "Hussein"
+console.log(obj)
+console.log(window.lastName)
 
-// Default values will be different if property already exist in object or not 
-var obj = {};
+// Default values will be different if property already exist in object or not
+* if adding new property by using defineProperty method writable , configurable and enumerable will be false
+* if changing old property by using defineProperty method writable , configurable and enumerable will be true
+* if adding or changing property using do notaion writable , configurable and enumerable will be true
 
-obj.a = 1;
+var obj = {a : 1, b : 3};
+
+obj.b = 2;
 // is equivalent to:
-Object.defineProperty(obj, 'a', {
-  value: 1,
-  writable: true,
-  configurable: true,
-  enumerable: true
-});
+// Object.defineProperty(obj, 'b', {
+//   value: 2,
+//   writable: true,
+//   configurable: true,
+//   enumerable: true
+// });
 
 // On the other hand,
-Object.defineProperty(obj, 'a', { value: 1 });
+// Object.defineProperty(obj, 'b', { value: 2 });
 // is equivalent to:
-Object.defineProperty(obj, 'a', {
-  value: 1,
-  writable: false,
-  configurable: false,
-  enumerable: false
-});
+// Object.defineProperty(obj, 'b', {
+//   value: 2,
+//   writable: false,
+//   configurable: false,
+//   enumerable: false
+// });
 
 // console.log(Object.getOwnPropertyNames(obj)) //return array of properties names
 // console.log(Object.getOwnPropertyDescriptor(obj,"age")) // return info for property
@@ -4798,7 +4828,7 @@ Object.defineProperty(obj, 'a', {
 
 
 Objects can be 
-1. Extensible - new properties added 
+1. Extensible - new properties can be added 
 2. Frozen - props cannot be changed in any way 
 3. Sealed - props can't be deleted or configured but are still writable 
 
@@ -4830,7 +4860,7 @@ Object.preventExtensions(obj)
 * Change descriptors        no                no                        yes
 * Reassign __proto__        no                no                        no
 
-// Object.freeze is shallow nested array is mutable 
+// Object.freeze => shallow nested array is mutable 
 let arr = [1,2,3,[4,5]]
 Object.freeze(arr)
 arr[0] = 9;
@@ -4847,7 +4877,7 @@ For that, we use these two keywords:
 * get - to define a getter method to get the property value
 * set - to define a setter method to set the property value
 
-let obj =  {
+let obj = {
   // Data property
   firstName : "Mohamed",
   // Accessor Property(getter)
@@ -4864,7 +4894,7 @@ console.log(obj.getName)
 */
 
 
-// -----DOM ( Document Object Model)--------
+// ----------------------------DOM ( Document Object Model)---------------------
 
 /*
 The Document Object Model (DOM) connects web pages to scripts or programming 
@@ -4929,10 +4959,8 @@ console.log(txt.nodeType) // 3
 let span = document.querySelector("span")
 let txt = document.createTextNode("a text node") 
 console.log(txt.nodeValue) //use nodeValue for text node
-console.log(span.textContent) //use innerHTML for element
+console.log(span.innerHTML) //use innerHTML for element
 */
-
-
 
 /* 
 -------Difference between HTMLCollection and NodeList----------
@@ -4958,7 +4986,7 @@ console.log(childnodes)
 // nodeList has property length and method item(index)
 // both are the same
 document.body.childNodes.item(0)
-document.body,childNodes[0]
+document.body.childNodes[0]
 
 let nodeDivs = document.querySelectorAll("div")
 let htmlDivs = document.getElementsByTagName("div")
@@ -4972,7 +5000,7 @@ console.log(div.childNodes) // return NodeList ( all types of nodes )
 
 - NodeList is not an array, it is possible to
 iterate over it with
-forEach ( ) . It has its own forEach() method."
+forEach( ) . It has its own forEach() method."
 
 - HTMLCollection is array-like but you cannot iterate over its
 elements using forEach()
@@ -4981,6 +5009,11 @@ if you need to use forEach() on HTMLCollection you can use call and add HTMLColl
   console.log(element)
 })
 
+exp.
+let htmlDivs = document.getElementsByTagName("div");
+Array.prototype.forEach.call(htmlDivs, function(element){
+  console.log(element)
+}) // you can use [] instead of Array.prototype
 */
 
 // let df = new DocumentFragment()
@@ -5022,7 +5055,7 @@ not primitive value so after changing HTMLCollection will change that variable
 // console.log(htmlLive) // HTMLCollection(4)
 // console.log(htmlLiveLength) // 0
 // console.log(htmlLive.length) // 4
-// console.log(el4Html) // undeined
+// console.log(el4Html) // undefined
 // console.log(htmlLive[3]) // div
 
 /* to solve live problem you have to convert HTMLCollection to Array by three ways:
@@ -5039,9 +5072,10 @@ let htmlLive = [].slice.call(document.getElementsByTagName("div"))
 /* --------------NamedNodeMap----------------
 A NamedNodeMap is an array-like unordered collection of an element's attributes.
 In other words: a NamedNodeMap is a list of Attr objects.
+NamedNodeMap is live.
 
 A NamedNodeMap has a length property that returns the number of nodes.
-The nodes can be accessed by name or index numbes. The index starts at 0.
+The nodes can be accessed by name or index numbers. The index starts at 0.
 
 NamedNodeMap Properties and Methods
 
@@ -5053,7 +5087,7 @@ NamedNodeMap Properties and Methods
 
 let span = document.querySelector("span")
 console.log(span.attributes.getNamedItem("class"))
-console.log(span.attributes.item(1))
+console.log(span.attributes.item(0))
 span.attributes.removeNamedItem("class")
 console.log(span)
 // setNamedItem way
@@ -5081,7 +5115,7 @@ console.log(htmlCol) // live
 */
 
 /*  -----------DOMTokenList------------
-A Collection of attributes and it's not Live
+A Collection of values of attribute and it's not Live
 represent a set of space-separated tokens returned by Element.classList or HTMLLinkElement.relList
 
 [1] properites :
@@ -5106,8 +5140,7 @@ console.log(divAttr) // NamedNodeMap => return array of  attributes ( class, id,
 console.log(divAttr.getNamedItem("class")) // return value of specific attribute (class)
 
 */
-
-
+// -------------------------------DOM selection--------------------------
 // let myIdElement = document.getElementById("my-div"); // by ID
 // let myTagElement = document.getElementsByTagName("p") // by Tag
 // let myClassElement = document.getElementsByClassName("my-span")// by class-name
@@ -5124,7 +5157,6 @@ console.log(divAttr.getNamedItem("class")) // return value of specific attribute
 // console.log(myQueryAllElement[0])
 
 // myTagElement[1].innerHTML = "test" // to change content
-// myTagElement[1].innerText = "test" // to change content
 // myTagElement[1].TextContent = "test" // to change content
 
 
@@ -5157,7 +5189,7 @@ console.log(divAttr.getNamedItem("class")) // return value of specific attribute
 // myLink.setAttribute("href", "https://twitter.com")
 // myLink.setAttribute("title", "twitter") // if attribute not exist will create it automatically
 
-/* Method to Check Attribute
+/* ------------------Method to Check Attribute
 - Element.atrributes
 -Element.hasAttibute
 -Element.hasAttributes ( here you don't write anything between () this only to check if this element has any type of attributes or not)
@@ -5197,12 +5229,12 @@ console.log(divAttr.getNamedItem("class")) // return value of specific attribute
 //   }
 // })();
 
-// let myEl = document.querySelector(".test")
+// let myEl = document.querySelector(".para1")
 // myEl.setAttribute("title" , "test50")
 
 // console.log(myEl.title)
 
-/* Create Element 
+/* ----------------Create Element 
 -createElement
 -createComment
 -createTextNode
@@ -5278,7 +5310,7 @@ console.log(divAttr.getNamedItem("class")) // return value of specific attribute
 //   document.body.appendChild(myMainElement)
 // }
 
-// You Can use innerHTML or TextContent instead of creating TextNode the append them but TextNode and Append is better
+// You Can use innerHTML or TextContent instead of creating TextNode then append them but TextNode and Append is better
 // myHeading.innerHTML = `Product ${i} Title`
 // myParagraph.innerHTML = `Product ${i} Description`
 // myHeading.textContent = `Product ${i} Title`
@@ -5302,13 +5334,14 @@ console.log(divAttr.getNamedItem("class")) // return value of specific attribute
 
 // document.body.appendChild(myDiv)
 
+// -----------------------firstChild & lastChild--------------------------------
 // let myElement = document.querySelector("div");
 
 // console.log(myElement);
 // // give you only Elements
-// console.log(myElement.children);
+// console.log(myElement.children); // HTMLCollection
 // //give you (Element , comment ,text, spaces) // spaces considerd as text 
-// console.log(myElement.childNodes);
+// console.log(myElement.childNodes); // Nodelist
 // console.log(myElement.childNodes[0]);
 // // give you first child (Element , comment ,text, spaces)
 // console.log(myElement.firstChild);
@@ -5317,7 +5350,7 @@ console.log(divAttr.getNamedItem("class")) // return value of specific attribute
 // console.log(myElement.firstElementChild);
 // console.log(myElement.lastElementChild);
 
-// Events
+// ----------------------------------Events----------------------------
 /*
 onclick
 oncontextmenu (Right Click) 
@@ -5358,6 +5391,7 @@ onsubmit
 
 //   if (userValid === false || ageValid === false) {
 //     e.preventDefault();
+//     console.log("fill th fields")
 //   }
 // };
 
@@ -5368,7 +5402,7 @@ onsubmit
 // }
 
 
-// Event Simulation
+// ----------------------------Event Simulation
 
 // let one = document.querySelector(".one");
 // let two = document.querySelector(".two");
@@ -5381,6 +5415,7 @@ onsubmit
 //   document.links[0].click();
 // }
 
+// --------------------ClassList
 // let element = document.getElementById("my-div");
 // console.log(element.classList);
 // console.log(typeof element.classList)
@@ -5395,6 +5430,7 @@ onsubmit
 //   element.classList.toggle("soliman")
 // }
 
+// ----------CSS
 // let element = document.getElementById("my-div")
 
 // // considerd as in-line Style
@@ -5434,7 +5470,7 @@ onsubmit
 
   // ----- diference between innerHTML and outerHTML see photo on iphone
 
-// DOM [Deal With Elements]
+// ------------------------DOM [Deal With Elements]
 /* 
   before
   after
@@ -5448,15 +5484,15 @@ onsubmit
 
 // // Add outside element and Accept Node or String
 // element.before("Hello Before From JS");
-// // when you have 2 after the last one will be directly after the element not at the end
+// // will be directly after the element not at the end
 // element.after("Hello After From JS");
 // element.after(createdP);
 
 // // will add at the beginnig (inside element)
-// element.prepend("Hello top From Js ")
+// element.prepend("Hello prepend From Js ")
 
 // // will add at the end (inside element)
-// element.append(" Hello bottom From Js")
+// element.append(" Hello append From Js")
 
 // element.remove()
 
@@ -5472,6 +5508,7 @@ onsubmit
 //   span.parentElement.style.opacity = 0;
 // }
 
+// ---------cloneNode
 // to take a copy of elements and it's attributes
 // false (default Value) take atrributes but not take the content of Element
 // true will copy the content also
@@ -5512,17 +5549,17 @@ onsubmit
 //   let clone = myP.cloneNode(true);
 //   clone.className ="clone"
 //   myP.after(clone);
-//   // document.body.appendChild(clone)
+//   let cloned = document.querySelector(".clone")
+//   console.log(cloned)
+//   // clone.addEventListener("click", again )
 // }
-
-// // we can not select the cloned because it is not exist
-// let cloned = document.querySelector(".clone")
 
 // function again() {
 //   console.log("I Am Cloned")
 // }
 
 // myP.addEventListener("click", cloneMe )
+
 // //  we can not access clone because it is inside a function
 // clone.addEventListener("click", again )
 
@@ -5533,7 +5570,6 @@ onsubmit
 //   }
 // })
 
-/* 
 
 // -------------Keyboard Event-----------------
 // // to get unicode of pressed key
@@ -5553,16 +5589,18 @@ onsubmit
 //   console.log(ev.currentTarget.tagName) //body
 //   console.log(pressedKey)
 // })
+
+/* 
 --------------Document Fragment-------------------
-let ul = document.getElementById("ul")
-console.log(ul)
+let div= document.getElementById("df")
+console.log(div)
 let games = [ "Horizon", "WarZone", "God of War", "The Last Of Us"]
 
 // without Document Fragment will loop on array and add element to HTML file 4 times
 games.forEach( game => {
   let li = document.createElement("li")
   li.textContent = game
-  ul.appendChild(li)
+  div.appendChild(li)
 }) 
 
 // using Document fragment to loop and add to fragment then add it once to HTML file
@@ -5605,7 +5643,7 @@ secondJS.eventFunc()
 
 */
 
-// ------- BOM --------
+// ------------------------------- BOM --------------------------
 /* 
 The window object is supported by all browsers. It represents the browser's window.
 All global JavaScript objects, functions, and variables automatically become members of the window object.
@@ -5692,6 +5730,7 @@ document.getElementById("header");
 //   console.log("I am Message")
 // }
 
+// --------------clearInterval
 // let div = document.querySelector("div");
 // function countdown() {
 //     div.innerHTML -= 1; // because let sum = "5" - 1 = 4
@@ -5730,6 +5769,7 @@ document.getElementById("header");
 
 // setTimeout (function(){
 //   // URL , Window Name, (_blank || _self),
+//   // _blank (default value) to open the new window in a new tab _self to open the new window at same tab
 //   window.open("https://google.com","blank","width=400,height=400,left=200,top=100")
 // }, 1000)
 
@@ -5742,7 +5782,6 @@ document.getElementById("header");
 
 // stop() // to stop loading of webpage
 // print() // to print the webpage
-// _blank (default value) to open the new window in a new tab _self to open the new window at same tab
 // let myNewWindow = window.open("https://google.com", "_self", "width=500,height=500")
 // myNewWindow.focus()
 // myNewWindow.close()
@@ -5784,26 +5823,28 @@ document.getElementById("header");
 // }
 
 /* 
-Bubbling vs Capturing 
+----------------------------Bubbling & Capturing -------------------------
 element.addEventListener(event type , function , useCapture(true || false) )
 
 [1] default value of useCapture is false
 (that's means it is in Bubbling phase (event propagate from innermost child to parent (bubble up)))
+// if you click on span here will print "hi from span " then "hi from div" 
+// because useCapture value is default (false) and it is in bubbling phase from innermost child to parent
+
 let div = document.querySelector("div")
 let span = document.querySelector("span")
-// here will print "hi from span " then "hi from div" even if addEventListener of div before span
-// because useCapture value is default (false) and it is in bubbling phase from innermost child to parent
-div.addEventListener("click", function(){console.log("hi from div")})
-span.addEventListener("click", function(){console.log("hi from span")})
+div.addEventListener("click", function(){console.log(div.firstChild)})
+span.addEventListener("click", function(){console.log(span.firstChild)})
 
 [2] true value of useCapture 
 (that's means it is in Capturing phase (event propagate from parent to innermost child) (bubble down))
+// here will print "hi from div " then "hi from span" 
+// because useCapture value is true and it is in Capturing phase from parent to innermost child 
+
 let div = document.querySelector("div")
 let span = document.querySelector("span")
-// here will print "hi from div " then "hi from span" even if addEventListener of span before div
-// because useCapture value is true and it is in Capturing phase from parent to innermost child 
-span.addEventListener("click", function(){console.log("hi span")})
 div.addEventListener("click", function(){console.log("hi div")},true)
+span.addEventListener("click", function(){console.log("hi span")})
 */
 
 /* difference between stopPropagation() and stopImmediatePropagation()
@@ -5816,7 +5857,7 @@ let span = document.querySelector("span")
 function color(ev) {
   ev.stopPropagation()
   let target = ev.currentTarget;
-  target.className = "color"
+  target.style.color = "red"
 }
 span.addEventListener("click", color)
 div.addEventListener("click", color)
@@ -5828,20 +5869,117 @@ let span = document.querySelector("span")
 function color(ev) {
   ev.stopImmediatePropagation()
   let target = ev.currentTarget;
-  target.className = "color"
+  target.style.color = "red"
 }
+
+function fontSize(ev){
+  let target = ev.currentTarget;
+  target.style.fontSize = "30px"
+}
+
 span.addEventListener("click", color)
-span.addEventListener("click", function(){console.log("hi")})
+span.addEventListener("click", fontSize)
 div.addEventListener("click", color)
 
 // note : if you use target instead of current target you will not need stopPropagation()
+// but you need stopImmediatePropagation at both cases target or currentTarget to stop 2nd event at same element
 */
 
-/* 
-Event delegation refers to the process of using event propagation (bubbling) 
-to handle events at a higher level in the DOM than the element on which the event originated. 
-It allows us to attach a single event listener for elements that exist now or in the future.
+// --------target vs current target-----------
+/*
+because of bubbling up when we click on span it will fire 2 addEventListener for span and then 
+will bubble up to div => target will always what you click on it but current target is THIS
+in span.addEventListener this and current target will be span and 
+in div.addEventListener this and current target will be div
 */
+// let div = document.querySelector("div")
+// let span = document.querySelector("span")
+
+// span.addEventListener("click",function(ev){
+//   console.log("Target is "+ ev.target.tagName)
+//   console.log("Current Target is "+ ev.currentTarget.tagName)
+//   console.log("THIS is "+ ev.currentTarget.tagName)
+// })
+// div.addEventListener("click",function(ev){
+//   console.log("Target is "+ ev.target.tagName)
+//   console.log("Current Target is "+ ev.currentTarget.tagName)
+//   console.log("THIS is "+ ev.currentTarget.tagName)
+// })
+
+// * target is the element that triggered the event (e.g., the user clicked on)
+// * currentTarget is the element that the event listener is attached to. ( like this)
+
+// const div = document.querySelector(".container");
+// div.addEventListener("click", (e) => {
+//   console.log("target", e.target);
+//   console.log("currentTarget", e.currentTarget);
+//   console.log("currentTarget", this); // window because of arrow function
+// });
+
+// this = e.currentTarget  |  no this in arrow function
+// const div = document.querySelector(".container");
+// div.addEventListener("click", function (e) {
+//   console.log("target", e.target);
+//   console.log("currentTarget", e.currentTarget);
+//   console.log("currentTarget", this);
+// });
+
+/* 
+// -----------------Exp. of difference between target and currentTarget-------------
+// let partyStarted = function(){
+//   //add event listeners to element(s) on the page  
+//   document.querySelector('.list-view').addEventListener('click', onClick2);
+//   //target will be ul
+  
+//   let lis = document.querySelectorAll('.list-item');
+//   lis.forEach(li => {
+//       // li.addEventListener('click', onClick);
+//       //target will be li
+//   })
+//   let spans = document.querySelectorAll('.list-item span');
+// }
+
+// let onClick2 = function(ev){
+//   alert(ev.target.tagName);
+//   let li = ev.target;
+//   if( ev.target.tagName == 'SPAN'){
+//       li = ev.target.parentElement;
+//   }
+//   let id = li.getAttribute('data-id');
+//   let nm = li.getAttribute('data-name');
+//   let h2 = document.querySelector('h2');
+//   h2.textContent = id + ': ' + nm;
+// }
+
+// let onClick = function(ev){
+//   //ev is the click event... but who called it?
+//   alert('target ' + ev.target + ' and currentTarget ' + ev.currentTarget);
+//   // ev.stopPropagation() // to stop ev to triggered on UL if you click on LI or SPAN
+
+//   let id = ev.currentTarget.getAttribute('data-id');
+//   let nm = ev.currentTarget.getAttribute('data-name');
+//   let h2 = document.querySelector('h2');
+//   h2.textContent = id + ': ' + nm;
+// }
+
+// document.addEventListener('DOMContentLoaded', partyStarted);
+
+-----------Event delegation 
+refers to the process of using event propagation (bubbling) 
+It allows us to attach a single event listener for elements that exist now or will be exist in the future.
+*/
+// let ul = document.querySelector("ul")
+
+// function responding(ev){
+//   console.log(`${ev.target.tagName} is responding....`)
+// }
+// ul.addEventListener("click",responding)
+
+// for(let i =1; i < 4; i++){
+//   let li = document.createElement("li")
+//   li.textContent = `Li no. ${i}`
+//   ul.appendChild(li)
+// }
 
 /* difference between change and input and blur and focus
 [1] input will excute function on each character you enter to input field
@@ -5874,6 +6012,7 @@ document.addEventListener("focus" , function(e) {
 })
 */
 
+
 /* JS PopUp Boxes
 [1] alert("this is alert")
 
@@ -5886,13 +6025,26 @@ If the user clicks "OK" the box returns the input value.
 If the user clicks "Cancel" the box returns null.
 */
 
-/*
+/*---------------to trigger callback function of event only one time
 to trigger callback function of event only one time you can remove the 
 EventListener once the callback function triggered
 ev.target.removeEventListener(ev.type, arguments.callee);
-It can be used to refer to the currently executing function inside the 
+arguments.callee can be used to refer to the currently executing function inside the 
 function body of that function.
+or you can add name to the callback function and use it
+
+let div = document.querySelector("div")
+
+div.addEventListener("click",function callBackFunc(ev){
+  console.log("Clicked")
+  ev.target.removeEventListener(ev.type, arguments.callee);
+  // ev.target.removeEventListener(ev.type, callBackFunc);
+  // console.log(arguments.callee)
+  // console.log(callBackFunc)
+})
 */
+
+
 
 /* -----------LocalStorage and SessionStorage------------
 * setItem
@@ -5950,7 +6102,7 @@ first parsing it, we would get back a string as a response.
 // }
 // window.localStorage.clear()
 
-/* Start Local Storage Color Application Practice */
+/* -------------------Start Local Storage Color Application Practice-------------- */
 
 // let lis = document.querySelectorAll("ul li");
 // let exp = document.querySelector(".experiment");
@@ -5991,27 +6143,8 @@ first parsing it, we would get back a string as a response.
 //   container.style.backgroundColor = e.target.dataset.color
 // })
 
-/* End Local Storage Color Application Practice */
 
-// Diffference between currentTarget and target :
-// * target is the element that triggered the event (e.g., the user clicked on)
-// * currentTarget is the element that the event listener is attached to. ( like this)
-
-// const div = document.querySelector(".container");
-// div.addEventListener("click", (e) => {
-//   console.log("target", e.target);
-//   console.log("currentTarget", e.currentTarget);
-// });
-
-// this = e.currentTarget  |  no this in arrow function
-// const div = document.querySelector(".container");
-// div.addEventListener("click", function (e) {
-//   console.log("target", e.target);
-//   console.log("currentTarget", this);
-// });
-
-
-//-----------------Destructuring Array----------------------
+//-----------------Destructuring Array from ElZero (availabe aslo at ES6)----------------------
 // let a = 1;
 // let b = 2;
 // let c = 3;
@@ -6020,9 +6153,11 @@ first parsing it, we would get back a string as a response.
 // let myFriends = ["Ahmed", "Sayed", "Ali", "Maysa"];
 // Destruction Array should not be same no. -- you can write [a, b, c] = myFriends
 // [a, b, c, d] = myFriends;
-// e = osama / a = Ahmed because it have value in array but e does not
+// console.log(a)
+
 // [a = "A", b, c, d, e = "Osama"] = myFriends;
-// console.log(a);
+// console.log(a); // a = Ahmed because it have value in array 
+// console.log(e) // e = Osama because it does not have value in array so take default value "Osama"
 // // if you want to skip value in array leave space
 // let [x, y, , z] = myFriends;
 // console.log(z)
@@ -6096,10 +6231,10 @@ first parsing it, we would get back a string as a response.
 // let theName = user.theName ;
 // let theAge = user.theAge;
 // let theTitle = user.theTitle;
-// let theCountry = user.theCountry;
+// let theCountry = "USA";
 
-// if you update Value you should write ()
-// ({theName, theAge, theTitle, theCountry} = user);
+// if you update Value you should write () no need of () in Destructuring Array
+// ({theName, theAge, theTitle, theCountry} = user); 
 // if you create variable you don't need ()
 // let {theName, theAge, theTitle, theCountry} = user;
 // no need for skiping here you can write 3 variable = object has 4 properites but vairable should be same name of properity
@@ -6110,7 +6245,7 @@ first parsing it, we would get back a string as a response.
 // const { theName : a, theAge : b, theCountry} = user;
 // console.log(a, b)
 
-// if you give variable a value and the Object has same properity with another value | value from main Object will override
+// if you give variable a value and the Object has same properity with default value | value from main Object will override
 // const { theName : a, theAge : b, theCountry, theColor = "Red"} = user;
 // console.log(theColor); // Black
 // const { theName : a, theAge : b, theCountry, theColor : co = "Red", skills : { html : h, css : c}} = user;
@@ -6155,83 +6290,6 @@ first parsing it, we would get back a string as a response.
 // console.log(`Your Age is : ${a}`)
 // console.log(`Your Skills is : ${one} , ${two} , ${three}`)
 // console.log(`Your Adress is : ${e} `)
-
-// --------Object Destructuring form Internet------
-/*
-const hero = {
-  name: 'Batman',
-  realName: 'Bruce Wayne',
-  address : {
-    city : 'Gothem'
-  }
-};
-
-const name     = hero.name;
-const realName = hero.realName;
-// is equivalent to:
-const { name, realName } = hero;
-
-//  you can use default value if this properity not availabe in main Object
-const { enemy = "Joker"} = hero
-
-// you can use Aliases ( change key name)
-const { realName: secretName} = hero
-console.log(secretName) // Bruce Wayne
-
-// you can use Destructuring also with nested object
-const {address : { city }} = hero
-const {address : { city : x }} = hero
-console.log(x)
-
-// you can use variable with string(same value of key)
-const prop = "realName"
-const {[prop]: alias} = hero // is equivalent to: hero[prop] ( look at Computed Object Property Name at ES6 course)
-console.log(alias)
-
-// you can use spread operator to get rest of properites in object 
-const {name,...rest} = hero
-console.log(rest)
-
-** use cases :
-
-[1] you can use it with for of loop :
-const ratings = [
-    {user: 'John',score: 3},
-    {user: 'Jane',score: 4},
-    {user: 'David',score: 5},
-    {user: 'Peter',score: 2},
-];
-let sum = 0;
-for (const {score} of ratings) {
-    sum += score;
-}
-console.log(`Total scores: ${sum}`); // 14 
-
-[2] function parameters : 
-const heroes = [
-  { name: 'Batman' },
-  { name: 'Joker' }
-];
-const names = heroes.map(
-  function({ name }) {
-    return name;
-  }
-);
-names; // => ['Batman', 'Joker']
-
-// Hint in previous we use map function and for ... of loop both will assign {name} = hero;
-but in normal function if you want to use destructuring {name} you have to assign 
-here in parameter we wrote {name} and as argument we wrote heroes[1] and parameter and agument
-is under hood (paramter = argument => {name} = heroes[1]
-  const heroes = [
-  { name: 'Batman' },
-  { name: 'Joker' }
-];
-function des({name}) {
-  return name;
-}
-console.log(des(heroes[1]))
-*/ 
 
 //  ------- Challenge -----------
 
@@ -6285,7 +6343,7 @@ console.log(des(heroes[1]))
 // })()
 
 
-// ---------Set Data and Data Type--------
+// ---------Set Data and Data Type (avaialbe also at ES6)--------
 // set Methods ( add() , delete(), has(), clear(), forEach(), values(), keys(), entires() )
 // let myData = [1, 1, 1, 2, 3, "A"];
 // let myData = "Soliman";
@@ -6347,7 +6405,7 @@ console.log(des(heroes[1]))
 // WeakSet does not have keys() , values(), entries(), clear(), forEach()
 // WeakSet methods ( add() , delete(), has())
 // set has size property
-// weak set has not size property
+// weak set has no size property
 // if no other references to an object stored in the Weakset exist, those Objects can be garbage collected
 // Set is iterable 
 // weakSet is not iterable (because does not has size property) so can not use for...of loop on it
@@ -6368,9 +6426,9 @@ console.log(des(heroes[1]))
 // console.log(objValues)
 
 // let mySet = new Set([1, 1, 1, 2, 3, "A", "A"]);
-// console.log(mySet.size)
+// console.log(mySet.size) //4
 
-// let iterator = mySet.values(); //you can write keys or values same thing
+// let iterator = mySet.values(); // you can write keys or values same thing
 // console.log(iterator)
 // will give you value and done:false till reach UNDEFINED (finish all values and can not find anything) value the done true
 // console.log(iterator.next()) 
@@ -6384,8 +6442,8 @@ console.log(des(heroes[1]))
 
 // let myWeakSet = new WeakSet([{A: 1, B: 2},{A: 1, B: 2}]);
 // console.log(myWeakSet)
-// let iterator = myWeakSet.values(); // no values in WeakSet
-// console.log(iterator.next())
+// let iterator = myWeakSet.values(); // Error no values in WeakSet
+// console.log(iterator.next()) // Error
 
 // equality in weakSet 
 // let a = {a: "s"}
@@ -6398,7 +6456,7 @@ console.log(des(heroes[1]))
 // let array2 = [c,d]
 // let weak = new WeakSet(array)
 // let weak2 = new WeakSet(array2)
-// console.log(weak) //one object 
+// console.log(weak) //one object because a = b (weak set accept only collection of unique Objects)
 // console.log(weak2) // two objects
 
 /* 
@@ -6572,7 +6630,7 @@ const map1= new Map (map) ;
 // console.log(iteObj.next())
 // console.log(iteObj.next())
 
-// Array.From 
+// -----------------Array.From 
 // accept (Iterable, MapFunc, This)
 
 // // Iterable
@@ -6606,7 +6664,7 @@ const map1= new Map (map) ;
 
 // console.log(af("Osama", "Ahmed"))
 
-// Array Method
+//-----------------Array.copywithin 
 // Array.copywithin(Target, Start => Optional, End => Optional)
 // target = where to copy // start of the copied part // End of the copied part 
 // but will not increase Array length
@@ -6622,7 +6680,7 @@ const map1= new Map (map) ;
 
 // console.log(myArray);
 
-// Array.some
+// -----------Array.some
 // Array.some(callbackFunc(Element, Index, Array), This Argument)
 // Array.some check every element of array if exist return true
 
@@ -6677,7 +6735,7 @@ const map1= new Map (map) ;
 
 // console.log(checkRange)
 
-// Array.ervery 
+// ---------------------Array.ervery 
 // unlike some 
 // Every means every element must be the condition you write but some will return true only if one element 
 
@@ -6705,26 +6763,27 @@ const map1= new Map (map) ;
 
 
 
-// Spread Operator => ...Iterable
+// ------------------spread operator form Elzero (availabe also at ES6)
 
 // // Spread String
 // console.log("Osama")
 // console.log(..."Osama")
 // console.log([..."Osama"])
 
-// // Concatenate Arrays
+// use cases of Spread Operator
+// [1] Concatenate Arrays
 
 // let myArray1 = [1, 2, 3];
 // let myArray2 = [4, 5, 6];
 // console.log([...myArray1, ...myArray2])
 // console.log(myArray1.concat(myArray2))
 
-// // Copy Array
+// [2] Copy Array
 
 // let copiedArray = [...myArray1]
 // console.log(copiedArray)
 
-// // Push inside Array
+// [3] Push inside Array
 
 // let allFriends = ["Osama", "Ahmed", "Sayed"];
 // let thisYearFriends = ["Sameh", "Mahmoud"];
@@ -6733,13 +6792,13 @@ const map1= new Map (map) ;
 // allFriends.push(...thisYearFriends) // will spread and merge
 // console.log(allFriends);
 
-// // Math Object
+// [4] Math Object
 
 // let myNums = [10, 20, -100, 100, 1000, 500];
 // console.log(Math.max(myNums)) // NaN
 // console.log(Math.max(...myNums)) 
 
-// // Spread With Objects => Merge Objects
+// [5] Spread With Objects => Merge Objects
 
 // let objOne = {
 //   a:1,
@@ -6921,7 +6980,7 @@ both without using g flag return Array of information with first match
 // let myRe2 = /bsbz/g
 // let myArray2 = myRe2.exec('cdbbdbsbz');
 // // 0 because we are checking for lastIndex of regExp object and not yet excuted so lastIndex still 0
-// console.log(`The value of lastIndex is ${/d(b+)d/g.lastIndex}`); 
+// console.log(`The value of lastIndex is ${/d(b+)d/g.lastIndex}`);  // 0 
 // console.log(`The value of lastIndex is ${myRe2.lastIndex}`); // 9
 // console.log(`The value of index is ${myArray2.index}`); // 5
 
@@ -6995,14 +7054,14 @@ both without using g flag return Array of information with first match
 // console.log(str3.match(reg3)) // love
 // // negative Lookahead
 // let str4 ="we love soliman"
-// let reg4 = /\w{5,}(?!\s)/g // soliman
+// let reg4 = /\w{4,}(?!\s)/g // soliman
 // console.log(str4.match(reg4))
 
 // // ------back reference
 // // \1 to refere to last captured group inside same regular expression
 // // \k<groupName> to refere to last captured named group inside same regular expression
 // let str = "Mohamed Ahmed Ahmed Soliman"
-// // let reg = /(\w+)\s\1/g
+// let reg = /(\w+)\s\1/g
 // let reg = /(?<myName>\w+)\s\k<myName>/g 
 // console.log(str.match(reg)) // Ahmed Ahmed
 
@@ -7218,13 +7277,13 @@ And properties and methods that work closely together live in the same class.
 /* 
 [1] procedual  :
 * program divided into Function and Variables
-* Overloading is not possible
+* Overloading is not possible (function overloading => the concept where multiple functions with the same names can have different implementations)
 * Hiding Data not Possible
 * Data is separated
 
 [2] OOP :
 * Program divided into Objects and Methods
-* Overloading is possible
+* Overloading is possible (not supported in JS ... supported in other languages)
 * Hiding data possible
 * data is in one Location
 */
@@ -7268,7 +7327,7 @@ And properties and methods that work closely together live in the same class.
 //   console.log(x)
 //   return "done"
 // }
-  // varTest()
+//   varTest()
 
 // here let is block scope so x form function is not the same x inside if condition
 // function letTest() {
@@ -7292,7 +7351,7 @@ And properties and methods that work closely together live in the same class.
 // let x = 2
 // console.log(x)
 
-// var or let or const can reassigned
+// var or let  can reassigned
 // let x = 1
 // var x = 1
 // const x = 1
@@ -7402,12 +7461,12 @@ And properties and methods that work closely together live in the same class.
 
 // let lastName = "elzero"
 // let gender = "Male"
-// // let oldWay = "Hello \n it is me Osama"
+// let oldWay = "Hello \n it is me Osama"
 // let oldWay = "Hello \n" + "it is me " + (gender === "Male" ? "Mr" : "Mrs") + " Osama " + lastName
 // console.log(oldWay)
 
 // let newWay = `hello
-// it is me ${gender === "Male" ? "Mr" : "Mrs"} Osama ${lastName}
+// it is me ${gender === "Male" ? "Mr" : "Mrs"} Osama ${lastName}`
 // console.log(newWay)
 
 // let userName = "Osama",
@@ -7420,7 +7479,7 @@ And properties and methods that work closely together live in the same class.
 // `
 // document.body.innerHTML = myHtmlMarkup
 
-//-------------Spread Operator------------
+// --------spread operator  => ...Iterable
 
 // let arrayOne = [1,2,3]
 // let arrayTwo = [4,5]
@@ -7481,6 +7540,7 @@ And properties and methods that work closely together live in the same class.
 // console.log(clonedObj)
 // // but clone is shallow
 // clonedObj.age = 34 
+// console.log(obj) // age : 33
 // console.log(clonedObj) // age : 34
 
 // spread operator vs object.assign()
@@ -7566,7 +7626,7 @@ And properties and methods that work closely together live in the same class.
 // function sum( x, y){
 //   return x + y
 // }
-// console.log(sum(2,5,6)) // will not give you error will ignore 6
+// console.log(sum(2,5,6)) // will not give you error but will ignore 6
 
 // using rest parameters
 // function sum(...rest){
@@ -7574,7 +7634,7 @@ And properties and methods that work closely together live in the same class.
 // }
 // console.log(sum(2,5,6,7,8,9,10)) 
 
-// rest parameters must be at the end con not be (...myParams, a,b,c)
+// rest parameters must be at the end can not be (...myParams, a,b,c)
 // function showInfo(a,b,c,...myParams){{
 //   console.log("Param a" , a)
 //   console.log("Param b" , b)
@@ -7744,6 +7804,89 @@ And properties and methods that work closely together live in the same class.
 // }
 // showMyInfo(user)
 
+// --------Object Destructuring form Internet------
+/*
+const hero = {
+  name: 'Batman',
+  realName: 'Bruce Wayne',
+  address : {
+    city : 'Gothem'
+  }
+};
+
+const name     = hero.name;
+const realName = hero.realName;
+// is equivalent to:
+const { name, realName } = hero;
+
+//  you can use default value if this properity not availabe in main Object
+const { enemy = "Joker"} = hero
+
+// you can use Aliases ( change key name)
+const { realName: secretName} = hero
+console.log(secretName) // Bruce Wayne
+
+// you can use Destructuring also with nested object
+const {address : { city }} = hero
+const {address : { city : x }} = hero
+console.log(x)
+
+// you can use variable with string(same value of key)
+const prop = "realName"
+const {[prop]: alias} = hero // is equivalent to: hero[prop] ( look at Computed Object Property Name at ES6 course)
+console.log(alias)
+
+// you can use spread operator to get rest of properites in object 
+const {name,...rest} = hero
+console.log(rest)
+
+** use cases :
+
+[1] you can use it with for of loop :
+const ratings = [
+    {user: 'John',score: 3},
+    {user: 'Jane',score: 4},
+    {user: 'David',score: 5},
+    {user: 'Peter',score: 2},
+];
+let sum = 0;
+for (const {score} of ratings) {
+    sum += score;
+}
+console.log(`Total scores: ${sum}`); // 14 
+
+[2] function parameters : 
+const heroes = [
+  { name: 'Batman' },
+  { name: 'Joker' }
+];
+const names = heroes.map(function({ name }) {return name;});
+names; // => ['Batman', 'Joker']
+
+// Hint in previous we use map function and for ... of loop both will assign {name} = hero;
+but in normal function if you want to use destructuring {name} you have to assign 
+here in parameter we wrote {name} and as argument we wrote heroes[1] and parameter and agument
+is under hood (paramter = argument => {name} = heroes[1]
+  const heroes = [
+  { name: 'Batman' },
+  { name: 'Joker' }
+];
+function des({name}) {
+  return name;
+}
+console.log(des(heroes[1]))
+*/ 
+// const heroes = [
+//   { name: 'Batman' },
+//   { name: 'Joker' }
+// ];
+// function des() {
+//   return name;
+// }
+// console.log(des(heroes[1]))
+
+
+
 // ------------Enhanced Object Literals---------
 // [1] Property Value Shorthand
 // [2] Method Shorthand
@@ -7885,7 +8028,7 @@ it's a primitive data Type (assigned by value) (does not have Method)
 * Every Value return from Symbol(desciption) is unique
 * Used as identifier for object properties but it will not be shown in iteration or JSON.stringify 
 * You can say it’s a container of unique value
-* Symbol() is not a constructor 
+* Symbol() is incomplete constructor (no need of new keyword)
 
 let a = 123
 let b = 123
@@ -8003,7 +8146,7 @@ console.log(Symbol.keyFor(sym1)); // some-key
 
 // forEach in array (element , index , array)
 // forEach in Set (element value, element key , set) (set does not has key so value = key)
-// // forEach in Set (element value, element key , map) 
+// // forEach in map (element value, element key , map) 
 // const arr = [1,2,3,4,5]
 // const mySet = new Set([1,1,2,3,4,4,4,5])
 // const myMap = new Map().set("1" , "A").set("2", "B").set("3","C")
@@ -8078,8 +8221,6 @@ in another part of the code, remove that object? The answer is, it depends.
 It depends on whether the garbage collection had time to run or not. If it did, 
 the object is released from memory, and it is also gone from the WeakSet.
 */
-
-
 
 // ------------------Map vs WeakMap-----------------------
 
@@ -8409,7 +8550,7 @@ Array.copyWithin
 
 // Array.of(Elements to Create The Array)
 
-// will create 100 empty Array
+// will create 100 empty elements inside Array
 // let oldArray = Array(100)
 // console.log(oldArray)
 // console.log(oldArray.length)
@@ -8446,7 +8587,7 @@ Array.copyWithin
 // Array.fill (value to fill, start (default 0) , end (default array.lenght))
 
 // let nums = [10,20,30,40,50,60]
-// // al elements inside array will be 100 because we did not give it start or end so defautl start 0 end arr.length
+// // all elements inside array will be 100 because we did not give it start or end so defautl start 0 end arr.length
 // // nums.fill(100)
 // // nums.fill(100,2)
 // nums.fill(100,1,3)
@@ -8512,7 +8653,7 @@ note: if you need to use module with node not with browser just change file name
 */
 
 // import{myRank, myArray as arr , sayName } from '/Module/Module.js'; //(as is alias )
-// import everyyhing from module (everything means everything you have exported from ./Module.js)
+// import (Module object) everything from module (everything means everything you have exported from ./Module.js)
 // import * as all from './Module.js';
 
 // console.log(a)
@@ -8834,7 +8975,7 @@ running without interruption.
 
 // ---------asynchronous of then--------
 /*
-// then itself is promise Object
+// then itself return promise Object
 // its handlers will be triggered asynchronously as demonstrated by the console.logs
 const resolvedProm = Promise.resolve(33);
 
@@ -9356,18 +9497,18 @@ data.json() return a promise object also
 
 
 /* 
-small note about order of out put in last exp.
+small note about order of output in last exp.
 [1] resolved from regular p1 1
 [2] Resolved from race 1
 [3] loop from Promise.allSettled
 [4] Rejected From all Promise no.: 3
 
 * 
-- regular P1 is the first in console but last in code because p1.then will be excuted once p1 resolved
+- regular P1 is the first in console despite last in code because p1.then will be excuted once p1 resolved
 but race , all and allSettled should check for each promise in array [p1,p2,p3,p4] and will take 
 time but regular only one promise p1
 
-- Promise.all is the last in console but the first in code because promise.all will only be resolved
+- Promise.all is the last in console despite the first in code because promise.all will only be resolved
 when all [p1,p2,p3,p4] resolved but p3 and p4 rejected so will go to catch and all catches will
 be excuted after then
 
@@ -9375,6 +9516,87 @@ be excuted after then
 will not go to catch so then(s) before catch(s) 
 
 */
+// ------------------------promise.all with imgs---------------------------
+// let log = console.log;
+// let warn = console.warn;
+
+// let p1 = new Promise((resolve, reject)=>{
+//     let img = document.createElement('img');
+//     img.setAttribute('alt', '');
+
+//     img.addEventListener('load', function(ev){
+//         //the CSS has been loaded into the style tag
+//         log('your image be here')
+//         resolve(img);
+//     });
+//     img.addEventListener('error', function(err){
+//         //there was an error
+//         warn('your image is ready, NOT.')
+//         reject(err);
+//     });
+//     img.src = "https://picsum.photos/g/500/300?image=1";
+//     document.body.appendChild(img);
+// });
+
+// let p2 = new Promise((resolve, reject)=>{
+//   let img = document.createElement('img');
+//   img.setAttribute('alt', '');
+
+//   img.addEventListener('load', function(ev){
+//       // load event will trigger once the image loaded but if you load css file 
+//       // the load event will only load once you append css file to head
+//       log('your image be here')
+//       resolve(img);
+//   });
+//   img.addEventListener('error', function(err){
+//       //there was an error
+//       warn('your image is ready, NOT.')
+//       reject(err);
+//   });
+//   img.src = "https://picsum.photos/g/500/300?image=2";
+//   document.body.appendChild(img);
+// });
+
+// //  promise.all accept array of promises as parameter and the parameter 
+// // inside then is an array of resolved values from promises
+// Promise.all([p1, p2])
+// .then((things)=>{  
+//     log('BOTH the links for CSS have been loaded');
+//     //now my page can run and use both the scripts
+//     //OR images, or scripts...
+//     console.log(things) // [img,img] 
+// })
+// .catch((err)=>{
+//     warn('SOMETHING BAD HAPPENED')
+// })
+
+// ---------------------Promise.all with fetch------------
+// fetch return promise so that you can use promise all on fetches 
+
+// let output = document.getElementById("output")
+// let url1 = 'http://jsonplaceholder.typicode.com/users/1'
+// let url2 = 'http://jsonplaceholder.typicode.com/users/2'
+// let url3 = 'http://jsonplaceholder.typicode.com/users/3'
+// let p1 = fetch(url1)
+// let p2 = fetch(url2)
+// let p3 = fetch(url3)
+
+// // fetches return promises so that you can use promise all on fetches
+// Promise.all([p1, p2, p3])
+//   // after then of promises (from fetches) we will take responses as array
+//   .then((responses)=>{ 
+//     // we need to loop over array of responses and apply .json() on each response
+//     responses.forEach (p => {
+//       // .json() return also promise and we need to use .then() to get data
+//       let prom = p.json()
+//       prom.then(res => {
+//         let parag = document.createElement("p");
+//         // now we get the data as object so we transfere this data object to string using JSON.stringify(res) 
+//         parag.textContent = JSON.stringify(res);
+//         output.appendChild(parag)
+//       })
+//     })
+//   });
 
 // ---------------async / await ------------------
 /* 
@@ -9519,7 +9741,6 @@ until the promise resolved and take value of resolved promise and assign it to m
 // let p1Then = p1.then((result)=>result)
 // p1Then.then((result)=>console.log(result)).catch((err)=>console.log(err))
 
-
 //----------------------------------Object Oriented Programming-----------------------------
 
 /* 
@@ -9534,13 +9755,13 @@ And properties and methods that work closely together live in the same class.
 /* 
 [1] Procedual Programming
 - Progran divided into Function + Variables
-- Overloading is not possible
+- Overloading is not possible (function overloading => the concept where multiple functions with the same names can have different implementations)
 - Hiding Data not possible
 - Data is separated
 
 [2] OOP
 - Program divided into Objects + Methods
-- Overloading is possible
+- Overloading is possible (not supported in JS ... supported in other languages)
 - Hiding data possible
 - Data is in one location
 */
@@ -9728,10 +9949,16 @@ defining Object
 // let allData = ""
 // for (let prop in user){
 //   console.log(user[prop])
-//   allData += user[prop]
+//   allData += user[prop] + " "
 // }
 // console.log(allData)
 
+
+// let obj = {name : "Mohamed"}
+// let obj2 = Object.create({} ,{age : {value : 33}})
+// let obj3 = Object.assign(obj)
+// obj3.name = "hi"
+// console.log(obj2)
 
 
 // ---------------------Constructor---------------------
@@ -9764,6 +9991,8 @@ defining Object
 // let phone6 = {serial : 123}
 // console.log(phone4 instanceof Phone) //true
 // console.log(phone4.constructor === Phone) //true
+// // phone4.constructor.prototype === phone4.__proto__
+// console.log(phone4.__proto__.constructor === Phone) //true
 // console.log(phone6 instanceof Phone) //false
 // console.log(phone6.constructor === Phone) //false
 // console.log(phone5) // undefined
@@ -9774,13 +10003,17 @@ defining Object
 //   this.lName = lName;
 //   this.age = age;
 //   this.country = "EGYPT"
-//   this.fullName = _ => `Full Name: ${this.fName} ${this.lName}`
+//   // this.fullName = _ => `Full Name: ${this.fName} ${this.lName}`
+//   this.fullName = function(){ return `Full Name: ${this.fName} ${this.lName}`} 
 // }
 /* 
 Why this inside Arrow function inside constructor refer to created Object?
 Instance Objects are powerful because they are derived from a function, 
 they provide private scope when they are created, and expressions can be executed on instantiation.
 But A JavaScript object literal does not, by nature, provide private scope.
+
+Arrow functions don't have their own context. Instead, the context is inherited from the function in which they’re defined.
+So inside constructor function this === {}. While, when defining object literal this still points to global object or undefined if in strict mode.
 */
 
 // let user1 = new User("Mohamed","Hussein",33)
@@ -9829,6 +10062,7 @@ But A JavaScript object literal does not, by nature, provide private scope.
 // // here under the hood you are using String Constructor let str3 = new String("Soliman")
 // let str3 = "Soliman"
 
+
 // -----------------protoType------------------
 /* 
 => Steps of Built in Object constructor
@@ -9837,7 +10071,6 @@ But A JavaScript object literal does not, by nature, provide private scope.
 * Also, JavaScript provides an anonymous object that can be referenced via the prototype property of the Object() function
 * The Object.prototype object has some useful properties and methods such as toString() and valueOf(). 
 * The Object.prototype also has an important property called constructor that references the Object() function. 
-
 
 => Steps of Built in Person Constructor then instances 
 
@@ -10006,12 +10239,14 @@ and methods os parentObj it is just have a link to parent's prototype using __pr
 // let childObj = {}
 // // prototype chain here is : 
 // // childObj ---> parentObj ---> Object.prototype ---> null
-// Object.setPrototypeOf(childObj, parentObj)
+// Object.setPrototypeOf(childObj, parentObj)  // same like let childObj =  Object.create(parentObj)
+// // or Object.assign
+// // Object.assign(childObj, parentObj) // will copy properties and methods 
 // console.log(childObj.prop1)
 // childObj.method1()
 // console.log(childObj.__proto__)
 // // this is the Prove that childObj is not taking a copy of properties
-// console.log(childObj) // {}
+// console.log(childObj) // {} incase of Object.assign will be {prop1: 123, method1: ƒ}
 // // here we are not overriding the prop1 inside parentObj we are creating a new prop1 inside childObj
 // childObj.prop1 = 777;
 // console.log(parentObj.prop1)
@@ -10107,7 +10342,7 @@ because function is always hoisted
 // console.log(User.countObj())
 
 
-// to use Static with old sytnax of constructor but you can use Object.defineProperty or directly add it by dot notation
+// to use Static with old sytnax of constructor  you can use Object.defineProperty or directly add it by dot notation
 // function User(name) {
 //   this.name = name;
 //   // Instance Method
@@ -10156,11 +10391,12 @@ because function is always hoisted
 // console.log(SquaredTriple.longDescription); // undefined
 // console.log(SquaredTriple.customName);      // 'Tripler'
 
-// This throws because calculate() is a static member, not an instance member.
+// This throws ERROR because calculate() is a static member, not an instance member.
 // console.log(tp.calculate());                // 'tp.calculate is not a function'
 // --------------Getter and Setter----------------
 /* 
 Get and Set in Js is only for simple syntax
+The get syntax binds an object property to a function that will be called when that property is looked up that's why we don't need ()
 in other languages like PHP there is an option for private prperties accessable only by get and set
 */
 
@@ -10188,7 +10424,7 @@ in other languages like PHP there is an option for private prperties accessable 
 // let user2 = new User("Ahmed","Email-2")
 // // method
 // console.log(user1.showInfo())
-// // computed property (from getter Method)
+// // no need for ()
 // console.log(user1.showInfoGetter)
 // // difference between getter method and regular method only simple syntax you have been changed
 // // the Method to computed property and you do not need ()
@@ -10219,19 +10455,22 @@ note : but performance in Object.create() is better than setPrototypeOf
 // function User(name,email){
 //   this.name = name;
 //   this.email = email;
-//   this.showDetails = () => `Name is ${name} and email is ${email}`
+//   this.showDetails = () => `#Name is ${name} and email is ${email}`
 // }
 // User.prototype.protoFunc = () => "Proto Function from User"
+// User.staticFunc = () => "Static Function From User"
 
 // function Admin(name,email,id){
 //   User.call(this,name,email) // like super
 //   this.id = id
-//   this.showDetails = () => `Name is ${name} and email is ${email} and id is ${id}`
+//   this.showDetails = () => `&Name is ${name} and email is ${email} and id is ${id}`
 // }
 // // Object.setPrototypeOf(Admin.prototype, User.prototype) // like extends
 
 // Admin.prototype = Object.create(User.prototype) 
-// Admin.prototype.constructor = Admin
+// Admin.prototype.constructor = User
+
+// Admin.prototype.protoFunc = () => "Proto Function from Admin"
 
 // Admin.prototype.protoFunc2 = () => "Proto Function from Admin"
 // console.log(Admin.prototype)
@@ -10239,11 +10478,17 @@ note : but performance in Object.create() is better than setPrototypeOf
 // let Admin2 = new Admin("Soliman","email",321)
 // console.log(Admin1.showDetails())
 // console.log(Admin2.showDetails())
+// console.log(Admin1.protoFunc())
+// console.log(Admin2.protoFunc())
 // console.log(User.prototype.protoFunc())
 // console.log(Admin.prototype.protoFunc())
+// console.log(Admin.prototype.protoFunc2())
 // console.log(Admin1.protoFunc())
 // console.log(Admin2.protoFunc()) 
 // console.log(Admin2.protoFunc2())
+// console.log(User.staticFunc())
+// console.log(User.prototype)
+// console.log(Admin.staticFunc()) // Error
 
 // [2] inheritance in new syntax ( class )
 // class User {
@@ -10257,11 +10502,11 @@ note : but performance in Object.create() is better than setPrototypeOf
 //   instMethod(){return "Instance Method"} 
 //   // will be added as property to prototype not Method 
 //   // because we have to use a variable with it no Method shorthand for arrow function
-//   arrowInstMethod = () => "Arrow Intance Method"
-//   // will be added to constructor
+//   arrowInstMethod = () => "Arrow Instance Method"
+//   // will be added to constructor (you can access static Method from Admin but in old syntax you can not)
 //   static staticFunc = () => "Static Method from User"
 // }
-// User.prototype.protoFunc = () => "Proto Method from USer"
+// User.prototype.protoFunc = () => "Proto Method from User"
 
 // class Admin extends User {
 //   constructor(name, email, id) {
@@ -10272,15 +10517,19 @@ note : but performance in Object.create() is better than setPrototypeOf
 //   }
 // }
 
+// Admin.prototype.protoFunc = () => "Proto Function from Admin"
+
 // let Admin1 = new User("Soliman","email")
 // let Admin2 = new Admin("Soliman","email",321)
 // console.log(Admin1.showDetails())
 // console.log(Admin2.showDetails())
 // console.log(Admin.staticFunc())
+// console.log(Admin1.protoFunc())
 // console.log(Admin2.protoFunc())
 // console.log(Admin.prototype)
 // console.log(Admin2.instMethod())
 // console.log(User.prototype)
+
 
 // --------Override in inheritance-------
 // class User {
@@ -10356,6 +10605,7 @@ so in next Exp. if we remove this.id from constructor Old the outputs will be un
 // // id here is prototype added to constructor
 // Old.prototype.id = 7;
 // console.log(Old.prototype)
+// console.log(user1)
 // console.log(user1.id) // 6 // 7 (incase of remving this.id = 6; from Old)
 
 // class Old {
@@ -10661,8 +10911,8 @@ but not for HTTP errors such as 4xx or 5xx responses. */
 the operator returns the value of the first falsy operand encountered when evaluating 
 from left to right, or the value of the last operand if they are all truth
 */
-// let x = 1;
-// let y = 2; // falsy value
+// let x = null;
+// let y = 2; 
 // let xy = ( x && y );
 // console.log(xy)
 // ------------------------Try Catch--------------------------
@@ -10786,7 +11036,6 @@ Why Function is First-Class Object ?
 // console.log(typeof null) //Object
 // console.log(typeof undefined) // undefined
 
-
 // -------------------debugging in Js--------------------
 /* 
 console.count => count how many time console.count method called for specific argument (var1 or var2)
@@ -10875,6 +11124,11 @@ if if converted value is Number return false
 
 // -------------------Void------------
 
+/*
+The void operator evaluates the given expression and then returns undefined.
+This operator allows evaluating expressions that produce a value into places where an expression that evaluates to undefined is desired.
+*/
+
 // [1] void with IIFE ( void force function to be treated as expression instead of decleration)
 
 // function notIife(){
@@ -10890,6 +11144,14 @@ if if converted value is Number return false
 When a browser follows a javascript: URI, it evaluates the code in the URI 
 and then replaces the contents of the page with the returned value, 
 unless the returned value is undefined. The void operator can be used to return undefined. 
+
+<a href="javascript:void(0);">
+  Click here to do nothing
+</a>
+
+<a href="javascript:void(document.body.style.backgroundColor='green');">
+  Click here for green background
+</a>
 */
 
 // [3] non Leaking Arrow Function
@@ -10919,9 +11181,9 @@ so it's safer in older Browsers to use void(O) instead of undefined
 
 // [6] void evaluate expression and this is function decleration
 // void function test(){
-//   console.log("test is defined")
+//   console.log("test is definedddd")
 // }
-// // test(); // Error Test is not defined
+// test(); // Error Test is not defined
 // console.log(void function test(){
 //   console.log("test is defined")
 // }) // undefined
@@ -10947,11 +11209,11 @@ so it's safer in older Browsers to use void(O) instead of undefined
 // Object.defineProperty(obj1, "_prop1" , {
 //   writable : false
 // } ) //here we can stop changing value of _prop1 by writable : false
-// obj1._prop1 = "Ahmed" // here we are changing the old property _prop1
+// obj1._prop1 = "Ahmed" // here we are changing the old property _prop1 if writable : true
 // console.log(obj1._prop1) // Ahmed
 // for (let p in obj1){
 //   console.log(obj1[p])
-// } // Ahmed - Soliman - Ahmed
+// } // Ahmed - Soliman - Ahmed (if writable : true)
 // console.log("#############")
 
 // let obj2 = (function(){
@@ -11010,10 +11272,10 @@ so it's safer in older Browsers to use void(O) instead of undefined
 // }else{
 //   console.log("Prop4 not Exist")
 // }
-// // here we are creating new property inside obj2 not overriding prop4 from prototype chain that's why descriptors default values all false
-// // let obj2 = Object.create(obj1, {prop4 : {value : 5}})
-// // console.log(obj1.prop4)
-// // console.log(obj2.prop4)
+// // here we are creating new property inside obj2 not overriding prop4 from prototype chain because Object.create() only link created object to prototype of old object
+// let obj2 = Object.create(obj1, {prop4 : {value : 5}})
+// console.log(obj1.prop4)
+// console.log(obj2.prop4)
 // // here we are creating new property inside obj2 and descriptors default values all false 
 // let obj2 = Object.create(obj1, {prop5 : {value : 5}}) 
 // console.log(obj2.__proto__)
@@ -11157,6 +11419,7 @@ so it's safer in older Browsers to use void(O) instead of undefined
 // const sam = Object.create(Human, {name:{value: 'Samuel'}});
 // sam.walk();
 // sam.talk('Hello from Samuel.');
+// console.log(sam.__proto__) // prototype Chain sam > Human > character
 
 // const x73 = Object.create(Robot, {id:{value: 'x73'}});
 // x73.drive();
@@ -11208,6 +11471,7 @@ so it's safer in older Browsers to use void(O) instead of undefined
 // Bob.talk('Hello from Bob.');
 // Bob.eat();
 // Bob.walk();
+// console.log(Bob.__proto__) // no prototype chain 
 
 // const Android = (id, speed=6) => {
 //   let state = {
@@ -11244,12 +11508,51 @@ Object.create creates a new object with the specified [[Prototype]],
 and Object.assign assigns the properties directly on the specified object:
 Object.create accept two arguments : Object.create(proto, properies(like Object.defineProperities()))
 
+* The Object.create() method creates a new object, using an existing object 
+as the prototype of the newly created object.
+* The Object.assign() method copies all enumerable own properties from one or more source 
+objects to a target object. It returns the modified target object.
+
+
 Object.assign() provides shallow copying (Only properties and methods) 
+but should use {} as 1st argument if you use object (target2 ) you are chaning same object (target2) not creating new object
 and it will override the method and property 
 (in case of same name property from source object will override property inside target object 
 because steps of Object.assign is creating target object the copy from the source Object)
-while Object.create() provides Deep copying only link to prototype chain.
+while Object.create() only link to prototype chain (also shallow copy).
 Object.assign(target Object , source Object)
+
+let target1 = {name : "Soliman"}, target2 = {name : "hussein"};
+let obj1 = Object.create(target1, {age : {value : 33}});
+let obj2 = Object.assign(target2, {age : 33});
+console.log(obj1) // {age : 33 }
+console.log(target1) // {name : "Soliman"}
+console.log(obj1.__proto__) // target1 = {name : "Soliman"}
+console.log(obj1.name) // soliman
+console.log(obj1.age) // 33
+console.log(obj1 === target1)
+console.log(obj2) // {name: 'hussein', age: 33}
+console.log(obj2 === target2) 
+
+
+* 2nd param in Object.create is define property for this new created object
+* 2nd and 3rd and ... param in Object.assign are one or more source objects to a target object
+
+let obj = {
+  fName : "Mohamed",
+  lName : "Hussein"
+}
+let obj1 = Object.create(obj,{mName:{value : "Ahmed"}})
+console.log(obj1)
+console.log(obj1.fName)
+console.log(obj1.lName)
+console.log(obj1.mName)
+
+let obj2 = Object.assign({},obj,{mName2:"Soliman"})
+console.log(obj2)
+console.log(obj2.fName)
+console.log(obj2.lName)
+console.log(obj2.mName2)
 */
 
 // let target1 = {
@@ -11277,6 +11580,17 @@ Object.assign(target Object , source Object)
 // console.log(obj1.oProp1) // O1 because we used Object.create we will not override
 // console.log(obj2.oProp2) // OF2 because we used Object.assgin we override the oProp2 in obj2
 
+// -------------Object.create(null)--------------
+/* 
+Creating objects by using {} will create an object whose prototype is Object.
+prototype which inherits the basic functions from Object prototype while creating objects 
+by using Object.create(null) will create an empty object whose prototype is null.
+*/
+// let obj1 = Object.create(null)
+// let obj2 = {}
+// console.log(obj1.__proto__) // undefined 
+// console.log(obj2.__proto__) // object prototype
+
 // ---------Date.now() vs valueOf()---------------
 // Miliseconds since 1 jan 1970
 
@@ -11299,8 +11613,8 @@ For an array, that would return all of the array values joined with a comma,
 // let date = new Date()
 // console.log(obj.toString()) // toString Method from Object prototype
 // console.log(arr.toString()) // toString Method from constructor Array (will override toString Method from Object prototype)
-// console.log(num.toString()) toString Method from constructor Number (will override toString Method from Object prototype)
-// console.log(date.toString()) toString Method from constructor Date (will override toString Method from Object prototype)
+// console.log(num.toString())//  toString Method from constructor Number (will override toString Method from Object prototype)
+// console.log(date.toString()) // toString Method from constructor Date (will override toString Method from Object prototype)
 // console.log(Object.prototype.toString.call(obj))
 // console.log(Object.prototype.toString.call(arr))
 // console.log(Object.prototype.toString.call(num))
@@ -11341,7 +11655,7 @@ toString() is a method of Object so will not work on null or undefined
 because they are dont support properties
 
 String() is constructor and you can pass any argument to convert it to string 
-(under the hood take that argument and use toString() on it)
+(under the hood take that argument and use toString() on it => let x = new String(null))
 
 The String constructor is used to create a new String object. 
 When called instead as a function, it performs type conversion to a primitive string, 
@@ -11394,42 +11708,37 @@ If an object has no primitive value, valueOf returns the object itself.
 // // because befault behavior of valueOf is returns the object itself If an object has no primitive value  
 // console.log( p1 + p2) 
 
+// ----------------------- toString() vs valueOf()-----------------
+/*
+var x = {
+    toString: function () { return "foo"; },
+    valueOf: function () { return 42; }
+};
 
-// --------------Type coercion (implicit ) vs  Type conversion ( explicit)----------
+alert(x); // foo
+"x=" + x; // "x=42"
+x + "=x"; // "42=x"
+x + "1"; // 421
+x + 1; // 43
+["x=", x].join(""); // "x=foo"
 
-// [1]  -----------Type coercion (implicit )
+The toString function is not "trumped" by valueOf in general. 
+The ECMAScript standard actually answers this question pretty well. Every object has a 
+[[DefaultValue]] property, which is computed on-demand. When asking for this property, 
+the interpreter also provides a "hint" for what sort of value it expects. If the hint is 
+String, then toString is used before valueOf. But, if the hint is Number, then valueOf will
+be used first. Note that if only one is present, or it returns a non-primitive, it will usually call the other as the second choice.
+The + operator always provides the hint Number, even if the first operand is a string value. 
+Even though it asks x for its Number representation, since the first operand returns a string from [[DefaultValue]], it does string concatenation.
+If you want to guarantee that toString is called for string concatenation, use an array and 
+the .join("") method.
 
-// [a] + operator
-/* 
-Js Engine has two options convert 1 to "1" or "2" to 2 
-because with + you can concatenate strings or numbers 
-but under the hood Js will automatically convert 1 to "1" using toString() Method
 */
-// console.log( 1 + "2") // 12
-// under the Hood
-// console.log((1).toString() + "2") // 12
-
-// [b] * operator
-/* 
-Js Engine has only one option convert "2" to 2 
-because with * you can only multiply numbers not string
-but under the Hood Js will automatically convert "2" to 2 using Number() ( ia m not sure which method will be used)
-*/
-// console.log( 1 * "2") //2
-// // under the Hood
-// console.log( 1 * Number(2)) //2 
-
-// [2] -------Type conversion ( explicit) 
-/* 
-Explicit means change data type by yourself not automatically by JS Engine
-*/
-// console.log(Number("2"))
-// console.log(String(1))
 
 // ------------------convert Binary Number , decimal and HexDecimal--------------
 /*
 [1] Using toString(10) : Convert Binary or HexDecimal Number to Decimal Number 
-[2] Using toString(2) : Convert Decimal or HexDecimal Number to Decimal Number
+[2] Using toString(2) : Convert Decimal or HexDecimal Number to Binary Number
 [3] Using praseInt(binary, radix) : Convert binary to Decimal
 
 
@@ -11445,7 +11754,7 @@ HexDecimal : Js don't know if this is a HexDecimal you should write 0x
 // let d = 16724736
 
 // console.log(a.toString(2)) // convert Decimal to Binary
-// console.log(b) // will print 10 because we tell JS it's Binary bu writing 0b before
+// console.log(b) // will print 10 because we tell JS it's Binary by writing 0b before
 // console.log(c.toString(10)) // 1010 because we did not tell JS it's Binary
 // console.log(b.toString(10)) // 10 toString() will work now because we told JS it's Binary
 // console.log(parseInt(c,2)) // no need here to tell JS it's Binary because we wrote here the radix as 2nd parameter
@@ -11465,10 +11774,10 @@ HexDecimal : Js don't know if this is a HexDecimal you should write 0x
 // NOT ~
 // Shift Left <<
 // Shift Right >>
-let log = console.log;
-let n = 10;     //1010
-let i = 6;      // 110
-log( n.toString(2), i.toString(2) );
+// let log = console.log;
+// let n = 10;     //1010
+// let i = 6;      // 110
+// log( n.toString(2), i.toString(2) );
 // 1010
 //  110
 // 0010  2
@@ -11667,7 +11976,7 @@ to solve the problem of duplicate :
 
 // ------------JSON (JavaScript Object Notation)-----------
 /*
-difference between normal function and JSON object:
+difference between normal Object and JSON object:
 Json file is just a text file you can store object or array inside it 
 key in object must be inside "" and 
 value (inside object or array) can be only (string,number,object,array,true,false.null) 
@@ -11713,6 +12022,31 @@ JSON VS XML
 // // let jsonStrObjSpaces = JSON.stringify(obj, null , 4)
 // let jsonStrObjSpaces = JSON.stringify(obj, null , "\t") // you can use tab also
 // console.log(jsonStrObjSpaces)
+
+// -----------Object literal notation vs JSON(JavaScript Object Notation)
+ //JSON has the following syntactical constraints:
+/*
+ * Object keys must be strings (enclosed in double quotes " ") and can not be computed (ES6).
+ * Property can not be shorthanded
+ * The values can be either:
+     * a string
+     * a number
+     * an (JSON) object
+     * an array
+     * true
+     * false
+     * null
+     * *** function not allowed
+ * Duplicate keys ({"foo":"bar","foo":"baz"}) produce undefined
+
+In JavaScript, object literals can have
+ * Property can be shorthanded
+ * String literals, number literals or identifier names as keys (since ES6, keys can now also be computed).
+ * The values can be any valid JavaScript expression, including function definitions and undefined.
+ * Duplicate keys produce defined, 
+    specified results (in loose mode, the latter definition replaces the former; in strict mode, it's an error then allowed after ES6). 
+ * Poperty can be accessed by dot notaion or bracket notaion obj.prop or obj["prop"]
+ */
 
 
 // -----------PlaceHolder for images AJAX-----------
@@ -11784,44 +12118,13 @@ JSON.parse() is synchronous can parse a string and change the resulting returned
 // }      
 // xhr.send()
 
-// --------------------Object.create vs Object.assign()----------------
-
-/* 
-* The Object.create() method creates a new object, using an existing object 
-as the prototype of the newly created object.
-
-* The Object.assign() method copies all enumerable own properties from one or more source 
-objects to a target object. It returns the modified target object.
-
-* 2nd param in Object.create is define property for this new created object
-
-* 2nd and 3rd and ... param in Object.assign are one or more source objects to a target object
-
-*/
-
-// let obj = {
-//   fName : "Mohamed",
-//   lName : "Hussein"
-// }
-// let obj1 = Object.create(obj,{mName:{value : "Ahmed"}})
-// console.log(obj1)
-// console.log(obj1.fName)
-// console.log(obj1.lName)
-// console.log(obj1.mName)
-
-// let obj2 = Object.assign({},obj,{mName2:"Soliman"})
-// console.log(obj2)
-// console.log(obj2.fName)
-// console.log(obj2.lName)
-// console.log(obj2.mName2)
-
 // ----adding static and prototype Methods to built-in Array Object
 // Array.staticMethod = (arr) => arr.splice(-1)
-// Array.prototype.protoMethod = (arr) => arr.splice(0,1)
+// Array.prototype.protoMethod =function () { return this.splice(0,1) } // we can not use arrow function because this will refer to window object
 // Array.prototype.protoMethodLength = function(){return this.length}
 // let arr1 = [1,2,3,4]
 // Array.staticMethod(arr1)
-// arr1.protoMethod(arr1)
+// arr1.protoMethod()
 // // this here refer to arr1 because arr1 inherit protoMethodLength from prototype chain and 
 // // act as it's a method inside arr1 Object and this will refer to this arr object
 // // conclusion this will refer to anything before .protoMethodLength()
@@ -11920,18 +12223,6 @@ Default behavior of find return found value or if not found return undefined
 // lorem = lorem.replaceAll(" ", "-")
 // console.log(lorem)
 
-
-// -------------Object.create(null)--------------
-/* 
-Creating objects by using {} will create an object whose prototype is Object.
-prototype which inherits the basic functions from Object prototype while creating objects 
-by using Object.create(null) will create an empty object whose prototype is null.
-*/
-// let obj1 = Object.create(null)
-// let obj2 = {}
-// console.log(obj1) 
-// console.log(obj2)
-
 // ---------------Trimming and Padding---------------
 /* 
 * trim remove all spaces between string left and right
@@ -11974,7 +12265,7 @@ The Math.floor() function returns the largest integer less than or equal to a gi
 
 The Math.ceil() function always rounds a number up to the next largest integer.
 
-The toFixed() method formats a number using fixed-point notation.
+The toFixed() method formats a number using fixed-point notation.(return string)
 
 The toPrecision() method returns a string representing the Number object to the specified precision.
 
@@ -11996,7 +12287,7 @@ The toExponential() method returns a string representing the Number object in ex
 // console.log(Math.floor(num)) // 111
 // // toFixed will give you one number after . (depending on argument passed to toFixed())
 // // and it will use round that's why return 111.5 not 111.6
-// console.log(num.toFixed(1)) // 111.5 as tring
+// console.log(num.toFixed(1)) // 111.5 as string
 // // toPrecision will give you two number after .000 (depending on argument passed to toFixed())
 // // and it will use round that's why return  0.00017 not 0.00016
 // console.log(dec.toPrecision(2)) // 0.00017 as string
@@ -12019,6 +12310,10 @@ The toExponential() method returns a string representing the Number object in ex
 // let obj1 = {a,b,c}
 // console.log(obj1)
 
+// // do not confuse between destructring and Short-hand property Name
+// let {a : d, b : e, c : f} = obj1;
+// console.log(d,e,f)
+
 // // Short-hand Method Name (ES6)
 // // no need of function word (instead of method2 : function(){console.log("Method from obj2")})
 // let obj2 = {
@@ -12038,32 +12333,8 @@ The toExponential() method returns a string representing the Number object in ex
 // console.log(obj3[prop])
 // console.log(obj3["bar"])
 
-// -----------Object literal notation vs JSON(JavaScript Object Notation)
- //JSON has the following syntactical constraints:
-/*
- * Object keys must be strings (enclosed in double quotes " ") and can not be computed (ES6).
- * Property can not be shorthanded
- * The values can be either:
-     * a string
-     * a number
-     * an (JSON) object
-     * an array
-     * true
-     * false
-     * null
-     * *** function not allowed
- * Duplicate keys ({"foo":"bar","foo":"baz"}) produce undefined
 
-In JavaScript, object literals can have
- * Property can be shorthanded
- * String literals, number literals or identifier names as keys (since ES6, keys can now also be computed).
- * The values can be any valid JavaScript expression, including function definitions and undefined.
- * Duplicate keys produce defined, 
-    specified results (in loose mode, the latter definition replaces the former; in strict mode, it's an error then allowed after ES6). 
- * Poperty can be accessed by dot notaion or bracket notaion obj.prop or obj["prop"]
- */
-
-// -----------Spread Properties 
+// -----------Spread operator vs Object.assign()
 /* 
 like Object.assign() take shallow copy but Object.assign() triggers setters, whereas the spread operator doesn't!
 */
@@ -12077,6 +12348,8 @@ like Object.assign() take shallow copy but Object.assign() triggers setters, whe
 //   // prototype mutaion
 //   __proto__ : mainObj
 // }
+// console.log(obj.__proto__)
+// console.log(obj.key)
 
 // let spreadObj = {...obj}
 // let assignObj = Object.assign({},obj)
@@ -12085,6 +12358,19 @@ like Object.assign() take shallow copy but Object.assign() triggers setters, whe
 // console.log(spreadObj)
 // console.log(assignObj)
 // console.log(createObj)
+
+/* 
+spread defines new properties, whereas Object.assign() sets them. 
+For example, Object.assign() calls setters that are defined on Object.prototype, 
+whereas the spread operator does not.
+*/
+
+// Object.defineProperty(Object.prototype, 'myProp', {
+//   set: () => console.log('Setter called')
+// });
+// const obj = { myProp: 42 };
+// let assignObj = Object.assign({}, obj); // Prints "Setter called"
+// const newObj = {...obj }; // Does **not** print "Setter called"
 
 // ------------ProtoType Mutaion
 
@@ -12096,19 +12382,19 @@ object to that value. (If the value is not an object or null, the object is not 
 // let obj2 = {__proto__: null}
 // console.log(Object.getPrototypeOf(obj2) === null)
 
-// let protoObj = {}
-// let obj3 = {'__proto__': protoObj}
+// let protoObj = {a : "proto"}
+// let obj3 = {__proto__: protoObj}
 // console.log(Object.getPrototypeOf(obj3) === protoObj)
 
 // let obj4 = {__proto__: 'not an object or null'}
 // console.log(Object.getPrototypeOf(obj4) === Object.prototype)
-// console.log(!obj4.hasOwnProperty('__proto__'))
+
 /* 
 ----------------------Boxing Wrappers---------------
 
 This happens in two cases in JavaScript:
 1. When you pass a primitive value as the this value to .call or .apply (not in strict mode though).
-2. When you are trying to access a "property" of a primitive value, e.g. "foo bar".split().
+2. When you are trying to access a "property" or a method of a primitive value, e.g. "foo bar".split().
 
 AutoBoxing
 Boxing is wrapping a primitive value in an Object. 
@@ -12134,22 +12420,8 @@ but objects are “truthy.” So, if you want to box a primitive value manually,
 
 Unboxing
 The easiest way to obtain the underlying primitive value from an object wrapper is to use 
-the valueOf() method ( that what happens automatically with string literal ) 
+the valueOf() method ( that what happens automatically with string literal => autoBoxing string in object then use valueOf() method on it ) 
 */
-
-// -------------------Spread vs Object.assign()-------------------------
-/* 
-spread defines new properties, whereas Object.assign() sets them. 
-For example, Object.assign() calls setters that are defined on Object.prototype, 
-whereas the spread operator does not.
-*/
-
-// Object.defineProperty(Object.prototype, 'myProp', {
-//   set: () => console.log('Setter called')
-// });
-// const obj = { myProp: 42 };
-// let assignObj = Object.assign({}, obj); // Prints "Setter called"
-// const newObj = {...obj }; // Does **not** print "Setter called"
 
 // ----------------------getter and setter---------------
 /* 
@@ -12168,13 +12440,13 @@ when that property is looked up.
 // let obj = {
 //   _prop1 : 1988,
 //   get prop1(){
-//     return this._prop1 
+//     return this._prop1   + " From Getter"
 //   },
 //   set prop1(val){
 //     this._prop1 = val + " From Setter"
 //   }
 // }
-// console.log(obj.prop1) // 1988
+// console.log(obj.prop1) // 1988 " From Getter"
 // obj.prop1 = 2000 // invoking setter method
 // console.log(obj.prop1) // 2000 from Setter
 
@@ -12278,7 +12550,6 @@ while using Object.defineProperty() the property will be defined on the instance
 // }
 // console.log(evenNum(4))
 // console.log(evenNum(5))
-  
 
 
 /*  ----------Arguments and Parameters------------
@@ -12286,7 +12557,7 @@ The arguments object is an array-like object that is available within all functi
 It allows the argument’s values passed to the function to be retrieved by number, 
 rather than by name. The object allows us to pass any number of arguments to a function
 
-If a  function expects to receive only one argument. 
+If a function expects to receive only one argument. 
 When we call it with two arguments, the first argument is accessible in the function 
 by the parameter name param1 or the arguments object arguments[0], 
 but the second argument is accessible only as arguments[1]. 
@@ -12439,10 +12710,10 @@ Call (thisArg, arg1,arg2,....) takes arguments separately
 
 // EXP. 2
 // ---- adding function print to each object inside array animals using Call()
-// const animals = [
-//   { species: 'Lion', name: 'King' },
-//   { species: 'Whale', name: 'Fail' }
-// ];
+const animals = [
+  { species: 'Lion', name: 'King' },
+  { species: 'Whale', name: 'Fail' }
+];
 
 // for (let i = 0; i < animals.length; i++) {
 //   (function(i) {
@@ -12450,7 +12721,7 @@ Call (thisArg, arg1,arg2,....) takes arguments separately
 //       console.log('#' + i + ' ' + this.species
 //                   + ': ' + this.name);
 //     }
-//     this.print();
+//     this.print();s
 //   }).call(animals[i], i);
 // }
 // console.log(animals[0])
@@ -12516,8 +12787,9 @@ The apply(thisArg, argArray) method takes arguments as an array or array like ob
 // ------Using Apply() to chain constructors
 // // creating global Method
 // Function.prototype.construct = function(aArgs) {
-//   // this object will be the future instance (myInstance) of future constructor (MyConstructor)
-//   let oNew = Object.create(this.prototype);
+//   // oNew object will be the future instance (myInstance) of future constructor (MyConstructor)
+//   let oNew = Object.create(this.prototype); // this (MyConstructor)
+//   // console.log(oNew instanceof this) // true
 //   //  this here will refer to future constructor will user with (MyConstructor)
 //   this.apply(oNew, aArgs); // using future constructor (oNew = (myInstance) is thisArg and argArray = myArray)
 //   return oNew;
@@ -12539,6 +12811,7 @@ The apply(thisArg, argArray) method takes arguments as an array or array like ob
 // console.log(myInstance.constructor);              // logs 'MyConstructor'
 // console.log(myInstance.__proto__);              // logs constructor function
 
+
 // EXP. 3
 // ----Using apply to append an array to another
 // // without using Apply()
@@ -12553,11 +12826,19 @@ The apply(thisArg, argArray) method takes arguments as an array or array like ob
 // console.info(array1.concat(elements1)); // ["a", "b", [0, 1, 2]]
 // console.info(array1); // ["a", "b"]
 
-// // Using Apply()
+// // using spread operator
 // const array2 = ['a', 'b'];
 // const elements2 = [0, 1, 2];
-// array2.push.apply(array2, elements2);
-// console.info(array2); // ["a", "b", 0, 1, 2]
+// // console.log(array2.concat(...elements2))
+// array2.push(...elements2)
+// console.log(array2)
+
+// // Using Apply()
+// const array3 = ['a', 'b'];
+// const elements3 = [0, 1, 2];
+// Array.prototype.push.apply(array3, elements2);
+// // array3.push.apply(array3, elements2);
+// console.info(array3); // ["a", "b", 0, 1, 2]
 
 
 
@@ -12599,11 +12880,12 @@ Calling the bound function generally results in the execution of its wrapped fun
 //---partial applied function 
 // you can use bind() and bound function to add 3rd parameters to pre-specified no. of arguments in function
 // function sum(param1, param2){
+//   console.log(arguments)
 //   return param1 + param2
 // }
 // console.log(sum(2,3,20)) // 5 because it accept only 2 arguments
 // let sumResult = sum.bind(null,20)
-// console.log(sumResult(5)) // 25 by passing old parameters to bound function (2,3) = 5
+// console.log(sumResult(5)) // 25 
 
 // EXP. 3
 // **** using bind to callBack function
@@ -12640,15 +12922,9 @@ Calling the bound function generally results in the execution of its wrapped fun
 // // if you use call or apply function will invoked immedialtly and give you output before clicking on element
 // btn.addEventListener('click',obj.func.call(obj) )
 
-// let arr = [1,2,3,4]
-// let obj = {
-//   theName : "Soliman",
-//   age: 33
-// }
-// arr.map(function(el) {console.log(this)},obj)
-
 // EXP. 5
 // bind can be used as constructor see link below
+// bound a constructor will not change this (which will refer to future instance inside the constructor)
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind
 
 // EXP. 6
@@ -12664,13 +12940,12 @@ Calling the bound function generally results in the execution of its wrapped fun
 // }
 // args(1,2,3,4)
 
-
 // -----------------------Implicit Binding & Explicit Binding-------------
 // [1] Implicit Binding
-// Implicit binding occurs when dot notation is used to invoke a function.
+// Implicit binding occurs when dot notation is used to invoke a function ( obj.func()).
 
 // [2] Explicit Binding
-// Explicit binding of this occurs when .call(), .apply(), or .bind() are used on a function.
+// Explicit binding of this occurs when .call(), .apply(), or .bind() are used on a function (obj.func.call(anotherObj)).
 
 /* 
 This is all about where a function is invoked. 
@@ -12718,8 +12993,11 @@ we can't eyeball it. We have to go back and find where this is bound.
     .forEach()
 
 // An Array or other iterable object whose elements are key-value pairs. 
-// (For example, arrays with two elements, such as [[ 1, 'one' ],[ 2, 'two' ]].) 
+// (For example, arrays with two elements, such as [[ 1, 'one' ],[ 2, 'two' ]] ) 
 // Each key-value pair is added to the new Map.
+
+let map = new Map([[ 1, 'one' ],[ 2, 'two' ]])
+console.log(map) // Map(2) {1 => 'one', 2 => 'two'}
 
 let obj = {
   prop1 : "D",
@@ -12945,9 +13223,11 @@ so when we change one of child arrays from b it will be changed also at a
 */
 // let a = [[1], [2], [3]];
 // let b = [...a];
+
 // b.shift().shift()
 // console.log(a) // [[],[2],[3]]
 // console.log(b) // [[2],[3]]
+
 
 // ----------------------------Callee and Caller------------------
 /* 
@@ -12997,19 +13277,42 @@ and any function that additionally has a [[Construct]] method is called a constr
 The [[Call]] method determines what happens when you invoke an object as a function, 
 e.g. foo(args) , while [[Construct]] determines what happens when you invoke it as 
 a new expression, i.e. new foo or new foo(args) .
+
 For ordinary function definitions², calling [[Construct]] will implicitly create a new object
 whose [[Prototype]] is the prototype property of the constructor function 
 if that property exists and is object valued, or Object.prototype otherwise. 
 The newly created object is bound to the this value inside the function’s local environment. 
+
 If the function returns an object, the new expression will evaluate to that object, 
 otherwise, the new expression evaluates to the implicitly created this value.
 As for the prototype property, that is implicitly created whenever you define an ordinary 
-function. Each newly defined function has a property named “prototype” defined upon it
+function.
+
+function Func (){
+  this.a = 1
+  console.log(new.target)
+}
+
+function Func2 (){
+  return {a : 2}
+}
+
+let myFunc = new Func()
+console.log(myFunc) // Func {a: 1}
+console.log(myFunc instanceof Func) // true
+
+let myFunc2 = new Func2()
+console.log(myFunc2) // {a: 2}
+console.log(myFunc2 instanceof Func2) // false
+
+Each newly defined function has a property named “prototype” defined upon it
 with a newly created object as its value. That object in turn has a constructor property 
 which points back to the original function. Note that this prototype property is not the 
 same as the [[Prototype]] slot. In the previous code example, Foo is still just a function, 
 so its [[Prototype]] is the predefined object Function.prototype .
 */
+
+
 
 // -------why we can not use Apply with new keyword-------------
 /* 
@@ -13034,7 +13337,7 @@ and therefore throws a TypeError.
 Reflect.construct(target , args , newTarget)
 
 Reflect.construct() allows you to invoke a constructor with a variable number of arguments. 
-(This would also be possible by using the spread syntax combined with the new operator.)
+(This would also be possible by using the spread syntax (rest parameters) combined with the new operator.)
 The static Reflect.construct() method acts like the new operator, but as a function. 
 It is equivalent to calling new target(...args)
 
@@ -13048,10 +13351,23 @@ initialized by target as a constructor with the given argumentsList.
 
 // ---------Reflect.construct() vs Object.create()
 /*
+* Reflect.construct(target , argument list, newTarget)
+
 * Reflect.construct() like new Constructor() so new.target will refer to constructor of
 of target (or newTarget, if present)
 
 * Object.create() not like new Constructor so new.target will refer to undefined
+
+you can use Object.create to create a new object with the specified prototype object and properties. 
+((instance)) 
+
+function Parent(name){
+  this.name = name;
+}
+let obj = Object.create(Parent.prototype)
+Parent.call(obj,"Soliman")
+console.log(obj)
+console.log(obj instanceof Parent) // true
 
 */
 // function OneClass() {
@@ -13062,25 +13378,27 @@ of target (or newTarget, if present)
 
 // function OtherClass() {
 //   this.name = 'other'
+//   this.age = 33
 // }
 // let args = [1,2,3,4]
-// Calling this:
+// // Calling this:
 // let obj1 = Reflect.construct(OneClass, args, OtherClass)
 
-// // ...has the same result as this:
+// // // ...has the same result as this:
 // let obj2 = Object.create(OtherClass.prototype)
 // OneClass.apply(obj2, args)
 
-// console.log(obj1.name)  // 'one'
-// console.log(obj2.name)  // 'one'
+// // console.log(obj1.name)  // 'one'
+// // console.log(obj1.age)  // 'undefined'
+// // console.log(obj2.name)  // 'one'
+// // console.log(obj2.age)  // 'undefined'
 
-
+// console.log(obj2)
 // console.log(obj1 instanceof OneClass)  // false
 // console.log(obj2 instanceof OneClass)  // false
 
 // console.log(obj1 instanceof OtherClass)  // true
 // console.log(obj2 instanceof OtherClass)  // true
-
 
 // ----------------------Encapsulation----------------------
 
@@ -13102,10 +13420,6 @@ of target (or newTarget, if present)
 //   this.userName = userName;
 //   this.#passWord = passWord;
 //   }
-//   /* method to get private property (here we used parseInt to get number only of user input)
-//   so we used Encapsulation not only to hide the password but also to reduce human errors 
-//   if the user input a string not numbers because for exp if we want to multiply it 
-//   the result will be NaN */
 //   getPass(){
 //     return parseInt(this.#passWord)
 //   }
@@ -13117,12 +13431,12 @@ of target (or newTarget, if present)
 //   }
 // }
 
-// // let user1 = new User(1,"Soliman","1234 lool")
-// // console.log(user1.id)
-// // console.log(user1.userName)
-// // console.log(user1.getPass())
-// // console.log(user1.getPass() * 2)
-// // console.log(user1.getPrivateMethod())
+// let user1 = new User(1,"Soliman","1234 lool")
+// console.log(user1.id)
+// console.log(user1.userName)
+// console.log(user1.getPass())
+// console.log(user1.getPass() * 2)
+// console.log(user1.getPrivateMethod())
 
 // class Admin extends User {
 //   constructor(id,userName, passWord,age){
@@ -13148,10 +13462,11 @@ of target (or newTarget, if present)
 // posts[Symbol.iterator] = function(){
 //   const URL = "//jsonplaceholder.typicode.com/posts";
 //   return {
-//     next: async function(){
+//     async next(){
 //       //early pre-emptive move
 //       let rand = Math.random();
 //       if(rand > 0.7){
+//         console.log("> 0.7")
 //         return {
 //           value: undefined,
 //           done: true
@@ -13180,7 +13495,8 @@ of target (or newTarget, if present)
 //   //output.textContent += JSON.stringify(d);
 //   let iterator = posts[Symbol.iterator]();          
 //   (async function getData(){
-//     let data = await (iterator.next());
+//     let data = await (iterator.next()); // we needs await because we are dealing with fetch here (async next return promise )
+//     console.log(data)
 //     if(data.value && !data.done){
 //       output.textContent += '\r\n' + JSON.stringify(data.value);
 //       console.log('getData', data.value);
@@ -13191,6 +13507,7 @@ of target (or newTarget, if present)
 //     }
 //   })();
 // }
+
 
 // -----------------------------–Typed Array-------------------------------
 /* 
@@ -13257,12 +13574,12 @@ Typed Arrays are used by: WebGL, Canvas, Web Audio API, XMLHttpRequests, Fetch A
 
 //--------------------Private Variable inside Factory Function with Closure -------------------
 /* 
-In JavaScript, a closure is a function that references variables in the outer scope from 
-its inner scope. The closure preserves the outer scope inside its inner scope.
+The closure preserves the outer scope inside its inner scope.
 JavaScript engine uses the scope to manage the variable accessibility.
 normally, a local variable only exists during the execution of the function.
 The magic of this is closure. In other words, the sayHi() function is a closure.
 A closure is a function that preserves the outer scope in its inner scope.
+
 function greeting() {
     let message = 'Hi';
     function sayHi() {
@@ -13293,6 +13610,7 @@ this will work normally because here where are using setTimeout function inside
 another function so we are creating closure which preserves the outer scope inside its inner scope.
 so this will work even if we use var not let because we already create a closure (function inside function)
 */
+
 // let myNames = ["Mohamed","Ahmed","Soliman","Hussein"]
 // for(var i =0 ; i < myNames.length; i++){
 //   myFunc(i,myNames[i])
@@ -13303,11 +13621,11 @@ so this will work even if we use var not let because we already create a closure
 //   },1000*index)
 // }
 /* [2] Using Let
-this will work normally because of using let : let is block scope and create separate scope 
+this will work normally because of using let : let is block scope and each loop create separate scope 
 for the code block which create a closure and the closure preserves the outer scope inside its inner scope
 */
 // let myNames2 = ["Mohamed","Ahmed","Soliman","Hussein"]
-// for(let i =0 ; i < myNames2.length; i++){
+// for(let i = 0 ; i < myNames2.length; i++){
 //   setTimeout(function(){
 //     console.log(`The Index : ${i} and the name : ${myNames2[i]}`)
 //   },1000*i)
@@ -13315,13 +13633,13 @@ for the code block which create a closure and the closure preserves the outer sc
 
 /*
 this will not work normally will return index 4 and undefined 4 times because we are usning var
-and var is not block scope so will not create seperate scope or create closure so when setTimeout
-excute will search at var i inside global scope and i in global scope after loop will be 4
-and there is no myNames3[4] so myNames3[4] = undefined
+and var is not block scope and each loop create seperate scope or create closure and var will not be preserved in each block scope
+so when setTimeout excute will search at var i inside global scope and i in global scope 
+after loop will be 4 and there is no myNames3[4] so myNames3[4] = undefined 
 
 */
 // let myNames3 = ["Mohamed","Ahmed","Soliman","Hussein"]
-// for(var i =0 ; i < myNames3.length; i++){
+// for(var i = 0 ; i < myNames3.length; i++){
 //   setTimeout(function(){
 //     console.log(`The Index : ${i} and the name : ${myNames3[i]}`)
 //   },1000*i)
@@ -13361,93 +13679,6 @@ and there is no myNames3[4] so myNames3[4] = undefined
 // }
 // a good link for this problem
 // https://discuss.codecademy.com/t/var-and-let-in-a-loop-working-differently/550468/8
-
-// ---------------Filter vs some vs find vs findIndex----------------
-/*
-* Filter will return found element or array of found elements and will continue the loop till end of array
-
-* Find will return found element only of first match not array of found elements 
-not like Filter will return an array of all matches and will not continues the loop till the end
-
-*FindIndex will return the index of first Match if not found return -1 like indexOf method
-
-* Some will return true once found first match and will not continue the loop till the end
-*/
-// let names = ["Mohamed","Ahmed","Soliman","Hussein"]
-// console.log(names.indexOf("Ahmed")) // 1
-// let arrOfObjs = [
-//   {id : 1 , name : "Mohamed"},
-//   {id : 2 , name : "Ahmed"},
-//   {id : 3 , name : "Soliman"},
-//   {id : 4 , name : "Hussein"}
-// ]
-// //  will return -1 because this object is not the same object inside arrOfObjs (assigned be reference)
-// let toBeFound = {id : 2 , name : "Ahmed"}
-// console.log(arrOfObjs.indexOf(toBeFound)) 
-// let obj = {
-//   lastName : "Hussein"
-// }
-
-// // to solve this problem you can use filter or some or find or findIndex
-
-// [1] Filter
-// let count = 0;
-// let filterFound = arrOfObjs.filter(ele => {
-//   count++
-//   if(toBeFound.id === ele.id){
-//     return true
-//   }else{
-//     return false
-//   }
-// })
-// console.log(filterFound,"After Looping", count,"Times") // 4 times
-
-// [2] Some
-// count = 0;
-// let someFound = arrOfObjs.some((ele,index) =>{
-//   count++;
-//   if(toBeFound.id === ele.id){
-//     console.log(arrOfObjs[index],'After Looping',count,'Times') // 2 times
-//     return true
-//   }else{
-//     return false
-//   }
-// })
-// console.log(arrOfObjs[count-1],'After Looping',count,'Times') // 2 times
-
-// [3] Find
-// count = 0;
-// let findFound = arrOfObjs.find((ele) =>{
-//   count++;
-//   if(toBeFound.id === ele.id){
-//     return true
-//   }else{
-//     return false
-//   }
-// })
-// console.log(findFound,'After Looping',count,'Times') // 2 times
-
-// [4] findIndex
-// count = 0;
-// let findIndexFound = arrOfObjs.findIndex((ele,index) =>{
-//   count++;
-//   if(toBeFound.id === ele.id){
-//     return true
-//   }else{
-//     return false
-//   }
-// })
-// console.log(arrOfObjs[findIndexFound],'After Looping',count,'Times') // 2 times
-
-// ---note : you can use thisArg with filter ,find, some, findIndex
-// let filterFound = arrOfObjs.filter(function(ele) {
-//   if(this.lastName === ele.name){
-//     return true
-//   }else{
-//     return false
-//   }
-// },obj)
-// console.log(filterFound)
 
 // ----------------escape sequence in javascript-----------------
 /*
@@ -13601,7 +13832,8 @@ in global scope will be added to global scope
 // );
 
 // let cs = str.charCodeAt(0);
-// console.log(cs, cs.toString(16));
+// console.log(cs, cs.toString(16)); // 97 => a
+// console.log(String.fromCharCode(97)) // a
 
 // let cca = emojis.charCodeAt(0);
 // let cpa = emojis.codePointAt(0);
@@ -13614,7 +13846,25 @@ in global scope will be added to global scope
 // console.log(char1, char2); // ? 😆
 
 // -----------------------------For Await of Loop-------------------------
+/*
+When a for await...of loop iterates over an iterable, it first gets the iterable's 
+[@@asyncIterator]() method and calls it, which returns an async iterator.
+If the @asyncIterator method does not exist, it then looks for an [@@iterator]() method,
+which returns a sync iterator. 
+The sync iterator returned is then wrapped into an async iterator 
+by wrapping every object returned from the next(), return(), and throw() methods 
+into a resolved or rejected promise, with the value property resolved if it's also 
+a promise. The loop then repeatedly calls the final async iterator's next() method 
+and awaits the returned promise, producing the sequence of values to be assigned to 
+variable.
 
+in other word 
+*for await...of loop works for object has [@@asyncIterator]() method inside it next() return promise
+next() return promise
+
+*for await...of loop works for object has [@@iterator]() method inside it next() object it's value is promise 
+next() return object it's value is promise
+ */
 // let arr = [
 //   new Promise(resolve =>setTimeout(resolve,4000,"One")),
 //   new Promise(resolve =>setTimeout(resolve,1000,"Two")),
@@ -13657,6 +13907,29 @@ in global scope will be added to global scope
 //   }
 // };
 
+// let myObj = {
+//   //add an asyncIterator method to my object
+//   [Symbol.iterator]() {
+//     //which will return an object that contains a method called next()
+//     return {
+//       i: 0 /* my counter property */,
+//       next() {
+//         if (this.i < 3) {
+//           let p1 = new Promise(resolve=> resolve(this.i))
+//           let obj = { value: p1, done: false }; // p1 is promise
+//           this.i++
+//           return obj
+//         }
+//         let obj2 = { value: this.i, done: true };
+//         return obj2
+//       }
+//     };
+//   }
+// };
+
+
+
+
 // (async function() {
 //   for await (let num of myObj) {
 //     console.log(num);
@@ -13679,7 +13952,7 @@ in global scope will be added to global scope
 
 
 // document.addEventListener('DOMContentLoaded', function (){
-//     let m = document.querySelector('main');
+//     let m = document.querySelector('.main');
 //     addParagraph(m, 'This is a paragraph.');
 //     addParagraph(m, 'A new Star Wars movie is coming soon.');
 //     m.addEventListener('click', function(ev){
@@ -13707,17 +13980,11 @@ in global scope will be added to global scope
 //     console.log(ev.type, ev.target);
 // }
 // function hasDied(ev){
-//     console.log(ev.type, ev.target, ev.detail.time());
+//     console.log(ev.type, ev.target, new Date(ev.detail.time()));
 //     //remove the listeners (its better to delete EventListener to save Memory)
 //     ev.target.removeEventListener('born', wasBorn);
 //     ev.target.removeEventListener('died', hasDied);
 // }
-// let main = document.getElementById("getEvent")
-// main.addEventListener("born",function(){
-//   console.log("I am Main")
-// })
-// console.log(main)
-
 
 
 // // Browser version with Event Listener to call a function
@@ -13731,9 +13998,9 @@ in global scope will be added to global scope
 //     console.log("EVENT", ev); // Schwift Event object
 //   }
 // }
-// // let obj = new MyObj();
+// let obj = new MyObj();
 // // you can also directly create obj from EventTarget constructor to be allowed to receive / listen for events
-// let obj = new EventTarget();
+// // let obj = new EventTarget();
 // obj.addEventListener("schwifty", obj.log);
 // obj.addEventListener("schwifty", ev => console.log(ev.type)); //"schwifty"
 // setTimeout(function() {
@@ -13748,11 +14015,12 @@ in global scope will be added to global scope
 //   d: "object",
 //   e: "literal"
 // };
-// let obj2 = new Object(["object", "contructor", "one"]); // new Array("", "", "")
-// let obj3 = new Object({ an: "object", literal: "again" });
+// let obj2 = new Object(["object", "contructor", "one"]); //  Array("", "", "")
+// let obj3 = new Object({ an: "object", literal: "again" }); //  object
 // let obj4 = new Object(obj1.a); // new Object("some string")  new String("asdfas")
 // let obj5 = new Object(); //same as new Object(null) or new Object(undefined)
 // let obj6 = new Object(true); // new Boolean(true)
+
 
 // console.log(
 //   "OBJ1",
@@ -13865,19 +14133,6 @@ in global scope will be added to global scope
 // }
 // savePersonES6(person);
 
-// --------Symbol.iterator how it works--------------
-/* The Symbol.iterator is a function that returns a next() function.
-
-The Symbol.iterator method is called automatically by for..of.
-
-The spread operator and for...of statements call the iterable protocol of an object. Some objects, like Array, String, Set and Map have built in iterable protocols. That means that they have the Symbol.iterator method.
-
-1. When for..of starts, it calls that method once (or errors if not found). The method must return an iterator – an object with the method next.
-2. Onward, for..of works only with that returned object.
-3. When for..of wants the next value, it calls next() on that object.
-4. The result of next() must have the form {done: Boolean, value: any}, where done=true means that the iteration is finished, otherwise value is the next value.
-*/
-
 // ------------------------------Numeric Seperator---------------------
 // you can add _ between numbers to make it easy to read and will not effect anything
 // let num = 1_000_000_000
@@ -13922,9 +14177,11 @@ will not thorw an Error will do nothing but using () directly will throw an Erro
 
 // // Using Optional Chaining
 // function hasLabel2(arr){
-//   let propValue = arr[0]?.label
+//   let propValue = arr[0]?.labell
 //   if(propValue){
 //     console.log("Found", propValue)
+//   }else{
+//     console.log("Not Found", propValue)
 //   }
 // }
 // hasLabel2(arr1)
@@ -13950,73 +14207,74 @@ will not thorw an Error will do nothing but using () directly will throw an Erro
 // obj1.method2?.() // No Error
 
 
-/*
-more complicated exp. from this video ( https://youtu.be/G662_abEci0)
-const dataArr = [
-  { label: 'ONE' },
-  { label: 'TWO' },
-  { label: 'THREE' },
-  { label: 'FOUR' },
-  { label: 'FIVE' }
-];
-const dataObj = {
-  4: { label: 'I am Number Four' },
-  7: { label: `What's in the box?` },
-  m: () => {
-    console.log('custom method');
-  },
-  top: { mid: { deep: 123 } }
-};
 
-const addPara = (num, hex) => {
-  // let txt = 'default';
-  // if(dataArr && dataArr[num-1]) {
-  //   txt=dataArr[num-1].label
-  // }
-  // let txt = dataArr[num - 1]?.label;
-  let txt = dataObj[num]?.label;
-  if (txt) {
-    let p = document.createElement('p');
-    p.style.backgroundColor = hex; //8 digit hex
-    p.id = `_${num}`; // _4, _5, _6, _7
-    p.textContent = txt;
-    document.body.appendChild(p);
-  }
-  //console.log(dataObj?.toplevel?.mid?.deep);
-  //if (dataObj && dataObj.top && dataObj.top.mid && dataObj.top.mid.deep) {
-  //}
-  dataObj.m?.();
-  dataObj.f?.();
-};
+// more complicated exp. from this video ( https://youtu.be/G662_abEci0)
+// const dataArr = [
+//   { label: 'ONE' },
+//   { label: 'TWO' },
+//   { label: 'THREE' },
+//   { label: 'FOUR' },
+//   { label: 'FIVE' }
+// ];
+// const dataObj = {
+//   4: { label: 'I am Number Four' },
+//   7: { label: `What's in the box?` },
+//   m: () => {
+//     console.log('custom method');
+//   },
+//   top: { mid: { deep: 123 } }
+// };
 
-const handleClick = ev => {
-  let num = Math.floor(Math.random() * 7) + 1; // 1 - 7
-  let id = '_'.concat(num); // _3
-  let hex = randColour(); // 8 digit hex
-  console.log(id, hex);
-  let div = document.getElementById(id);
-  div ? (div.style.backgroundColor = hex) : addPara(num, hex); // or void 0
-  //addPara.call(null, num, hex); //addPara(num, hex)
-};
+// const addPara = (num, hex) => {
+//   // let txt = 'default';
+//   // if(dataArr && dataArr[num-1]) {
+//   //   txt=dataArr[num-1].label
+//   // }
+//   // let txt = dataArr[num - 1]?.label;
+//   let txt = dataObj[num]?.label;
+//   if (txt) {
+//     let p = document.createElement('p');
+//     p.style.backgroundColor = hex; //8 digit hex
+//     p.id = `_${num}`; // _4, _5, _6, _7
+//     p.textContent = txt;
+//     document.body.appendChild(p);
+//   }
+//   //console.log(dataObj?.toplevel?.mid?.deep);
+//   //if (dataObj && dataObj.top && dataObj.top.mid && dataObj.top.mid.deep) {
+//   //}
+//   dataObj.m?.();
+//   dataObj.f?.();
+// };
 
-const randColour = () => {
-  let clr = Math.floor(Math.random() * Math.pow(2, 24));
-  let red = (clr >> 16).toString(16).padStart(2, '0');
-  let green = ((clr >> 8) & 255).toString(16).padStart(2, '0');
-  let blue = (clr & 255).toString(16).padStart(2, '0');
-  let alpha = Math.floor(Math.random() * 200 + 55)
-    .toString(16)
-    .padStart(2, '0'); //alpha is a value 0-100% but written as num 0-255
-  // and in hex that means 00 - FF. 50% is 128 in decimal or 80 in Hex
-  // https://codepen.io/chriscoyier/pen/XjbzAW - ref chart for percentages
-  //console.log(red, green, blue, alpha);
-  return `#${red}${green}${blue}${alpha}`;
-};
+// const handleClick = ev => {
+//   let num = Math.floor(Math.random() * 7) + 1; // 1 - 7
+//   console.log(num)
+//   let id = '_'.concat(num); // _3
+//   let hex = randColour(); // 8 digit hex
+//   console.log(id, hex);
+//   let div = document.getElementById(id);
+//   div ? (div.style.backgroundColor = hex) : addPara(num, hex); // or void 0
+//   //addPara.call(null, num, hex); //addPara(num, hex)
+// };
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.body.addEventListener('click', handleClick);
-});
-*/
+// const randColour = () => {
+//   let clr = Math.floor(Math.random() * Math.pow(2, 24));
+//   let red = (clr >> 16).toString(16).padStart(2, '0');
+//   let green = ((clr >> 8) & 255).toString(16).padStart(2, '0');
+//   let blue = (clr & 255).toString(16).padStart(2, '0');
+//   let alpha = Math.floor(Math.random() * 200 + 55)
+//     .toString(16)
+//     .padStart(2, '0'); //alpha is a value 0-100% but written as num 0-255
+//   // and in hex that means 00 - FF. 50% is 128 in decimal or 80 in Hex
+//   // https://codepen.io/chriscoyier/pen/XjbzAW - ref chart for percentages
+//   //console.log(red, green, blue, alpha);
+//   return `#${red}${green}${blue}${alpha}`;
+// };
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   document.body.addEventListener('click', handleClick);
+// });
+
 
 // ----------------------Custom Sorting--------------------
 /* when use sorting it's under the hood convert elements inside the array to string so here 
@@ -14096,6 +14354,13 @@ number > 0 sort element1 before element2 | number < 0 sort element1 before eleme
 //   }
 // }
 
+// Custom Sorting solve this problem
+// let nums = [44,91,34,12,19,100]
+// let sortedNums = nums.sort()
+// console.log(sortedNums) // (6) [100, 12, 19, 34, 44, 91]
+// let customSorted = nums.sort((a,b)=>a-b)
+// console.log(customSorted) // (6) [12, 19, 34, 44, 91, 100]
+
 // ---------------------------flat() with level -----------------
 //Array.prototype.flat() to flat multi dimension array
 // let numbers = [
@@ -14154,6 +14419,7 @@ number > 0 sort element1 before element2 | number < 0 sort element1 before eleme
 /**
  * Memoization - save the results of your function
  * to improve performance.
+
 custom function if you give it same arguments instead if run the function again it will give
 you the result saved in memo object 
  */
@@ -14182,7 +14448,7 @@ you the result saved in memo object
 // };
 
 
-// // here same arguments
+// here same arguments
 // let start = Date.now();
 // let result1 = myFunc([9000008, 100001]);
 // let result2 = myFunc([9000008, 100001]);
@@ -14235,7 +14501,7 @@ you the result saved in memo object
 // let result1 = null ? "Yes" : "No" 
 // let result2 = null  ?? "Yes" 
 // let x = 10;
-// let result3 = x ?? "Yes"
+// let result3 = x ?? "Yes" 
 // x = NaN
 // let result4 = x ?? "Yes"
 // console.log(result1) // No
@@ -14371,12 +14637,12 @@ you the result saved in memo object
 // Truthy values - Everything else....
 // Boolean() != new Boolean(), String() != new String(), Number() != new Number()
 // Boxing of Primitives
-// Boolean() == !!  (! will flip truthiness too)
-// Number() == +  (- will flip sign too)
-// String() == .toString() unless null was set as the prototype of the Object
+// Boolean() == !!  (! will flip truthiness too) // log(!!0)
+// Number() == +  (- will flip sign too) // log(-"1")
+// String() == .toString() unless null or undefined (toString will throw an Error)
 
-//log(Boolean(234), Boolean(0), new Boolean(0));
-//log(true && Boolean(new Boolean(0)));
+// log(Boolean(234), Boolean(0), new Boolean(0));
+// log(true && Boolean(new Boolean(0)));
 
 // && compares the two operands and then actually returns
 // the second if the first is truthy
@@ -14396,7 +14662,6 @@ you the result saved in memo object
 => if one of them string will be concatenate
 =>  one oe them neither number or string will be unary plus */
 // log(1 + - + + + - +1); //2
-
 
 // -----------------------Premissions with Bitwise-----------------------------
 /**
@@ -14469,11 +14734,11 @@ you the result saved in memo object
 // console.log(steve.access, steve.getAll());
 // console.log(joanne.access, joanne.getAll());
 
- // console.log(steve.getAll()[READ]);
- // console.log(joanne.getAll()[READ]);
+// console.log(steve.getAll()[READ]);
+// console.log(joanne.getAll()[READ]);
 
 // ----------------------globalThis-----------------
-// in node.js version will not add var to global object but will be added to window object
+// in node.js version will not add var to window object but will be added to global object
 // varaible without keyword like (n) will be added to global object in both
 
 //-----node.js version 
@@ -14502,42 +14767,6 @@ you the result saved in memo object
 //   console.log(globalThis.v) // 20
 //   console.log(globalThis.n) // 30
 // })();
-
-// -------------------Reflect Object-----------------
-// Used with Proxy and help to write dynamic code (you can control objects by passing them as argument to reflect)
-// console.log(Reflect)
-// Reflect Object - built-in object that provides methods for interceptable JavaScript operations
-// All methods are static
-// has no constructor cannot use `new`
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect
-// const log = console.log;
-
-// let alex = {
-//   name: 'Alex',
-//   id: 93,
-//   hello: function (a, b) {
-//     console.log(`Hello my name is ${this.name}. ${a} ${b}`);
-//   },
-// };
-
-// log(Reflect.ownKeys(alex));
-// log(Reflect.get(alex, 'id'));
-// log(Reflect.set(alex, 'id', 94));
-// log(Reflect.get(alex, 'id'));
-// log(Reflect.has(alex, 'name'));
-// Reflect.apply(alex.hello, alex, Reflect.ownKeys(alex));
-// Reflect.defineProperty(alex, 'age', { value: 30, enumerable: false });
-// log(Reflect.get(alex, 'age'));
-
-/**
-Reflect.apply(targetFunc, thisArg, argList); //for functions
-Reflect.get(target, key, handler); //handler is Proxy. get the value of a property
-Reflect.set(target, key, value, handler); //handler is Proxy. set the value of a property
-Reflect.has(target, key); // check if it has a property
-Reflect.delete(target, key); //like the delete operator
-Reflect.ownKeys(target); // enumerate through the properties
-Reflect.defineProperty(target, key, {propertyDescriptor}); //like Object.defineProperty
- */
 
 
 // -------------------slice vs splice-------------- 
@@ -14576,6 +14805,51 @@ that change the original array will be replaced to another method for exp. push 
 with pushed and return a new array not changing the original one
  */
 
+// let obj = {
+//   fName : "Mohamed",
+//   get getterMethod(){
+//     return "Shekmo"
+//   },
+//   set setterMethod(newName){
+//     return this.fName = newName
+//   }
+// }
+// console.log(obj.getterMethod) // Shekmo
+// obj.setterMethod = "Ahmed"
+// console.log(obj.fName) // Ahmed
+
+// let obj2 = {
+//   mName : "Soliman",
+//   get(){
+//     return "Shekmo"
+//   },
+//   set(){
+//     return "Shemko"
+//   }
+// }
+// console.log(obj2.mName) // Soliman
+
+// let obj3 = {
+//   lName : "Hussein"
+// }
+
+// let handler = {
+//   get(target,prop,reciver){
+//     console.log(target)
+//     target[prop] =  "get Shekmo"
+//   },
+//   set(target,prop,reciver){
+//     target[prop] = reciver
+//   }
+// }
+
+// let myProxy = new Proxy(obj3,handler)
+// console.log(obj3.lName) // Hussein
+// console.log(myProxy.lName) // get Shekmo
+// myProxy.lName = "Set Shekmo" // trigger set
+// console.log(myProxy.lName) // get Shekmo only trigger get not give you the value after set
+// console.log(obj3.lName) // Set Shekmo
+
 // --------------------------------------Proxy------------------------------
 
 /*
@@ -14608,6 +14882,9 @@ format, or sanitize inputs, and so on.
 //       console.log("Creating new property")
 //       target[prop] = reciver.toLowerCase()
 //     }
+//   },
+//   ownKeys : function(){
+//     return ["ONE"]
 //   }
 // }
 // let proxy = new Proxy(obj,handler)
@@ -14616,6 +14893,7 @@ format, or sanitize inputs, and so on.
 // proxy.a = "MIDO"
 // proxy.d = "HUSSEIN"
 // console.log(obj)
+// console.log(Object.getOwnPropertyNames(proxy)) // trap for handler.ownKeys()
 
 // ---using IIFE to protect original object and not changing it
 // let obj = {a:"Mohamed",b:"Ahmed",c:"Soliman"}
@@ -14623,7 +14901,9 @@ format, or sanitize inputs, and so on.
 //   let handler = {
 //     get: function(target , prop, reciver){
 //       if(prop in target){
-//         return target[prop].toUpperCase() // make changes to property using proxy
+//         console.log("getting old property")
+//         // return target[prop].toUpperCase() // make changes to property using proxy
+//         return Reflect.get(target,prop,reciver).toUpperCase()
 //       }else{
 //         return " No Such Prop in Object"
 //       }
@@ -14639,8 +14919,9 @@ format, or sanitize inputs, and so on.
 //     }
 //   }
 //   return new Proxy(myObj,handler)
-// })({a:"Mohamed",b:"Ahmed",c:"Soliman"});
+// })({a:"Mohamed",b:"Ahmed",c:"Soliman"}); // if we pass obj as parameter => original object will be changed
 // objIffe.a = "Mido"
+// console.log(objIffe.b)
 // console.log(obj) // original object will not be changed
 
 // how to validate age using proxy
@@ -14689,6 +14970,74 @@ format, or sanitize inputs, and so on.
 // console.log(proxyFunc(2)) // 90
 // console.log(proxyFunc.call(fContext,2)) // 90
 
+// --------------------Hnadler Functions-------------------
+/*
+Handler functions
+This section lists all the handler functions you can define. Handler functions are sometimes called traps, because they trap calls to the underlying target object.
+handler.apply()
+A trap for a function call.
+handler.construct()
+A trap for the new operator.
+handler.defineProperty()
+A trap for Object.defineProperty.
+handler.deleteProperty()
+A trap for the delete operator.
+handler.get()
+A trap for getting property values.
+handler.getOwnPropertyDescriptor()
+A trap for Object.getOwnPropertyDescriptor.
+handler.getPrototypeOf()
+A trap for Object.getPrototypeOf.
+handler.has()
+A trap for the in operator.
+handler.isExtensible()
+A trap for Object.isExtensible.
+handler.ownKeys()
+A trap for Object.getOwnPropertyNames and Object.getOwnPropertySymbols.
+handler.preventExtensions()
+A trap for Object.preventExtensions.
+handler.set()
+A trap for setting property values.
+handler.setPrototypeOf()
+A trap for Object.setPrototypeOf.
+*/
+
+// -------------------Reflect Object-----------------
+// The Reflect object provides the following static functions which have the same names as the proxy handler methods.
+// Used with Proxy and help to write dynamic code (you can control objects by passing them as argument to reflect)
+// console.log(Reflect)
+// Reflect Object - built-in object that provides methods for interceptable JavaScript operations
+// All methods are static
+// has no constructor cannot use `new`
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect
+// const log = console.log;
+
+// let alex = {
+//   name: 'Alex',
+//   id: 93,
+//   hello: function (a, b) {
+//     console.log(`Hello my name is ${this.name}. ${a} ${b}`);
+//   },
+// };
+
+// log(Reflect.ownKeys(alex));
+// log(Reflect.get(alex, 'id'));
+// log(Reflect.set(alex, 'id', 94));
+// log(Reflect.get(alex, 'id'));
+// log(Reflect.has(alex, 'name'));
+// Reflect.apply(alex.hello, alex, Reflect.ownKeys(alex));
+// Reflect.defineProperty(alex, 'age', { value: 30, enumerable: false });
+// log(Reflect.get(alex, 'age'));
+
+/**
+Reflect.apply(targetFunc, thisArg, argList); //for functions
+Reflect.get(target, key, handler); //handler is Proxy. get the value of a property
+Reflect.set(target, key, value, handler); //handler is Proxy. set the value of a property
+Reflect.has(target, key); // check if it has a property
+Reflect.delete(target, key); //like the delete operator
+Reflect.ownKeys(target); // enumerate through the properties
+Reflect.defineProperty(target, key, {propertyDescriptor}); //like Object.defineProperty
+ */
 
 // ---------------------Destructring with promise and array Methods-----------------
 /*
@@ -14752,7 +15101,6 @@ https://www.youtube.com/watch?v=8FYJfEHOuY0
 // dark = reducer(dark, 'DARKEN');
 // log(dark);
 // dark = reducer(dark, 'LIGHTEN');
-// dark = reducer(dark, 'LIGHTEN');
 // log(dark);
 
 // const reducer = (state, action) => {
@@ -14798,9 +15146,9 @@ https://www.youtube.com/watch?v=8FYJfEHOuY0
  *
  * Partial Application
  *   Uses closures.
- *   Returned function is partially applied to a new value,
- *   meaning that the value passed to the original function
- *   is already attached to the returned `partially applied` function
+ *   Partial application starts with a function. 
+ *   We take this function and create a new Function with one or more of its arguments
+ *   
  *
  * Currying
  *   The process of taking a multiple argument function and
@@ -14874,7 +15222,7 @@ https://www.youtube.com/watch?v=8FYJfEHOuY0
 // async function init() {
 //   let posts = await jsonPlaceholder('posts');
 //   let users = await jsonPlaceholder('users');
-
+//   await sleep(5000)
 //   log(posts(2));
 //   log(users(4));
 // }
@@ -15008,7 +15356,8 @@ https://www.youtube.com/watch?v=8FYJfEHOuY0
 // }
 
 // function posFail(err){
-//     // fail function accept err as number => 1 : permission to access location denied by browser 
+//     // fail function accept err as number => 
+//     // 1 : permission to access location denied by browser 
 //     // 2 : can not determine the Location 
 //     // 3 : take too long to determine the location (after timeout from options object ) 
 //     let errors = {
@@ -15145,97 +15494,19 @@ https://www.youtube.com/watch?v=8FYJfEHOuY0
 //   t1 = document.getElementById('target1');
 //   t2 = document.getElementById('target2');
   
-//   div1 = document.querySelector('.advertisement');
-//   //for(let i=0; i<5; i++){
-//       // t1.appendChild(div1); // will move the div to target1
-//       t1.appendChild(div1.cloneNode(true) ); // will take a copy and put it inside target1 and keep the original
-//   //}
-  
 //   temp = document.querySelector('[type="text/html"]');
 //   cln = temp.cloneNode(true);
 //   div2 = cln.textContent; // String
 //   t2.innerHTML = div2; // because of innerHTML property will convert String to HTML elements
 
+//   div1 = document.querySelector(".advertisement");
+//   for(let i=0; i<5; i++){
+//       // t1.appendChild(div1); // will move the div to target1
+//       t1.appendChild(div1.cloneNode(true) ); // will take a copy and put it inside target1 and keep the original
+//   }
 // }
 
 // document.addEventListener('DOMContentLoaded', init)
-
-// -------------------------------History API---------------------------------
-// console.log(location.href) // link
-// console.log(location.protocol) // http: protcol decide how info transfered between server and client
-// console.log(location.host) // host name
-// console.log(location.port) // :5500 or befault port used by http: :80
-// console.log(location.hash) // #id will scroll page to element with this id
-// console.log(location.pathname) // file location on server
-// console.log(location.search) // QueryString ?name=Soliman&age=33
-// location.replace(new url) // will replace current page to new one
-// location.reload() // will reload current page
-// window.location.reload() if you pass true, then the browser loads a fresh page, 
-// but if false, then the cache version is loaded...
-
-// history.go(3) // go forward 3 steps 
-// history.go(-3) // go backward 3 steps 
-// history.back() // go backword 1 step // like history.go(-1)
-// history.forward() // go forward 1 step // like history.go(1)
-// history.state
-
-
-//  pushState, replaceState, history.state, popstate, hashchange 
-// http:// sub.example.com :80 /path/filename.html 
-// ?query=string&num=1
-// #hashvalue - comes after the querystring
-// 127.0.0.1 localhost
-
-
-// document.addEventListener('DOMContentLoaded', ()=>{
-//   // this object will be added to history.state and you can access it
-//   //history.pushState({"abc":123}, "title", url);  //add to the array
-//   //history.replaceState({"abc":123}, "title", url);   //replace current entry
-//   //history.pushState(null, "Title", "pretend.html");
-//   //add listeners to buttons and links that navigate
-//   document.getElementById("link").addEventListener('click', c);
-//   //intercept initial load incase there is a hash value or state
-//   //add listeners for hashchange and popstate
-//   // will trigger if we press back or forward arrow from browser or link inside webpage
-//   window.addEventListener("hashchange", hc); // will be triggered if hash changed in url
-//   window.addEventListener("popstate", ps); // will be triggered if the whole URL changed
-  
-// });
-
-// function c(ev){
-//   show('clicked');
-//   ev.preventDefault(); // because of this will not trigger popstate 
-//   let href = ev.currentTarget.href;
-//   let pid = ev.currentTarget.getAttribute("data-person");
-//   show(href);
-//   // history.pushState({"pid":pid}, "title", href); // will add to history list in browser
-//   history.replaceState({"pid":pid}, "title", href); // will no add anything to history list will only change the current 
-//   loadPerson();
-// }
-
-// function loadPerson(){
-//   show('LoadPerson');
-//   show(history.state.pid);
-// }
-
-// function hc(ev){
-//   // ev.newURL  ev.oldURL
-//   show("hashchange");
-//   //location.hash
-// }
-// function ps(ev){
-//   //  ev.state
-//   show("popstate");
-// }
-
-// function show(output){
-//   let p = document.createElement('p');
-//   p.textContent = output;
-//   document.getElementById('output').appendChild(p);
-//   setTimeout(_ => {
-//       document.getElementById('output').removeChild(p);
-//   }, 4000);
-// }
 
 //  -------------------------Localhost = 127.0.0.1 = IP Address-----------------
 /*
@@ -15308,10 +15579,10 @@ navigator.vibrate([500,110,500,110,450,110,200,110,170,40,450,110,200,110,170,40
 // let txt = 'This is just some text.'
 // let p = document.querySelector('#para');
         
-// /* because we are dealing with element not just string we cannot insert same element at 2 
-// different location but it will move it but you have 2 options to solve this problem :
-// [1] use cloneNode(true) 
-// [2] use insertAdjacentHTML because it's just string */
+/* because we are dealing with element not just string we cannot insert same element at 2 
+different location but it will move it but you have 2 options to solve this problem :
+[1] use cloneNode(true) 
+[2] use insertAdjacentHTML because it's just string */
 
 // p.insertAdjacentElement('beforebegin', span);   //moved from original location
 // p.insertAdjacentElement('afterend', span);
@@ -15466,27 +15737,6 @@ actions: [
     {action: 'blastoff', title: 'Blastoff', icon: './img/rocket-lg.png'}]
 *********************/
 
-// --------target vs current target-----------
-/*
-because of bubbling up when we click on span it will fire 2 addEventListener for span and then 
-will bubble up to div => target will always what you click on it but current target is THIS
-in span.addEventListener this and current target will be span and 
-in div.addEventListener this and current target will be div
-*/
-// let div = document.getElementById("currentTarget")
-// let span = document.getElementById("target")
-
-// span.addEventListener("click",function(ev){
-//   console.log("Target is "+ ev.target.tagName)
-//   console.log("Current Target is "+ ev.currentTarget.tagName)
-//   console.log("THIS is "+ ev.currentTarget.tagName)
-// })
-// div.addEventListener("click",function(ev){
-//   console.log("Target is "+ ev.target.tagName)
-//   console.log("Current Target is "+ ev.currentTarget.tagName)
-//   console.log("THIS is "+ ev.currentTarget.tagName)
-// })
-
 // ------------------------mouseOver-mouseOut vs mouseEnter-mouseLeave-----------
 
 // Adding addEventListener to child <p> only NO Differences so far..
@@ -15561,7 +15811,7 @@ when you move mouse from p to div will be considered as :
 The events focusin and focusout are similar to mouseenter and mouseleave. They DO NOT bubble
 The events focus and blur are similar to mouseover and mouseout.They DO bubble.
 
-relatedtarget property will be available between 2 events on 2 elements can be focused
+relatedtarget property will be available when you switch between 2 inputs
 */
 // document.querySelector('.in-out input').addEventListener('focusin', goIn);
 // document.querySelector('.in-out input').addEventListener('focusout', goOut);
@@ -15671,7 +15921,6 @@ NB: underscore, period and colon are left as-is
 // console.log( p.dataset['time-stamp']) // undefined
 // console.log( p.dataset['timeStamp']) // at HTML File is time-stamp but we remove hyphen and use CamelCase
 // console.log( p.dataset['time:stamp'])
-
 // console.log( p.getAttribute('data-time-stamp'));
 // console.log( p.getAttribute('data-time:stamp'));
 
@@ -15694,7 +15943,7 @@ NB: underscore, period and colon are left as-is
 //           link.addEventListener('click', app.nav);
 //       })
 //       history.replaceState({}, 'Home', '#home');
-//       window.addEventListener('popstate', app.poppin);
+//       window.addEventListener('popstate', app.poppin); // will be triggered when user press on back or forward button or press on link
 //   },
 //   nav: function(ev){
 //       ev.preventDefault(); // wihtout it popstate will be triggered on window.addEventListener('popstate', app.poppin);
@@ -15888,7 +16137,6 @@ To reset input field you can create another input with type=“reset”
 
 // const send = function(ev){
 //   ev.preventDefault(); 
-//   ev.stopPropagation();
 //   //or the click will travel to the form and the form will submit
 //   let fails = validate();
 //   //IF we wanted to do some async things then use a Promise with .then and .catch
@@ -15975,7 +16223,7 @@ To reset input field you can create another input with type=“reset”
 // })
 
 
-// ---------------------
+// ---------------------Using TheMovieDB.org API v3------------
 
 /*************
 SAMPLE URLS
@@ -16091,9 +16339,14 @@ SAMPLE SEARCH RESULTS DATA
 
 /*
 The replacer parameter can be either a function or an array.
-As a function, it takes two parameters: the key and the value being stringified. The object in which the key was found is provided as the replacer's this parameter.
-Initially, the replacer function is called with an empty string as key representing the object being stringified. It is then called for each property on the object or array being stringified.
+
+As a function, it takes two parameters: the key and the value being stringified. 
+The object which is provided is the replacer's this parameter.
+
+Initially, the replacer function is called with an empty string as key representing the object being stringified. 
+It is then called for each property on the object or array being stringified.
 It should return the value that should be added to the JSON string, as follows:
+
 * If you return a Number, String, Boolean, or null, the stringified version of that value is used as the property's value.
 * If you return a Function, Symbol, or undefined, the property is not included in the output.
 * If you return any other object, the object is recursively stringified, calling the replacer function on each property. */
@@ -16101,6 +16354,7 @@ It should return the value that should be added to the JSON string, as follows:
 // -------- [1]Replacer
 // function replacer(key, value) {
 //   // Filtering out properties
+//   console.log(this)
 //   if (typeof value === 'string') {
 //     return undefined;
 //   }
@@ -16108,8 +16362,8 @@ It should return the value that should be added to the JSON string, as follows:
 // }
 
 // var foo = {foundation: 'Mozilla', model: 'box', week: 45, transport: 'car', month: 7};
-// JSON.stringify(foo, replacer);
-// // '{"week":45,"month":7}'
+// console.log(JSON.stringify(foo, replacer))
+// '{"week":45,"month":7}'
 
 // // If replacer is an array, the array's values indicate the names of the properties 
 // // in the object that should be included in the resulting JSON string.
@@ -16121,23 +16375,36 @@ It should return the value that should be added to the JSON string, as follows:
 * If it is a number, successive levels in the stringification will each be indented by this many space characters (up to 10).
 * If it is a string, successive levels will be indented by this string (or the first ten characters of it). */
 
-
+/*
+  {
+    "title":"Conference",
+    "room": 23 // without toJSON() will return "room":{"number":23}
+  }
+*/
 // -----toJSON() behavior
 // toJSON() will work if the object has value this value is object with toJSON() method
 /*
-If an object being stringified has a property named toJSON whose value is a function, then the toJSON() method customizes JSON stringification behavior: instead of the object being serialized, the value returned by the toJSON() method when called will be serialized. JSON.stringify() calls toJSON with one parameter:
-* if this object is a property value, the property name
-* if it is in an array, the index in the array, as a string
-* an empty string if JSON.stringify() was directly called on this object */
+If an object being stringified has a property named toJSON whose value is a function, 
+then the toJSON() method customizes JSON stringification behavior: 
+instead of the object being serialized, the value returned by the toJSON() method 
+when called will be serialized. 
+
+JSON.stringify() calls toJSON with one parameter:
+* an empty string if JSON.stringify() was directly called on this object 
+* property name if nested object (object inside object)
+* number of index if (object inside array)
+*/
 
 // var obj = {
 //   data: 'data',
 
 //   toJSON (key) {
-//       if (key)
-//           return `Now I am a nested object under key '${key}'`;
-//       else
-//           return this;
+//       if (key){
+//         console.log(arguments)
+//         return `Now I am a nested object under key '${key}'`;
+//       }else{
+//         return this;
+//       }  
 //   }
 // };
 
@@ -16145,10 +16412,12 @@ If an object being stringified has a property named toJSON whose value is a func
 // // '{"data":"data"}'
 
 // let obj1 = {obj} // {obj : {object above}}
+// console.log(obj1)
 // console.log(JSON.stringify(obj1)); // Shorthand property names (ES2015).
-// // '{"obj":"Now I am a nested object under key 'obj'"}'
+// '{"obj":"Now I am a nested object under key 'obj'"}'
 
 // let arr = [obj] // [{object above}]
+// console.log(arr)
 // console.log(JSON.stringify(arr));
 // // '["Now I am a nested object under key '0'"]'
 
@@ -16162,6 +16431,23 @@ If an object being stringified has a property named toJSON whose value is a func
 // for( let value of a){
 //   console.log(value) // one two
 // }
+
+// let room = {
+//   number: 23,
+//   // toJSON(key) {
+//   //   console.log(arguments)
+//   //   return this.number;
+//   // }
+// };
+
+// let meetup = {
+//   title: "Conference",
+//   room
+// };
+
+// console.log( JSON.stringify(room) ); // 23 without toJSON() will return {"number":23}
+
+// console.log( JSON.stringify(meetup) ); // {"title":"Conference","room":23} without toJSON() will return {"title":"Conference","room":{"number":23}}
 
 
 // ----------------------Multi Language webPage----------------
@@ -16213,7 +16499,7 @@ console.log(con.content) // empty document fragmet
 
 
 // --------------------Validate Empty Form------------------
-// All the value from form are a string even in input tage type number will converted to string
+// All the value from form are a string even in input tag type number will converted to string
 
 // document.addEventListener("DOMContentLoaded",()=>{
 //   document.getElementById("btnSubmit").addEventListener("click",processFrom)
@@ -16222,14 +16508,14 @@ console.log(con.content) // empty document fragmet
 // let processFrom = function(ev){
 //   ev.preventDefault()
 
-  // console.log(document.getElementById("username").value)
-  // console.log(document.getElementById("username").value.trim()) // to remove spaces before submittimg
-  // // you can use this to validate that username must be longer than 6 chars
-  // console.log(document.getElementById("username").value.trim().length > 6)
+//   console.log(document.getElementById("username").value)
+//   console.log(document.getElementById("username").value.trim()) // to remove spaces before submittimg
+//   // you can use this to validate that username must be longer than 6 chars
+//   console.log(document.getElementById("username").value.trim().length > 6)
 
-  // console.log(document.getElementById("select").value)
-  // // you can use this to validate that you can not select 1st choice
-  // console.log(document.getElementById("select").selectedIndex > 0)
+//   console.log(document.getElementById("select").value)
+//   // you can use this to validate that you can not select 1st choice
+//   console.log(document.getElementById("select").selectedIndex > 0)
 
 //   let age = document.getElementById("age")
 //   console.log(age.min)
@@ -16254,7 +16540,7 @@ console.log(con.content) // empty document fragmet
         
 // let init = function(){
 //     //find all the tabs (li.tab)
-//     tabs = document.querySelectorAll(".tab");
+//     tabs = document.querySelectorAll(".tab"); // NodeList
 //     //add click listeners to each one (like tabs.forEach() but we used [].forEach.call to be compatable with old versions of browsers becuase tabs is nodeList not pure array )
 //     [].forEach.call(tabs, (tab)=>{
 //         //function will be called once
@@ -16270,12 +16556,10 @@ console.log(con.content) // empty document fragmet
 //     //called when a user clicks on a tab
 //     let id = tab.id;
 //     //take id from tab
-//     let actives = document.querySelectorAll('.active');
-//     console.log(actives);
+//     let actives = document.querySelectorAll('.active'); // NodeList
 //     [].forEach.call(actives, (active)=>{
 //         active.classList.remove('active');
 //     });
-//     //remove the active class from old section
 //     //loop through the sections
 //     [].forEach.call(sections, (section)=>{
 //         if( 'section-'+id === section.id){
@@ -16294,7 +16578,7 @@ console.log(con.content) // empty document fragmet
 
 // ------------------Master Details with single web application--------------
 
-//
+
 // const TODAY = new Date(15116711772000);
 // const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 // const DATA = {
@@ -16398,88 +16682,6 @@ but with element.style.style-name you can get only style added to CSS file not t
 //   let div = document.getElementById('output')
 //   div.innerHTML = `${resultOne} ${resultTwo} ${resultThree} ${resultThree0} ${resultThree1} ${resultThree2}`;
 // })
-
-// ------------------------promise.all---------------------------
-// let log = console.log;
-// let warn = console.warn;
-
-// let p1 = new Promise((resolve, reject)=>{
-//     let img = document.createElement('img');
-//     img.setAttribute('alt', '');
-
-//     img.addEventListener('load', function(ev){
-//         //the CSS has been loaded into the style tag
-//         log('your image be here')
-//         resolve(img);
-//     });
-//     img.addEventListener('error', function(err){
-//         //there was an error
-//         warn('your image is ready, NOT.')
-//         reject(err);
-//     });
-//     img.src = "https://picsum.photos/g/500/300?image=1";
-//     document.body.appendChild(img);
-// });
-
-// let p2 = new Promise((resolve, reject)=>{
-//   let img = document.createElement('img');
-//   img.setAttribute('alt', '');
-
-//   img.addEventListener('load', function(ev){
-//       // load event will trigger once the image loaded but if you load css file 
-//       // the load event will only load once you append css file to head
-//       log('your image be here')
-//       resolve(img);
-//   });
-//   img.addEventListener('error', function(err){
-//       //there was an error
-//       warn('your image is ready, NOT.')
-//       reject(err);
-//   });
-//   img.src = "https://picsum.photos/g/500/300?image=2";
-//   document.body.appendChild(img);
-// });
-
-// //  promise.all accept array of promises as parameter and the parameter 
-// // inside then is an array of resolved values from promises
-// Promise.all([p1, p2])
-// .then((things)=>{  
-//     log('BOTH the links for CSS have been loaded');
-//     //now my page can run and use both the scripts
-//     //OR images, or scripts...
-//     console.log(things) // [img,img] 
-// })
-// .catch((err)=>{
-//     warn('SOMETHING BAD HAPPENED')
-// })
-
-// ---------------------Promise.all with fetch------------
-// fetch return promise so that you can use promise all on fetches 
-
-// let output = document.getElementById("output")
-// let url1 = 'http://jsonplaceholder.typicode.com/users/1'
-// let url2 = 'http://jsonplaceholder.typicode.com/users/2'
-// let url3 = 'http://jsonplaceholder.typicode.com/users/3'
-// let p1 = fetch(url1)
-// let p2 = fetch(url2)
-// let p3 = fetch(url3)
-
-// // fetches return array promises so that you can use promise all on fetches
-// Promise.all([p1, p2, p3])
-//   // after then of promises (from fetches) we will take responses as array
-//   .then((responses)=>{ 
-//     // we need to loop over array of responses and apply .json() on each response
-//     responses.forEach (p => {
-//       // .json() return also promise and we need to use .then() to get data
-//       let prom = p.json()
-//       prom.then(res => {
-//         let parag = document.createElement("p");
-//         // now we get the data as object so we transfere this data object to string using JSON.stringify(res) 
-//         parag.textContent = JSON.stringify(res);
-//         output.appendChild(parag)
-//       })
-//     })
-//   });
 
 // --------------------------Progress Bar(Reading)------------------
 // let header = document.querySelector('header');
@@ -16725,46 +16927,6 @@ JS :
 //   .then(data => console.log(JSON.parse(atob(data.content)))) // atob to decode base64
 //   .catch(err => console.log(err))
 
-// -----------------Exp. of difference between target and currentTarget-------------
-// let partyStarted = function(){
-//   //add event listeners to element(s) on the page  
-//   document.querySelector('.list-view').addEventListener('click', onClick2);
-//   //target will be ul
-  
-//   let lis = document.querySelectorAll('.list-item');
-//   lis.forEach(li => {
-//       // li.addEventListener('click', onClick);
-//       //target will be li
-//   })
-//   let spans = document.querySelectorAll('.list-item span');
-// }
-
-// let onClick2 = function(ev){
-//   alert(ev.target.tagName);
-//   let li = ev.target;
-//   if( ev.target.tagName == 'SPAN'){
-//       li = ev.target.parentElement;
-//   }
-//   let id = li.getAttribute('data-id');
-//   let nm = li.getAttribute('data-name');
-//   let h2 = document.querySelector('h2');
-//   h2.textContent = id + ': ' + nm;
-// }
-
-// let onClick = function(ev){
-//   //ev is the click event... but who called it?
-//   alert('target ' + ev.target + ' and currentTarget ' + ev.currentTarget);
-//   // ev.stopPropagation() // to stop ev to triggered on UL if you click on LI or SPAN
-
-//   let id = ev.currentTarget.getAttribute('data-id');
-//   let nm = ev.currentTarget.getAttribute('data-name');
-//   let h2 = document.querySelector('h2');
-//   h2.textContent = id + ': ' + nm;
-// }
-
-// document.addEventListener('DOMContentLoaded', partyStarted);
-
-
 // -----------------------------search-------------------------------
 // -----my Way
 // let ul = document.createElement("ul")
@@ -16862,22 +17024,24 @@ JS :
 //     })
 // }
 
-// // read below to know how it is works
+// better version to solve a problem of typing so fast will not garantee that order of results from fetch call will no be correct 
+// so use debounce Function to call the function at most once every 300ms not at every time you press the keyboard
+// read below to know how debounce Function is works
 // let debounce = function(func, wait, immediate) {
-//     var timeout;
-//     return function() {
-//         var context = this, args = arguments;
-//         // console.log(context)
-//         // console.log(args)
-//         var later = function() {
-//             timeout = null;
-//             if (!immediate) func.apply(context, args);
-//         };
-//         var callNow = immediate && !timeout;
-//         clearTimeout(timeout);
-//         timeout = setTimeout(later, wait);
-//         if (callNow) func.apply(context, args);
-//     };
+//   var timeout;
+//   return function() {
+//       var context = this, args = arguments;
+//       // console.log(context)
+//       // console.log(args)
+//       var later = function() {
+//           timeout = null;
+//           if (!immediate) func.apply(context, args);
+//       };
+//       var callNow = immediate && !timeout;
+//       clearTimeout(timeout);
+//       timeout = setTimeout(later, wait);
+//       if (callNow) func.apply(context, args);
+//   };
 // };
 
 // let efficientSearch = debounce(function(ev){
@@ -16939,7 +17103,7 @@ JS :
 // // here we are creating div element
 // let div = document.createElement("div")
 // div.textContent = "TEST"
-// // here we adding an Event ti div element
+// // here we adding an Event to div element
 // div.addEventListener("click",function(){console.log("test")})
 // // here we are just printing the div element to webpage 
 // document.body.appendChild(div)
@@ -16951,9 +17115,6 @@ JS :
 // console.log(div) // here div is still here because remove child only remove it from webpage
 // div.removeEventListener("click",function(){console.log("test")})
 // console.log(div)
-
-
-
 
 // --------------------------Right Click Menu------------------------
 
@@ -17069,6 +17230,7 @@ JS :
 MediaQueryList has propery called matches 
 will be true if width more than 601px
 will be false if width less than 601px
+instead of CSS
 */
 
 // let query = window.matchMedia("(min-width : 601px)")
@@ -17117,7 +17279,7 @@ but :
 - instance of MutationObserver accept configuration object as 2nd parameter
 - Constructor of IntersectionObserver accept options object as 2nd parameter
 ******
-- callback function of ResizeObserver & IntersectionObserver accept entries as paramter
+- callback function of ResizeObserver & IntersectionObserver accept entries : ([ResizeObserverEntry] or array of [IntersectionObserver]) as paramter
 - callback function of MutationObserver accept mutationList as paramter
 */
 
@@ -17128,7 +17290,7 @@ but :
 //   //ResizeObserver constructor accept callback function as parameter and this function will run once the size of element change  
 //   let resizer = new ResizeObserver(handleResize);
 //   // observe is prototype method accept the target element as parameter
-//   // resizer.observe(document.querySelector('.container'));
+//   resizer.observe(document.querySelector('.container'));
 // });
 
 // function handleResize(entries) {
@@ -17239,6 +17401,7 @@ but :
 // });
 // // we can add observer instance as second parameter and use it for exp. inside function to stop observing by unobserve method
 // function beTouching(entries, ob) { 
+//   console.log(entries)
 //   //entries all 30 paragraphs
 //   entries.forEach(entry => {
 //     if (entry.isIntersecting) { // isIntersecting property means p enter observer area
@@ -17304,7 +17467,7 @@ but :
 //   // txt.addEventListener('keypress', upThing);  
 //   //2nd - charcode. no input value added yet
 //   // will trigger function after value of key written to input field but before keyup
-//   // that's why no ev.target.value at first time
+//   // that's why no ev.target.value at first time (keydown)
   
 //   // txt.addEventListener('keyup', upThing);     
 //   //3rd - no charcode. input value added
@@ -17584,6 +17747,8 @@ https://websistent.com/password-protect-directories-using-htpasswd/
 //     //after the video starts to play you can access text tracks
 //     let tt = vid.textTracks;
 //     let cues = tt[0].cues;
+//     let activeCues = tt[0].activeCues;
+//     console.log(activeCues)
 //     console.log(tt);
 //     console.log(`There are ${tt.length} text tracks`);
 //     console.log( tt[0] );
@@ -17668,6 +17833,7 @@ https://websistent.com/password-protect-directories-using-htpasswd/
 //       console.log('Permission was granted for notifications');  // when click allow
 //   });
 // }
+
 // ------------------------------Clipboard---------------
 /* if i add contenteditable="true" attribute on HTML element i can change the text from webpage
 and if i cut , copy , paste will trigger the events here in JS File */
@@ -17690,6 +17856,7 @@ and if i cut , copy , paste will trigger the events here in JS File */
 // // then add it to the input element then focus() and select() content on input
 // // then copy it from input element to clipboard 
 // // (you can not select text on regular element only you can focus and select text inside input element)
+
 // document.getElementById('btnCopy').addEventListener('click', (ev)=>{
 //     let pre = document.querySelector('pre');
 //     let text = pre.textContent;
@@ -17699,20 +17866,21 @@ and if i cut , copy , paste will trigger the events here in JS File */
 //     input.focus();
 //     input.select();
 //     input.style.opacity = 0 // to make it hidden
+    
 //     const result = document.execCommand('copy'); // will trigger copy event on document you can not use dispatchEvent look below
 //     if (result === 'unsuccessful') {
 //         console.error('Failed to copy text.');
 //     }
+//     // if you want to use dispatchEvent instead of execCommand you have to create new event using 
+//     // Event constructor and write the function of copy event you can not use builtin copy function
+//     let copyEvent = new Event("copy");
+//     pre.addEventListener("copy", navigator.clipboard.writeText(pre.textContent));
+//     pre.dispatchEvent(copyEvent);
 // });
-
-// if you want to use dispatchEvent instead of execCommand you have to create new event using 
-// Event constructor and write the function of copy event you can not use builtin copy function 
-// let copyEvent = new Event("copy")
-// pre.addEventListener("copy", navigator.clipboard.writeText(pre.textContent))
-// pre.dispatchEvent(copyEvent)
 
 
 // ######### Option [2] using clipboard writeText & readText properties (need Premissions) : 
+// return a Promise which is resolved once the clipboard's contents have been updated.
 //Over HTTPS only (or localhost)
 //Only on active tabs
 //Permissions for read and write are required (not work for safari) maybe my safari is old version or problem with premissions
@@ -17742,6 +17910,8 @@ and if i cut , copy , paste will trigger the events here in JS File */
 //       // This can happen if the user denies clipboard permissions:
 //       console.error('Could not copy text: ', err);
 //   });
+//   console.log(navigator.clipboard.readText()) // return Promise Pending 
+//   navigator.clipboard.readText().then((clipText)=> console.log(clipText)) // return the Text in ClipBoard
 // })
 
 // ##### Clipboard has properties like (readText(), writeText() => for texts & read() , write() => for images)
@@ -17774,6 +17944,74 @@ and if i cut , copy , paste will trigger the events here in JS File */
 //         console.log('Pasted text: ', text);
 //     });
 // });
+
+// -----------------------Copy and Paste Events---------------------
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   document.addEventListener('copy', doCopy);
+//   document.addEventListener('paste', doPaste);
+//   document.querySelector('h1').addEventListener('click', autoCopy);
+// });
+
+// function doCopy(ev) {
+//   //ev is a ClipBoardEvent
+//   console.log(ev)
+//   // if you didn't preventDefault will copy the text as default without any changes (UPPERCASE)
+//   ev.preventDefault();
+//   // what has the user selected (return selection object and you can get the text by using toString())
+//   // get the actual selected text if you want to make changes to it
+//   let selection = document.getSelection();
+//   selection = selection.toString().toUpperCase();
+//   console.log(selection); //UPPERCASE
+//   // setData method for copy event and getData method for paste event
+//   ev.clipboardData.setData('text/plain', selection);
+
+//   // or you can use navigator.clipboard.writeText()
+//   navigator.clipboard.writeText(selection)
+// }
+
+// function doPaste(ev) {
+//   // ev.clipboardData - is a DataTransfer object
+//   let data = ev.clipboardData.getData('text/plain');
+//   let txtNode = document.createTextNode(data)
+//   //data is the content we copied above
+//   console.log(data);
+
+//   // or you can use navigator.clipboard.readText()
+//   navigator.clipboard.readText().then(text => {
+//     console.log('Pasted text: ', text);
+//   });
+
+//   // to know which element i selected to do the paste (one of two <p> that has attribute contenteditable="true") 
+//   // selection object has property called parentElement 
+//   // if you just click on the element text will be "" if you select text the text will be selected text
+//   let selection = document.getSelection();
+//   // to make a sure that is a valid selection
+//   if (!selection.rangeCount) return false;
+//   //remove the old content that was selected (its the default behaviour of browser to remove
+//   // selected text and paste the new text above but because we preventDefault we disable 
+//   // this default behavior and we need to delete selected text manually)
+//   selection.deleteFromDocument();
+//   //inserts before the selected area (you can add text node or element node and add css to this element(red color for exp.))
+//   selection.getRangeAt(0).insertNode(txtNode);
+//   // selection.getRangeAt(0).insertNode(span);
+// }
+
+// function autoCopy(ev) {
+//   let h1 = ev.target;
+//   let select = document.getSelection();
+//   // remove all ranges to create a new one (selecting multiple ranges not supported in all browsers)
+//   select.removeAllRanges();
+//   let range = document.createRange();
+//   // select the h1.firstChild => text node
+//   range.selectNode(h1.firstChild); 
+//   //highlight the whole selection
+//   select.addRange(range);
+//   console.log(range)
+//   console.log(select)
+//   //then tell the browser to do a copy ( this will trigger the doCopy function )
+//   document.execCommand('copy');
+// }
 
 // -----------------------------------Scrolling------------------------
 // let h1 = document.querySelector('h1');
@@ -18025,7 +18263,7 @@ and if i cut , copy , paste will trigger the events here in JS File */
 // ---------------------Capturing Media (Works also on Mobile Devices)-----------
 /* 
 - if you add capture attribute to input element (type ="file") will open camera on mobile Phones
-- if you want to choose from gallery you should remove capture attribute
+- if you want to choose from gallery on mobile Phones you should remove capture attribute
 - if you want to upload chosen files you should add enctype="multipart/form-data" attribute to form element 
 - accept="audio/*" isn't actually supported on iOS " but audio/mp3 works fine
 - accept="image/*" and accept="video/*" are supported on iOS "
@@ -18117,7 +18355,7 @@ https://github.com/yusitnikov/fix-webm-duration
 //   // if you want you can show Video Stream to the User 
 //   // let video = document.querySelector('video');
 //   // if ("srcObject" in video) { 
-//   //   // new browser video has srcObject property
+//   //   // new browser video element has srcObject property
 //   //   video.srcObject = mediaStreamObj;
 //   // } else {
 //   //     //old version does not have srcObject 
@@ -18297,11 +18535,12 @@ Steps :
 //   // merge displayStream and voiceStream
 //   let tracks = [...displayStream.getTracks(), ...voiceStream.getAudioTracks()] 
 //   const stream = new MediaStream(tracks); 
-//   handleRecord({stream, mimeType}) 
+//   handleRecord(stream, mimeType) 
 // }
 // recordScreen()
 
-// const handleRecord = function ({stream, mimeType}) {     
+// const handleRecord = function (stream, mimeType) {  
+//   console.log(arguments)   
 //   // let recordedChunks = [];      
 //   const mediaRecorder = new MediaRecorder(stream);
 //   start.addEventListener('click', (ev)=>{
@@ -18330,7 +18569,7 @@ Steps :
 //     output.appendChild(videoEl)
 //     // recordedChunks = []   
 //   };
-//   // mediaRecorder.start(200)   
+//   // mediaRecorder.start(200) // need to use recordedChunks instead of single blob
 // };
 
 
@@ -18339,7 +18578,7 @@ Steps :
 - performance.now() better than date.now() because it's more accurate with date.now() the smaller 
 number you can get is 1 milisecond but with performance.now() you can get 0.00005 milisecond
 
--performance.mark("name of mark ") like performance.now() but you don;t have to assign
+-performance.mark("name of mark ") like performance.now() but you don't have to assign
 performance.now() to variables and substract to get difference between 2 performance.now()
 just make 2 performance.mark() and give each one an unique name then use performance.measure()
 to get a PerformanceMeasure Object which has a lot of properties like startTime of first performance.mark()
@@ -18366,9 +18605,9 @@ and duration property (difference between 2 performance.mark()) 
 [data-beatle = "john"] - exact => match only data-beatle = "john"
 [data-beatle *= "o"]  -contains o => match anything contains "o" data-beatle = "john" or data-beatle = "toni"
 [data-beatle ~= "john"]  - space separated => match data-beatle = "hi john depp"
+[data-beatle |= "john"]  - hyphen separated, 1st value => match data-beatle = "john-depp"
 [data-beatle ^= "john"]  - starts with => match data-beatle = "john depp"
 [data-beatle $= "john"]  - ends with => match data-beatle = "hi john"
-[data-beatle |= "john"]  - hyphen separated, 1st value => match data-beatle = "john-depp"
 
 main [data-beatle |="john"]{
   color: gold;
@@ -18419,9 +18658,9 @@ Thread and work separetly and you can from main.js trigger  functions or fetch c
 or anything else and get back the result from web worker file to main.js
 
 Steps : 
-[1]create worker instance
-[2] add Event Listener
-[3]send message to web-work.js file => worker.postMessage()
+[1] create worker instance
+[2] add Event Listener ("message")
+[3] send message to web-work.js file => worker.postMessage()
 
 * difference between JS Asynchronous and Web Workers :
 - JavaScript is single-threaded (1 thread => 1 CPU)
@@ -18508,7 +18747,10 @@ but Web Worker has no access to DOM but you have access to navigator object , lo
 // })
 
 // ---------------------------LocalStorage Shopping Cart--------------------
-// 2 challenges for you [1] add delete btn to items in cart [2]update total price when incrementing items in cart
+// 2 challenges for you 
+// [1] add delete btn to items in cart 
+// [2]update total price when incrementing items in cart
+
 // const CART = {
 //   KEY: 'bkasjbdfkjasdkfjhaksdfjskd',
 //   contents: [],
@@ -18832,7 +19074,8 @@ but Web Worker has no access to DOM but you have access to navigator object , lo
 //     }else{
 //         //remove it from the first element with it
 //         element = document.querySelector('h1.big, audio.big, video.big');
-//         element.classList.remove('big');
+//         console.log(element)
+//         element?.classList.remove('big');
 //         //when people use esc instead of dblclick
 //     }
 // }
@@ -18855,40 +19098,36 @@ Canvas has several methods for drawing paths, boxes, circles, text, and adding i
 //   canvas = document.getElementById('canvas');
 //   ctx = canvas.getContext('2d'); //webgl, webgl2
 //   canvas.width = 600;
-//   canvas.height = 400;
+//   canvas.height = 400;s
   
-//   //drawRect();
 //   drawEllipse();
 //   drawRect();
 // });
 
-// // you have 2 options to draw 
-// // [1] define position and width and height using ctx.rect then use ctx.fill() and ctx.stroke() Methods
-// // [2] use directly ctx.fillRect(position and width and height) and ctx.strokeRect(position and width and height) in one step
+// you have 2 options to draw 
+// [1] define position and width and height using ctx.rect then use ctx.fill() and ctx.stroke() Methods
+// [2] use directly ctx.fillRect(position and width and height) and ctx.strokeRect(position and width and height) in one step
 
 // const drawRect = function(){
-//   //position x,position y (positions related to canvas element), width, height  
-//   ctx.rect(300, 100, 100, 50); 
-    
 //   //define the stroke
 //   ctx.strokeStyle = `red`;
 //   ctx.lineWidth = 10; // width of line used as border 
   
 //   //define the fill
 //   ctx.fillStyle = `skyblue`;
+//   ctx.beginPath();
+//   // [1] option 1 using ctx.rect , ctx.fill and ctx.stroke
+//   //position x,position y (positions related to canvas element), width, height  
+//   ctx.rect(300, 100, 100, 50);  
+//   ctx.fill(); // to fill the shape with color defined in ctx.fillStyle
+//   ctx.stroke(); // to add border with color defined in ctx.strokeStyle
   
-//   //fill and stroke 
-//   // ctx.fill(); // to fill the shape with color defined in ctx.fillStyle
-//   // ctx.stroke(); // to add border with color defined in ctx.strokeStyle
-//   // ctx.fill();
+//   // [2] option 2 using ctx.fillRect and ctx.strokeRect
+//   // ctx.fillRect(300, 100, 100, 50);
+//   // ctx.strokeRect(300, 100, 100, 50);
   
-//   //draw a rect fill or stroke x, y, w, h
-//   ctx.fillRect(200, 300, 100, 50);
-//   ctx.strokeRect(100, 100, 100, 50);
-  
-//   //delete a rect
-//   //ctx.clearRect(x, y, width, height)
-//   ctx.clearRect(150, 50, 100, 500)
+//   //delete a rect => ctx.clearRect(x, y, width, height)
+//   // ctx.clearRect(300, 100, 100, 50)
 // }
 
 // const drawEllipse = function(){
@@ -18899,16 +19138,18 @@ Canvas has several methods for drawing paths, boxes, circles, text, and adding i
 //  // oval shape and circle but arc only has radius so you can only draw perfect circle
 
 //   ctx.beginPath();
+//   //ctx.arc(x, y, radius, startAngle, endAngle, anticlock);
+//   ctx.arc(450, 300, 50, 0, (Math.PI * 1.5), false);
+//   ctx.fill();
+//   ctx.stroke();
+
+//   ctx.beginPath();
 //   //ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlock);
 //   ctx.ellipse(200, 200, 100, 50, 0, 0, (Math.PI*2), false);
 //   ctx.fill();
 //   ctx.stroke();
   
-//   ctx.beginPath();
-//   //ctx.arc(x, y, radius, startAngle, endAngle, anticlock);
-//   ctx.arc(400, 200, 50, 0, (Math.PI * 1.5), false);
-//   ctx.fill();
-//   ctx.stroke();
+  
 // }
 
 // -------Canvas Text
@@ -18941,10 +19182,10 @@ Canvas has several methods for drawing paths, boxes, circles, text, and adding i
 //   // px pt cm in rem em
 //   // any installed or imported font
 //   let fontFamily = 'Allerta Stencil';
-//   // we imported front in CSS File using import @import url()
+//   // we imported font in CSS File using import @import url()
 //   ctx.font = `normal 20px xyz, ${fontFamily}, Helvetica, Arial, monospace`;
 //   ctx.fillStyle = 'cornflowerblue';
-//   ctx.strokeStyle = '#bada55';
+//   ctx.strokeStyle = 'red';
 //   //textAlign center, left, right, end, start (end, start depends on direction ltr or rtl)
 //   ctx.textAlign = 'start';
 //   //textBaseline top, hanging, middle, bottom,ideographic, alphabetic
@@ -18957,6 +19198,7 @@ Canvas has several methods for drawing paths, boxes, circles, text, and adding i
 //     txt = 'Please give me a message.';
 //     oldTxt = txt
 //   }
+
 //   let w1 = ctx.measureText(oldTxt).width; 
 //   let w2 = ctx.measureText(txt).width;
 //   if(w2 > w1){
@@ -18965,7 +19207,7 @@ Canvas has several methods for drawing paths, boxes, circles, text, and adding i
 //   // returns an object that contains the width of the specified text, in pixels.
 //   ctx.clearRect(50, 110, w1, -30);
 //   // difference between strokeText and fillText is stroke is border and fill is the fill inside charachters in words
-//   // ctx.strokeText(txt, 50, 100);
+//   ctx.strokeText(txt, 50, 100);
 //   ctx.fillText(txt, 50, 100);
   
   
@@ -19009,6 +19251,7 @@ line curved toward this midpoint
     
 //     midx1 = canvas.width/4;
 //     midy1 = canvas.height/4;
+
 //     midx2 = canvas.width - midx1;
 //     midy2 = canvas.height - midy1;
     
@@ -19102,8 +19345,8 @@ line curved toward this midpoint
 //         // ctx.drawImage(imgObj, 350, 180, 100, 100 , 0 , 0 , w, h);
 //     };
 
-//     //canvas.addEventListener('click', greyscale);
-//     canvas.addEventListener('click', colorChannel);
+//     canvas.addEventListener('click', greyscale);
+//     // canvas.addEventListener('click', colorChannel);
 // });
 
 // const greyscale = function(ev){
@@ -19242,7 +19485,7 @@ line curved toward this midpoint
 //     // we are deactivating ctx.translate(200, 200); and starting point return to (0,0)
 //     ctx.save();
 //     ctx.beginPath();
-//     ctx.arc(0, 0, 10, 0, Math.PI*2);
+//     ctx.arc(0, 0, 10, 0, Math.PI*2); // to draw circle at starting point(0,0)
 //     ctx.rotate(Math.PI/4);        //3.14 radians 180 deg
 //     ctx.fillText('rotate', 300, 0);
 //     ctx.fill();
@@ -19251,7 +19494,7 @@ line curved toward this midpoint
 
 //     ctx.beginPath();
 //     ctx.translate(100, 500);
-//     ctx.scale(1, -1);
+//     ctx.scale(1, -1); // x and y directions
 //     ctx.fillText('scale', x, y);
 //     ctx.fill();
 //     ctx.closePath();
@@ -19338,20 +19581,20 @@ line curved toward this midpoint
   
 // }
 
-// //MEDIA EVENTS
-// //https://developer.mozilla.org/en-US/docs/Web/Events#Media_events
+// MEDIA EVENTS
+// https://developer.mozilla.org/en-US/docs/Web/Events#Media_events
 
 // document.addEventListener('DOMContentLoaded', ()=>{
 //   let player = document.getElementById('player');
-//   // canplay event means this video can be played
+//   // // canplay event means this video can be played
 //   player.addEventListener('canplay', (ev)=>{
-//       console.log('canplay', ev.target.videoWidth, ev.target.videoHeight);
-//       console.log(ev.target.clientWidth, ev.target.clientHeight);
-//       console.log(ev.target.currentSrc, ev.target.duration, ev.target.currentTime);
-//       player.addEventListener('click', (ev)=>{
-//           //click the video to grab a screenshot and display in the canvas
-//           grabScreen();
-//       })
+//     console.log('canplay', ev.target.videoWidth, ev.target.videoHeight);
+//     console.log(ev.target.clientWidth, ev.target.clientHeight);
+//     console.log(ev.target.currentSrc, ev.target.duration, ev.target.currentTime);
+//     player.addEventListener('click', (ev)=>{
+//         //click the video to grab a screenshot and display in the canvas
+//         grabScreen();
+//     })
 //   });
   
 //   player.addEventListener('canplaythrough', (ev)=>{
@@ -19371,7 +19614,7 @@ line curved toward this midpoint
 //   })
 // })
 
-// ------canvas 
+// ------canvas images
 // let canvas, ctx, img1, img2, img3;
 // let images = [];
 
@@ -19633,7 +19876,7 @@ line curved toward this midpoint
 
 // ------------------forms in js--------------------
 /*
-- if there is a button inside a form once you click it will submit the form even the button 
+- if there is a button inside a form once you click it will submit the form even if the button 
 type is not submit
 - you can add value attribute to input element in HTML File and this will be default value 
 of this input field and you can write anything inside input field to change it
@@ -19665,7 +19908,7 @@ of this input field and you can write anything inside input field to change it
 // });
 
 // ----------------------MultiLingual----------------
-// //language data... could come from an external js/json file
+//language data... could come from an external js/json file
 // let langdata = {
 //   "languages": {
 //       "en": {
@@ -19695,7 +19938,7 @@ of this input field and you can write anything inside input field to change it
 //   applyStrings(zones);
 
 //   let lang = findLocaleMatch();
-//   let container = document.querySelector(`html [lang*=${lang}]`);
+//   let container = document.querySelector(`html [lang*=${lang}]`); // *= contains (CSS Attibute selector)
 //   container.className = 'lang-match';
 // });
 
@@ -19718,8 +19961,7 @@ of this input field and you can write anything inside input field to change it
 
 // function findLocaleMatch() {
 //   let keys = Object.keys(langdata.languages); //from our data
-//   let locales = Intl.getCanonicalLocales(keys); //from our data validated
-
+//   let locales = Intl.getCanonicalLocales(keys); //from our data validated (to check if it is valid language like en .. xy will thorw error)
 //   let lang = navigator.language; //from browser 
 //   let locale = Intl.getCanonicalLocales(lang); //from browser validated
 //   console.log('browser language', lang);
@@ -19931,6 +20173,7 @@ can accept a FormData object as a body. It’s encoded and sent out with
 Content-Type: multipart/form-data.
 From the server point of view, that looks like a usual form submission.
 */
+
 // document.addEventListener('DOMContentLoaded', () => {
 //   let fd = new FormData();
 //   fd.append('name', 'Bubba');
@@ -19941,7 +20184,9 @@ From the server point of view, that looks like a usual form submission.
 //   for (let obj of fd) {
 //       console.log(obj)
 //   }
-
+//   for (let [key,value] of fd) {
+//       console.log(key,value)
+//   }
 //   document.querySelector('#output pre').textContent = JSON.stringify(Array.from(fd), '\t', 2);
 //   // let url = 'http://www.example.com/';
 //   // let req = new Request({
@@ -19975,11 +20220,16 @@ From the server point of view, that looks like a usual form submission.
 //   const data = new FormData(event.target);
 
 //   // The entries() method returns a new Array iterator object 
+//   let dataIte = data.entries()
+//   for(let [key,value] of dataIte){
+//     console.log(key,value)
+//   }
 //   // The Object.fromEntries(iterable) method transforms a list of key-value pairs into an object.
 //   const value = Object.fromEntries(data);
 
+//   console.log(value.topics) // will return last value only if you choose multiple choices
 //   value.topics = data.getAll("topics");
-
+//   console.log(value.topics) // will return array of all choices
 //   console.log({ value });
 // }
 
@@ -20041,37 +20291,39 @@ From the server point of view, that looks like a usual form submission.
 // ---------------insertBefore and insertAdjacentElement------------   
 /*
 - difference between prepend and insertBefore:
-prepend will always insert new element node at the beginnig of target element
-insertBefore will insert new element node before specific child which you decide at 2nd param
+prepend will always insert new element node at the beginnig of target element(always before 1st child)
+insertBefore will insert new element node before specific child which you decide at 2nd param(use can insert it before 2nd child)
 
 - difference between insertBefore and insertAdjacentElement :
 insertAdjacentElement you have 4 options => 'beforebegin', 'afterbegin', 'beforeend', 'afterend'
 so you cannot insert the new element before specific child
  */
 
-//https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement
+// https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement
 // parentNode.insertBefore(newNode, referenceNode);
-//
-//https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore
+
+// https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore
 // targetElement.insertAdjacentElement(position, NewElement);
 // let count = 0;
 // document.addEventListener('DOMContentLoaded', () => {
 //   document.body.addEventListener('click', (ev) => {
 //       let main = document.querySelector('main');
 //       let originalPara = main.querySelector('.original');
+//       let secondChild = main.querySelector(".second")
 //       let p = document.createElement('p');
 //       count++;
 //       p.textContent = `This is paragraph ${count} created by insertBefore.`;
-//       main.insertBefore(p, originalPara);
-//       // main.prepend(p)
-//       //main.appendChild(p); - after originalPara as the last element in main
+//       // main.insertBefore(p, originalPara);
+//       main.insertBefore(p, secondChild); // with insertBefore you can choose to insert it before 2nd child
+//       // main.prepend(p) // with prepend you cannot prepend it before 2nd child always before 1st child
+//       // main.appendChild(p);// after originalPara as the last element in main
 //   });
 
 //   document.body.addEventListener('dblclick', (ev) => {
 //       let main = document.querySelector('main');
 //       let p = document.createElement('p');
 //       p.textContent = 'This is paragraph created by insertAdjacentElement.';
-//       main.insertAdjacentElement('beforeend', p);
+//       main.insertAdjacentElement('afterend', p);
 //       // 'beforebegin', 'afterbegin', 'beforeend', 'afterend'
 //   });
 
@@ -20154,7 +20406,7 @@ client information you purposely have to send it.
 
 //   document.getElementById('btnFind').addEventListener('click', (ev) => {
 //       //find if a cookie exist
-//       let key = 'hallo';
+//       let key = 'score';
 //       let val = '';
 //       if (document.cookie.split(';').filter(item => item.trim().startsWith(`${key}=`))
 //           .length) {
@@ -20167,7 +20419,7 @@ client information you purposely have to send it.
 //   });
 // });
 
-// -------------------
+// --------------------------How to Fetch HTML--------------------
 
 
 // document.addEventListener("DOMContentLoaded", () => {
@@ -20176,8 +20428,8 @@ client information you purposely have to send it.
 
 // function getData(ev) {
 //   ev.preventDefault();
-//   const url = "http://127.0.0.1:1234/api/requestHTML.js";
-//   // const url = "./html/snippet.html";
+//   // const url = "http://127.0.0.1:1234/api/requestHTML.js";
+//   const url = "./html/snippet.html";
 //   let req = new Request(url, {
 //     method: "GET"
 //   });
@@ -20189,16 +20441,16 @@ client information you purposely have to send it.
 //       let main = document.querySelector("main");
 //       //text will be the text contents of the file.
 //       //Version 1
-//       //main.innerHTML = text;
+//       // main.innerHTML = text; // bad performance
 
-//       //Version 2
+//       //Version 2 (using method parseFromString from DOMParser object to change text(string) to document(contain elements))
 //       //new document created
 //       // let doc = new DOMParser().parseFromString(text, "text/html");
 //       // console.dir(doc);
 //       // let div = doc.body.firstElementChild; //the div from our file
 //       // main.appendChild(div);
 
-//       //Version 3
+//       //Version 3(create document fargment from text not whole document like version 2 that's why we do not need let div = doc.body.firstElementChild)
 //       let frag = document.createRange().createContextualFragment(text);
 //       // console.log(frag); //creates a document fragment
 //       main.appendChild(frag);
@@ -20271,45 +20523,82 @@ client information you purposely have to send it.
 //     obj.classList.add("active");
 //   }
 //   if (ev.target.matches("body main p#first")) {
-//     //if (ev.target === document.querySelector("#first")) {
-//     //msg("MATCHES", true);
+//     //like if (ev.target === document.querySelector("#first")) {
+//     msg("MATCHES", true);
 //   } else {
-//     //msg("NO MATCH", true);
+//     msg("DOES NOT MATCHS", true);
 //   }
 // }
 // function msg(txt, append = false) {
 //   let out = document.querySelector(".output");
 //   if (append) {
-//     out.textContent += " " + txt;
+//     out.textContent = txt + " First Paragraph";
 //   } else {
-//     out.textContent = txt;
+//     out.textContent = txt  + " First Paragraph";
 //   }
 // }
 
-// ---------------------------------Defer and Async--------------------------
+// -------------------Defer and Async attributes inside script tag--------------------------
 /*
-The difference between async and defer centers around when the script is executed. 
-Each async script executes at the first opportunity after it is finished downloading 
-and before the window’s load event. This means it’s possible (and likely) that async scripts 
-are not executed in the order in which they occur in the page. Whereas the defer scripts, 
-on the other hand, are guaranteed to be executed in the order they occur in the page. 
-That execution starts after parsing is completely finished, but before the document’s 
-DOMContentLoaded event.
-*/
-// document.addEventListener("DOMContentLoaded", () => {
-//   //runs after the DOMContentLoaded event ... if the script is loaded
-//   let h1 = document.querySelector("h1");
-//   for (let i = 0; i < 1000; i++) {
-//     h1.textContent += String.fromCharCode(Math.floor(Math.random() * 60) + 65);
-//   }
-// });
+[1] Defer : 
+The defer attribute tells the browser not to wait for the script. 
+Instead, the browser will continue to process the HTML, build DOM. 
+The script loads “in the background”, and then runs when the DOM is fully built.
 
-// //this code is parse and run...
-// let str = "";
-// for (let i = 0; i < 50000; i++) {
-//   str += String.fromCharCode(Math.floor(Math.random() * 60) + 65);
-// }
-// console.log(str.substring(49500)); //last 500 characters
+DOMContentLoaded event handler waits for the deferred script. 
+It only triggers when the script is downloaded and executed.
+
+Deferred scripts keep their relative order, just like regular scripts.
+Let’s say, we have two deferred scripts: the long.js and then small.js:
+<script defer src="https://javascript.info/article/script-async-defer/long.js"></script>
+<script defer src="https://javascript.info/article/script-async-defer/small.js"></script
+
+Browsers scan the page for scripts and download them in parallel, to improve performance. 
+So in the example above both scripts download in parallel. The small.js probably finishes first.
+…But the defer attribute, besides telling the browser “not to block”, 
+ensures that the relative order is kept. 
+So even though small.js loads first, it still waits and runs after long.js executes.
+
+The defer attribute is only for external scripts
+The defer attribute is ignored if the <script> tag has no src.
+
+[2] Async: 
+Async scripts does not keep their relative order.
+
+DOMContentLoaded and async scripts don’t wait for each other:
+* 		DOMContentLoaded may happen both before an async script (if an async script finishes loading after the page is complete)
+* 		…or after an async script (if an async script is short or was in HTTP-cache)
+
+Here’s an example similar to what we’ve seen with defer: two scripts long.js and small.js, but now with async instead of defer.
+They don’t wait for each other. Whatever loads first (probably small.js) – runs first
+
+[3] Dynamic Script : 
+let script = document.createElement('script');
+script.src = "/article/script-async-defer/long.js";
+document.body.append(script); // (*)
+The script starts loading as soon as it’s appended to the document (*).
+Dynamic scripts behave as “async” by default.
+That is:
+* 		They don’t wait for anything, nothing waits for them.
+* 		The script that loads first – runs first (“load-first” order).
+This can be changed if we explicitly set script.async=false. 
+Then scripts will be executed in the document order, just like defer.
+In this example, loadScript(src) function adds a script and also sets async to false.
+So long.js always runs first (as it’s added first)
+
+
+function loadScript(src) {
+  let script = document.createElement('script');
+  script.src = src;
+  script.async = false;
+  document.body.append(script);
+}
+
+// long.js runs first because of async=false
+loadScript("/article/script-async-defer/long.js");
+loadScript("/article/script-async-defer/small.js");
+Without script.async=false, scripts would execute in default, load-first order (the small.js probably first).
+*/
 
 // ------------------------Content-Security-Policy--------------------
 /*
@@ -20375,6 +20664,7 @@ to get SHA-256 open terminal and go to location of file and then type
 * rect   : rx & ry = round of corners / x & y = position of the start(point left 0 top 0) of the rectangle
 * line   : x1 , y1 = position of starting point of the line /  x2 , y2 = position of ending point of the line
 
+in HTML :
 <svg width="250" height="250" class="svg" viewBox="0 0 250 250">
   <circle r ="120" cx="125" cy="125" fill="none" stroke="red" stroke-width="10"/>
   <circle r ="70" cx="125" cy="125" fill="none" stroke="red" stroke-width="10"/>
@@ -20403,7 +20693,7 @@ To better understand what might be in these lists, let’s go over some examples
 - add in css File touch-action:none; because browser has a built in events
 like pull-down to refresh , two fingers to zoom in and click also out ,.... etc.
 and you should disable all of this 
-or you can add ev.preventDefault() to specific element will not work on document directly
+or you can add ev.preventDefault() to specific element will not work on document should be on specific element
 
 - touchcancel : if for some reason ( bad connection, bad screen , 
 or move from browser to another) so you can cancel the fucntion of touch 
@@ -20506,9 +20796,10 @@ properties: left, top, right, bottom, x, y, width, height.
 // const timeline = document.querySelector(".timeline")
 // let handle = document.querySelector(".handle")
 
-// // -----touch screen adn add dots 
+// // // -----touch screen adn add dots 
 
 // video.addEventListener("pointerdown", e => {
+//   console.log("hi")
 //   const dot = document.createElement("div")
 //   dot.classList.add("dot")
 //   dot.id = e.pointerId
@@ -20535,7 +20826,7 @@ properties: left, top, right, bottom, x, y, width, height.
 //   dot.style.top = `${e.pageY}px`
 // }
 
-// ---moving timeline by touch and move
+// // ---moving timeline by touch and move
 // timeline.addEventListener("pointerdown", e=>{
 //   setTimelinePositon(e)
 //   handle.setPointerCapture(e.pointerId) 
@@ -20567,7 +20858,12 @@ properties: left, top, right, bottom, x, y, width, height.
 // }
 
 // function slide(e) {
-//   slider.style.transform = `translate(${e.clientX - 70}px)`;
+//   console.log(e.clientX)
+//   let sliderPos = e.clientX - 70 // 70 is half of 140 (width of slider button)
+//   let percentage = sliderPos /  parseInt(getComputedStyle(document.body).getPropertyValue("width")) * 100
+//   if(percentage <= 100 && percentage >= 0){ // to stop at 100%
+//     slider.style.transform = `translate(${sliderPos}px)`;
+//   }
 // }
 
 // const slider = document.getElementById('slider');
@@ -20655,13 +20951,13 @@ has pointer-events: none;
 //   - narrow => a space between items inside array
 //  * type = 
 //   - conjunction => will add before last item & (incase of short) or and (incase of long) or nothing (incase of narrow)
-//   - disjunction => will add before last item or
+//   - disjunction => will add before (or) last item 
 //   - unit (will ignore long)
 //  **/
 // // accept two optional parameters : language format and options object
 // const formatter = new Intl.ListFormat("en", {
 //   style: "short",
-//   type: "unit"
+//   type: "disjunction"
 // }); //
 // main.innerHTML += "<p>" + formatter.format(staff) + "</p>";
 
@@ -20680,6 +20976,7 @@ normalize() method of any node => search for splitted textnodes and merge then t
 //   });
 // });
 // function clicked(ev) {
+//   console.log("hi")
 //   let p = ev.target;
 //   let txt = p.firstChild;
 //   // console.log(
@@ -20690,7 +20987,7 @@ normalize() method of any node => search for splitted textnodes and merge then t
 //   let len = txt.length;
 //   let rand = Math.floor(Math.random() * len);
 //   //console.log(len, rand);
-//   txt.splitText(rand);
+//   txt.splitText(rand); // you will not see the difference on webpage but you can see the splitted text when you inspect on that element
 // }
 // function fix(ev) {
 //   let p = ev.target;
@@ -20704,7 +21001,7 @@ elementFromPoint => clicked element only
 elementsFromPoint => clicked element and it's parents in parent chain
 caretPositionFromPoint => object has 2 properties (offsetNode , offset)
   - offsetNode => textNode
-  -  offset => position inside textNode
+  - offset => position inside textNode
 
 -all of them accept two parameters x,y positions
 */
@@ -20720,21 +21017,23 @@ caretPositionFromPoint => object has 2 properties (offsetNode , offset)
 
 //   clearHighlight();
 
-//   // let elem = document.elementFromPoint(ev.x, ev.y);
-//   // elem.classList.add("clicked");
+//   let elem = document.elementFromPoint(ev.x, ev.y);
+//   console.log(elem) // p => clicked element only
+//   elem.classList.add("clicked");
 
-//   // let elems = document.elementsFromPoint(ev.x, ev.y);
-//   // elems.forEach(el => {
-//   //   el.classList.add("clicked");
-//   // });
+//   let elems = document.elementsFromPoint(ev.x, ev.y);
+//   console.log(elems) // [p , main , body , html] => clicked element and it's parents in parent chain 
+//   elems.forEach(el => {
+//     el.classList.add("clicked");
+//   });
   
-//   // let caretPosition = document.caretPositionFromPoint(ev.x, ev.y); //Firefox and Safari only
-//   // let el = caretPosition.offsetNode;
-//   // if (el.nodeType == 3) { // 3 means textNode so we need to get it's parent to add class
-//   //   el = el.parentElement;
-//   // }
-//   // el.classList.add("clicked");
-//   // console.log(caretPosition.offset); 
+//   let caretPosition = document.caretPositionFromPoint(ev.x, ev.y); //Firefox and Safari only
+//   let el = caretPosition.offsetNode; // textNode
+//   if (el.nodeType == 3) { // 3 means textNode so we need to get it's parent to add class
+//     el = el.parentElement;
+//   }
+//   el.classList.add("clicked");
+//   console.log(caretPosition.offset); 
 // }
 
 // function clearHighlight() {
@@ -20775,7 +21074,8 @@ caretPositionFromPoint => object has 2 properties (offsetNode , offset)
 // //version 2a - document.createDocumentFragment()
 // //version 2b - new DocumentFragment()
 // let frag = new DocumentFragment();
-// frag.append(strHTML2); //will keep it as the same string
+// frag.append(strHTML2); // will not be appended to webpage
+// // will keep it as the same string
 // // innerHTML not available on a document fragment
 // // need to create actual DOM nodes to append...
 // // so we can do pattern matching on the string can create the nodes
@@ -20848,7 +21148,8 @@ caretPositionFromPoint => object has 2 properties (offsetNode , offset)
 // (async function f() {
 //   let badurl = "http://";
 //   let goodurl = "http://jsonplaceholder.typicode.com/users";
-//   let url = Math.round(Math.random()) ? badurl : goodurl;
+//   let rand = Math.round(Math.random())
+//   let url = rand ? badurl : goodurl;
 //   // here we use await before fetch and this will return response object 
 //   // and used another await because .json() also asynchrnous and return promise so we need await to get data
 //   let data = await (await fetch(url).catch(handleErr)).json();
@@ -20871,7 +21172,7 @@ caretPositionFromPoint => object has 2 properties (offsetNode , offset)
 // }
 
 // -------------------------MatchMedia-------------
-// // return mediaQueryList and has property called matches (true or false)
+// return mediaQueryList and has property called matches (true or false)
 // document.addEventListener("DOMContentLoaded",init)
 // window.addEventListener("resize", init) // to make dynamic 
 
@@ -20891,10 +21192,11 @@ caretPositionFromPoint => object has 2 properties (offsetNode , offset)
 
 // document.addEventListener("DOMContentLoaded", () => {
 //   //handle click event
-//   let body = document.body;
-//   body.addEventListener("click", ev => {
+//   let body = document.body
+//   let burger = document.querySelector(".burger");
+//   burger.addEventListener("click", ev => {
 //     console.log("toggle expanded on header");
-//     ev.currentTarget.classList.toggle(
+//     body.classList.toggle(
 //       "expanded"
 //     ); /* showing the menu and the X */
 //   });
@@ -20939,17 +21241,6 @@ caretPositionFromPoint => object has 2 properties (offsetNode , offset)
 // });
 
 
-// let foo = function (a,b) {
-//   console.log(this.x)
-//   console.log(arguments)
-// }
-
-// let obj = {
-//   x : 10
-// }
-
-
-
 // -------------------encodeURI vs encodeURIComponent-----------------
 /**
 encodeURI => keep URI as it is and can be used as href
@@ -20968,6 +21259,8 @@ Sample text
 http://user@pass:www.example.com:5000/path/file?name=value&name2=value2#someId
 
 😀 😁 😂 🤣 😃 😄 😅
+
+try this to on encodeURI and encodeURIComponent https://domain.com/path to a document.pdf
 **/
 // document.addEventListener("DOMContentLoaded", () => {
 //   document
@@ -21028,15 +21321,15 @@ values of block or inline => "start", "nearest", "center", or "end"
 //   document.documentElement.scrollTo(0, 250); // to position 0, 250
 // });
 // by.addEventListener('click', (ev)=>{
-//   document.documentElement.scrollBy(0, 0); //250px down from current position
+//   document.documentElement.scrollBy(0, 100); //250px down from current position
 // });
 // into.addEventListener('click', (ev)=>{
-//   // by.scrollIntoView(true); //show the scroll-by element into view
-//   by.scrollIntoView({
-//     behavior: 'smooth',
-//     block: 'center',
-//     inline: "start"
-//   })
+//   by.scrollIntoView(true); //show the scroll-by element into view if false depend on browser(safari) will scroll to the top of page
+//   // by.scrollIntoView({
+//   //   behavior: 'smooth',
+//   //   block: 'center',
+//   //   inline: "start"
+//   // })
 // });
 
 // -----------------------------Shrinking Header--------------------
@@ -21045,8 +21338,9 @@ values of block or inline => "start", "nearest", "center", or "end"
 //   window.addEventListener("scroll", debounce(rollup));
 // });
 
+
 // function rollup(ev) {
-//   console.log(window.scrollY);
+//   // console.log(window.scrollY);
 //   if (window.scrollY > 60) {
 //     document.body.classList.add("up");
 //   } else {
@@ -21075,8 +21369,13 @@ and its parent. It's just a detachment.
 remove only needs a reference to the child. 
 removeChild needs a reference both to the parent and the child. The result is identical.
 
-after remving element it is not removed from the memory and you can append it again
+after removing element it is not removed from the memory and you can append it again
 if you want to remove it from memory you can do this : element = null;
+
+The closest() method searches up the DOM tree for elements which matches a specified CSS selector.
+The closest() method starts at the element itself, then the anchestors (parent, grandparent, ...) until a match is found.
+The closest() method returns null() if no match is found.
+
 */
 // document.addEventListener('DOMContentLoaded', () => {
 //   document.querySelector('main').addEventListener('click', removePara);
@@ -21090,6 +21389,7 @@ if you want to remove it from memory you can do this : element = null;
 //   // currentTarget is the element that owns the eventListener
 //   let main = ev.currentTarget;
 //   let p = ev.target.closest('.para');
+//   console.log(p)
 //   p?.parentElement.removeChild(p); // optional chaining
 //   // if (p) {
 //   //   main.removeChild(p);
@@ -21101,7 +21401,7 @@ if you want to remove it from memory you can do this : element = null;
 // }
 
 // ------------------------------------Using FormData to ParseForms--------------------------
-// do not forget to add name attribute to each input if not no data will sent to server
+// do not forget to add name attribute (in HTML )to each input if not no data will sent to server
 // document.addEventListener('DOMContentLoaded', () => {
 //   document
 //     .getElementById('myForm')
@@ -21176,8 +21476,8 @@ if you want to remove it from memory you can do this : element = null;
 /*
 URL properties
 hash - The part that starts with `#` and refers to an id
-host - Same as hostname except a specified port would be included
 hostname - the domain part without the http://
+host - Same as hostname plus port number
 href - the full url. Same as using .toString() method
 origin - Same as host prefixed with the protocol
 password - https://username:password@www.example.com
@@ -21279,6 +21579,10 @@ use instead touch-action inside CSS File
   window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change",function(){})
   both will trigger at same time it does not matter which mode or changing to which mode 
   so i add only 1 addEventListener and add checkMode() function to check the mode
+
+  The prefers-color-scheme CSS media feature is used to detect if a user has requested 
+  light or dark color themes. A user indicates their preference through an operating system 
+  setting (e.g. light or dark mode) or a user agent setting.
 */
 
 // let h2 = document.createElement("h2");
@@ -21309,17 +21613,6 @@ use instead touch-action inside CSS File
 //   }
 // }
 
-// let link = document.querySelector("a")
-// let testing = document.getElementById("test")
-// document.body.addEventListener('touchstart', function(ev){
-//   console.log(ev)
-// });
-
-// link.addEventListener("pointerdown",function(ev){
-//   if(ev.pointerType === "touch"){
-//     window.alert(ev.defaultPrevented)
-//   }
-// })
 
 // --------------------------------Long Press event--------------------------
 // document.addEventListener('DOMContentLoaded', () => {
@@ -21485,6 +21778,7 @@ but you can have multiple event listeners
 // })
 
 // ------------------------------Composed Path event--------------------
+// composedPath() return an array of full path of an element inside DOM (from that element to it's parents till window)
 // document.addEventListener('DOMContentLoaded', () => {
 //   //add click listeners to ALL elements inside main
 //   document.querySelectorAll('main *').forEach(addClick);
@@ -21498,69 +21792,6 @@ but you can have multiple event listeners
 //     console.log(ev.target.tagName);
 //     console.log(ev.composedPath()); // Array
 //   });
-// }
-
-// -----------------------Copy and Paste Events---------------------
-
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   document.addEventListener('copy', doCopy);
-//   document.addEventListener('paste', doPaste);
-//   document.querySelector('h1').addEventListener('click', autoCopy);
-// });
-
-// function doCopy(ev) {
-//   //ev is a ClipBoardEvent
-//   // if you didn't preventDefault will copy the text as default without any changes (UPPERCASE)
-//   ev.preventDefault();
-//   // what has the user selected (return selection object and you can get the text by using toString())
-//   // get the actual selected text if you want to make changes to it
-//   let selection = document.getSelection(); 
-//   selection = selection.toString().toUpperCase();
-//   console.log(selection); //UPPERCASE
-//   // setData method for copy event and getData method for paste event
-//   ev.clipboardData.setData('text/plain', selection);
-// }
-
-// function doPaste(ev) {
-//   // ev.clipboardData - is a DataTransfer object
-//   let data = ev.clipboardData.getData('text/plain');
-//   let txtNode = document.createTextNode(data)
-//   //data is the content we copied above
-//   console.log(data);
-
-//   // let txt = document.createTextNode(data);
-
-//   let span = document.createElement('span');
-//   span.textContent = data;
-//   // to know which element i selected to do the paste (one of two <p> that has attribute contenteditable="true") 
-//   // selection object has property called parentElement 
-//   // if you just click on the element text will be "" if you select text the text will be selected text
-//   let selection = document.getSelection();
-//   // to make a sure that is a valid selection
-//   if (!selection.rangeCount) return false;
-//   //remove the old content that was selected (its the default behaviour of browser to remove
-//   // selected text and paste the new text above but because we preventDefault we disable 
-//   // this default behavior and we need to delete selected text manually)
-//   selection.deleteFromDocument();
-//   //inserts before the selected area (you can add text node or element node and add css to this element(red color for exp.))
-//   selection.getRangeAt(0).insertNode(txtNode);
-//   // selection.getRangeAt(0).insertNode(span);
-// }
-
-// function autoCopy(ev) {
-//   let h1 = ev.target;
-//   let select = document.getSelection();
-//   console.log(select)
-//   // remove all ranges to create a new one (selecting multiple ranges not supported in all browsers)
-//   select.removeAllRanges();
-//   let range = document.createRange();
-//   // select the h1.firstChild => text node
-//   range.selectNode(h1.firstChild); 
-//   //highlight the whole selection
-//   select.addRange(range);
-//   //then tell the browser to do a copy ( this will trigger the doCopy function )
-//   document.execCommand('copy');
 // }
 
 // ------------------------------Page Lifecycle API---------------------------
@@ -21595,9 +21826,10 @@ the value of this property at page load time (note: discarded pages must be relo
 
 developers can now observe when a hidden tab is frozen and unfrozen by listening for the freeze and resume events on document.
 
-Not all Page Lifecycle events have the same target. pagehide, and pageshow are fired on 
-window; visibilitychange, freeze, and resume are fired on document, and focus and blur are 
-fired on their respective DOM elements.
+Not all Page Lifecycle events have the same target. 
+pagehide, and pageshow are fired on window; 
+visibilitychange, freeze, and resume are fired on document
+focus and blur are fired on their respective DOM elements.
 
 * bfcache (back forward cache)
 bfcache is an in-memory cache that stores a complete snapshot of a page 
@@ -21780,8 +22012,7 @@ an animation and requests that the browser calls a specified function to update 
 animation before the next repaint. The method takes a callback as an argument to be 
 invoked before the repaint.
 
-If you go to another tab on browser (visibilitystate hidden ) the browser will pause 
-the requestAnimationFrame
+If you go to another tab on browser (visibilitystate hidden ) the browser will pause the requestAnimationFrame
 But setInterval will still running in background
 
 The callback method is passed a single argument, 
@@ -21799,6 +22030,7 @@ DOMHighResTimeStamp value will change according to the refresh rate of screen
 //   output.textContent = number;
 
 //   if (number < 300) {
+//     // paint(); // if we use this we will not see number increase will see 300 immediatlty
 //     requestAnimationFrame(paint);
 //   }
 // }
@@ -21806,18 +22038,21 @@ DOMHighResTimeStamp value will change according to the refresh rate of screen
 // function move(timmy) {
 //   if (timmy) {
 //     let diff = timmy - number;
-//     console.log('frame', diff);
+//     console.log('DOMHighResTimeStamp', timmy);
+//     console.log('frame', diff); // 16.6 means 60 fps
 //     number = timmy; //DOMHighResTimeStamp
 //   }
 //   xpos = xpos + 5;
 //   box.style.transform = `translateX(${xpos}px)`;
 //   let ww = document.body.clientWidth - 100;
 //   if (xpos < ww) {
+//     // move() // if we use this will not see block moving we will see it at the end immediatly
 //     requestAnimationFrame(move);
 //   }
 // }
 
-// window.requestAnimationFrame(move);
+// // paint()
+// move()
 
 // ---------------------alert , confirm & prompt------------------
 // document.addEventListener('DOMContentLoaded', () => {
@@ -21842,17 +22077,17 @@ DOMHighResTimeStamp value will change according to the refresh rate of screen
 // function handleClickP(ev) {
 //   //prompt
 //   let answer = prompt('This is my question', 'default answer');
-//   console.log(answer); //answer null
+//   console.log(answer); //answer -- null if cancel
 // }
 
 // ----------------------------------window.open()---------------------------
 /*
-* target attribute : 
-[1] _blank => open in new tab or window ( depend on features)
-[2] _self => open at the same tab (doesn't depend on features)
+* values inisde target attribute in <a> in HTML or window.open(url, '_blank', features) : 
+[1] _blank => open in new tab or window ( depend on features options )
+[2] _self => open at the same tab (doesn't depend on features options)
 [3] frame name => open at iframe with attribute name ="frame name"
-[4] _parent => open in the parent frame (if the link inside iframe)
-[5] _top => value opens the page in the top frame which always is the full browser tab/window.
+[4] _parent => Will open the in the next level up of a frame if they were nested to inside one another
+[5] _top => his breaks outside of all the frames it is nested in and opens the link as top document in the browser window.
 */
 
 // let other = null; //will be our window reference
@@ -21908,9 +22143,7 @@ Because of the different ways of doing this, and because you have to inform the 
 multiple selection is available, it is more user-friendly to use checkboxes instead.
 */
 // document.addEventListener('DOMContentLoaded', () => {
-//   document
-//     .getElementById('flavours')
-//     .addEventListener('input', handleSelect);
+//   document.getElementById('flavours').addEventListener('input', handleSelect);
 //   document.getElementById('thing').addEventListener('input', handleData);
 // });
 
@@ -21920,6 +22153,7 @@ multiple selection is available, it is more user-friendly to use checkboxes inst
 //   //  incase of multiple selection
 //   let select = ev.target; 
 //   console.log(select.value);
+//   console.log(select.selectedOptions) // HTML Collection
 //   let choices = [];
 //   // for (let i = 0; i < select.selectedOptions.length; i++) {
 //   //   choices.push(select.selectedOptions[i].value);
@@ -21936,7 +22170,7 @@ multiple selection is available, it is more user-friendly to use checkboxes inst
 /*
 console.trace() => show you the call path taken to reach the point at which you call console.trace()
 1st anonymous means global scope
-any other anonymous functions without names
+function scope if has name will show it's name if not will show anonymous
 */
 // let log = console.log;
 // let str = 'Hello';
@@ -21971,18 +22205,18 @@ any other anonymous functions without names
 //   },
 // };
 
-// // log('1st: ', str, num, bool);
-// // log('2nd: ' + str + ' ' + num);
+// log('1st: ', str, num, bool);
+// log('2nd: ' + str + ' ' + num);
 
 // // log('3rd: ' + data);
 // // log('4th:', data);
 // // log({ data });
 
-// // console.table(data);
-// // console.table(data.prop2);
+// console.table(data);
+// console.table(data.prop2);
 
-// // funcs.f1();
-// // funcs.f4();
+// funcs.f1();
+// funcs.f4();
 // setTimeout(function bob() {
 //   funcs.f4(); 
 // }, 1000);
@@ -21998,6 +22232,7 @@ monitorEvents(document.body, 'keydown');
 // to remove the event
 unmonitorEvents(document.body, "keydown")
 */
+
 
 // --------------------------practical EXP. LocalStorage--------------
 // const APP = {
@@ -22100,8 +22335,8 @@ unmonitorEvents(document.body, "keydown")
 
 // ---------------------------form Events----------------------
 
-//blur or change: can be used for validation when pattern needed
-//input: better for validation than change in most cases
+// blur or change: can be used for validation when pattern needed
+// input: better for validation than change in most cases
 
 // document.addEventListener('DOMContentLoaded', () => {
 //   //add event listeners to form elements
@@ -22181,9 +22416,9 @@ unmonitorEvents(document.body, "keydown")
 //   console.log(ev.type.toUpperCase(), 'Submitting the Form');
 // }
 
-// ------------------------exp. of module and destructuring------------------
+// ------------------------exp. of module and destructing------------------
 /*
-benifits of destructuring here is :
+benifits of destructing in user.js is :
 [1] we should not pass argument at same order of submit function inside user.js (inside module folder)
 [2] we can add more parameters to submit function without effecting our code here
 */
@@ -22197,10 +22432,10 @@ benifits of destructuring here is :
 //     APP.addListeners();
 //   },
 //   addListeners() {
-//     let form = document.sampleForm;
+//     let form = document.sampleForm; // beacuse form element has attribute name = "sampleForm"
 //     form.addEventListener('keypress', (ev) => {
 //       let key = ev.keyCode || ev.which;
-//       if (key === 10 || key === 13) {
+//       if (key === 10 || key === 13) { // Enter Key
 //         APP.send(ev);
 //       }
 //     });
@@ -22215,7 +22450,7 @@ benifits of destructuring here is :
 //     let password = document.getElementById('pass');
 //     let language = document.getElementById('lang');
 //     let endpoint = '/register';
-//     // destructuring 
+//     // Property Value Shorthand and destructing
 //     let obj = {
 //       email : em,
 //       password,
@@ -22274,18 +22509,20 @@ minlength
 maxlength
 pattern => here add regular expression (you have to add required attribute wihout it will accept if you didn't add input)
 novalidate => only for form element (specifies that the form-data (input) should not be validated when submitted)
+formnovalidate => you can add this attribute to submit button to submit or save without validation
 
 [2] selectors in CSS :
 input:focus
-input:read-only
+input:focus-within => matches an element if the element or any of its descendants are focused
+input:read-only => if element has readonly attribute at HTML
 input:read-write => default doesn't have read-only attribute
-input:disabled
-input:required
+input:disabled => if element has disabled attribute at HTML
+input:required => if element has required attribute at HTML
 input:optional => default doesn't have required attribute
 ::placeholder => style for the text
 :placeholder-shown => style for the filed itseld that has text placeholder
-input:valid
-input:invalid 
+input:valid => when you enter valid input
+input:invalid => when you enter invalid input 
 :in-range => you have to add value attribute if you want to show style at the beginning
 :out-of-range => you have to add value attribute if you want to show style at the beginning
 */
@@ -22305,12 +22542,9 @@ input:invalid
 badInput, customError, patternMismatch, rangeOverflow, rangeUnderflow
 stepMismatch, tooLong, tooShort, typeMismatch, valid, valueMissing
 
--willValidate readonly prop - boolean willValidate is a property that says whether ]
-or not an input can be validated, not if it is valid or not. The only time that willValidate 
+-willValidate readonly prop - boolean willValidate is a property that says whether or not
+input can be validated, not if it is valid or not. The only time that willValidate 
 is false is if the input element is disabled or the like.
-
--validationMessage - readonly prop from browser validation
-                    or setCustomValidity( ) method
 
 -checkValidity() checks element, returns boolean,
                 fires the invalid event
@@ -22318,6 +22552,9 @@ is false is if the input element is disabled or the like.
 -setCustomValidity(msg) if called with non-empty string it
                     will change the value of validity.valid
                     to false and validity.customError to true
+
+-validationMessage - readonly prop from browser validation
+                    or setCustomValidity( ) method
 
 -reportValidity() checks AND reports result
                   this shows the browser tooltip with warning
@@ -22329,7 +22566,9 @@ So the main difference is that checkValidity() will also fire an "invalid" event
 If you just want to know whether the value is valid, use ValidityState.valid. 
 But if you want to change the form state to invalid, use checkValidity().
 
-
+*difference between checkValidity() and reportValidity() :
+checkValidity() check and fires invalid event
+reportValidity() check , fires invalid event and show message of setCustomValidity() on screen
 */
 
 // const APP = {
@@ -22380,8 +22619,10 @@ But if you want to change the form state to invalid, use checkValidity().
 //   },
 //   testEmail(ev) {
 //     let email = ev.target;
-//     console.log(email.validity);
-//     console.log('willValidate2', email.willValidate);
+//     console.log(email.validity); // ValidityState object
+//     console.log(email.validity.valid); // true - false if not valid
+//     console.log(email.checkValidity()) // true - false if not valid and trigger invalid event
+//     console.log(email.willValidate) // always true except disabled input
 //     email.setCustomValidity(''); //clear old message
 //     //built-in test for error based on type, pattern, and other attrs
 //     let currently = email.checkValidity();
@@ -22390,9 +22631,10 @@ But if you want to change the form state to invalid, use checkValidity().
 //       let emReg = new RegExp('@gmail.com$', 'i');
 //       if (emReg.test(email.value) === false) {
 //         //not a gmail address
-//         // email.setCustomValidity('NOT a gmail address.');
+//         email.setCustomValidity('NOT a gmail address.');
 //         console.log(email.validationMessage); // 'NOT a gmail address'
-//         email.reportValidity(); //show the custom message, trigger invalid event
+//         email.reportValidity(); //show the custom message(on screen), trigger invalid event
+//         // email.checkValidity(); //will not show the custom message(on screen), trigger invalid event
 //       }
 //     }
 //   },
@@ -22462,6 +22704,84 @@ But if you want to change the form state to invalid, use checkValidity().
 // };
 // document.addEventListener('DOMContentLoaded', APP.init);
 
+// -------------------------------History API---------------------------------
+// console.log(location.href) // link
+// console.log(location.protocol) // http: protcol decide how info transfered between server and client
+// console.log(location.host) // host name
+// console.log(location.port) // :5500 or befault port used by http: :80
+// console.log(location.hash) // #id will scroll page to element with this id
+// console.log(location.pathname) // file location on server
+// console.log(location.search) // QueryString ?name=Soliman&age=33
+// location.replace(new url) // will replace current page to new one
+// location.reload() // will reload current page
+// window.location.reload() if you pass true, then the browser loads a fresh page, 
+// but if false, then the cache version is loaded...
+
+// history.go(3) // go forward 3 steps 
+// history.go(-3) // go backward 3 steps 
+// history.back() // go backword 1 step // like history.go(-1)
+// history.forward() // go forward 1 step // like history.go(1)
+// history.state
+
+
+//  pushState, replaceState, history.state, popstate, hashchange 
+// http:// sub.example.com :80 /path/filename.html 
+// ?query=string&num=1
+// #hashvalue - comes after the querystring
+// 127.0.0.1 localhost
+
+
+// document.addEventListener('DOMContentLoaded', ()=>{
+//   // this object will be added to history.state and you can access it
+//   //history.pushState({"abc":123}, "title", url);  //add to the array
+//   //history.replaceState({"abc":123}, "title", url);   //replace current entry
+//   //history.pushState(null, "Title", "pretend.html");
+
+//   //add listeners to buttons and links that navigate
+//   document.getElementById("link").addEventListener('click', c);
+
+//   //add listeners for hashchange and popstate
+//   // will trigger if we press back or forward arrow from browser or link inside webpage
+//   window.addEventListener("hashchange", hc); // will be triggered if hash changed in url
+//   window.addEventListener("popstate", ps); // will be triggered if the whole URL changed
+  
+// });
+
+// function c(ev){
+//   show('clicked');
+//   ev.preventDefault(); // because of this will not trigger popstate 
+//   let href = ev.currentTarget.href;
+//   let pid = ev.currentTarget.getAttribute("data-person");
+//   show(href);
+//   // history.pushState({"pid":pid}, "title", href); // will add to history list in browser
+//   history.replaceState({"pid":pid}, "title", href); // will no add anything to history list will only change the current 
+//   loadPerson();
+// }
+
+// function loadPerson(){
+//   show('LoadPerson');
+//   show(history.state.pid);
+// }
+
+// function hc(ev){
+//   // ev.newURL  ev.oldURL
+//   show("hashchange");
+//   //location.hash
+// }
+// function ps(ev){
+//   //  ev.state
+//   show("popstate");
+// }
+
+// function show(output){
+//   let p = document.createElement('p');
+//   p.textContent = output;
+//   document.getElementById('output').appendChild(p);
+//   setTimeout(_ => {
+//       document.getElementById('output').removeChild(p);
+//   }, 4000);
+// }
+
 // ------------------history pushState() and replaceState()----------
 /*
 history.replaceState(data, title, url)
@@ -22505,7 +22825,7 @@ history.pushState(data, title, url)
 
 - hashchange => is fired when the fragment identifier of the URL has changed 
     (the part of the URL beginning with and following the # symbol).
-    not fired by istory.pushState() or history.replaceState()
+    not fired by history.pushState() or history.replaceState()
 
 - queryString => fresh reload of the page
 */
@@ -22568,7 +22888,7 @@ history.pushState(data, title, url)
 //     let hash = `#${home.toLowerCase()}`;
 //     history.pushState(state, '', hash);
 //     document.title = home;
-//     // if you don't to add them to history array
+//     // if you don't want to add them to history array
 //     // history.replaceState(state, '', hash);
 //     APP.updateLayout(home.toLowerCase());
 //   },
@@ -22654,11 +22974,13 @@ we are using here another html called other (look at html file)
 //     if (!APP.names) {
 //       APP.names = [];
 //     }
-//     element.innerHTML = APP.names
+//     if(element){
+//       element.innerHTML = APP.names
 //       .map((obj) => {
 //         return `<li data-key="${obj.id}">${obj.name}</li>`;
 //       })
 //       .join('\n');
+//     }
 //   },
 // };
 
@@ -22671,7 +22993,7 @@ we are using here another html called other (look at html file)
 //   //populate data
 //   APP.buildList(list);
 //   //add listeners
-//   document.AddForm.addEventListener('submit', addName);
+//   document.AddForm?.addEventListener('submit', addName);
 //   window.addEventListener('storage', (ev) => {
 //     console.log({ ev });
 //     let targetURL = new URL(ev.url);
@@ -22704,12 +23026,16 @@ IndexedDB can be treated like Local / SessionStorage with key values pairs.
 The big differences between localStorage and IndexedDB are:
 
 [1] IndexedDB does not need to use the JSON.parse or JSON.stringify methods.
-[2] IndexedDB can be used from a webpage OR Service Worker.
+[2] IndexedDB can be used from Service Worker.(localStorage can not be used from Service Worker )
 [3] IndexedDB can store BLOBs (binary data).
-[4] The idb-keyval library does not:
+
+The idb-keyval library does not:
   ...allow for multiple stores/collections per database.
   ...have cursors.
   ...expose transactions.
+
+  *****playlist for IndexedDB
+  https://youtube.com/playlist?list=PLyuRouwmQCjmNyAysdqjNz5fIS5cYU4vi
 */
 // import {
 //   get,
@@ -22803,7 +23129,8 @@ The big differences between localStorage and IndexedDB are:
 // --------------------------catching error or rejected inside then---------------
 /*
 then can accept two function as parameters 
-1st function is for resolve / 2nd function is for reject or error from last then or fetch istself
+1st function is for resolve 
+2nd function is for reject or error from last then or fetch istself
 
 for exp. : 
 2nd function in 1st then will catch error from fetch (failed to fetch)
@@ -22836,14 +23163,15 @@ But 404(not found) error will not go to .catch Handler
 //       //resolved
 //       console.log('resolve');
 //     },
-//     (err) => {
-//       console.log(err);
+//     (reject) => {
+//       console.log(reject);
 //     }
 //   )
 //   .catch((err) => {
 //     //handle any errors
 //     console.log('error catch');
 //   });
+
 
 // fetch(url)
 //   .then(
@@ -22892,7 +23220,7 @@ But 404(not found) error will not go to .catch Handler
 //     console.log('Something went wrong.', error); 
 //   });
 
-// --------------------------------
+// --------------------------------fetch sample for html or json or blob--------------
 // let url = 'http://127.0.0.1:5500/videos/Eloquent.jpeg';
 
 // let options = {
@@ -22925,7 +23253,7 @@ But 404(not found) error will not go to .catch Handler
 //   }
 //   return obj;
 // })
-// .then(({ html, json, blob }) => {
+// .then(({ html, json, blob }) => { // destructring
 //   //handle the contents of the file
 //   if (html) {
 //     const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -23001,7 +23329,7 @@ But 404(not found) error will not go to .catch Handler
 //     // files[new URL(respLG.url).pathname] = respLG.headers.get(
 //     //   'content-length'
 //     // );
-//     console.log({ files });
+//     console.log(files );
 //   })
 //   .catch((err) => {
 //     console.warn(err.message);
@@ -23019,7 +23347,7 @@ But 404(not found) error will not go to .catch Handler
 //     // `http://127.0.0.1:3003/character.html?char=louise`
 //     navigator.registerProtocolHandler(
 //       `web+bob`,
-//       `http://127.0.0.1:5500/html/charachters.html?char=%s`, // %s means web+bob: + string written in href
+//       `http://127.0.0.1:5500/html/charachters.html?char=%s`, // %s means string after web+bob: 
 //       `Title`
 //     );
 
@@ -23045,6 +23373,8 @@ But 404(not found) error will not go to .catch Handler
 
 // -------------------------image lazy loading------------------
 /*
+eager or lazy attributes from img element : 
+
 - eager : 
 The default behavior, eager tells the browser to load the image as soon as 
 the <img> element is processed.
@@ -23104,9 +23434,9 @@ it will appear in the window's visual viewport.
 // ------------------------decode attribute & decode() method on images-------------
 /*
 - decode attribute :
-* sync : Decode the image synchronously for atomic presentation with other content.
-* async : Decode the image asynchronously to reduce delay in presenting other content.
-* auto : Default mode, which indicates no preference for the decoding mode. The browser decides what is best for the user.
+* sync: the rendering will continue only after the image is ready; preferred for a "complete experience"
+* async: continue the rendering and as soon as image decoding is complete, the browser will update the presentation; preferredfor performance
+* auto: will let the browser do what it determines is best approach (not sure who it decides that)
 
 - decode() method : 
 One potential use case for decode(): when loading very large images 
@@ -23119,6 +23449,8 @@ full-resolution image is ready for use.
 // document.addEventListener('DOMContentLoaded', () => {
 //   //when the HTML has finished loading
 //   console.log('got the HTML');
+  
+//   // steves ways (there is an error here)
 //   // let images = document.querySelectorAll('img[decode="async"]');
 //   // images.forEach(function (img) {
 //   //   img.addEventListener('load', (ev) => {
@@ -23162,6 +23494,7 @@ full-resolution image is ready for use.
 //       },100,img)
 //     });
 //   }
+
 // });
 
 // window.addEventListener('load', () => {
@@ -23263,8 +23596,9 @@ full-resolution image is ready for use.
 // };
 
 // const wait = (ev) => {
-//   //callback version
 //   let delay1 = 3;
+  
+//   //callback version
 
 //   // delayCallback(() => {
 //   //   let delay2 = changeBtnColor();
@@ -23436,8 +23770,13 @@ watch this video (https://youtu.be/GxpUp0FecEw) to understand
 //   if(obj.classList.contains('draggable')){
 //     obj = obj.firstElementChild;
 //   }
+
+//   // When a drag occurs, a translucent image is generated from the drag target 
+//   // (the element the dragstart event is fired at), and follows the mouse pointer during 
+//   // the drag. This image is created automatically, so you do not need to create it yourself. 
+//   // However, if a custom image is desired, the DataTransfer.setDragImage() method can be used
 //   // console.log('DRAGSTART');
-//   // ev.dataTransfer.setDragImage(dragElement, 50, 50);
+//   // ev.dataTransfer.setDragImage(dragElement, 50, 50); // (image, xOffset , yOffset)
 //   // ev.dataTransfer.setDragImage(imgElement, 50, 50);
 //   // ev.dataTransfer.setData('text/plain', ' No MORE DATA ');
   
@@ -23446,13 +23785,14 @@ watch this video (https://youtu.be/GxpUp0FecEw) to understand
 //   myData.url = obj.href?obj.href: obj.src? obj.src:'';
 //   myData.timestamp = Date.now();
 //   let data = JSON.stringify(myData);
-//   ev.dataTransfer.setData('application/json', data);
+//   ev.dataTransfer.setData('application/json', data); // (format , data) => type and data to be added to drag object
+//   console.log(ev.dataTransfer.getData("application/json"))
 //   obj.setAttribute('data-ts', myData.timestamp);
   
 //   let dataList = ev.dataTransfer.items;
 //   for(let i=0; i<ev.dataTransfer.items.length; i++){
 //     let item = ev.dataTransfer.items[i];
-//     // console.log(i, item.kind, item.type);
+//     console.log(i, item.kind, item.type);
 //   }
   
 // }
@@ -23475,6 +23815,7 @@ watch this video (https://youtu.be/GxpUp0FecEw) to understand
 //   let len = ev.dataTransfer.items.length;
 //   for(let i = 0; i < len; i++){
 //     let item = ev.dataTransfer.items[i];
+//     console.log(item)
 //     if(item.kind === 'string' && item.type.match('^text/html')){
 //       //i got an html element
 //     }
@@ -23635,9 +23976,9 @@ https://locationiq.com/docs-html/index.html?javascript#static-maps
 //   let root = document.querySelector(":root")
 //   // CSSStyleDeclaration object (key : number , value : style name)
 //   console.log(getComputedStyle(body)) 
-//   // CSSStyleDeclaration object (key : style name , value : value) but only value added by js file not css
+//   // CSSStyleDeclaration object (key : style name , value : value) but only values added by js file not css
 //   console.log(body.style) 
-//   // if you need to get value added bu css file use get
+//   // if you need to get value added by css file use get
 //   console.log(getComputedStyle(body).getPropertyValue("color")) // green in rgb
 //   // to be able to use body.style.color you should add it by js file
 //   console.log(body.style.color) // empty not green (in CSS file)
@@ -23714,6 +24055,7 @@ luxon video (https://youtu.be/vAuUzEwTbck)
 //   output.textContent = newDt.setLocale('fr-CA').toLocaleString(f);
 // });
 
+
 // --------------------------file object and fileList (and using fetch)---------------------------
 /*
 in HTML file you can write what are the accepted files types inside accept attribute: 
@@ -23746,7 +24088,7 @@ in HTML file you can write what are the accepted files types inside accept attri
 //     // h.append('content-type', files[0].type);
 //     // h.append('content-length', files[0].size);
 
-//     // if you want to select mutliple files yoy can not add header put you can use FormData and 
+//     // if you want to select mutliple files you can not add header but you can use FormData and 
 //     // the browser will create "Content-disposition": "Multipart/Form-Data" by default and 
 //     // create a boundary also (a seperating text between selected files )
 //     //  "Content-disposition": "Multipart/Form-Data;boundary=--asdlkasj(random string created by browser)"
@@ -23832,6 +24174,11 @@ TypedArray - It is an Array-like view of raw bytes stored as
 
 ArrayBuffer can be passed as parameter to DataView to edit it (for get and set methods)
 ArrayBuffer can be passed as parameter to TypedArray because TypedArray have most of array methods
+
+
+1. The ArrayBuffer, a data structure designed to hold a given amount of binary data.
+2. TypedArray, a view into an ArrayBuffer where every item has the same size and type.
+3. The DataView, another view into an ArrayBuffer, but one which allows items of different size and type in the ArrayBuffer.
 */
 
 // document.addEventListener('DOMContentLoaded', () => {
@@ -23842,14 +24189,14 @@ ArrayBuffer can be passed as parameter to TypedArray because TypedArray have mos
 //   ev.preventDefault();
 //   let ab = new ArrayBuffer(2); //2 bytes / 1 byte = 8 bits 0 - 255
 //   let dataview = new DataView(ab);
-//   dataview.setInt8(0, 104); //h
-//   dataview.setInt8(1, 105); //i
-//   console.log(new Uint8Array(ab).toString());
+//   dataview.setInt8(0, 104); //h in ASCII
+//   dataview.setInt8(1, 105); //i in ASCII
+//   console.log(new Uint8Array(ab).toString()); // typed array
 
 //   let b = new Blob([ab]);
 //   console.log(b);
 
-//   let f = new File([ab], 'myinfo.txt', { type: 'text/plain' });
+//   let f = new File([ab], 'myinfo.txt', { type: 'text/plain'});
 //   console.log(f);
 
 //   let url = URL.createObjectURL(f);
@@ -23860,7 +24207,16 @@ ArrayBuffer can be passed as parameter to TypedArray because TypedArray have mos
 //   document.querySelector('main').append(a);
 // }
 
-// -----------------------------custom HTTP request---------------
+// -----------------------------custom Response Object---------------
+
+/*
+Why would you want to create a Response Object?
+
+* Save a generated file in the Cache
+* Put a user's local file into the Cache
+* Return a generated file from a Service Worker
+* Make copies of files
+*/
 
 /*
 new Response(body, {
@@ -23901,7 +24257,7 @@ body - Blob, File, ArrayBuffer, TypedArray, DataView,
 //     },
 //   });
 //   console.log(response);
-//   const copy = response.clone();
+//   const copy = response.clone(); // to take a copy of response object and store it at variable
 //   console.log(copy);
 //   let contents = await copy.json(); // async function
 //   console.log({ contents });
@@ -23912,6 +24268,7 @@ body - Blob, File, ArrayBuffer, TypedArray, DataView,
 //   let input = document.createElement('input');
 //   input.type = 'file';
 //   input.accept = 'image/*';
+//   document.querySelector(".imgInput").appendChild(input)
 //   input.addEventListener('change', async (ev) => {
 //     let input = ev.target;
 //     let file = input.files[0];
@@ -23931,12 +24288,14 @@ body - Blob, File, ArrayBuffer, TypedArray, DataView,
 //     let url = URL.createObjectURL(blob);
 //     console.log(url);
 //   });
-//   document.body.addEventListener('click', (ev) => {
-//     input.click();
-//   });
 // }
 
 // ----------------------------------File Handling for web App--------------
+
+/*
+to understand Cache there is a video in service workers list :
+https://youtu.be/Gu0t2EW2kfU
+*/
 // const APP = {
 //   file: null,
 //   response: null,
@@ -24047,15 +24406,20 @@ body - Blob, File, ArrayBuffer, TypedArray, DataView,
 //   ///////////////////////////////////////////////////////
 //   displayLocal: (ev) => {
 //     //display APP.file on the webpage
-//     console.log(APP.file);
 //     if (APP.file) {
 //       let type = APP.file.type;
 //       if (type == 'application/json') {
-//         //json
-//         APP.file.arrayBuffer().then((buffer) => {
-//           let txt = new TextDecoder('utf-8').decode(buffer);// same concept of fetch(url).then(response=> response.text()).then(txt=>{})
+//         //using arrayBuffer() and new TextDecoder('utf-8').decode(buffer)
+//         APP.file.arrayBuffer().then((buffer) => { // returns a Promise that resolves with the contents of the file as binary data contained in an ArrayBuffer.
+//           let txt = new TextDecoder('utf-8').decode(buffer);
 //           document.getElementById('outputJSON').textContent = txt;
 //         });
+//         // using fetch
+//         if(type == 'application/json'){
+//           let uri = URL.createObjectURL(APP.file)
+//           fetch(uri).then(response => response.text()).then(console.log)
+//         }
+
 //       } else if (type.startsWith('image/')) {
 //         //image
 //         let url = URL.createObjectURL(APP.file); // URL.createObjectURL is a pointer to the location of file in memory
@@ -24076,10 +24440,11 @@ body - Blob, File, ArrayBuffer, TypedArray, DataView,
 //       APP.cache = await caches.open(APP.cacheName);
 //     }
 //     let keys = await APP.cache.keys(); // cacheKey (request object)
+//     console.log(keys)
 //     //if there is something in the cache, get the last one, check the type, add to the page
 //     if (keys.length > 0) {
 //       let url = keys[keys.length - 1].url;
-//       let response = await APP.cache.match(url);
+//       let response = await APP.cache.match(url);  //match() returns a Promise that resolves to the Response associated with the first matching request in the Cache object.
 //       let type = response.headers.get('content-type');
 //       if (type == 'application/json') {
 //         //json
@@ -24152,8 +24517,10 @@ body - Blob, File, ArrayBuffer, TypedArray, DataView,
 // document.addEventListener('DOMContentLoaded', APP.init);
 
 // ------------------------CSS.registerProperty---------------------
+
 /*
 https://drafts.css-houdini.org/css-properties-values-api/#at-property-rule
+https://youtu.be/1bzq-KlfXBk
 
 values in syntax :
   * - any value read as a string
@@ -24618,24 +24985,24 @@ The third argument is ignored by parseInt, but not the second one, hence the pos
 //  log(textColor('#6495ED')); //cornflowerblue
 
 //----------Video no. 20
-let process = word => {
-  let vowels = ["a","e","i","o","u"];
-  let vowelsInWord = [];
-  let wordArr = word.split("")
-  wordArr.forEach((char,index)=>{
-    if(vowels.includes(char)){
-      vowelsInWord.push([index ,char])
-    }
-  })
-  let oddNum = vowelsInWord.length % 2;
-  if(oddNum) vowelsInWord.splice(Math.floor(vowelsInWord.length / 2),1);
-  let indx = 1;
-  vowelsInWord.forEach((char,index,arr)=>{
-    wordArr.splice(char[0],1,arr.at(-indx)[1])
-    indx++
-  })
-  return wordArr.join("")
-}
+// let process = word => {
+//   let vowels = ["a","e","i","o","u"];
+//   let vowelsInWord = [];
+//   let wordArr = word.split("")
+//   wordArr.forEach((char,index)=>{
+//     if(vowels.includes(char)){
+//       vowelsInWord.push([index ,char])
+//     }
+//   })
+//   let oddNum = vowelsInWord.length % 2;
+//   if(oddNum) vowelsInWord.splice(Math.floor(vowelsInWord.length / 2),1);
+//   let indx = 1;
+//   vowelsInWord.forEach((char,index,arr)=>{
+//     wordArr.splice(char[0],1,arr.at(-indx)[1])
+//     indx++
+//   })
+//   return wordArr.join("")
+// }
 
-console.log(process("javascript"))
-console.log(process("hello"))
+// console.log(process("javascript"))
+// console.log(process("hello"))

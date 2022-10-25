@@ -3,23 +3,14 @@
     margin: 0;
     box-sizing: border-box;
 } */
-
-/* body {
+/* 
+body {
     width: 5000px;
     height: 5000px;
 } */
 
 
-
-
-/* div {
-    font-size: 30px;
-    line-height: 2;
-    font-style: italic;
-} */
-
-
-/* Local Storage Color Application Practice */
+/* ************Local Storage Color Application Practice*************** */
 
 /* body {
     background-color: #eee;
@@ -66,10 +57,36 @@ ul li:nth-child(4) {
     margin: 20px auto;
 } */
 
+/* ***************Exp. of difference between target and currentTarget*************** */
+/* html{
+    font-size: 10px;
+    line-height: 1.5;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+                "Droid Sans", "Helvetica Neue", sans-serif;
+}
+body{
+    padding: 1rem 2rem;
+}
+.list-view{
+    list-style: none;
+}
+.list-item{
+    font-size: 2rem;
+    line-height: 2rem;
+    font-weight: 100;
+    padding: 1.5rem 1rem;
+}
+.list-item span{
+    font-weight: 500;
+} */
+
+/* getComputedStyle */
 /* .css{
     color : red;
 } */
 
+/* ***************Real World Ajax Fetch to Live HTML and CSS*************** */
 /* *{
     padding: 0;
     margin: 0;
@@ -103,6 +120,7 @@ html{
     font-size: 1.4rem;
 } */
 
+/* Real Life Temp Forcast */
 /* *{
     padding: 0;
     margin: 0;
@@ -145,6 +163,8 @@ h1{
     font-weight: bold;
 } */
 
+
+/* ***************Online and Offline Events*************** */
 /* h1{
     text-align: center;  
 }
@@ -168,6 +188,8 @@ p.img{
     background-size: cover;
 } */
 
+/* ***************mouseOver-mouseOut vs mouseEnter-mouseLeave*************** */
+
 /* section{
     border: 1px solid #aaa;
     padding: 1rem;
@@ -182,10 +204,14 @@ div{
     float: left;
     overflow: auto;
     box-sizing: border-box;
-    width: 50%;
+    width: 25%;
     border: 1px solid #aaa;
     padding: 1rem;
     font-family: "andale mono", sans-serif;
+}
+div.over{
+    margin-top: 250px;
+    margin-left: -25%;
 }
 .enter{
     background-color: rebeccapurple;
@@ -198,6 +224,8 @@ div{
 .blue{
     background-color: cornflowerblue;
 } */
+
+/* ***************focusin-focusout vs focus-blur*************** */
 
 /* input{
 margin: 1rem;
@@ -214,10 +242,14 @@ div{
 float: left;
 overflow: auto;
 box-sizing: border-box;
-width: 50%;
+width: 25%;
 border: 1px solid #aaa;
 padding: 1rem;
 font-family: "andale mono", sans-serif;
+}
+div.focus-blur{
+    margin-top: 200px;
+    margin-left: -25%;
 }
 .in-out{
 background-color: chocolate;
@@ -230,6 +262,8 @@ color: #333;
 .blue{
 background-color: cornflowerblue;
 } */
+
+/* ***************custom attribute*************** */
 
 /* p{
     padding: 1rem;
@@ -247,7 +281,7 @@ background-color: cornflowerblue;
     padding: 1rem;
 } */
 
-/* Singel Page Application  */
+/* ***************Singel Page Application***************  */
 /**** DEFAULTS ****/
 
 /* *{
@@ -290,7 +324,7 @@ h1{
     font-weight: 900;
 } */
 
-
+/* ***************modal window*************** */
 /* 
 html{
     font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue", Arial, sans-serif;
@@ -351,7 +385,7 @@ p:nth-of-type(1){
     font-size: 1rem;
 } */
 
-/* Slide Show */
+/* ***************Slide Show*************** */
 /* html{
     font-size: 20px;
     line-height: 1.6;
@@ -429,6 +463,7 @@ main{
     overflow: hidden;
 } */
 
+/* ***************HTML Forms and Validation*************** */
 /* 
 html{
     font:normal 20px/1.5 sans-serif;
@@ -490,9 +525,9 @@ form{
     position:absolute;
     right: 0;
     content: attr(data-errormsg);
-}
- */
+} */
 
+/* ***************Multi Language webPage*************** */
 /* section{
     width: 400px;
     padding: 0.5rem 1rem;
@@ -514,6 +549,8 @@ h1{
     direction: rtl;
 } */
 
+/* ***************HTML Template***************  */
+
 /* .temp{
     background-color: cornflowerblue;
     color: #fff;
@@ -523,6 +560,8 @@ h1{
     padding: 1rem;
     max-width: 400px;
 } */
+
+/* ***************Tabbed Navigation with CSS and JS*************** */
 
 /* html{
     font: 500 20px/1.5 'Open Sans', 'Gill Sans', Verdana, sans-serif;
@@ -571,6 +610,8 @@ h2{
 .tab-content.active{
     display:block;
 } */
+
+/* ***************Master Details with single web application*************** */
 
 /* html{
     font-size: 20px;
@@ -627,6 +668,8 @@ h1{
     
 } */
 
+
+/* ***************getComputedStyle*************** */
 /* .first{
     font-size: 0.7rem;
     font-family: sans-serif;
@@ -644,6 +687,8 @@ h1{
     color: #fff;
     background-color: rebeccapurple;
 } */
+
+/* ***************Progress Bar(Reading)*************** */
 
 /* html{
     font-size: 20px;
@@ -680,9 +725,13 @@ main{
     padding: 2rem 1rem;
 } */
 
+/* ***************Random Color Generator*************** */
+
 /* body{
     min-height: 100vh;
 } */
+
+/* Circle Graph */
 
 /* section{
     position:relative;
@@ -802,6 +851,8 @@ main{
     transform: rotate(0deg); 
 } */
 
+/* ***************Star Rating System*************** */
+
 /* .rate {
     margin:20px auto;
     width: 300px;
@@ -811,9 +862,9 @@ main{
 }
 .rate i {
     cursor: pointer;
-} */
+}
 
-/* .star{
+.star{
     color: goldenrod;
     font-size: 2.0rem;
     padding: 0 1rem; 
@@ -838,29 +889,7 @@ content: '\2605';
     content: counter(rateme) '/5';
 } */
 
-/* html{
-    font-size: 10px;
-    line-height: 1.5;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-                "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-                "Droid Sans", "Helvetica Neue", sans-serif;
-}
-body{
-    padding: 1rem 2rem;
-}
-.list-view{
-    list-style: none;
-}
-.list-item{
-    font-size: 2rem;
-    line-height: 2rem;
-    font-weight: 100;
-    padding: 1.5rem 1rem;
-}
-.list-item span{
-    font-weight: 500;
-} */
-
+/* ***************Right-Click Menus*************** */
 /* *{
     padding: 0;
     margin: 0;
@@ -917,6 +946,8 @@ h1, h2, p, div{
     font-weight: 500;
 } */
 
+/* ***************mediaQuery in JS*************** */
+
 /* main{
     padding : 2 rem;
 }
@@ -936,6 +967,9 @@ p {
     }
 } */
 
+
+/* ***************Observers in JS*************** */
+/* ***************[1] ResizeObserver*************** */
 /* * {
     padding: 0;
     margin: 0;
@@ -985,6 +1019,7 @@ background-color: cornflowerblue;
 width: 100%;
 } */
 
+/* ***************[3] InterSectionObserver*************** */
 /* .container {
     margin: 150px;
 }
@@ -1016,6 +1051,8 @@ left: 50px;
 background-color: hsla(30deg, 40%, 80%, 0.5);
 } */
 
+/* ***************Caching*************** */
+
 /* h1{
     cursor: pointer;
     padding: 1rem;
@@ -1026,6 +1063,7 @@ background-color: hsla(30deg, 40%, 80%, 0.5);
     padding: 1rem;
 } */
 
+/* ***************TransitionEnd and AnimationEnd*************** */
 /* p{
     overflow: hidden;
     width:90%;
@@ -1070,6 +1108,7 @@ p::after{
     background-color: hsla(220, 50%, 80%, 0.64);
 } */
 
+/* ***************Controlling video by JS*************** */
 /* .control{
     font-size: 1.5rem;
     padding: 0.25rem 2rem;
@@ -1087,53 +1126,16 @@ p::after{
     color: red;
 } */
 
-/* h1{
-    cursor: pointer;
-    font-size: 2.5rem;
-    color: white;
-    text-shadow: 2px 2px 2px black;
-    background-color: hsla(90, 30%, 70%, 0.5);
+/* ***************Copy and Paste Events*************** */
+/* p span {
+    font-style: italic;
+    font-weight: 100;
 }
-main{
-    transition: transform 1s ease-in;
-    position: relative;
-    z-index: -1;
-}
-main.up{
-    transform: translateY(-600px);
-}
-p::before{
-    content: attr(data-num);
-    
-    font-size: 2.6rem;
-    line-height: 3rem;
-    height: 3rem;
-    width: 3rem;
-    text-align: center;
-    margin-right: 1rem;
-    display: inline-block;
-    transform: rotate(-20deg);
-    background-color: #666;
-    color: #eee;
-    border-radius: 50%;
-}
-p:nth-child(odd)::before{
-    transform: rotate(20deg);
+[contenteditable] span {
+color: red;
 } */
 
-/* p{
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-p::after{
-    display: inline-block;
-    content: attr(data-file);
-    
-    font-size: 1.5rem;
-    margin-left: 1rem;
-    color: rgba(0,0,0,0.5);
-} */
-
+/* ***************CSS Variable*************** */
 /* :root{
     --COLOR: cornflowerblue;
     --SPACE: 10px;
@@ -1146,6 +1148,8 @@ p{
     color: var(--COLOR);
 } */
 
+/* ***************open and close TAB from JS*************** */
+
 /* h2{
     cursor: pointer;
 }
@@ -1153,12 +1157,14 @@ h2:hover{
     color: #bada55;
 } */
 
+/* ***************Capturing Media (Works also on Mobile Devices)*************** */
 /* p>audio,
 p>video,
 p>img{
     max-width:90%;
 } */
 
+/* ***************CSS :target*************** */
 /* a{
     font-size: 1rem;
     padding: 0.2rem 1rem;
@@ -1179,6 +1185,7 @@ p{
     background-color: #bada55;
 } */
 
+/* ***************LocalStorage Shopping Cart*************** */
 /* *{ 
     padding: 0; 
     margin: 0; 
@@ -1301,12 +1308,16 @@ main{
     padding: 0 0.5rem;
     display: block;
 } */
+
+/* ***************FullScreen API*************** */
 /* .big{
     background-color: #bada55;
     color: white;
 } */
-/* 
-*{
+
+/* ***************canvas*************** */
+
+/* *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -1317,6 +1328,7 @@ main{
     display: block; 
 } */
 
+/* ***************Canvas Text*************** */
 /* @import url('https://fonts.googleapis.com/css?family=Allerta+Stencil');
         
 #canvas{
@@ -1334,11 +1346,15 @@ input{
     padding: 0.2rem 1rem;
     box-sizing: border-box;
 } */
+
+/* ***************Canvas Lines and Curves***************  */
 /* #canvas{
     border: 1px solid #999;
     margin: 1rem auto;
     display: block;
 } */
+
+/* ***************Canvas images*************** */
 /* #canvas{
     border: 1px solid #999;
     margin: 1rem auto;
@@ -1347,11 +1363,15 @@ input{
 img{
     width: 80%;
 } */
+
+/* ***************Canvas Graph*************** */
 /* canvas{
     border: 2px solid #333;
     margin: 2rem auto;
     
 } */
+
+/* ***************canvas tansform*************** */
 /* html{
     background-color: #999;
 }
@@ -1362,6 +1382,8 @@ img{
     margin: 1rem auto;
     display: block;
 } */
+
+/* ***************canvas video frames grab and image upload*************** */
 /* video{
     border: 4px solid cornflowerblue;   
 }
@@ -1376,6 +1398,8 @@ section{
     font-size: 30px;
     font-family: Arial, Helvetica, sans-serif;
 } */
+
+/* ***************canvas images *************** */
 /* body {
     display: flex;
     flex-direction: column;
@@ -1389,6 +1413,8 @@ border: 3px solid #333;
 width: 90%;
 height: auto;
 } */
+
+/* ***************Extracting Colour Values from Pixel Coordinates*************** */
 
 /* * {
     box-sizing: border-box;
@@ -1427,6 +1453,7 @@ outline: 2px solid orangered;
 background-color: gold;
 } */
 
+/* ***************colour Extraction Tool using Canvas*************** */
 /* *,
 *::before,
 *::after {
@@ -1496,10 +1523,13 @@ main p canvas {
     left: 5px;
 } */
 
+/* ***************Form in JS*************** */
+
 /* .formBox{
     padding: 0.5rem 2rem;
 } */
 
+/* MultiLingual */
 /* button {
     font-size: 30px;
     padding: 0.25 2rem;
@@ -1531,6 +1561,7 @@ div[lang].lang-match {
     display: block;
 } */
 
+/* ***************Google Map API  (needs KEY)*************** */
 /* body {
     display: flex;
     justify-content: center;
@@ -1543,6 +1574,8 @@ div[lang].lang-match {
     width: 80vw;
     height: 80vh;
 } */
+
+/* ***************Google MAP controls (needs KEY)*************** */
 /* body {
     display: flex;
     justify-content: center;
@@ -1556,92 +1589,21 @@ div[lang].lang-match {
     height: 80vh;
 } */
 
-/* html {
-    font-size: 20px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-main {
-    padding: 1rem;
-    margin: 3rem;
-    border: 1px solid #333;
-} */
-
-/* html {
-    font-size: 20px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: hsl(0, 40%, 80%);
-}
-
-body {
-    background-color: hsl(60, 40%, 80%);
-    padding: 1rem;
-}
-
-main {
-    background-color: hsl(120, 40%, 80%);
-    padding: 1rem;
-}
-
-p {
-    background-color: hsl(180, 40%, 80%);
-    padding: 1rem;
-    line-height: 1.6;
-}
-
-span {
-    padding: 0rem 1rem;
-    background-color: hsl(240, 40%, 80%);
-} */
-/* html {
-    font-size: 30px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    line-height: 1.6;
-}
-
-main {
-    border: 1px solid cornflowerblue;
-    padding: 1rem;
-} */
-/* html {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 20px;
-    line-height: 1.7;
-}
-
-body {
-    min-height: 100vh;
+/* ***************Google Maps Events and markers (needs KEY)*************** */
+/* body {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-#output {
-    padding: 2rem;
-    border: 1px solid #333;
-    font-size: 2rem;
-    margin: 1rem;
-}
-
-button {
-    font-size: 2rem;
-    margin: 1rem;
+#map {
+    border: 2px solid #333;
+    width: 80vw;
+    height: 80vh;
 } */
 
-
-/* * {
-    margin: 0;
-    box-sizing: border-box;
-}
-html {
-font-size: 20px;
-line-height: 1.6;
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-}
-body {
-min-height: 100vh;
-} */
-
+/* ***************Infinite Scroll | Lazy Load using IntersectionObserver API*************** */
 /* html {
     font-size: 20px;
     line-height: 1.6;
@@ -1692,6 +1654,7 @@ padding: 1rem 3rem 3rem 3rem;
 margin-top: 0;
 } */
 
+/* ***************closest and matches and querySelector*************** */
 /* html {
     font-size: 20px;
     line-height: 1.6;
@@ -1719,13 +1682,14 @@ background-color: hsl(140deg, 40%, 80%);
 }
 .active {
 background-color: goldenrod !important;
-}
- */
+} */
+
 
 /* .svg{
     border: 2px solid black;
 } */
 
+/* ***************touch events*************** */
 /* .dot{
     background-color: red;
     width: 4rem;
@@ -1746,6 +1710,7 @@ body{
     margin: 0;
 } */
 
+/* ***************pointer event*************** */
 /* :root{
     --handle-position : 30%;
 }
@@ -1801,7 +1766,15 @@ body{
     border-radius: 50%;
 } */
 
-/* div {
+/* ***************another exp for pointer (slide Me)*************** */
+/* :root{
+    --handle-position : 30%;
+}
+body{
+    width : 300px
+}
+
+div {
     width: 140px;
     height: 50px;
     display: flex;
@@ -1811,6 +1784,7 @@ body{
     touch-action: none;
 } */
 
+/* ***************use of pointer-events: none; or pointer-events: all; in CSS File*************** */
 /* .container{
     width: 200px;
     height: 200px;
@@ -1831,7 +1805,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: all;
+    pointer-events: none;
 }
 
 .grand{
@@ -1839,10 +1813,10 @@ body{
     height: 75px;
     border-radius: 50%;
     background-color: blue;
-    pointer-events: none;
+    pointer-events: all;
 } */
 
-
+/* ***************my exp. slide to unlock and password*************** */
 /* *{
     padding: 0;
     margin: 0;
@@ -1912,6 +1886,7 @@ body{
     border-radius: 50%;
 } */
 
+/* ***************elementFromPoint, elementsFromPoint, caretPositionFromPoint*************** */
 /* main,
 header {
     padding: 1rem;
@@ -1929,13 +1904,8 @@ h1.clicked {
     background-color: lemonchiffon;
 } */
 
-/* p {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    font-size: 2rem;
-    line-height: 1.7;
-    color: #9933cc;
-} */
+
+/* ***************MatchMedia*************** */
 
 /* header, main{
     padding: 2rem;
@@ -1957,6 +1927,8 @@ p{
     }
 } */
 
+
+/* ***************Animated Hamburger menu*************** */
 /* html {
     font-size: 20px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -2067,6 +2039,7 @@ border-radius: 4px;
 @media(min-width: 700px){
 } */
 
+/* ***************encodeURI vs encodeURIComponent*************** */
 /* html {
     font-size: 20px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -2093,6 +2066,7 @@ textarea {
     line-height: 1.5;
 } */
 
+/* ***************Scroll Methods*************** */
 /* *{
     padding:0;
     margin:0;
@@ -2133,6 +2107,7 @@ background-color: hsl(220, 50%, 40%);
 color: hsl(220, 50%, 10%);
 } */
 
+/* ***************Shrinking Header*************** */
 /* * {
     padding: 0;
     margin: 0;
@@ -2212,6 +2187,8 @@ main p {
 margin: 1rem 0;
 } */
 
+
+/* ***************Removing Elements and optional chaining*************** */
 /* html {
     font-size: 20px;
     font-family: 'Monserrat', sans-serif;
@@ -2230,6 +2207,7 @@ h2 {
     font-weight: 600;
 } */
 
+/* ***************Using FormData to ParseForms***************  */
 /* html {
     font-size: 20px;
     font-family: 'Monserrat', sans-serif;
@@ -2283,11 +2261,14 @@ padding: 0 1rem;
 color: #4caf50;
 } */
 
+/* ***************URL object*************** */
+
 /* figure img {
         max-width: 300px;
         height: auto;
 } */
 
+/* ***************dark mode*************** */
 /* :root {
     --dark-bg: #333;
     --dark-color: #eee;
@@ -2306,19 +2287,20 @@ body {
 background-color: #333;
 color: #eee;
 }
-@media screen and (prefers-color-scheme: dark) {
-html,
-body {
-    background-color: var(--dark-bg);
-    color: var(--dark-color);
-}
-}
 @media screen and (prefers-color-scheme: light) {
-html,
-body {
-    background-color: var(--light-bg);
-    color: var(--light-color);
+    html,
+    body {
+        background-color: var(--light-bg);
+        color: var(--light-color);
+    }
 }
+
+@media screen and (prefers-color-scheme: dark) {
+    html,
+    body {
+        background-color: var(--dark-bg);
+        color: var(--dark-color);
+    }
 }
 
 h2 {
@@ -2326,6 +2308,8 @@ font-weight: 100;
 letter-spacing: 1ch;
 } */
 
+
+/* ***************Long Press event*************** */
 /* html {
     font-size: 20px;
     font-weight: 300;
@@ -2395,14 +2379,7 @@ transform: translate(-42px, 0);
 opacity: 1;
 } */
 
-/* p span {
-    font-style: italic;
-    font-weight: 100;
-}
-[contenteditable] span {
-color: red;
-} */
-
+/* ***************Request Animation Frame*************** */
 /* html {
     font-size: 20px;
     font-weight: 300;
@@ -2424,6 +2401,7 @@ width: 1rem;
 height: 1rem;
 } */
 
+/* ***************window.open()*************** */
 /* * {
 box-sizing: border-box;
 }
@@ -2446,6 +2424,7 @@ button {
 margin: 1rem;
 } */
 
+/* ***************select between HTML and JS*************** */
 /* *,
 *::after,
 *::before {
@@ -2509,6 +2488,7 @@ background-color: #333;
 color: #eee;
 } */
 
+/* ***************practical EXP. LocalStorage*************** */
 /* *,
 *::before,
 *::after {
@@ -2590,6 +2570,8 @@ button {
     cursor: pointer;
 } */
 
+
+/* ***************form Events*************** */
 /* * {
     padding: 0;
     margin: 0;
@@ -2657,6 +2639,7 @@ button:focus {
 background-color: lemonchiffon;
 } */
 
+/* ***************exp. of module and destructuring*************** */
 /* * {
     padding: 0;
     margin: 0;
@@ -2725,6 +2708,7 @@ background-color: hsl(0, 30%, 80%);
 outline: 2px solid hsl(0, 50%, 40%);
 } */
 
+/* ***************Form Validation Part I*************** */
 /* * {
     padding: 0;
     margin: 0;
@@ -2816,6 +2800,7 @@ flex-basis: 100%;
 width: calc(100% - 2px);
 padding: 0.5rem 1rem;
 font-size: 1.5rem;
+margin-bottom: 20px;
 }
 .instructions {
 display: flex;
@@ -2833,10 +2818,13 @@ textarea:focus {
 background-color: gold;
 }
 input:read-only {
+    background-color: black;
 }
 input:read-write {
+    background-color: green;
 }
 input:disabled {
+    background-color: white;
 }
 input:required,
 select:required,
@@ -2844,6 +2832,7 @@ option:required {
 border-color: red;
 }
 input:optional {
+    background-color: purple;
 }
 :placeholder-shown {
 background-color: lightpink;
@@ -2866,6 +2855,7 @@ border-right: 2rem solid black;
 background-color: red;
 } */
 
+/* ***************Form Validation Part 2 (JS)*************** */
 /* * {
     padding: 0;
     margin: 0;
@@ -3012,6 +3002,7 @@ background-color: rebeccapurple;
     visibility:visible;
 } */
 
+/* ***************history API*************** */
 /* * {
     padding: 0;
     margin: 0;
@@ -3065,6 +3056,7 @@ border: none;
 cursor: pointer;
 } */
 
+/* ***************popstate , hashchange and Events*************** */
 /* :root {
     --base-orbit: 4;
 }
@@ -3230,6 +3222,7 @@ p {
     text-align: center;
 } */
 
+/* ***************Storage Event*************** */
 /* * {
     padding: 0;
     margin: 0;
@@ -3288,6 +3281,8 @@ color: #fff;
 padding: 0.2rem 2rem;
 } */
 
+
+/* ***************IndexedDB*************** */
 /* * {
     padding: 0;
     margin: 0;
@@ -3332,227 +3327,153 @@ font-size: 1.2rem;
 font-weight: 500;
 } */
 
-/* html {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-        Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: #222;
-    font-size: 20px;
-    line-height: 1.6;
-}
-h1 {
-    color: orangered;
-}
-h2 {
-    color: orange;
-} */
-
-/* html {
-    font-size: 20px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: 300;
-    line-height: 1.5;
-    background-color: #222;
-    color: #eee;
-}
-body {
-    background-color: inherit;
-    color: inherit;
-    min-height: 100vh;
-    margin: 0;
-}
-header {
-    padding: 1rem 2rem;
-    background-color: #333;
-    min-height: 10vw;
-    width: 100vw;
-    margin: 0;
-}
-main {
-    background-color: #222;
-    min-height: 85vw;
-    margin: 0;
-    padding: 15vw 2rem;
-}
-h1 {
-    color: orangered;
-    font-size: 4rem;
-    line-height: 1;
-    margin: 0.1rem 0;
-}
-h2 {
-    color: orange;
-    font-size: 2.4rem;
-    line-height: 2;
-    margin: 3rem 0 1rem;
-    opacity: 0.64;
-}
-h3 {
-    color: cornflowerblue;
-    text-shadow: 1px 1px 1px white;
-    font-size: 3.6rem;
-}
-span.isOnOff {
-    font-weight: 900;
-    color: cornflowerblue;
-}
-p {
-    padding: 0;
-    margin: 1rem 0;
-    font-size: 1.6rem;
-}
-img {
-    max-width: 100%;
-    margin: 1rem;
-}
-a {
-    color: orange;
-} */
-
+/* ***************image lazy loading*************** */
 /* @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Raleway:wght@300&display=swap');
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 html {
-  font-size: 20px;
-  font-family: 'Raleway', sans-serif;
-  font-weight: 300;
-  line-height: 1.5;
-  padding: 0;
-  margin: 0;
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    line-height: 1.5;
+    padding: 0;
+    margin: 0;
 }
 body {
-  background-color: hsl(213, 50%, 80%);
-  color: hsl(213, 60%, 30%);
-  min-height: 100vh;
-  padding: 0;
-  margin: 0;
+    background-color: hsl(213, 50%, 80%);
+    color: hsl(213, 60%, 30%);
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
 }
 header {
-  padding: 1rem 6rem;
-  color: hsl(213, 50%, 80%);
-  background-color: hsl(213, 60%, 30%);
+    padding: 1rem 6rem;
+    color: hsl(213, 50%, 80%);
+    background-color: hsl(213, 60%, 30%);
 }
 h1 {
-  margin: 0;
-  padding: 3rem 1rem;
-  text-align: center;
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  font-size: 4rem;
-  text-shadow: 1px 1px 2px hsl(213, 30%, 10%);
+    margin: 0;
+    padding: 3rem 1rem;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 4rem;
+    text-shadow: 1px 1px 2px hsl(213, 30%, 10%);
 }
 main section {
-  padding: 1rem 6rem;
+    padding: 1rem 6rem;
 }
 p {
-  padding: 0;
-  font-size: 1.2rem;
-  margin: 4rem 0;
-  clear: both;
+    padding: 0;
+    font-size: 1.2rem;
+    margin: 4rem 0;
+    clear: both;
 }
 p img {
-  float: left;
-  margin: 0.5rem 1rem 1rem 0;
-  width: 30vw;
+    float: left;
+    margin: 0.5rem 1rem 1rem 0;
+    width: 30vw;
 }
 p:nth-child(odd) img {
-  float: right;
-  margin: 0.5rem 0 1rem 1rem;
+    float: right;
+    margin: 0.5rem 0 1rem 1rem;
 }
 section:nth-child(even) {
-  color: hsl(213, 50%, 80%);
-  background-color: hsl(213, 60%, 30%);
+    color: hsl(213, 50%, 80%);
+    background-color: hsl(213, 60%, 30%);
 } */
 
+
+/* ***************decode attribute & decode() method on images*************** */
 /* @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Raleway:wght@300&display=swap');
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 html {
-  font-size: 20px;
-  font-family: 'Raleway', sans-serif;
-  font-weight: 300;
-  line-height: 1.5;
-  padding: 0;
-  margin: 0;
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    line-height: 1.5;
+    padding: 0;
+    margin: 0;
 }
 body {
-  background-color: hsl(213, 50%, 80%);
-  color: hsl(213, 60%, 30%);
-  min-height: 100vh;
-  padding: 0;
-  margin: 0;
+    background-color: hsl(213, 50%, 80%);
+    color: hsl(213, 60%, 30%);
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
 }
 header {
-  padding: 1rem 6rem;
-  background-color: hsl(213, 60%, 30%);
-  border-bottom: 2px solid hsl(213, 30%, 10%);
-  font-family: 'Playfair Display', serif;
-  font-weight: 500;
+    padding: 1rem 6rem;
+    background-color: hsl(213, 60%, 30%);
+    border-bottom: 2px solid hsl(213, 30%, 10%);
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
 }
 h1 {
-  margin: 0;
-  padding: 3rem 1rem 0.5rem;
-  text-align: center;
-  font-size: 4rem;
-  text-shadow: 1px 1px 2px hsl(213, 50%, 80%);
-  color: hsl(213, 30%, 10%);
+    margin: 0;
+    padding: 3rem 1rem 0.5rem;
+    text-align: center;
+    font-size: 4rem;
+    text-shadow: 1px 1px 2px hsl(213, 50%, 80%);
+    color: hsl(213, 30%, 10%);
 }
 h2 {
-  margin: 0;
-  padding: 0.5rem 1rem 3rem;
-  text-align: center;
-  font-size: 2rem;
-  letter-spacing: 3px;
-  color: hsl(213, 50%, 80%);
-  text-shadow: 1px 1px 2px hsl(213, 30%, 10%);
+    margin: 0;
+    padding: 0.5rem 1rem 3rem;
+    text-align: center;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    color: hsl(213, 50%, 80%);
+    text-shadow: 1px 1px 2px hsl(213, 30%, 10%);
 }
 main section {
-  padding: 1rem 6rem;
-  clear: both;
-  overflow: auto;
+    padding: 1rem 6rem;
+    clear: both;
+    overflow: auto;
 }
 p {
-  padding: 0;
-  font-size: 1.2rem;
-  margin: 4rem 0;
-  clear: both;
-  overflow: auto;
-  position: relative;
+    padding: 0;
+    font-size: 1.2rem;
+    margin: 4rem 0;
+    clear: both;
+    overflow: auto;
+    position: relative;
 }
 p::before {
-  content: attr(data-num);
-  position: absolute;
-  font-size: 2rem;
-  top: 1rem;
-  color: white;
-  text-shadow: 1px 1px 2px #222;
+    content: attr(data-num);
+    position: absolute;
+    font-size: 2rem;
+    top: 1rem;
+    color: white;
+    text-shadow: 1px 1px 2px #222;
 }
 p:nth-child(even)::before {
-  left: 1rem;
+    left: 1rem;
 }
 p:nth-child(odd)::before {
-  right: 1rem;
+    right: 1rem;
 }
 p img {
-  float: left;
-  margin: 0.5rem 1rem 1rem 0;
-  width: max(30vw, 300px);
+    float: left;
+    margin: 0.5rem 1rem 1rem 0;
+    width: max(30vw, 300px);
 }
 p:nth-child(odd) img {
-  float: right;
-  margin: 0.5rem 0 1rem 1rem;
+    float: right;
+    margin: 0.5rem 0 1rem 1rem;
 }
 section:nth-child(even) {
-  color: hsl(213, 50%, 80%);
-  background-color: hsl(213, 60%, 30%);
+    color: hsl(213, 50%, 80%);
+    background-color: hsl(213, 60%, 30%);
 } */
 
 /* body{
@@ -3561,408 +3482,421 @@ section:nth-child(even) {
     background-color: var(--mainColor);
 } */
 
+/* ***************link datalist element to input element using list attribute*************** */
 /* *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 html {
-  font-size: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    font-size: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
 }
 .formBox {
-  padding: 1rem 2rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  gap: 2rem;
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
 }
 label {
-  padding: 0.25rem 0.5rem;
-  margin: 0;
-  font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    margin: 0;
+    font-size: 1rem;
 }
 input {
-  padding: 0.25rem 1rem;
-  margin: 0;
-  font-size: 1rem;
+    padding: 0.25rem 1rem;
+    margin: 0;
+    font-size: 1rem;
 } */
 
+
+/* ***************import method from JS*************** */
 /* *,
 *::before,
 *::after {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 html {
-  font-size: 20px;
-  font-weight: 300;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
+    font-size: 20px;
+    font-weight: 300;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.5;
 }
 body {
-  min-height: 100vh;
-  background-color: #333;
-  color: #eee;
+    min-height: 100vh;
+    background-color: #333;
+    color: #eee;
 }
 header,
 main,
 footer {
-  width: 80vw;
-  padding: 1rem 2rem;
-  margin: 0 auto;
+    width: 80vw;
+    padding: 1rem 2rem;
+    margin: 0 auto;
 }
 header h1 {
-  color: orange;
+    color: orange;
 }
 header h2 {
-  color: orangered;
+    color: orangered;
 }
 p {
-  line-height: 1.7;
-  margin: 1.5rem 0;
+    line-height: 1.7;
+    margin: 1.5rem 0;
 } */
 
+/* ***************convert callback hell to promise*************** */
 /* *,
 *::before,
 *::after {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 html {
-  font-size: 20px;
-  font-weight: 300;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
+    font-size: 20px;
+    font-weight: 300;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.5;
 }
 body {
-  min-height: 100vh;
-  background-color: #333;
-  color: #eee;
+    min-height: 100vh;
+    background-color: #333;
+    color: #eee;
 }
 header,
 main,
 footer {
-  width: 80vw;
-  padding: 1rem 2rem;
-  margin: 0 auto;
+    width: 80vw;
+    padding: 1rem 2rem;
+    margin: 0 auto;
 }
 header h1 {
-  color: orange;
+    color: orange;
 }
 header h2 {
-  color: orangered;
+    color: orangered;
 }
 p {
-  line-height: 1.7;
-  margin: 1.5rem 0;
+    line-height: 1.7;
+    margin: 1.5rem 0;
 }
 button {
-  font-size: 1.2rem;
-  color: #fff;
-  background-color: cornflowerblue;
-  padding: 0.25rem 1rem;
-  margin: 1rem;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: cornflowerblue;
+    padding: 0.25rem 1rem;
+    margin: 1rem;
 } */
 
+/* ***************CSS clamp*************** */
 /* *,
 *::before,
 *::after {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 html {
-  font-size: 20px;
-  font-weight: 300;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  line-height: 1.5;
+    font-size: 20px;
+    font-weight: 300;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    line-height: 1.5;
 }
 body {
-  min-height: 100vh;
-  background-color: #333;
-  color: #eee;
+    min-height: 100vh;
+    background-color: #333;
+    color: #eee;
 }
 header,
 main,
 footer {
-  width: 80vw;
-  padding: 1rem 2rem;
-  margin: 0 auto;
+    width: 80vw;
+    padding: 1rem 2rem;
+    margin: 0 auto;
 }
 header h1 {
-  color: orange;
+    color: orange;
 }
 h2 {
-  color: #ccc185;
+    color: #ccc185;
 }
 main {
-  background-image: url(../img/clamps.jpg);
-  background-position: right top;
-  background-size: 38.1% auto;
-  padding-right: 39%;
-  background-repeat: no-repeat;
-  border-left: 2px solid #ccc185;
+    background-image: url(../img/clamps.jpg);
+    background-position: right top;
+    background-size: 38.1% auto;
+    padding-right: 39%;
+    background-repeat: no-repeat;
+    border-left: 2px solid #ccc185;
 }
 p {
-  font-size: 1.2rem;
-  line-height: 1.7;
-  margin: 1.5rem 0;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    margin: 1.5rem 0;
 
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 } */
 
+/* ***************drag and drop*************** */
 /* *,
 *::before,
 *::after {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 html {
-  font-size: 20px;
-  font-weight: 300;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
+    font-size: 20px;
+    font-weight: 300;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.5;
 }
 body {
-  min-height: 100vh;
-  background-color: #333;
-  color: #eee;
+    min-height: 100vh;
+    background-color: #333;
+    color: #eee;
 }
 header,
 main,
 footer {
-  width: 80vw;
-  padding: 1rem 2rem;
-  margin: 0 auto;
+    width: 80vw;
+    padding: 1rem 2rem;
+    margin: 0 auto;
 }
 header h1 {
-  color: orange;
+    color: orange;
 }
 header h2 {
-  color: orangered;
+    color: orangered;
 }
 main {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 section {
-  flex: 0 1 30vw;
-  padding: 2rem;
-  border: 1px solid #fff;
+    flex: 0 1 30vw;
+    padding: 2rem;
+    border: 1px solid #fff;
 }
 p {
-  line-height: 1.7;
-  margin: 1.5rem 0;
+    line-height: 1.7;
+    margin: 1.5rem 0;
 }
 a {
-  color: orange;
+    color: orange;
 }
 img {
-  width: 100%;
+    width: 100%;
 }
 
 .draggable {
-  cursor: grab;
-  padding: 0;
-  margin: 1rem 0;
+    cursor: grab;
+    padding: 0;
+    margin: 1rem 0;
 }
 section.drop {
-  height: auto;
-  display: grid;
-  gap: 0.5rem;
-  grid-template-rows: 3rem 1fr;
+    height: auto;
+    display: grid;
+    gap: 0.5rem;
+    grid-template-rows: 3rem 1fr;
 }
 .dropzone {
-  background-color: #111;
-  min-height: 300px;
-  width: 100%;
+    background-color: #111;
+    min-height: 300px;
+    width: 100%;
 }
 .dropzone.over {
-  border: 1px solid gold;
-  background-color: hsla(90, 100%, 90%, 0.1);
+    border: 1px solid gold;
+    background-color: hsla(90, 100%, 90%, 0.1);
 }
 .wheeeee {
-  background-color: greenyellow;
-  color: black;
-  border: 1px solid rebeccapurple;
-  font-size: 2rem;
-  position: absolute;
-  transform: translateX(-100vw);
+    background-color: greenyellow;
+    color: black;
+    border: 1px solid rebeccapurple;
+    font-size: 2rem;
+    position: absolute;
+    transform: translateX(-100vw);
 }
 footer img {
-  width: 100px;
-  position: absolute;
-  transform: translateX(-100vw);
+    width: 100px;
+    position: absolute;
+    transform: translateX(-100vw);
 } */
 
+/* ***************location iq API*************** */
 /* *,
 *::before,
 *::after {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 html {
-  font-size: 20px;
-  font-weight: 300;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
+    font-size: 20px;
+    font-weight: 300;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.5;
 }
 body {
-  min-height: 100vh;
-  background-color: #333;
-  color: #eee;
+    min-height: 100vh;
+    background-color: #333;
+    color: #eee;
 }
 header,
 nav,
 main,
 footer {
-  width: 80vw;
-  padding: 1rem 2rem;
-  margin: 0 auto;
+    width: 80vw;
+    padding: 1rem 2rem;
+    margin: 0 auto;
 }
 main {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 main section {
-  max-width: 45%;
-  flex-basis: 45%;
-  flex-grow: 0;
-  flex-shrink: 0;
-  overflow-x: scroll;
+    max-width: 45%;
+    flex-basis: 45%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    overflow-x: scroll;
 }
 section img {
-  width: 90%;
+    width: 90%;
 }
 header h1 {
-  color: orange;
+    color: orange;
 }
 header h2 {
-  color: orangered;
+    color: orangered;
 }
 p {
-  line-height: 1.7;
-  margin: 1.5rem 0;
+    line-height: 1.7;
+    margin: 1.5rem 0;
 }
 input {
-  padding: 0.25rem 1rem;
-  font-size: 1rem;
-  font-family: inherit;
+    padding: 0.25rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
 }
 button {
-  padding: 0.25rem 1rem;
-  font-size: 1rem;
-  font-family: inherit;
-  color: white;
-  background-color: cornflowerblue;
+    padding: 0.25rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: white;
+    background-color: cornflowerblue;
 }
 
 .results {
-  color: white;
+    color: white;
 } */
 
-/* 
-:root{
+/* ***************controlling CSS (element's styles and css variables) from Js*************** */
+/* :root{
     --mainColor : blue;
 }
 
 body{
-    color : green;
+    background-color : green;
+    width: 100vw;
+    height: 100vh;
 } */
 
+
+/* ***************import CSS file or JSON file*************** */
 /* *,
 *::before,
 *::after {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 html {
-  font-size: 20px;
-  font-weight: 300;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
+    font-size: 20px;
+    font-weight: 300;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.5;
 }
 body {
-  min-height: 100vh;
-  background-color: #333;
-  color: #eee;
+    min-height: 100vh;
+    background-color: #333;
+    color: #eee;
 }
 header,
 main,
 footer {
-  width: 80vw;
-  padding: 1rem 2rem;
-  margin: 0 auto;
+    width: 80vw;
+    padding: 1rem 2rem;
+    margin: 0 auto;
 }
 header h1 {
-  color: orange;
+    color: orange;
 }
 header h2 {
-  color: orangered;
+    color: orangered;
 }
 p {
-  line-height: 1.7;
-  margin: 1.5rem 0;
+    line-height: 1.7;
+    margin: 1.5rem 0;
 } */
 
+/* ***************import maps*************** */
 /* *,
 *::before,
 *::after {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 html {
-  font-size: 20px;
-  font-weight: 300;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
+    font-size: 20px;
+    font-weight: 300;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.5;
 }
 body {
-  min-height: 100vh;
-  background-color: #333;
-  color: #eee;
+    min-height: 100vh;
+    background-color: #333;
+    color: #eee;
 }
 header,
 main,
 footer {
-  width: 80vw;
-  padding: 1rem 2rem;
-  margin: 0 auto;
+    width: 80vw;
+    padding: 1rem 2rem;
+    margin: 0 auto;
 }
 header h1 {
-  color: orange;
+    color: orange;
 }
 header h2 {
-  color: orangered;
+    color: orangered;
 }
 p {
-  line-height: 1.7;
-  margin: 1.5rem 0;
+    line-height: 1.7;
+    margin: 1.5rem 0;
 } */
 
+/* ***************file object and fileList (and using fetch)*************** */
 /* * {
     box-sizing: border-box;
     font: inherit;
@@ -4002,68 +3936,79 @@ footer img {
     width: 300px;
 } */
 
+/* ***************Files, Blobs, ArrayBuffers, TypedArrays, DataViews *************** */
 /* * {
     box-sizing: border-box;
     font: inherit;
 }
 html {
-font-size: 20px;
-font-family: sans-serif;
-margin: 0;
-}
-body {
-margin: 0;
-}
-header {
-padding: 1rem 3rem;
-background-color: coral;
-color: white;
-border-bottom: 1px solid #000;
-}
-:is(main, footer) {
-padding: 1rem 3rem;
-}
-header h1 {
-font-size: 2rem;
-}
-h2 {
-font-size: 2rem;
-}
-p {
-font-size: 1rem;
-} */
-
-/* * {
-    box-sizing: border-box;
-    font: inherit;
-  }
-  html {
     font-size: 20px;
     font-family: sans-serif;
     margin: 0;
-  }
-  body {
+}
+body {
     margin: 0;
-  }
-  header {
+}
+header {
     padding: 1rem 3rem;
     background-color: coral;
     color: white;
     border-bottom: 1px solid #000;
-  }
-  :is(main, footer) {
+}
+:is(main, footer) {
     padding: 1rem 3rem;
-  }
-  header h1 {
+}
+header h1 {
     font-size: 2rem;
-  }
-  h2 {
+}
+h2 {
     font-size: 2rem;
-  }
-  p {
+}
+p {
     font-size: 1rem;
-  } */
+} */
 
+/* custom Response Object */
+/* * {
+    box-sizing: border-box;
+    font: inherit;
+}
+html {
+    font-size: 20px;
+    font-family: sans-serif;
+    margin: 0;
+}
+body {
+    margin: 0;
+}
+header {
+    padding: 1rem 3rem;
+    background-color: coral;
+    color: white;
+    border-bottom: 1px solid #000;
+}
+:is(main, footer) {
+    padding: 1rem 3rem;
+}
+header h1 {
+    font-size: 2rem;
+}
+h2 {
+    font-size: 2rem;
+}
+p {
+    font-size: 1rem;
+}
+.imgInput{
+    width: 300px;
+    height: 50px;
+}
+input{
+    width: 100%;
+    height: 100%;
+} */
+
+/* ***************File Handling for web App*************** */
 /* * {
 box-sizing: border-box;
 font: inherit;
@@ -4107,6 +4052,8 @@ width: 300px;
 height: auto;
 } */
 
+
+/* ***************CSS.registerProperty*************** */
 /* @property --somecolor {
     syntax: '<color>';
     inherits: true;
