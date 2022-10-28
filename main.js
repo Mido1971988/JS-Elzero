@@ -25006,3 +25006,99 @@ The third argument is ignored by parseInt, but not the second one, hence the pos
 
 // console.log(process("javascript"))
 // console.log(process("hello"))
+
+//----------Video no. 21
+/**
+ * What will be the output of the following console.log?
+ */
+
+// let obj = {
+//   'a': 'three',
+//   b: 4,
+//   'c': "five",
+//   a: 3,
+//   'b': "four",
+//   "c": 'five',
+//   "a": "tre",
+//   "b": 'fyra',
+//   c: 5
+// };
+
+// // any key of object a or "a" or 'a' will be converted to string "a" 
+// console.log(obj); // {a: 'tre', b: 'fyra', c: 5}
+
+//----------Video no. 22
+/**
+ * What will the output from the console.log be and why?
+ */
+// let box = {};
+// let bag = {
+//   prop: "bag",
+//   can: "box"
+// };
+// let can = {
+//   prop: "can",
+//   bag: "box"
+// };
+// box[bag] = "Monday";
+// box[can] = "Tuesday";
+
+// // the key here will be converted to String( [object object]) so box[bag] will override box[can]
+// console.log(box)
+// console.log(bag.toString()) // [object object]
+// console.log(box[bag]);
+
+//----------Video no. 23
+/***
+ * What will be the output of this code and why?
+ */
+// let obj = { a: 1 , b : {c : 2}};
+// let objb = { a: 1 , b : {c : 2} };
+
+// if ({ a: 1 } === { a: 1 }) { // saved in two different locations in memory
+//   console.log("Monday");
+// } else if ({ a: 1 } == { a: 1 }) { // equality in value works with string or number or .. not with 2 different objects
+//   console.log("Tuesday");
+// } else if (obj == { a: 1 }) { // same 
+//   console.log("Wednesday");
+// } else if (obj == objb) { // same
+//   console.log("Thursday");
+// } else if (Object.is(obj, objb)) { // same
+//   console.log("Friday");
+// } else {
+//   console.log("Saturday");
+// }
+
+// how to compare two objects:
+/*
+[1] JSON.stringify()
+
+let obj = { a: 1 , b : {c : 2}};
+let objb = { a: 1 , b : {c : 2} };
+console.log(JSON.stringify(obj) === JSON.stringify(objb)) // true
+
+let obj = { b : {c : 2},  a: 1};
+let objb = { a: 1 , b : {c : 2} };
+console.log(JSON.stringify(obj) === JSON.stringify(objb)) // false
+
+[2] loadash liberary
+import _ from "loadlash"
+
+ */
+
+//----------Video no. 24
+/**
+ * What will the output of the following two loops be?
+ */
+// const numbers = [1, 2, 3];
+// numbers[10] = 11;
+
+// for (let i = 0; i < numbers.length; i++) {
+//   console.log(i, numbers[i]);
+// }
+// numbers.forEach((num, idx) => { // forEach will ignore undefined values
+//   console.log(idx, num);
+// });
+
+//----------Video no. 25
+
