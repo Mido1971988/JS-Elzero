@@ -25102,3 +25102,186 @@ import _ from "loadlash"
 
 //----------Video no. 25
 
+/**
+ * Create an example of a callback function with multiple parameters
+ * and then show it being used
+ */
+
+// let callBack = function(success , fail , character){
+//   let timmy = Math.floor(Math.random() * 1000)
+//   if (character.isGood){
+//     setTimeout(ftw , timmy , character.name)
+//   }else{
+//     setTimeout(wtf , timmy , character.name)
+//   }
+// }
+
+// let ftw = function(name) {
+//   console.log("Depending on the season,", name, "is a good guy");
+// };
+// let wtf = function(name) {
+//   console.warn("Depending on the season,", name, "is a bad guy");
+// };
+// let app = (function() {
+//   const castiel = { name: "Castiel", isGood: true };
+//   const crowley = { name: "Crowley", isGood: false };
+//   //use callback function here
+//   callBack(ftw , wtf , castiel)
+//   callBack(ftw , wtf , crowley)
+// })();
+
+//----------Video no. 26
+/**
+ * Finish the following script to extends the built-in
+ * JavaScript String Object
+ * so it has a method which will reverse the order of
+ * characters in a string and return the resulting reversed string.
+ * It should run with code provided.
+ *
+ * Bonus marks if it ignores punctuation at the end of the String.
+ */
+
+// let str = "Can I use Google during the interview?";
+
+// // [1] using Array.from() and pop()
+// // String.prototype.flip = function(){
+// //   let arr = Array.from(this)
+// //   arr.pop()
+// //   let reversedStr = arr.reverse().join("")
+// //   return reversedStr
+// // }
+
+// // [2] using regulay Expression
+// String.prototype.flip = function(){
+//   let reg = /\w|\s/ig
+//   let char = this.match(/[?]/ig) || "" // if you want to add ? at the end
+//   let arr = this.match(reg)
+//   let reversedStr = arr.reverse().join("") + char
+//   return reversedStr
+// }
+
+// console.log(str.flip());
+
+//----------Video no. 27
+/**
+ * What will the value of the three log statements be?
+ */
+// let n1 = 111;
+// let n2 = new Number(123);
+// let n3 = Number(123);
+// n1.prop = true;
+// n2.prop = true;
+// n3.prop = true;
+// console.log(n1.prop); // undefined n1 primitive
+// console.log(n2.prop); // true n2 object
+// console.log(n3.prop); // undefined n3 primitive
+
+//----------Video no. 28
+/**
+ * Variable Scope
+ * What will be the output of the three log statements
+ * and in what order?
+ */
+// (() => {
+//   let one, two;
+//   try {
+//     throw new Error(321);
+//   } catch (one) {
+//     (one = 123), (two = 321);
+//     console.log(one);
+//   }
+//   console.log(one);
+//   console.log(two);
+// })();
+
+//----------Video no. 29
+/**
+ * What will the output of the following statements be?
+ */
+
+// let log = console.log;
+// log(!!true);
+// log(!!"");
+// log(!!1);
+// log(!!-1);
+// log(!!NaN);
+// log(!!undefined);
+// log(!!"false");
+// log(!!null);
+// // 1st ! try to convert to Boolean then 2nd ! flip the boolean 
+
+//----------Video no. 30
+
+/**
+ * What will be the value stored in the variable n?
+ *
+ */
+
+// using comma operator as seperator between expressions will return last value
+// let n = ((x = 1), (y = 2), (z = 3));
+// console.log(n)
+
+//----------Video no. 31
+/**
+ * What will be the output of the following statements?
+ */
+
+// let log = console.log;
+// log(+"1");
+// log(+true);
+// log(+false);
+// log(+"");
+// log(+"hello");
+// log(+1);
+
+//----------Video no. 32
+
+/**
+ * Quirky operators and precedence in JavaScript
+ * What is the output of these three lines and why?
+
+  * Operator Precedence table
+  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#table
+ */
+
+//  let first = (! + [] * []);
+// // +[] => 0   /  !+[] => true
+// // true * 0 => 0
+//  let second = (! + [] + [] * []);
+// // true + [] * []
+// // true + 0 * 0
+// // 1 + 0 => 1
+// let third = (! + [] + [] + ![]).length; // concat as string
+// // true + [] + [] + false
+// // true + "" + false
+// // "truefalse".length => 9
+
+// console.log(first); // 0
+// console.log(second); // 1
+// console.log(third); // 9
+// console.log([] + []) // ""
+// console.log(![]) // false (Boolean)
+// console.log(true + []) // true (String)
+
+//----------Video no. 33
+/**
+ * Which of the following lines will return a true and
+ * which will return false?
+ */
+
+/*
+The main difference between the == and === operator in javascript is that the == operator 
+does the type conversion of the operands before comparison, whereas the === operator 
+compares the values as well as the data types of the operands.
+*/
+// console.log(["a", "b"] == ["a", "b"]); // false
+// console.log(["a", "b"] == ["a", "b"] + []); // true
+// // ["a", "b"] == "a,b" + ""
+// // "a,b" == "a,b"
+// console.log(["a", "b", "c"] == ["a", "b"] + []); // false
+// // ["a", "b", "c"] == "a,b" + ""
+// // "a,b,c" == "a,b"
+// console.log(["a", "b"] == ["b", "a"]); // false
+// // "a,b" == "b,a"
+// console.log(["a", "b"] == "a,b");// true
+
