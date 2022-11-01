@@ -11553,6 +11553,10 @@ console.log(obj2)
 console.log(obj2.fName)
 console.log(obj2.lName)
 console.log(obj2.mName2)
+
+* Object.assign provide shallow copy Object.create provide new Object
+  - Object.assign({},obj) shallow copy of obj
+  - Object.create(obj) new empty object and it's __protot__ is obj
 */
 
 // let target1 = {
@@ -11579,6 +11583,8 @@ console.log(obj2.mName2)
 // console.log(finalObj2.oProp2) // OF2 because all descriptors true
 // console.log(obj1.oProp1) // O1 because we used Object.create we will not override
 // console.log(obj2.oProp2) // OF2 because we used Object.assgin we override the oProp2 in obj2
+
+
 
 // -------------Object.create(null)--------------
 /* 
@@ -20563,6 +20569,7 @@ The defer attribute is only for external scripts
 The defer attribute is ignored if the <script> tag has no src.
 
 [2] Async: 
+Async scripts are independent of other scripts and DOM.
 Async scripts does not keep their relative order.
 
 DOMContentLoaded and async scripts don’t wait for each other:
@@ -25326,46 +25333,261 @@ compares the values as well as the data types of the operands.
 // document.addEventListener('DOMContentLoaded', APP.init);
 
 //-----------------------Tabs and PopUp Windows-------------------
-//script run with defer
-document.getElementById('btnTab').addEventListener('click', this.openTab);
-document.getElementById('btnWin').addEventListener('click', this.openWin);
+// //script run with defer
+// document.getElementById('btnTab').addEventListener('click', this.openTab);
+// document.getElementById('btnWin').addEventListener('click', this.openWin);
 
-function openTab(ev) {
-  console.log('open a tab');
-  let win = window.open('html/tab.html', null);
-  win.onload = (ev) => {
-    win.document.body.style.backgroundColor = '#999';
-    setTimeout(() => {
-      win.close();
-    }, 2500);
-  };
-}
+// function openTab(ev) {
+//   console.log('open a tab');
+//   let win = window.open('html/tab.html', null);
+//   win.onload = (ev) => {
+//     win.document.body.style.backgroundColor = '#999';
+//     setTimeout(() => {
+//       win.close();
+//     }, 2500);
+//   };
+// }
 
-function openWin(ev) {
-  console.log('open a popup window');
-  let win = window.open(
-    'html/win.html',
-    null,
-    'popup,width=400,height=400,left=300,top=500, noopener'
-  );
-  // let win = window.open(
-  //   '',
-  //   null,
-  //   'popup,width=400,height=400,left=300,top=500'
-  // );
-  // win.document.write(
-  //   '<html><head><title>Sample</title></head><body>Sample</body></html>'
-  // );
-  // win.onload = () => {
-  // let timmy = setInterval(() => {
-  //   let w = Math.random() * parseInt(window.screen.availWidth);
-  //   let h = Math.random() * parseInt(window.screen.availHeight);
-  //   win.resizeTo(w, h);
-  // }, 1000);
+// function openWin(ev) {
+//   console.log('open a popup window');
+//   // let win = window.open(
+//   //   'html/win.html',
+//   //   null,
+//   //   'popup,width=400,height=400,left=300,top=500, noopener' //noopener It prevents the opening page to gain any kind of access to the original page
+//   // );
+//   let win = window.open(
+//     '',
+//     null,
+//     'popup,width=400,height=400,left=300,top=500'
+//   );
+//   win.document.write(
+//     '<html><head><title>Sample</title></head><body>Sample</body></html>'
+//   );
+//   // onload event will not work here because we did not open a file we opened '' and used we win.document.write
+//   win.onload = () => {
+//   let timmy = setInterval(() => {
+//     let w = Math.random() * parseInt(window.screen.availWidth);
+//     let h = Math.random() * parseInt(window.screen.availHeight);
+//     win.resizeTo(w, h);
+//   }, 1000);
 
-  // setTimeout(() => {
-  //   clearInterval(timmy);
-  //   win.close();
-  // }, 6000);
-  // };
-}
+//   setTimeout(() => {
+//     clearInterval(timmy);
+//     win.close();
+//   }, 6000);
+//   };
+// }
+
+//---------------------------------------showPicker---------------------------
+
+// document.getElementById('btnPick').addEventListener('click', (ev) => {
+//   ev.preventDefault();
+//   console.log('activate a picker');
+//   if ('showPicker' in HTMLInputElement.prototype) {
+//     console.log('yes');
+
+//     try {
+//       // document.getElementById('inColour').showPicker();
+//       // document.getElementById('inList').showPicker();
+//       // document.getElementById('inDate').showPicker();
+//       // document.getElementById('inTime').showPicker();
+//       // document.getElementById('inLocal').showPicker();
+//       // document.getElementById('inMonth').showPicker();
+//       document.getElementById('inWeek').showPicker();
+//       // document.getElementById('inFile').showPicker();
+//     } catch (err) {
+//       switch (err.type) {
+//         case 'InvalidStateError':
+//         //element is not mutable (disabled)
+//         case 'NotAllowedError':
+//         //didn't use transient activation
+//         case 'SecurityError':
+//           //cross-origin issue involving iframes
+//           console.log({ err });
+//           break;
+//         default:
+//           console.log('general error');
+//       }
+//     }
+//   } else {
+//     console.log('no');
+//   }
+// });
+
+// ------------------------------eyeDropper------------------------
+
+// document.getElementById('btnGo').addEventListener('click', function(ev)  {
+//   const output = document.getElementById('result');
+//   if (!'EyeDropper' in window) {
+//     output.textContent = 'Sorry. No support for the Eyedropper API';
+//     return;
+//   }
+
+//   const dropper = new EyeDropper();
+//   const abortController = new AbortController();
+//   // abortController.abort(""); //cancel the eyedropper
+
+//   // setTimeout(abortController.abort.bind(abortController),1000) // see difference between method invocations and function invocations
+
+//   dropper
+//     .open({ signal: abortController.signal })
+//     .then((result) => {
+//       console.log(result.sRGBHex);
+//       output.textContent = result.sRGBHex;
+//       output.style.borderLeftColor = result.sRGBHex;
+//     })
+//     .catch((err) => {
+//       output.textContent = err;
+//       output.style.borderLeftColor = `transparent`;
+//     });
+// });
+
+// -----------difference between method invocations and function invocations-----------
+/*
+A method is a function stored as a property of an object. When invoking (i.e. calling) 
+a method using the dot notation or square bracket notation, 
+the this keyword is bound to the object:
+
+When invoking (i.e. calling) a function that is not the property of an object, 
+the this keyword is:
+* bound to the global object (window) in sloppy mode.
+* undefined in strict mode.
+
+
+An "illegal invocation" error is thrown when calling a function whose this keyword doesn't 
+refer to the object where it originally
+ */
+
+// let obj = {
+//   myFunc : function(){
+//     console.log(this)
+//   }
+// }
+
+// //  [1] direct
+// obj.myFunc() // this => obj
+
+
+// //  [2] assigned to variable
+// let myFuncVar = obj.myFunc
+// myFuncVar() // this => window
+// setTimeout(myFuncVar,1000)
+
+// // [3] Destructed Method
+// let { myFunc } = obj
+// setTimeout(myFunc,1000)
+
+// //  Two fixes
+// // [1] create a function that's call the method
+// let myFuncVar = () => obj.myFunc()
+// myFuncVar() // this => obj
+
+// // [2] Bind
+// let myFuncVar = obj.myFunc.bind(obj)
+// myFuncVar() // this => obj
+
+// ----------------------------innerHTML and outerHTML--------------------
+/*
+- both are strings but outerHTML is string includes tag :
+  console.log(p.innerHTML) Hello
+  console.log(p.outerHTML) <p>Hello</p>
+
+- both parse the string to element :
+  main.innerHTML = <h1>Hello</h1> will add h1 element inside main element
+  main.outerHTML = <h1>Hello</h1> will add h1 element inside main element
+*/
+//using defer attribute so this script runs after DOMContentLoaded event
+
+// document.body.addEventListener('click', (ev) => {
+//   //clicking somewhere on the body element
+//   //this function runs after the event bubbles to the <body>
+//   let target = ev.target;
+//   let tag = target.localName;
+//     // let tag = target.tagName; // but capital not small like localName
+//   if (tag === 'p' || tag === 'h1') {
+//     console.log(target.innerHTML);
+//     let pre = document.createElement('pre');
+//     pre.innerHTML = target.innerHTML; //copy of the text inside
+//     document.querySelector('main').append(pre);
+
+//     console.log(target.outerHTML);
+//     let elemString = target.outerHTML;
+//     document.querySelector('main').innerHTML += elemString;
+
+//     // target.innerHTML = 'hello';
+//     // target.outerHTML = '<h3>goodbye</h3>';
+//     let htmlString = target.outerHTML;
+//     const parser = new DOMParser();
+//     const doc = parser.parseFromString(htmlString, 'text/html');
+//     document.querySelector('main').append(doc.body.firstElementChild);
+//   }
+// });
+
+
+// ------------------------Custom Errors in JavaScript-----------------
+//using defer and type="module" to delay the running of the scripts
+// import { SteveError, NetworkError } from './Module/errors.js';
+
+// document.body.addEventListener('click', (ev) => {
+//   let err = new Error('error message');
+//   try {
+//     throw err;
+//   } catch (e) {
+//     console.log({ e });
+//   }
+
+//   let errSteve = new SteveError('steve error happened');
+//   try {
+//     throw errSteve;
+//   } catch (e) {
+//     console.log({ e });
+//   }
+
+//   //pretend fetch
+//   let resp = new Response(null, {
+//     status: 452,
+//     statusText: 'Your mom called. Time for dinner',
+//     headers: {
+//       'x-my-header': 'failure to curfew',
+//     },
+//   });
+//   Promise.resolve(resp)
+//     .then((resp) => {
+//       if (!resp.ok) throw new NetworkError(resp);
+//       console.log('response was too good.');
+//     })
+//     .catch((err) => {
+//       console.log({ err });
+//     });
+// });
+
+// ----------------------------DOMTokenLists-------------
+// let link = document.getElementById('otherlink');
+// let output = document.getElementById('out');
+// let main = document.querySelector('main');
+// let nm = document.getElementById('nm');
+// let em = document.getElementById('em');
+
+// nm.addEventListener('input', buildOutput);
+// em.addEventListener('input', buildOutput);
+
+// function buildOutput(ev) {
+//   output.value = `${nm.value} ${em.value}`;
+// }
+
+// console.log(output.getAttribute('for'));
+// console.log(output.htmlFor);
+
+// // console.log(main.title);
+// // console.log(main.className);
+// // console.log(main.classList);
+// // console.log(link.rel);
+// // console.log(link.relList);
+// main.classList.toggle('steve');
+// // console.log(main.classList.contains('steve'));
+// // console.log(main.classList.contains('notSteve'));
+
+// // console.log(link.relList.supports('stylesheet'));
+// // console.log(link.relList.supports('gibberish'));
+// // console.log(link.relList.supports('nonsense'));
+// // console.log(link.relList.supports('icon'));

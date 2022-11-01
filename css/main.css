@@ -4090,7 +4090,7 @@ input {
 
 /* ******************Tabs and PopUp Windows***************  */
 
-* {
+/* * {
     box-sizing: border-box;
     font-family: inherit;
 }
@@ -4113,4 +4113,134 @@ button {
     font-size: 1rem;
     padding: 0.2rem 2rem;
     margin: 0 2rem;
+} */
+
+/* ********************showPicker********************* */
+
+/* * {
+    box-sizing: border-box;
+    font-family: inherit;
 }
+:root {
+    color-scheme: light dark;
+}
+html,
+body {
+    font-size: 20px;
+    font-family: sans-serif;
+}
+input,
+option {
+    font-size: 1rem;
+}
+main p {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+label {
+    flex-basis: 20ch;
+} */
+
+/* ***********************eyeDropper************************ */
+/* * {
+    box-sizing: border-box;
+}
+html {
+    font-size: 20px;
+}
+#result {
+    padding: 0.2rem 1rem;
+    margin: 0 1rem;
+    font-size: 1rem;
+    border-left: 1rem solid transparent;
+    border-left-color: transparent;
+} */
+
+/* ******************innerHTML and outerHTML*************** */
+/* * {
+    box-sizing: border-box;
+}
+:root {
+    color-scheme: dark light;
+}
+html,
+body {
+    font-family: sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+header,
+main,
+footer {
+    padding: 1rem 4rem;
+    margin: 0 auto;
+}
+p {
+    cursor: pointer;
+} */
+
+/* **********************Custom Errors in JavaScript************* */
+/* * {
+    box-sizing: border-box;
+}
+:root {
+    color-scheme: dark light;
+}
+html,
+body {
+    font-family: sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+header,
+main,
+footer {
+    padding: 1rem 4rem;
+    margin: 0 auto;
+}
+pre {
+    color: cornflowerblue;
+} */
+
+
+/* ****************************DOMTokenLists*************** */
+/* * {
+    box-sizing: border-box;
+}
+html {
+    font-size: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 300;
+    padding: 0;
+    margin: 0;
+    color-scheme: dark light;
+}
+body {
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+header,
+main {
+    padding: 0 4rem 1rem;
+} */
+
