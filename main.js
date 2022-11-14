@@ -25591,3 +25591,49 @@ refer to the object where it originally
 // // console.log(link.relList.supports('gibberish'));
 // // console.log(link.relList.supports('nonsense'));
 // // console.log(link.relList.supports('icon'));
+
+
+// ------------attach event handlers to dynamically created JavaScript elements-----------
+/*
+to attach event to dynamically created element you have to add class or id to that element
+then get it by document.querySelector or document.getElementById after adding it to DOM
+
+you can not add event directly to variable newDog because it's just a copy of created element 
+on JS memory saved in variable
+not the Real element in the DOM
+*/
+
+// let newDog = document.createElement('div')
+
+// newDog.classList.add('dog')
+
+// const myImage = document.createElement('img')
+// myImage.src="https://picsum.photos/id/237/500/500";
+// myImage.alt='Dog photo'
+
+// const h2 = document.createElement('h2')
+// h2.textContent = 'My name is Roviel and i love playing and eating.'
+
+// const p = document.createElement('p')
+// p.classList.add('moreInfo')
+// p.style.display ='none'
+// p.textContent= 'more Info......'
+
+
+// const button = document.createElement('button')
+// button.classList.add('btn')
+// button.textContent= 'Click to read  more about me '
+
+// document.body.appendChild(newDog)
+// newDog.appendChild(myImage)
+// newDog.appendChild(h2)
+// newDog.appendChild(p)
+// newDog.appendChild(button)
+
+// // Adding event handlers
+
+// function showMore(){
+//     document.querySelector('.moreInfo').style.display ='block'
+// }
+
+// document.querySelector('.btn').addEventListener('click', showMore)
