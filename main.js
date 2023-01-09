@@ -8744,6 +8744,7 @@ this at the top level is undefined.
 // let firstUser = new User("Soliman","Mohammed.soliman88@gmail.com")
 // firstUser.getInfo()
 
+// note : code within the class body is always executed in strict mode.
 //------------Derived class (sub-class)-----------------
 /* 
 A derived class is a class created or derived from another existing class. 
